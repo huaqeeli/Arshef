@@ -1,0 +1,159 @@
+@import "fonts.css";
+
+.toolBarButton{
+    -fx-background-color: #4E4E4E;
+    -fx-background-radius: 0;
+    -fx-font-family:'URW DIN Arabic';
+    -fx-font-size: 18px;
+    -fx-text-fill: #FFFFFF;
+}
+
+.toolBarButton:hover{
+    -fx-background-color: #333333;
+    -fx-background-radius: 0;
+}
+.refrechButton{
+    -fx-background-color: #97A097;
+    -fx-background-radius: 15;
+}
+
+.refrechButton:hover{
+    -fx-background-color: #646A64;
+    -fx-background-radius: 15;
+}
+
+.username{
+    -fx-background-color: #4E4E4E;
+    -fx-background-radius: 15;
+    -fx-font-family:'URW DIN Arabic';
+    -fx-font-size: 18px;
+    -fx-text-fill: #FFFFFF;
+}
+.addname{
+    -fx-background-color: #B6CD54;
+    -fx-background-radius: 15;
+    -fx-font-family:'URW DIN Arabic';
+    -fx-font-size: 18px;
+    -fx-text-fill: #FFFFFF;
+}
+.appTable {
+    /*     Constants used throughout the tableview. */
+    -fx-table-header-border-color: transparent;
+    -fx-table-cell-border-color: -fx-box-border;
+    /*    Horizontal Lines*/
+    -fx-background-color: #BEC2C3;
+}
+
+.appTable .filler, .table-view .column-header
+{
+    -fx-size: 40;
+    -fx-border-style: null;
+    -fx-border-color: rgb(200.0, 200.0, 200.0);
+    -fx-border-width: 1;
+    -fx-background-color: transparent;
+    -fx-background-color: #596367;
+    /*-fx-background-radius: 15 15 0 0;*/
+    /*-fx-border-color:#FFFFFF;#596367*/
+}
+
+.appTable .show-hide-columns-button
+{
+    -fx-background-color: transparent;
+}
+
+.appTable .column-header .label,
+.appTable .column-drag-header .label
+{
+    -fx-alignment: CENTER;
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-font-family:'URW DIN Arabic';
+    -fx-font-size: 15px;
+    /*-fx-padding: 15px;*/
+}
+
+.appTable .column-header-background
+{
+    -fx-background-color: transparent;
+}
+
+.appTable .table-row-cell {
+    -fx-cell-size: 40px;
+
+}
+
+.appTable .table-cell {
+    -fx-border-color: transparent;
+    -fx-border-width: 1;
+    -fx-alignment: CENTER;
+    -fx-font-family:'URW DIN Arabic';
+    -fx-font-size: 15px;
+}
+.appTable .table-row-cell:selected .table-cell {
+    -fx-background-color: #718A76;
+}
+.appTable .table-row-cell:empty{ 
+    -fx-background-color: #F4F4F4;   
+}
+.appTable .table-row-cell:empty .table-cell { 
+    -fx-border-width:     0px;        
+}
+
+.blocked{
+    -fx-background-color: transparent;
+}
+.blocked:focused{
+    -fx-background-color: transparent;
+}
+.blocked .column-header-background {
+    -fx-max-height: 0;
+    -fx-pref-height: 0;
+    -fx-min-height: 0;
+}
+
+.appComboBox.combo-box>.list-cell {
+    -fx-alignment: center;
+}
+.appComboBox.combo-box-base{
+    -fx-background-color:#fff;
+    -fx-text-fill: #20C9D7;
+    -fx-border-color: #C9C9C9;
+    -fx-border-width: 1;
+    -fx-font-family:'URW DIN Arabic';
+    -fx-font-size: 18px;
+}
+.appComboBox.combo-box-base:focused {
+    -fx-background-color: linear-gradient(#718A76, #fff);
+    /*    -fx-background-radius: 6.4, 4, 5, 3;
+        -fx-background-insets: 1.4, 0, 1, 2;*/
+}
+.appComboBox.combo-box-base:hover
+{
+    -fx-color: -fx-hover-base;
+}
+.appText{
+    -fx-background-color:#fff;
+    -fx-text-fill: #4E4E4E;
+    -fx-border-color: #C9C9C9;
+    -fx-border-width: 1;
+    -fx-font-family:'URW DIN Arabic';
+    -fx-font-size: 18px;
+}
+.appText:focused {
+    -fx-background-color: linear-gradient(#718A76, #fff);
+    /*    -fx-background-radius: 6.4, 4, 5, 3;
+        -fx-background-insets: 1.4, 0, 1, 2;*/
+}
+.closeButton{
+    -fx-background-color: linear-gradient(#DD5145, #fff);
+    -fx-text-fill: #491B17;
+    -fx-border-color: #491B17;
+    -fx-border-width: 1;
+    -fx-font-family:'URW DIN Arabic';
+    -fx-font-size: 20px;
+}
+.closeButton:hover{
+    -fx-background-color: #333333;
+    -fx-background-radius: 0;
+    -fx-text-fill: #fff;
+}

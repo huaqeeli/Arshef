@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Button?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" stylesheets="@../css/appStyle.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.huaqeeli.training.HomePageController">
+   <children>
+      <BorderPane fx:id="content" layoutX="10.0" layoutY="16.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <right>
+            <VBox alignment="TOP_RIGHT" prefHeight="759.0" prefWidth="240.0" style="-fx-background-color: #686868;" BorderPane.alignment="CENTER">
+               <children>
+                  <Button alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#personalData" prefHeight="43.0" prefWidth="100.0" styleClass="toolBarButton" text="بيانات الهوية" VBox.vgrow="ALWAYS">
+                     <VBox.margin>
+                        <Insets bottom="5.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="10.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#trainingData" prefHeight="43.0" prefWidth="100.0" styleClass="toolBarButton" text="ادخال الدورات">
+                     <VBox.margin>
+                        <Insets bottom="5.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button alignment="CENTER" layoutX="10.0" layoutY="53.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="43.0" prefWidth="100.0" styleClass="toolBarButton" text="البحث" VBox.vgrow="ALWAYS">
+                     <VBox.margin>
+                        <Insets bottom="5.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button alignment="CENTER" layoutX="10.0" layoutY="106.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="43.0" prefWidth="100.0" styleClass="toolBarButton" text="التقارير">
+                     <VBox.margin>
+                        <Insets bottom="5.0" />
+                     </VBox.margin>
+                  </Button>
+               </children>
+               <BorderPane.margin>
+                  <Insets />
+               </BorderPane.margin>
+            </VBox>
+         </right>
+         <top>
+            <BorderPane prefHeight="86.0" prefWidth="1280.0" style="-fx-background-color: #686868;" BorderPane.alignment="CENTER">
+               <left>
+                  <HBox alignment="CENTER" nodeOrientation="RIGHT_TO_LEFT" prefHeight="86.0" prefWidth="380.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <Label alignment="CENTER" prefHeight="40.0" prefWidth="97.0" styleClass="username" text="رقيب اول" />
+                        <Label alignment="CENTER" layoutX="89.0" layoutY="38.0" prefHeight="40.0" prefWidth="16.0" styleClass="username" text="/" />
+                        <Label layoutX="124.0" layoutY="38.0" prefHeight="40.0" prefWidth="236.0" styleClass="username" text="حسين بن احمد عقيلي">
+                           <padding>
+                              <Insets left="10.0" />
+                           </padding></Label>
+                     </children>
+                  </HBox>
+               </left>
+               <right>
+                  <ImageView fitHeight="76.0" fitWidth="220.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+                     <BorderPane.margin>
+                        <Insets right="30.0" />
+                     </BorderPane.margin>
+                     <image>
+                        <Image url="@../images/logo.png" />
+                     </image>
+                  </ImageView>
+               </right>
+            </BorderPane>
+         </top>
+      </BorderPane>
+   </children>
+</AnchorPane>

@@ -1,11 +1,19 @@
 package controllers;
 
 import Validation.FormValidation;
+import com.itextpdf.text.*;
+
+import com.itextpdf.text.pdf.PdfWriter;
+import java.awt.Desktop;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -30,6 +38,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import javax.swing.JOptionPane;
 import modeles.CoursesModel;
 import trainingdata.App;
 
@@ -82,6 +91,7 @@ public class TrainingDataPageController implements Initializable {
     String miltaryID = null;
     File imagefile = null;
     Stage stage = new Stage();
+    com.itextpdf.text.Image img = null;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -274,7 +284,7 @@ public class TrainingDataPageController implements Initializable {
             public TableCell call(final TableColumn<CoursesModel, String> param) {
                 final TableCell<CoursesModel, String> cell = new TableCell<CoursesModel, String>() {
 
-                    final Button btn = new Button("الصلاحيات");
+                    final Button btn = new Button();
 
                     @Override
                     public void updateItem(String item, boolean empty) {
@@ -284,15 +294,19 @@ public class TrainingDataPageController implements Initializable {
                             setText(null);
                         } else {
                             btn.setOnAction(event -> {
-
+                                try {
+                                    writePdf();
+                                } catch (Exception ex) {
+                                    Logger.getLogger(TrainingDataPageController.class.getName()).log(Level.SEVERE, null, ex);
+                                }
                             });
                             btn.setStyle("-fx-font-family: 'URW DIN Arabic';"
                                     + "    -fx-font-size: 10px;"
-                                    + "    -fx-background-color: #32BFF0;"
-                                    + "    -fx-background-radius: 20;"
+                                    + "    -fx-background-color: #769676;"
+                                    + "    -fx-background-radius: 10;"
                                     + "    -fx-text-fill: #FFFFFF;"
                                     + "    -fx-effect: dropshadow(three-pass-box,#3C3B3B, 20, 0, 5, 5); ");
-                            Image img = new Image("/images/add.png");
+                            Image img = new Image("/images/pdf.png");
                             ImageView view = new ImageView(img);
                             btn.setGraphic(view);
                             setGraphic(btn);
@@ -328,8 +342,14 @@ public class TrainingDataPageController implements Initializable {
                             setEstimate(rs.getString("COURSESTIMATE"));
                             setStartDate(rs.getString("STARTDATE"));
                             setEndDate(rs.getString("ENDDATE"));
+                            ArrayList images = new ArrayList();
+                            images.add(rs.getBytes("COURSIMAGE"));
+                            byte[] scaledInstance = (byte[]) images.get(0);
+                            img = com.itextpdf.text.Image.getInstance(scaledInstance);
                         }
                     } catch (SQLException | IOException ex) {
+                        Logger.getLogger(TrainingDataPageController.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (Exception ex) {
                         Logger.getLogger(TrainingDataPageController.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
@@ -431,6 +451,33 @@ public class TrainingDataPageController implements Initializable {
 
     @FXML
     private void miltaryExisting(InputMethodEvent event) {
+
+    }
+
+    public void writePdf() throws Exception {
+        if (img == null) {
+            JOptionPane.showMessageDialog(null, "no imge");
+        } else {
+            Document document = new Document(img);
+            File f = new File("C:\\appImage");
+            f.mkdir();
+            String path= f.getPath()+"showImage.pdf";
+            PdfWriter.getInstance(document, new FileOutputStream(path));
+            document.open();
+            document.setPageSize(img);
+            document.newPage();
+            img.setAbsolutePosition(0.0F, 0.0F);
+            document.add(img);
+            document.close();
+            if (Desktop.isDesktopSupported()) {
+                try {
+                    File myFile = new File(path);
+                    Desktop.getDesktop().open(myFile);
+                } catch (IOException ex) {
+                    JOptionPane.showMessageDialog(null, ex);
+                }
+            }
+        }
 
     }
 

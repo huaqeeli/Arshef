@@ -11,13 +11,17 @@ import java.util.logging.Logger;
 
 public class CoursesModel {
     private int id;
+    private int sequence;
     private String militaryId;
     private String name;
     private String rank;
+    private String unit;
     private String coursname;
     private String coursNumber;
     private String coursplace;
     private String coursDuration;
+    private String startDate;
+    private String endDate;
     private String estimate;
 
     public CoursesModel(int id, String militaryId, String name, String rank, String coursname) {
@@ -37,6 +41,41 @@ public class CoursesModel {
         this.coursplace = coursplace;
         this.coursDuration = coursDuration;
         this.estimate = estimate;
+    }
+
+    public CoursesModel(int sequence, String coursname, String coursNumber, String coursplace, String coursDuration, String startDate, String endDate, String estimate) {
+        this.sequence = sequence;
+        this.coursname = coursname;
+        this.coursNumber = coursNumber;
+        this.coursplace = coursplace;
+        this.coursDuration = coursDuration;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.estimate = estimate;
+    }
+
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
+    }
+
+    public int getSequence() {
+        return sequence;
+    }
+
+    public void setSequence(int sequence) {
+        this.sequence = sequence;
     }
     
 
@@ -112,12 +151,18 @@ public class CoursesModel {
         this.estimate = estimate;
     }
 
-    @Override
-    public String toString() {
-        return "CoursesModel{" + "id=" + id + ", militaryId=" + militaryId + ", name=" + name + ", rank=" + rank + ", coursname=" + coursname + ", coursNumber=" + coursNumber + ", coursplace=" + coursplace + ", coursDuration=" + coursDuration + ", estimate=" + estimate + '}';
+    public String getUnit() {
+        return unit;
     }
 
-    
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
+    @Override
+    public String toString() {
+        return "CoursesModel{" + "id=" + id + ", militaryId=" + militaryId + ", name=" + name + ", rank=" + rank + ", unit=" + unit + ", coursname=" + coursname + ", coursNumber=" + coursNumber + ", coursplace=" + coursplace + ", coursDuration=" + coursDuration + ", estimate=" + estimate + '}';
+    }
     
     static public String getCoursId(String coursname) throws SQLException {
         String coursid = null;

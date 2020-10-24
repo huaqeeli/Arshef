@@ -162,7 +162,7 @@ public class FormValidation {
         return state;
     }
 
-    public static boolean ifexisting(String tapleName, String fildName, String condition, String validationmassage) {
+    public static boolean ifNotexisting(String tapleName, String fildName, String condition, String validationmassage) {
         boolean state = true;
         try {
             ResultSet rs = null;
@@ -171,6 +171,26 @@ public class FormValidation {
             PreparedStatement psm = con.prepareStatement(guiry);
             rs = psm.executeQuery();
             if (!rs.next()) {
+                state = false;
+                showAlert("التحقق من التكرار", validationmassage);
+            }
+            con.close();
+            psm.close();
+            rs.close();
+        } catch (IOException | SQLException ex) {
+            Logger.getLogger(FormValidation.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return state;
+    }
+    public static boolean ifexisting(String tapleName, String fildName, String condition, String validationmassage) {
+        boolean state = true;
+        try {
+            ResultSet rs = null;
+            String guiry = "SELECT " +" "+fildName +" "+ " FROM "+" "+ tapleName +" "+ " WHERE" +" "+ condition;
+            Connection con = DatabaseConniction.dbConnector();
+            PreparedStatement psm = con.prepareStatement(guiry);
+            rs = psm.executeQuery();
+            if (rs.next()) {
                 state = false;
                 showAlert("التحقق من التكرار", validationmassage);
             }

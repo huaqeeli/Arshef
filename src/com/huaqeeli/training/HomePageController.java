@@ -37,4 +37,9 @@ public class HomePageController implements Initializable {
         content.setCenter(App.loadFXML("/view/trainingDataPage"));
     }
 
+    @FXML
+    private void searchPage(ActionEvent event) throws IOException {
+        content.setCenter(App.loadFXML("/view/searchPage"));
+    }
+
 }

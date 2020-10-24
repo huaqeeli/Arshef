@@ -1,6 +1,7 @@
 package controllers;
 
 import Validation.FormValidation;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
@@ -20,6 +21,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.FileChooser;
+import javafx.stage.Window;
 import modeles.PersonalModel;
 
 public class PersonalDataPageController implements Initializable {
@@ -50,6 +53,10 @@ public class PersonalDataPageController implements Initializable {
     ObservableList<String> rankComboBoxlist = FXCollections.observableArrayList("فريق اول", "فريق", "لواء", "عميد", "عقيد", "مقدم", "رائد", "نقيب", "ملازم اول", "ملازم", "رئيس رقباء", "رقيب أول", "رقيب", "وكيل رقيب", "عريف", "جندي أول", "جندي");
     ObservableList<PersonalModel> personalList = FXCollections.observableArrayList();
     String selectedMilatryid = null;
+    Window stage = null;
+    File imagefile = null;
+    @FXML
+    private TextField imageUrl;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -62,16 +69,25 @@ public class PersonalDataPageController implements Initializable {
     @FXML
     private void save(ActionEvent event) {
         String tableName = "personaldata";
-        String fieldName = "`MILITARYID`,`NAME`,`RANK`,`UNIT`,`PERSONALID`";
+        String fieldName = null;
         String[] data = {getMilataryid(), getName(), getRank(), getUnit(), getPersonalid()};
-        String valuenumbers = "?,?,?,?,?";
+        String valuenumbers =null;
+         if (imagefile != null) {
+            fieldName ="`MILITARYID`,`NAME`,`RANK`,`UNIT`,`PERSONALID`,`PERSONALIMAGE`";
+            valuenumbers =  "?,?,?,?,?,?";
+        } else {
+            fieldName = "`MILITARYID`,`NAME`,`RANK`,`UNIT`,`PERSONALID`";
+            valuenumbers =  "?,?,?,?,?";
+        }
         boolean milataryidState = FormValidation.textFieldNotEmpty(milataryid, "الرجاء ادخال الرقم العسكري");
+        boolean milataryidExisting = FormValidation.ifexisting("personaldata", "MILITARYID", "MILITARYID='" + getMilataryid() + "'", "لا يمكن تكرار الرقم العسكري");
+        boolean personalidExisting = FormValidation.ifexisting("personaldata", "PERSONALID", "PERSONALID='" + getPersonalid() + "'", "لا يمكن تكرار رقم الهوية ");
         boolean nameState = FormValidation.textFieldNotEmpty(name, "الرجاء ادخال الاسم");
         boolean unitState = FormValidation.textFieldNotEmpty(unit, "الرجاء ادخال الوحده");
         boolean rankState = FormValidation.comboBoxNotEmpty(rank, "الرجاء اختيار الرتبه");
-        if (rankState && nameState && unitState && milataryidState) {
+        if (rankState && nameState && unitState && milataryidState && milataryidExisting && personalidExisting) {
             try {
-                DatabaseAccess.insert(tableName, fieldName, valuenumbers, data);
+                DatabaseAccess.insert(tableName, fieldName, valuenumbers, data,imagefile);
                 refreshpersonaltableTableView();
             } catch (IOException ex) {
                 Logger.getLogger(PersonalDataPageController.class.getName()).log(Level.SEVERE, null, ex);
@@ -82,16 +98,20 @@ public class PersonalDataPageController implements Initializable {
     @FXML
     private void edit(ActionEvent event) {
         String tableName = "personaldata";
-        String fieldName = "`MILITARYID`=?,`NAME`=?,`RANK`=?,`UNIT`=?,`PERSONALID`=?";
+        String fieldName = null;
         String[] data = {getMilataryid(), getName(), getRank(), getUnit(), getPersonalid()};
-
+         if (imagefile != null) {
+            fieldName ="`MILITARYID`=?,`NAME`=?,`RANK`=?,`UNIT`=?,`PERSONALID`=? ,`PERSONALIMAGE`=?";
+        } else {
+            fieldName = "`MILITARYID`=?,`NAME`=?,`RANK`=?,`UNIT`=?,`PERSONALID`=?";
+        }
         boolean milataryidState = FormValidation.textFieldNotEmpty(milataryid, "الرجاء ادخال الرقم العسكري");
         boolean nameState = FormValidation.textFieldNotEmpty(name, "الرجاء ادخال الاسم");
         boolean unitState = FormValidation.textFieldNotEmpty(unit, "الرجاء ادخال الوحده");
         boolean rankState = FormValidation.comboBoxNotEmpty(rank, "الرجاء اختيار الرتبه");
-        if (rankState && unitState && nameState && milataryidState) {
+        if (rankState && nameState && unitState && milataryidState) {
             try {
-                DatabaseAccess.updat(tableName, fieldName, data, "MILITARYID = '" + selectedMilatryid + "'");
+                DatabaseAccess.updat(tableName, fieldName, data, "MILITARYID = '" + selectedMilatryid + "'",imagefile);
                 refreshpersonaltableTableView();
             } catch (IOException ex) {
                 Logger.getLogger(PersonalDataPageController.class.getName()).log(Level.SEVERE, null, ex);
@@ -160,9 +180,7 @@ public class PersonalDataPageController implements Initializable {
             public void handle(Event event) {
                 ObservableList<PersonalModel> list = FXCollections.observableArrayList();
                 list = table.getSelectionModel().getSelectedItems();
-                if (list.isEmpty()) {
-                    FormValidation.showAlert("", "لاتوجد بيانات");
-                } else {
+                if (!list.isEmpty()) {
                     milataryid.setText(list.get(0).getMilitaryId());
                     rank.setValue(list.get(0).getRank());
                     name.setText(list.get(0).getName());
@@ -180,9 +198,7 @@ public class PersonalDataPageController implements Initializable {
             public void handle(Event event) {
                 ObservableList<PersonalModel> list = FXCollections.observableArrayList();
                 list = table.getSelectionModel().getSelectedItems();
-                if (list.isEmpty()) {
-                    FormValidation.showAlert("", "لاتوجد بيانات");
-                } else {
+                if (!list.isEmpty()) {
                     milataryid.setText(list.get(0).getMilitaryId());
                     rank.setValue(list.get(0).getRank());
                     name.setText(list.get(0).getName());
@@ -207,6 +223,17 @@ public class PersonalDataPageController implements Initializable {
         personalid.setText(null);
         unit.setText(null);
 
+    }
+
+    @FXML
+    private File getImageUrl(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        FileChooser.ExtensionFilter ext1 = new FileChooser.ExtensionFilter("JPG files(*.jpg)", "*.JPG");
+        FileChooser.ExtensionFilter ext2 = new FileChooser.ExtensionFilter("PNG files(*.png)", "*.PNG");
+        fileChooser.getExtensionFilters().addAll(ext1, ext2);
+        imagefile = fileChooser.showOpenDialog(stage);
+        imageUrl.setText(imagefile.getPath());
+        return imagefile;
     }
 
 }

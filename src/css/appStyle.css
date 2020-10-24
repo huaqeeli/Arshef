@@ -12,6 +12,27 @@
     -fx-background-color: #333333;
     -fx-background-radius: 0;
 }
+.headerlabel{
+    -fx-background-color: #4E4E4E;
+    -fx-background-radius: 0;
+    -fx-font-family:'URW DIN Arabic';
+    -fx-font-size: 18px;
+    -fx-text-fill: #FFFFFF;
+}
+.searchdatalabel{
+    -fx-background-color: #ADB5B3;
+    -fx-background-radius: 0;
+    -fx-font-family:'URW DIN Arabic';
+    -fx-font-size: 18px;
+    -fx-text-fill: #4A4A4A;
+}
+.searchlabel{
+    -fx-background-color: #C4C4C4;
+    -fx-background-radius: 0;
+    -fx-font-family:'URW DIN Arabic';
+    -fx-font-size: 18px;
+    -fx-text-fill: #4A4A4A;
+}
 .refrechButton{
     -fx-background-color: #97A097;
     -fx-background-radius: 15;

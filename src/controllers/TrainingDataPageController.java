@@ -8,12 +8,11 @@ import java.awt.Desktop;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,6 +23,7 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableCell;
@@ -91,7 +91,7 @@ public class TrainingDataPageController implements Initializable {
     String miltaryID = null;
     File imagefile = null;
     Stage stage = new Stage();
-    com.itextpdf.text.Image img = null;
+    com.itextpdf.text.Image pdfimage = null;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -120,10 +120,11 @@ public class TrainingDataPageController implements Initializable {
             valuenumbers = "?,?,?,?,?,?,?,?";
         }
         boolean milataryidState = FormValidation.textFieldNotEmpty(milataryid, "الرجاء ادخال الرقم العسكري");
-        boolean milataryidExisting = FormValidation.ifexisting("personaldata", "MILITARYID", "MILITARYID='" + getMilataryid() + "'", "لا توجد بيانات بالرقم العسكري الحالي");
+        boolean milataryidExisting = FormValidation.ifNotexisting("personaldata", "MILITARYID", "MILITARYID='" + getMilataryid() + "'", "لا توجد بيانات بالرقم العسكري الحالي");
+        boolean coursExisting = FormValidation.ifexisting("coursesdata", "MILITARYID", "COURSID='" + getCoursid() + "'", "يوجد لديه دورة بنفس المسى");
         boolean milataryidNumber = FormValidation.textFieldTypeNumber(milataryid, "ادخال ارقام فقط");
         boolean coursnameState = FormValidation.comboBoxNotEmpty(coursname, "الرجاء اختيار الرتبه");
-        if (coursnameState && milataryidState && milataryidNumber && milataryidExisting) {
+        if (coursnameState && milataryidState && milataryidNumber && milataryidExisting&&coursExisting) {
             try {
                 DatabaseAccess.insert(tableName, fieldName, valuenumbers, data, imagefile);
                 refreshcoursesTableView();
@@ -145,10 +146,11 @@ public class TrainingDataPageController implements Initializable {
             fieldName = "`MILITARYID`=?,`COURSID`=?,`COURSNUMBER`=?,`COURSPLASE`=?,`COURSDURATION`=?,`STARTDATE`=?,`ENDDATE`=?,`COURSESTIMATE`=?";
         }
         boolean milataryidState = FormValidation.textFieldNotEmpty(milataryid, "الرجاء ادخال الرقم العسكري");
-        boolean milataryidExisting = FormValidation.ifexisting("personaldata", "MILITARYID", "MILITARYID='" + getMilataryid() + "'", "لا توجد بيانات بالرقم العسكري الحالي");
+        boolean milataryidExisting = FormValidation.ifNotexisting("personaldata", "MILITARYID", "MILITARYID='" + getMilataryid() + "'", "لا توجد بيانات بالرقم العسكري الحالي");
+        boolean coursExisting = FormValidation.ifexisting("coursesdata", "MILITARYID", "COURSID='" + getCoursid() + "'", "يوجد لديه دورة بنفس المسى");
         boolean milataryidNumber = FormValidation.textFieldTypeNumber(milataryid, "ادخال ارقام فقط");
         boolean coursnameState = FormValidation.comboBoxNotEmpty(coursname, "الرجاء اختيار الرتبه");
-        if (coursnameState && milataryidState && milataryidNumber && milataryidExisting) {
+        if (coursnameState && milataryidState && milataryidNumber && milataryidExisting&&coursExisting) {
             try {
                 DatabaseAccess.updat(tableName, fieldName, data, "MILITARYID = '" + miltaryID + "' AND COURSID = '" + coursID + "' ", imagefile);
                 refreshcoursesTableView();
@@ -295,7 +297,8 @@ public class TrainingDataPageController implements Initializable {
                         } else {
                             btn.setOnAction(event -> {
                                 try {
-                                    writePdf();
+                                    ShowPdf.writePdf(pdfimage);
+                                    pdfimage = null;
                                 } catch (Exception ex) {
                                     Logger.getLogger(TrainingDataPageController.class.getName()).log(Level.SEVERE, null, ex);
                                 }
@@ -306,8 +309,8 @@ public class TrainingDataPageController implements Initializable {
                                     + "    -fx-background-radius: 10;"
                                     + "    -fx-text-fill: #FFFFFF;"
                                     + "    -fx-effect: dropshadow(three-pass-box,#3C3B3B, 20, 0, 5, 5); ");
-                            Image img = new Image("/images/pdf.png");
-                            ImageView view = new ImageView(img);
+                            Image image = new Image("/images/pdf.png");
+                            ImageView view = new ImageView(image);
                             btn.setGraphic(view);
                             setGraphic(btn);
                             setText(null);
@@ -345,11 +348,9 @@ public class TrainingDataPageController implements Initializable {
                             ArrayList images = new ArrayList();
                             images.add(rs.getBytes("COURSIMAGE"));
                             byte[] scaledInstance = (byte[]) images.get(0);
-                            img = com.itextpdf.text.Image.getInstance(scaledInstance);
+                            pdfimage = com.itextpdf.text.Image.getInstance(scaledInstance);
                         }
-                    } catch (SQLException | IOException ex) {
-                        Logger.getLogger(TrainingDataPageController.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (Exception ex) {
+                    } catch (SQLException | IOException | BadElementException ex) {
                         Logger.getLogger(TrainingDataPageController.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
@@ -377,8 +378,12 @@ public class TrainingDataPageController implements Initializable {
                             setEstimate(rs.getString("COURSESTIMATE"));
                             setStartDate(rs.getString("STARTDATE"));
                             setEndDate(rs.getString("ENDDATE"));
+                             ArrayList images = new ArrayList();
+                            images.add(rs.getBytes("COURSIMAGE"));
+                            byte[] scaledInstance = (byte[]) images.get(0);
+                            pdfimage = com.itextpdf.text.Image.getInstance(scaledInstance);
                         }
-                    } catch (SQLException | IOException ex) {
+                    } catch (SQLException | IOException | BadElementException ex) {
                         Logger.getLogger(TrainingDataPageController.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
@@ -453,32 +458,4 @@ public class TrainingDataPageController implements Initializable {
     private void miltaryExisting(InputMethodEvent event) {
 
     }
-
-    public void writePdf() throws Exception {
-        if (img == null) {
-            JOptionPane.showMessageDialog(null, "no imge");
-        } else {
-            Document document = new Document(img);
-            File f = new File("C:\\appImage");
-            f.mkdir();
-            String path= f.getPath()+"showImage.pdf";
-            PdfWriter.getInstance(document, new FileOutputStream(path));
-            document.open();
-            document.setPageSize(img);
-            document.newPage();
-            img.setAbsolutePosition(0.0F, 0.0F);
-            document.add(img);
-            document.close();
-            if (Desktop.isDesktopSupported()) {
-                try {
-                    File myFile = new File(path);
-                    Desktop.getDesktop().open(myFile);
-                } catch (IOException ex) {
-                    JOptionPane.showMessageDialog(null, ex);
-                }
-            }
-        }
-
-    }
-
 }

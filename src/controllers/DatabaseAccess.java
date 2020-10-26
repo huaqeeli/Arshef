@@ -77,6 +77,35 @@ public static int insert(String tapleName, String fildName, String valueNamber, 
         }
         return lastId;
     }
+public static int insert(String tapleName, String fildName, String valueNamber, File imagefile) throws IOException {
+        int lastId = 0;
+        Connection con = DatabaseConniction.dbConnector();
+        String guiry = "INSERT INTO " + tapleName + "(" + fildName + ")VALUES(" + valueNamber + ")";
+        try {
+            PreparedStatement psm = con.prepareStatement(guiry, Statement.RETURN_GENERATED_KEYS);
+           
+            if (imagefile != null) {
+                FileInputStream fin = new FileInputStream(imagefile);
+                int len = (int) imagefile.length();
+                psm.setBinaryStream(1, fin, len);
+            }
+            int t = psm.executeUpdate();
+            if (t > 0) {
+            } else {
+                FormValidation.showAlert("", "حدث خطاء في عملية الحفظ الرجاء المحاولة مرة اخرى");
+            }
+            ResultSet rs = psm.getGeneratedKeys();
+            if (rs.next()) {
+                lastId = rs.getInt(1);
+            }
+            con.close();
+            psm.close();
+            rs.close();
+        } catch (SQLException ex) {
+             JOptionPane.showMessageDialog(null, ex);
+        }
+        return lastId;
+    }
    
 
     public static ResultSet select(String tapleName) throws IOException {

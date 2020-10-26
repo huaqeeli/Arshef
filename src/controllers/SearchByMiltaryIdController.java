@@ -151,37 +151,37 @@ public class SearchByMiltaryIdController implements Initializable {
                 = (final TableColumn<CoursesModel, String> param) -> {
                     final TableCell<CoursesModel, String> cell = new TableCell<CoursesModel, String>() {
 
-                final Button btn = new Button();
+                        final Button btn = new Button();
 
-                @Override
-                public void updateItem(String item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (empty) {
-                        setGraphic(null);
-                        setText(null);
-                    } else {
-                        btn.setOnAction(event -> {
-                            try {
-                                ShowPdf.writePdf(pdfimage);
-                                pdfimage = null;
-                            } catch (Exception ex) {
-                                Logger.getLogger(TrainingDataPageController.class.getName()).log(Level.SEVERE, null, ex);
+                        @Override
+                        public void updateItem(String item, boolean empty) {
+                            super.updateItem(item, empty);
+                            if (empty) {
+                                setGraphic(null);
+                                setText(null);
+                            } else {
+                                btn.setOnAction(event -> {
+                                    try {
+                                        ShowPdf.writePdf(pdfimage);
+                                        pdfimage = null;
+                                    } catch (Exception ex) {
+                                        Logger.getLogger(TrainingDataPageController.class.getName()).log(Level.SEVERE, null, ex);
+                                    }
+                                });
+                                btn.setStyle("-fx-font-family: 'URW DIN Arabic';"
+                                        + "    -fx-font-size: 10px;"
+                                        + "    -fx-background-color: #769676;"
+                                        + "    -fx-background-radius: 10;"
+                                        + "    -fx-text-fill: #FFFFFF;"
+                                        + "    -fx-effect: dropshadow(three-pass-box,#3C3B3B, 20, 0, 5, 5); ");
+                                Image image = new Image("/images/pdf.png");
+                                ImageView view = new ImageView(image);
+                                btn.setGraphic(view);
+                                setGraphic(btn);
+                                setText(null);
                             }
-                        });
-                        btn.setStyle("-fx-font-family: 'URW DIN Arabic';"
-                                + "    -fx-font-size: 10px;"
-                                + "    -fx-background-color: #769676;"
-                                + "    -fx-background-radius: 10;"
-                                + "    -fx-text-fill: #FFFFFF;"
-                                + "    -fx-effect: dropshadow(three-pass-box,#3C3B3B, 20, 0, 5, 5); ");
-                        Image image = new Image("/images/pdf.png");
-                        ImageView view = new ImageView(image);
-                        btn.setGraphic(view);
-                        setGraphic(btn);
-                        setText(null);
-                    }
-                }
-            };
+                        }
+                    };
                     return cell;
                 };
         image_col.setCellFactory(cellFactory);

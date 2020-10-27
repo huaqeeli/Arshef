@@ -72,7 +72,7 @@ WHERE personaldata.MILITARYID =$P{milataryId}
 		<property name="com.jaspersoft.studio.field.label" value="COURSESTIMATE"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="coursesdata"/>
 	</field>
-	<field name="IMAGE" class="java.lang.Object">
+	<field name="IMAGE" class="java.awt.Image">
 		<property name="com.jaspersoft.studio.field.label" value="IMAGE"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="reportimage"/>
 	</field>
@@ -90,16 +90,16 @@ WHERE personaldata.MILITARYID =$P{milataryId}
 				<imageExpression><![CDATA[$F{IMAGE}]]></imageExpression>
 			</image>
 			<staticText>
-				<reportElement x="700" y="10" width="100" height="26" uuid="36a8dcd8-2544-4faa-9fda-012117e3d068"/>
+				<reportElement x="640" y="10" width="160" height="26" uuid="36a8dcd8-2544-4faa-9fda-012117e3d068"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
+					<font size="19" isBold="true"/>
 				</textElement>
 				<text><![CDATA[قوة السيف الاجرب]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="701" y="25" width="100" height="26" uuid="1de9a1a0-e680-47d7-921e-1b690a0d0b87"/>
+				<reportElement x="641" y="25" width="160" height="26" uuid="1de9a1a0-e680-47d7-921e-1b690a0d0b87"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
+					<font size="19" isBold="true"/>
 				</textElement>
 				<text><![CDATA[العمليات]]></text>
 			</staticText>

@@ -4,9 +4,12 @@ import com.itextpdf.text.BadElementException;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -29,6 +32,14 @@ import javafx.stage.FileChooser;
 import javafx.stage.Window;
 import javafx.util.Callback;
 import modeles.CoursesModel;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 public class SearchByMiltaryIdController implements Initializable {
 
@@ -215,6 +226,22 @@ public class SearchByMiltaryIdController implements Initializable {
 
     @FXML
     private void printData(ActionEvent event) {
+        try {
+            String reportSrcFile = "C:\\Users\\Administrator\\Documents\\NetBeansProjects\\TrainingData\\src\\reports\\courseByid.jrxml";
+            Connection con = DatabaseConniction.dbConnector();
+
+            JasperDesign jasperReport = JRXmlLoader.load(reportSrcFile);
+            Map parameters = new HashMap();
+            parameters.put("milataryId", milatryId);
+
+            JasperReport jrr = JasperCompileManager.compileReport(jasperReport);
+            JasperPrint print = JasperFillManager.fillReport(jrr, parameters, con);
+
+//        JasperPrintManager.printReport(print, false);
+            JasperViewer.viewReport(print, false);
+        } catch (JRException | IOException ex) {
+            Logger.getLogger(SearchByMiltaryIdController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @FXML
@@ -230,9 +257,11 @@ public class SearchByMiltaryIdController implements Initializable {
             ResultSet rs = DatabaseAccess.getCourses("SELECT personaldata.MILITARYID,personaldata.NAME,personaldata.RANK ,personaldata.UNIT,"
                     + "coursnames.CORSNAME,coursesdata.COURSNUMBER,coursesdata.COURSPLASE,coursesdata.COURSDURATION,coursesdata.STARTDATE,coursesdata.ENDDATE,coursesdata.COURSESTIMATE FROM personaldata,coursesdata,coursnames "
                     + "WHERE personaldata.MILITARYID = '" + milatryId + "' AND personaldata.MILITARYID = coursesdata.MILITARYID AND coursesdata.COURSID = coursnames.COURSID ");
-            String[] feild = {"MILITARYID", "RANK", "NAME", "ENFROM", "ENTO", "ENDATEFROM", "ENDATETO"};
-            String[] titel = {"الرقم العسكري", "الرتبة", "الاسم", "الانتداب من", "الانتداب الى", "تاريخ بداية الانتداب", "تاريخ نهاية الانتداب"};
-            ExporteExcelSheet exporter = new ExporteExcelSheet(rs, feild, titel);
+            String[] feild = {"CORSNAME", "COURSNUMBER", "COURSPLASE", "COURSDURATION", "STARTDATE", "ENDDATE","COURSESTIMATE"};
+            String[] titel = {"اسم الدورة", "رقم الدورة", "مكان انعقادها", "مدتها", "تاريخ بداية الدورة", "تاريخ نهاية الدورة", "التقدير"};
+            String[] personaltitel = {"الرقم العسكري",  "الاسم",  "الرتبة",  "الوحدة"};
+            String[] personaldata = { "MILITARYID",  "NAME",  "RANK", "UNIT"};
+            ExporteExcelSheet exporter = new ExporteExcelSheet(rs, feild, titel,personaltitel,personaldata);
             ArrayList<Object[]> dataList = exporter.getTableData();
             if (dataList != null && dataList.size() > 0) {
                 exporter.doExport(dataList, savefile);

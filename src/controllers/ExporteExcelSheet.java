@@ -1,4 +1,3 @@
-
 package controllers;
 
 import java.io.FileNotFoundException;
@@ -19,12 +18,21 @@ public class ExporteExcelSheet {
     ResultSet rs;
     String[] feild;
     String[] titel;
+    String[] personaltitel;
     String[] personalData;
 
     public ExporteExcelSheet(ResultSet rs, String[] feild, String[] titel) {
         this.rs = rs;
         this.feild = feild;
         this.titel = titel;
+    }
+
+    public ExporteExcelSheet(ResultSet rs, String[] feild, String[] titel, String[] personaltitel, String[] personalData) {
+        this.rs = rs;
+        this.feild = feild;
+        this.titel = titel;
+        this.personaltitel = personaltitel;
+        this.personalData = personalData;
     }
 
     public ArrayList<Object[]> getTableData() throws IOException {
@@ -46,19 +54,23 @@ public class ExporteExcelSheet {
         return tableDataList;
     }
 
-    public void doExport(ArrayList<Object[]> dataList,String fileName) {
+    public void doExport(ArrayList<Object[]> dataList, String fileName) {
         if (dataList != null && !dataList.isEmpty()) {
             HSSFWorkbook workBook = new HSSFWorkbook();
             HSSFSheet sheet = workBook.createSheet();
-            HSSFRow headingRow = sheet.createRow(0);
-            HSSFRow dataRow = sheet.createRow(0);
+            HSSFRow headingRow = sheet.createRow(2);
+            HSSFRow personaltitelRow = sheet.createRow(0);
+            HSSFRow personaldataRow = sheet.createRow(1);
+            for (int i = 0; i < personaltitel.length; i++) {
+                personaltitelRow.createCell((short) i).setCellValue(personaltitel[i]);
+            }
             for (int i = 0; i < personalData.length; i++) {
-                
+                personaldataRow.createCell((short) i).setCellValue(personalData[i]);
             }
             for (int i = 0; i < titel.length; i++) {
                 headingRow.createCell((short) i).setCellValue(titel[i]);
             }
-            short rowNo = 1;
+            short rowNo = 3;
             for (Object[] objects : dataList) {
                 HSSFRow row = sheet.createRow(rowNo);
                 for (int i = 0; i < feild.length; i++) {
@@ -67,7 +79,7 @@ public class ExporteExcelSheet {
                 rowNo++;
             }
 
-            String file = fileName+".xls";
+            String file = fileName + ".xls";
             try {
                 FileOutputStream fos = new FileOutputStream(file);
                 workBook.write(fos);

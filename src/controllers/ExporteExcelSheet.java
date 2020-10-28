@@ -8,10 +8,18 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.control.Cell;
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.util.HSSFColor;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.IndexedColors;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 
 public class ExporteExcelSheet {
 
@@ -59,19 +67,34 @@ public class ExporteExcelSheet {
             HSSFWorkbook workBook = new HSSFWorkbook();
             HSSFSheet sheet = workBook.createSheet();
             sheet.setRightToLeft(true);
-//            HSSFRow personaltitelRow = sheet.createRow(0);
-//            HSSFRow personaldataRow = sheet.createRow(1);
-//            for (int i = 0; i < personaltitel.length; i++) {
+            sheet.setDefaultColumnWidth(20);
+            HSSFRow personaltitelRow = sheet.createRow(0);
+
+            CellStyle style = workBook.createCellStyle();
+//            style.setFillBackgroundColor(IndexedColors.LIGHT_BLUE.getIndex());
+//            style.setFillPattern(CellStyle.ALIGN_CENTER);
+            style.setFillForegroundColor(IndexedColors.LIGHT_GREEN.getIndex());
+            style.setFillPattern(CellStyle.SOLID_FOREGROUND);
+            style.setAlignment(HorizontalAlignment.CENTER);
+
+            HSSFRow personaldataRow = sheet.createRow(1);
+            for (int i = 0; i < personaltitel.length; i++) {
 //                personaltitelRow.createCell((short) i).setCellValue(personaltitel[i]);
-//            }
-//            for (int i = 0; i < personalData.length; i++) {
-//                personaldataRow.createCell((short) i).setCellValue(personalData[i]);
-//            }
-            HSSFRow headingRow = sheet.createRow(0);
-            for (int i = 0; i < titel.length; i++) {
-                headingRow.createCell((short) i).setCellValue(titel[i]);
+                HSSFCell cell = personaltitelRow.createCell((short) i);
+                cell.setCellValue(personaltitel[i]);
+                cell.setCellStyle(style);
             }
-            short rowNo = 1;
+            for (int i = 0; i < personalData.length; i++) {
+                personaldataRow.createCell((short) i).setCellValue(personalData[i]);
+            }
+            HSSFRow headingRow = sheet.createRow(2);
+            for (int i = 0; i < titel.length; i++) {
+//               headingRow.createCell((short) 1).setCellValue(titel[i]);
+                HSSFCell cell = headingRow.createCell((short) i);
+                cell.setCellValue(titel[i]);
+                cell.setCellStyle(style);
+            }
+            short rowNo = 3;
             for (Object[] objects : dataList) {
                 HSSFRow row = sheet.createRow(rowNo);
                 for (int i = 0; i < feild.length; i++) {

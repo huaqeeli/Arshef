@@ -125,7 +125,7 @@ public class SearchByMiltaryIdController implements Initializable {
 
     private void coursesTableView(String miliid) {
         try {
-            ResultSet rs = DatabaseAccess.getCourses(miliid);
+            ResultSet rs = DatabaseAccess.getCourses(milatryId);
             int squance = 0;
             while (rs.next()) {
                 squance++;
@@ -253,34 +253,30 @@ public class SearchByMiltaryIdController implements Initializable {
                 savefile = file.toString();
             }
             ResultSet rs = DatabaseAccess.getCourses(milatryId);
+            ResultSet rs1 = DatabaseAccess.select("personaldata","MILITARYID='"+milatryId+"'");
             String militaryid = null;
             String name = null;
             String rank = null;
             String unit = null;
-            if (rs.next()) {
-                militaryid = rs.getString("MILITARYID");
-                name = rs.getString("NAME");
-                rank = rs.getString("RANK");
-                unit = rs.getString("UNIT");
+            if (rs1.next()) {
+                militaryid = rs1.getString("MILITARYID");
+                name = rs1.getString("NAME");
+                rank = rs1.getString("RANK");
+                unit = rs1.getString("UNIT");
             }
-            while (rs.next()) {
-                System.out.println(rs.getString("coursnames.CORSNAME"));
+            String[] feild = {"CORSNAME", "COURSNUMBER", "COURSPLASE", "COURSDURATION", "STARTDATE", "ENDDATE","COURSESTIMATE"};
+            String[] titel = {"اسم الدورة", "رقم الدورة", "مكان انعقادها", "مدتها", "تاريخ بداية الدورة", "تاريخ نهاية الدورة", "التقدير"};
+            String[] personaltitel = {"الرقم العسكري",  "الاسم",  "الرتبة",  "الوحدة"};
+            String[] personaldata = { militaryid,  name, rank, unit};
+            ExporteExcelSheet exporter = new ExporteExcelSheet(rs, feild, titel,personaltitel,personaldata);
+            ArrayList<Object[]> dataList = exporter.getTableData();
+            if (dataList != null && dataList.size() > 0) {
+                exporter.doExport(dataList, savefile);
+            } else {
+                System.out.println("There is no data available in the table to export");
             }
-//            String[] feild = {"CORSNAME", "COURSNUMBER", "COURSPLASE", "COURSDURATION", "STARTDATE", "ENDDATE","COURSESTIMATE"};
-//            String[] titel = {"اسم الدورة", "رقم الدورة", "مكان انعقادها", "مدتها", "تاريخ بداية الدورة", "تاريخ نهاية الدورة", "التقدير"};
-//            String[] personaltitel = {"الرقم العسكري",  "الاسم",  "الرتبة",  "الوحدة"};
-//            String[] personaldata = { militaryid,  name, rank, unit};
-//            ExporteExcelSheet exporter = new ExporteExcelSheet(rs, feild, titel,personaltitel,personaldata);
-//            ArrayList<Object[]> dataList = exporter.getTableData();
-//            if (dataList != null && dataList.size() > 0) {
-//                exporter.doExport(dataList, savefile);
-//                for (int i = 0; i < dataList.size(); i++) {
-//                    System.out.println(dataList.get(i));
-//                }
-//            } else {
-//                System.out.println("There is no data available in the table to export");
-//            }
             rs.close();
+            rs1.close();
         } catch (IOException ex) {
             Logger.getLogger(SearchByMiltaryIdController.class.getName()).log(Level.SEVERE, null, ex);
         }

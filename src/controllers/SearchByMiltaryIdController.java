@@ -125,9 +125,7 @@ public class SearchByMiltaryIdController implements Initializable {
 
     private void coursesTableView(String miliid) {
         try {
-            ResultSet rs = DatabaseAccess.getCourses("SELECT personaldata.MILITARYID,personaldata.NAME,personaldata.RANK ,personaldata.UNIT,"
-                    + "coursnames.CORSNAME,coursesdata.COURSNUMBER,coursesdata.COURSPLASE,coursesdata.COURSDURATION,coursesdata.STARTDATE,coursesdata.ENDDATE,coursesdata.COURSESTIMATE FROM personaldata,coursesdata,coursnames "
-                    + "WHERE personaldata.MILITARYID = '" + miliid + "' AND personaldata.MILITARYID = coursesdata.MILITARYID AND coursesdata.COURSID = coursnames.COURSID ");
+            ResultSet rs = DatabaseAccess.getCourses(miliid);
             int squance = 0;
             while (rs.next()) {
                 squance++;
@@ -162,37 +160,37 @@ public class SearchByMiltaryIdController implements Initializable {
                 = (final TableColumn<CoursesModel, String> param) -> {
                     final TableCell<CoursesModel, String> cell = new TableCell<CoursesModel, String>() {
 
-                        final Button btn = new Button();
+                final Button btn = new Button();
 
-                        @Override
-                        public void updateItem(String item, boolean empty) {
-                            super.updateItem(item, empty);
-                            if (empty) {
-                                setGraphic(null);
-                                setText(null);
-                            } else {
-                                btn.setOnAction(event -> {
-                                    try {
-                                        ShowPdf.writePdf(pdfimage);
-                                        pdfimage = null;
-                                    } catch (Exception ex) {
-                                        Logger.getLogger(TrainingDataPageController.class.getName()).log(Level.SEVERE, null, ex);
-                                    }
-                                });
-                                btn.setStyle("-fx-font-family: 'URW DIN Arabic';"
-                                        + "    -fx-font-size: 10px;"
-                                        + "    -fx-background-color: #769676;"
-                                        + "    -fx-background-radius: 10;"
-                                        + "    -fx-text-fill: #FFFFFF;"
-                                        + "    -fx-effect: dropshadow(three-pass-box,#3C3B3B, 20, 0, 5, 5); ");
-                                Image image = new Image("/images/pdf.png");
-                                ImageView view = new ImageView(image);
-                                btn.setGraphic(view);
-                                setGraphic(btn);
-                                setText(null);
+                @Override
+                public void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty) {
+                        setGraphic(null);
+                        setText(null);
+                    } else {
+                        btn.setOnAction(event -> {
+                            try {
+                                ShowPdf.writePdf(pdfimage);
+                                pdfimage = null;
+                            } catch (Exception ex) {
+                                Logger.getLogger(TrainingDataPageController.class.getName()).log(Level.SEVERE, null, ex);
                             }
-                        }
-                    };
+                        });
+                        btn.setStyle("-fx-font-family: 'URW DIN Arabic';"
+                                + "    -fx-font-size: 10px;"
+                                + "    -fx-background-color: #769676;"
+                                + "    -fx-background-radius: 10;"
+                                + "    -fx-text-fill: #FFFFFF;"
+                                + "    -fx-effect: dropshadow(three-pass-box,#3C3B3B, 20, 0, 5, 5); ");
+                        Image image = new Image("/images/pdf.png");
+                        ImageView view = new ImageView(image);
+                        btn.setGraphic(view);
+                        setGraphic(btn);
+                        setText(null);
+                    }
+                }
+            };
                     return cell;
                 };
         image_col.setCellFactory(cellFactory);
@@ -245,7 +243,7 @@ public class SearchByMiltaryIdController implements Initializable {
     }
 
     @FXML
-    private void getExcelSheet(ActionEvent event) {
+    private void getExcelSheet(ActionEvent event) throws SQLException {
         try {
             FileChooser fileChooser = new FileChooser();
             Window stage = null;
@@ -254,20 +252,35 @@ public class SearchByMiltaryIdController implements Initializable {
             if (file != null) {
                 savefile = file.toString();
             }
-            ResultSet rs = DatabaseAccess.getCourses("SELECT personaldata.MILITARYID,personaldata.NAME,personaldata.RANK ,personaldata.UNIT,"
-                    + "coursnames.CORSNAME,coursesdata.COURSNUMBER,coursesdata.COURSPLASE,coursesdata.COURSDURATION,coursesdata.STARTDATE,coursesdata.ENDDATE,coursesdata.COURSESTIMATE FROM personaldata,coursesdata,coursnames "
-                    + "WHERE personaldata.MILITARYID = '" + milatryId + "' AND personaldata.MILITARYID = coursesdata.MILITARYID AND coursesdata.COURSID = coursnames.COURSID ");
-            String[] feild = {"CORSNAME", "COURSNUMBER", "COURSPLASE", "COURSDURATION", "STARTDATE", "ENDDATE","COURSESTIMATE"};
-            String[] titel = {"اسم الدورة", "رقم الدورة", "مكان انعقادها", "مدتها", "تاريخ بداية الدورة", "تاريخ نهاية الدورة", "التقدير"};
-            String[] personaltitel = {"الرقم العسكري",  "الاسم",  "الرتبة",  "الوحدة"};
-            String[] personaldata = { "MILITARYID",  "NAME",  "RANK", "UNIT"};
-            ExporteExcelSheet exporter = new ExporteExcelSheet(rs, feild, titel,personaltitel,personaldata);
-            ArrayList<Object[]> dataList = exporter.getTableData();
-            if (dataList != null && dataList.size() > 0) {
-                exporter.doExport(dataList, savefile);
-            } else {
-                System.out.println("There is no data available in the table to export");
+            ResultSet rs = DatabaseAccess.getCourses(milatryId);
+            String militaryid = null;
+            String name = null;
+            String rank = null;
+            String unit = null;
+            if (rs.next()) {
+                militaryid = rs.getString("MILITARYID");
+                name = rs.getString("NAME");
+                rank = rs.getString("RANK");
+                unit = rs.getString("UNIT");
             }
+            while (rs.next()) {
+                System.out.println(rs.getString("coursnames.CORSNAME"));
+            }
+//            String[] feild = {"CORSNAME", "COURSNUMBER", "COURSPLASE", "COURSDURATION", "STARTDATE", "ENDDATE","COURSESTIMATE"};
+//            String[] titel = {"اسم الدورة", "رقم الدورة", "مكان انعقادها", "مدتها", "تاريخ بداية الدورة", "تاريخ نهاية الدورة", "التقدير"};
+//            String[] personaltitel = {"الرقم العسكري",  "الاسم",  "الرتبة",  "الوحدة"};
+//            String[] personaldata = { militaryid,  name, rank, unit};
+//            ExporteExcelSheet exporter = new ExporteExcelSheet(rs, feild, titel,personaltitel,personaldata);
+//            ArrayList<Object[]> dataList = exporter.getTableData();
+//            if (dataList != null && dataList.size() > 0) {
+//                exporter.doExport(dataList, savefile);
+//                for (int i = 0; i < dataList.size(); i++) {
+//                    System.out.println(dataList.get(i));
+//                }
+//            } else {
+//                System.out.println("There is no data available in the table to export");
+//            }
+            rs.close();
         } catch (IOException ex) {
             Logger.getLogger(SearchByMiltaryIdController.class.getName()).log(Level.SEVERE, null, ex);
         }

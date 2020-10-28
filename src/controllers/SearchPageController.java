@@ -50,7 +50,7 @@ public class SearchPageController implements Initializable {
             FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/view/searchPages/searchByMiltaryId.fxml"));
             Parent root = fxmlLoader.load();
             SearchByMiltaryIdController controller = new SearchByMiltaryIdController();
-            controller = fxmlLoader.getController();
+            controller = (SearchByMiltaryIdController)fxmlLoader.getController();
             controller.setMiltaryId(milataryid.getText());
             content.setCenter(root);
         } catch (IOException ex) {

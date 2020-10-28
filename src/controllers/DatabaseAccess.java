@@ -146,9 +146,12 @@ public static int insert(String tapleName, String fildName, String valueNamber, 
         }
         return rs;
     }
-    public static ResultSet getCourses(String query) throws IOException {
+    public static ResultSet getCourses(String miliid) throws IOException {
         ResultSet rs = null;
         Connection con = DatabaseConniction.dbConnector();
+        String query ="SELECT personaldata.MILITARYID,personaldata.NAME,personaldata.RANK ,personaldata.UNIT,"
+                    + "coursnames.CORSNAME,coursesdata.COURSNUMBER,coursesdata.COURSPLASE,coursesdata.COURSDURATION,coursesdata.STARTDATE,coursesdata.ENDDATE,coursesdata.COURSESTIMATE FROM personaldata,coursesdata,coursnames "
+                    + "WHERE personaldata.MILITARYID = '" + miliid + "' AND personaldata.MILITARYID = coursesdata.MILITARYID AND coursesdata.COURSID = coursnames.COURSID ";
         try {
             PreparedStatement psm = con.prepareStatement(query);
             rs = psm.executeQuery();

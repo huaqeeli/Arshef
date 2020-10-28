@@ -58,19 +58,20 @@ public class ExporteExcelSheet {
         if (dataList != null && !dataList.isEmpty()) {
             HSSFWorkbook workBook = new HSSFWorkbook();
             HSSFSheet sheet = workBook.createSheet();
-            HSSFRow headingRow = sheet.createRow(2);
-            HSSFRow personaltitelRow = sheet.createRow(0);
-            HSSFRow personaldataRow = sheet.createRow(1);
-            for (int i = 0; i < personaltitel.length; i++) {
-                personaltitelRow.createCell((short) i).setCellValue(personaltitel[i]);
-            }
-            for (int i = 0; i < personalData.length; i++) {
-                personaldataRow.createCell((short) i).setCellValue(personalData[i]);
-            }
+            sheet.setRightToLeft(true);
+//            HSSFRow personaltitelRow = sheet.createRow(0);
+//            HSSFRow personaldataRow = sheet.createRow(1);
+//            for (int i = 0; i < personaltitel.length; i++) {
+//                personaltitelRow.createCell((short) i).setCellValue(personaltitel[i]);
+//            }
+//            for (int i = 0; i < personalData.length; i++) {
+//                personaldataRow.createCell((short) i).setCellValue(personalData[i]);
+//            }
+            HSSFRow headingRow = sheet.createRow(0);
             for (int i = 0; i < titel.length; i++) {
                 headingRow.createCell((short) i).setCellValue(titel[i]);
             }
-            short rowNo = 3;
+            short rowNo = 1;
             for (Object[] objects : dataList) {
                 HSSFRow row = sheet.createRow(rowNo);
                 for (int i = 0; i < feild.length; i++) {

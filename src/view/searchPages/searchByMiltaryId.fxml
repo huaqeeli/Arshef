@@ -17,8 +17,22 @@
          <children>
             <HBox alignment="CENTER_LEFT" nodeOrientation="RIGHT_TO_LEFT" prefHeight="45.0" prefWidth="200.0" styleClass="headlabel">
                <children>
-                  <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" prefHeight="40.0" prefWidth="140.0" styleClass="searchlabel" text="الرقم العسكري :" />
-                  <Label fx:id="milataryid" contentDisplay="CENTER" layoutX="10.0" layoutY="13.0" prefHeight="40.0" prefWidth="350.0" styleClass="searchdatalabel" />
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="140.0" styleClass="searchlabel" text="الرقم العسكري ">
+                     <HBox.margin>
+                        <Insets left="2.0" right="2.0" />
+                     </HBox.margin></Label>
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="140.0" styleClass="searchlabel" text="الرتبة ">
+                     <HBox.margin>
+                        <Insets right="2.0" />
+                     </HBox.margin></Label>
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="388.0" styleClass="searchlabel" text="الاسم ">
+                     <HBox.margin>
+                        <Insets right="2.0" />
+                     </HBox.margin></Label>
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="300.0" styleClass="searchlabel" text="الوحدة ">
+                     <HBox.margin>
+                        <Insets right="2.0" />
+                     </HBox.margin></Label>
                </children>
                <VBox.margin>
                   <Insets right="5.0" />
@@ -26,37 +40,33 @@
             </HBox>
             <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="50.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="45.0" prefWidth="200.0" styleClass="headlabel">
                <children>
-                  <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" prefHeight="40.0" prefWidth="140.0" styleClass="searchlabel" text="الاسم :" />
-                  <Label fx:id="name" contentDisplay="CENTER" layoutX="10.0" layoutY="13.0" prefHeight="40.0" prefWidth="350.0" styleClass="searchdatalabel" />
+                  <Label fx:id="milataryid" alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="140.0" styleClass="searchdatalabel">
+                     <HBox.margin>
+                        <Insets left="2.0" right="2.0" />
+                     </HBox.margin></Label>
+                  <Label fx:id="rank" alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="140.0" styleClass="searchdatalabel">
+                     <HBox.margin>
+                        <Insets right="2.0" />
+                     </HBox.margin></Label>
+                  <Label fx:id="name" alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="13.0" prefHeight="40.0" prefWidth="388.0" styleClass="searchdatalabel">
+                     <HBox.margin>
+                        <Insets right="2.0" />
+                     </HBox.margin></Label>
+                  <Label fx:id="unit" alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="300.0" styleClass="searchdatalabel">
+                     <HBox.margin>
+                        <Insets right="2.0" />
+                     </HBox.margin></Label>
                </children>
                <VBox.margin>
-                  <Insets right="5.0" />
-               </VBox.margin>
-            </HBox>
-            <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="95.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="45.0" prefWidth="200.0" styleClass="headlabel">
-               <children>
-                  <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" prefHeight="40.0" prefWidth="140.0" styleClass="searchlabel" text="الرتبة :" />
-                  <Label fx:id="rank" contentDisplay="CENTER" layoutX="10.0" layoutY="13.0" prefHeight="40.0" prefWidth="350.0" styleClass="searchdatalabel" />
-               </children>
-               <VBox.margin>
-                  <Insets right="5.0" />
-               </VBox.margin>
-            </HBox>
-            <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="140.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="45.0" prefWidth="200.0" styleClass="headlabel">
-               <children>
-                  <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" prefHeight="40.0" prefWidth="140.0" styleClass="searchlabel" text="الوحدة :" />
-                  <Label fx:id="unit" contentDisplay="CENTER" layoutX="10.0" layoutY="13.0" prefHeight="40.0" prefWidth="350.0" styleClass="searchdatalabel" />
-               </children>
-               <VBox.margin>
-                  <Insets right="5.0" />
+                  <Insets bottom="5.0" right="5.0" />
                </VBox.margin>
             </HBox>
             <TableView fx:id="searchTable" nodeOrientation="RIGHT_TO_LEFT" prefHeight="200.0" prefWidth="200.0" styleClass="appTable" VBox.vgrow="ALWAYS">
               <columns>
                 <TableColumn fx:id="squnce_col" prefWidth="75.0" text="تسلسل" />
-                <TableColumn fx:id="corsname_col" minWidth="200.0" prefWidth="75.0" text="اسم الدورة" />
+                <TableColumn fx:id="corsname_col" minWidth="120.0" prefWidth="75.0" text="اسم الدورة" />
                   <TableColumn fx:id="coursnum_col" prefWidth="75.0" text="رقم الدورة" />
-                  <TableColumn fx:id="coursplace_col" minWidth="200.0" prefWidth="75.0" text="مكان انعقادها" />
+                  <TableColumn fx:id="coursplace_col" minWidth="120.0" prefWidth="75.0" text="مكان انعقادها" />
                   <TableColumn fx:id="coursDuration_col" prefWidth="75.0" text="مدتها" />
                   <TableColumn fx:id="startdate_col" prefWidth="75.0" text="تاريخ بدايتها" />
                   <TableColumn fx:id="enddate_col" prefWidth="75.0" text="تاريخ نهايتها" />
@@ -66,6 +76,9 @@
                <columnResizePolicy>
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
+               <VBox.margin>
+                  <Insets left="5.0" right="5.0" />
+               </VBox.margin>
             </TableView>
             <HBox alignment="CENTER" prefHeight="66.0" prefWidth="1200.0">
                <children>

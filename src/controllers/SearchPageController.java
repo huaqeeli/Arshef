@@ -38,6 +38,10 @@ public class SearchPageController implements Initializable {
     @FXML
     private TextField IdentityMilatryId;
     ObservableList<String> coursComboBoxlist = FXCollections.observableArrayList();
+    @FXML
+    private ComboBox<?> coursname1;
+    @FXML
+    private TextField coursplace1;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -93,5 +97,9 @@ public class SearchPageController implements Initializable {
 
     public void clearListCombobox() {
         coursname.getItems().clear();
+    }
+
+    @FXML
+    private void lodSearchByCoursplaceAndCoursNamePage(ActionEvent event) {
     }
 }

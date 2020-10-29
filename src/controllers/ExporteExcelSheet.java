@@ -8,18 +8,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.scene.control.Cell;
 import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.IndexedColors;
-import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 
 public class ExporteExcelSheet {
 
@@ -62,43 +58,77 @@ public class ExporteExcelSheet {
         return tableDataList;
     }
 
+    public void setHeserStyle(CellStyle headerstyle) {
+        headerstyle.setFillForegroundColor(IndexedColors.LIGHT_GREEN.getIndex());
+        headerstyle.setFillPattern(CellStyle.SOLID_FOREGROUND);
+        headerstyle.setAlignment(HorizontalAlignment.CENTER);
+        headerstyle.setBorderBottom((short) 2);
+        headerstyle.setBorderTop((short) 2);
+        headerstyle.setBorderRight((short) 2);
+        headerstyle.setBorderLeft((short) 2);
+    }
+    public void setContentStyle(CellStyle headerstyle) {
+        headerstyle.setAlignment(HorizontalAlignment.CENTER);
+        headerstyle.setBorderBottom((short) 2);
+        headerstyle.setBorderTop((short) 2);
+        headerstyle.setBorderRight((short) 2);
+        headerstyle.setBorderLeft((short) 2);
+    }
+    
+    public void ceratHeader(HSSFRow row,int rownum){
+    
+    }
+    public void ceratContent(){}
+
     public void doExport(ArrayList<Object[]> dataList, String fileName) {
         if (dataList != null && !dataList.isEmpty()) {
             HSSFWorkbook workBook = new HSSFWorkbook();
             HSSFSheet sheet = workBook.createSheet();
             sheet.setRightToLeft(true);
             sheet.setDefaultColumnWidth(20);
+            
+
+            CellStyle headerstyle = workBook.createCellStyle();
+            headerstyle.setFillForegroundColor(IndexedColors.LIGHT_GREEN.getIndex());
+            headerstyle.setFillPattern(CellStyle.SOLID_FOREGROUND);
+            headerstyle.setAlignment(HorizontalAlignment.CENTER);
+            headerstyle.setBorderBottom((short) 2);
+            headerstyle.setBorderTop((short) 2);
+            headerstyle.setBorderRight((short) 2);
+            headerstyle.setBorderLeft((short) 2);
+
+            CellStyle contentstyle = workBook.createCellStyle();
+            contentstyle.setAlignment(HorizontalAlignment.CENTER);
+            contentstyle.setBorderBottom((short) 2);
+            contentstyle.setBorderTop((short) 2);
+            contentstyle.setBorderRight((short) 2);
+            contentstyle.setBorderLeft((short) 2);
+            
             HSSFRow personaltitelRow = sheet.createRow(0);
-
-            CellStyle style = workBook.createCellStyle();
-//            style.setFillBackgroundColor(IndexedColors.LIGHT_BLUE.getIndex());
-//            style.setFillPattern(CellStyle.ALIGN_CENTER);
-            style.setFillForegroundColor(IndexedColors.LIGHT_GREEN.getIndex());
-            style.setFillPattern(CellStyle.SOLID_FOREGROUND);
-            style.setAlignment(HorizontalAlignment.CENTER);
-
             HSSFRow personaldataRow = sheet.createRow(1);
             for (int i = 0; i < personaltitel.length; i++) {
-//                personaltitelRow.createCell((short) i).setCellValue(personaltitel[i]);
                 HSSFCell cell = personaltitelRow.createCell((short) i);
                 cell.setCellValue(personaltitel[i]);
-                cell.setCellStyle(style);
+                cell.setCellStyle(headerstyle);
             }
             for (int i = 0; i < personalData.length; i++) {
-                personaldataRow.createCell((short) i).setCellValue(personalData[i]);
+                HSSFCell cell = personaldataRow.createCell((short) i);
+                cell.setCellValue(personalData[i]);
+                cell.setCellStyle(contentstyle);
             }
             HSSFRow headingRow = sheet.createRow(2);
             for (int i = 0; i < titel.length; i++) {
-//               headingRow.createCell((short) 1).setCellValue(titel[i]);
                 HSSFCell cell = headingRow.createCell((short) i);
                 cell.setCellValue(titel[i]);
-                cell.setCellStyle(style);
+                cell.setCellStyle(headerstyle);
             }
             short rowNo = 3;
             for (Object[] objects : dataList) {
                 HSSFRow row = sheet.createRow(rowNo);
                 for (int i = 0; i < feild.length; i++) {
-                    row.createCell((short) i).setCellValue(objects[i].toString());
+                    HSSFCell cell = row.createCell((short) i);
+                    cell.setCellValue(objects[i].toString());
+                    cell.setCellStyle(contentstyle);
                 }
                 rowNo++;
             }

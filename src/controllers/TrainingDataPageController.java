@@ -121,7 +121,7 @@ public class TrainingDataPageController implements Initializable {
         }
         boolean milataryidState = FormValidation.textFieldNotEmpty(milataryid, "الرجاء ادخال الرقم العسكري");
         boolean milataryidExisting = FormValidation.ifNotexisting("personaldata", "MILITARYID", "MILITARYID='" + getMilataryid() + "'", "لا توجد بيانات بالرقم العسكري الحالي");
-        boolean coursExisting = FormValidation.ifexisting("coursesdata", "MILITARYID", "COURSID='" + getCoursid() + "'", "يوجد لديه دورة بنفس المسى");
+        boolean coursExisting = FormValidation.ifexisting("coursesdata", "MILITARYID", "MILITARYID ='"+getMilataryid()+"' AND COURSID='" + getCoursid() + "'", "يوجد لديه دورة بنفس المسى");
         boolean milataryidNumber = FormValidation.textFieldTypeNumber(milataryid, "ادخال ارقام فقط");
         boolean coursnameState = FormValidation.comboBoxNotEmpty(coursname,  "الرجاء اختيار اسم الدورة");
         if (coursnameState && milataryidState && milataryidNumber && milataryidExisting&&coursExisting) {

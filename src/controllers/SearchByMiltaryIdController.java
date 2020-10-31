@@ -225,7 +225,8 @@ public class SearchByMiltaryIdController implements Initializable {
     @FXML
     private void printData(ActionEvent event) {
         try {
-            String reportSrcFile = "C:\\Users\\Administrator\\Documents\\NetBeansProjects\\TrainingData\\src\\reports\\courseByid.jrxml";
+//            String reportSrcFile = "C:\\Users\\Administrator\\Documents\\NetBeansProjects\\TrainingData\\src\\reports\\courseByid.jrxml";
+            String reportSrcFile = "C:\\Users\\ابو ريان\\Documents\\NetBeansProjects\\TrainingData\\src\\reports\\courseByid.jrxml";
             Connection con = DatabaseConniction.dbConnector();
 
             JasperDesign jasperReport = JRXmlLoader.load(reportSrcFile);

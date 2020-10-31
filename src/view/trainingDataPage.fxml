@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" prefHeight="800.0" prefWidth="1200.0" stylesheets="@../css/appStyle.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.TrainingDataPageController">
+<AnchorPane id="AnchorPane" prefHeight="800.0" prefWidth="1200.0" stylesheets="@../css/appStyle.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.TrainingDataPageController">
    <children>
       <AnchorPane layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: #555E62;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="600.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -62,7 +62,7 @@
                   <HBox alignment="CENTER" prefHeight="45.0" prefWidth="200.0">
                      <children>
                         <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="190.0" styleClass="toolBarButton" text="الرقم العسكري" />
-                        <TextField fx:id="milataryid" alignment="CENTER" onInputMethodTextChanged="#miltaryExisting" prefHeight="40.0" styleClass="appText" HBox.hgrow="ALWAYS" />
+                        <TextField fx:id="milataryid" alignment="CENTER" prefHeight="40.0" styleClass="appText" HBox.hgrow="ALWAYS" />
                      </children>
                      <VBox.margin>
                         <Insets left="5.0" right="5.0" top="10.0" />

@@ -24,13 +24,21 @@ public class CoursesModel {
     private String endDate;
     private String estimate;
 
-    public CoursesModel(int id, String militaryId, String name, String rank, String coursname) {
+    public CoursesModel(int id,String militaryId, String name, String rank, String coursname) {
         this.id = id;
         this.militaryId = militaryId;
         this.name = name;
         this.rank = rank;
         this.coursname = coursname;
     }
+
+//    public CoursesModel(int sequence, String militaryId, String rank, String name, String unit) {
+//        this.sequence = sequence;
+//        this.militaryId = militaryId;
+//        this.rank = rank;
+//        this.name = name;
+//        this.unit = unit;
+//    }
 
     public CoursesModel(String militaryId, String name, String rank, String coursname, String coursNumber, String coursplace, String coursDuration, String estimate) {
         this.militaryId = militaryId;

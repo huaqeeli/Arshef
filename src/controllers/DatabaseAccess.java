@@ -160,6 +160,19 @@ public static int insert(String tapleName, String fildName, String valueNamber, 
         }
         return rs;
     }
+    public static ResultSet getDatabyCoursesId(String coursid) throws IOException {
+        ResultSet rs = null;
+        Connection con = DatabaseConniction.dbConnector();
+        String query ="SELECT personaldata.MILITARYID,personaldata.NAME,personaldata.RANK ,personaldata.UNIT FROM personaldata,coursesdata "
+                    + "WHERE coursesdata.COURSID = '" + coursid + "' AND personaldata.MILITARYID = coursesdata.MILITARYID  ";
+        try {
+            PreparedStatement psm = con.prepareStatement(query);
+            rs = psm.executeQuery();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        }
+        return rs;
+    }
     
     public static void updat(String tapleName, String fildNameAndValue, String[] data, String condition) throws IOException {
         Connection con = DatabaseConniction.dbConnector();

@@ -22,6 +22,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
+import modeles.CoursesModel;
 import trainingdata.App;
 
 public class SearchPageController implements Initializable {
@@ -29,7 +30,7 @@ public class SearchPageController implements Initializable {
     @FXML
     private TextField milataryid;
     @FXML
-    private ComboBox<?> coursname;
+    private ComboBox<String> coursname;
     @FXML
     private TextField coursplace;
 
@@ -39,7 +40,7 @@ public class SearchPageController implements Initializable {
     private TextField IdentityMilatryId;
     ObservableList<String> coursComboBoxlist = FXCollections.observableArrayList();
     @FXML
-    private ComboBox<?> coursname1;
+    private ComboBox<String> coursname1;
     @FXML
     private TextField coursplace1;
 
@@ -64,6 +65,16 @@ public class SearchPageController implements Initializable {
 
     @FXML
     private void lodSearchByCoursNamePage(ActionEvent event) {
+         try {
+            FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/view/searchPages/searchByCoursName.fxml"));
+            Parent root = fxmlLoader.load();
+            SearchByCoursNameController controller = new SearchByCoursNameController();
+            controller = (SearchByCoursNameController)fxmlLoader.getController();
+            controller.setCuoursId(CoursesModel.getCoursId(coursname.getValue()),coursname.getValue());
+            content.setCenter(root);
+        } catch (IOException | SQLException ex) {
+            Logger.getLogger(SearchPageController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @FXML

@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" prefHeight="800.0" prefWidth="1200.0" stylesheets="@../css/appStyle.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SearchPageController">
+<AnchorPane id="AnchorPane" prefHeight="800.0" prefWidth="1200.0" stylesheets="@../css/appStyle.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SearchPageController">
    <children>
       <BorderPane fx:id="content" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <right>
@@ -69,7 +69,7 @@
                                     <HBox alignment="CENTER" nodeOrientation="RIGHT_TO_LEFT" prefHeight="45.0" prefWidth="200.0" styleClass="headerlabel" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <children>
                                           <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="218.0" styleClass="toolBarButton" text="اسم الدورة" />
-                                          <ComboBox fx:id="coursname" accessibleText="coursCombobox" maxWidth="1.7976931348623157E308" prefHeight="40.0" styleClass="appComboBox" HBox.hgrow="ALWAYS" />
+                                          <ComboBox fx:id="coursname" accessibleText="coursCombobox" maxWidth="1.7976931348623157E308" onAction="#lodSearchByCoursNamePage" prefHeight="40.0" styleClass="appComboBox" HBox.hgrow="ALWAYS" />
                                        </children>
                                     </HBox>
                                  </children>

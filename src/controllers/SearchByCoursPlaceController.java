@@ -33,10 +33,10 @@ import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import net.sf.jasperreports.view.JasperViewer;
 
-public class SearchByCoursNameController implements Initializable {
+public class SearchByCoursPlaceController implements Initializable {
 
     @FXML
-    private Label coursname;
+    private Label coursplace;
     @FXML
     private TableView<CoursesModel> searchTable;
     @FXML
@@ -49,11 +49,11 @@ public class SearchByCoursNameController implements Initializable {
     private TableColumn<?, ?> name_col;
     @FXML
     private TableColumn<?, ?> unit_col;
-    String coursId = null;
-    String coursName = null;
-    ObservableList<CoursesModel> coursList = FXCollections.observableArrayList();
     @FXML
-    private TableColumn<?, ?> coursplace_col;
+    private TableColumn<?, ?> coursname_col;
+
+    String coursPlace = null;
+    ObservableList<CoursesModel> coursList = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -62,16 +62,14 @@ public class SearchByCoursNameController implements Initializable {
 
     @FXML
     private void printData(ActionEvent event) {
-         try {
-//            String reportSrcFile = "C:\\Users\\Administrator\\Documents\\NetBeansProjects\\TrainingData\\src\\reports\\coursByName.jrxml";
-            String reportSrcFile = "C:\\Users\\ابو ريان\\Documents\\NetBeansProjects\\TrainingData\\src\\reports\\coursByName.jrxml";
+        try {
+//            String reportSrcFile = "C:\\Users\\Administrator\\Documents\\NetBeansProjects\\TrainingData\\src\\reports\\coursByPlace.jrxml";
+            String reportSrcFile = "C:\\Users\\ابو ريان\\Documents\\NetBeansProjects\\TrainingData\\src\\reports\\coursByPlace.jrxml";
             Connection con = DatabaseConniction.dbConnector();
 
             JasperDesign jasperReport = JRXmlLoader.load(reportSrcFile);
             Map parameters = new HashMap();
-            parameters.put("coursId", coursId);
-            parameters.put("coursName", coursName);
-
+            parameters.put("coursPlace", coursPlace);
             JasperReport jrr = JasperCompileManager.compileReport(jasperReport);
             JasperPrint print = JasperFillManager.fillReport(jrr, parameters, con);
 
@@ -81,7 +79,6 @@ public class SearchByCoursNameController implements Initializable {
             Logger.getLogger(SearchByMiltaryIdController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
 
     @FXML
     private void getExcelSheet(ActionEvent event) {
@@ -93,31 +90,30 @@ public class SearchByCoursNameController implements Initializable {
             if (file != null) {
                 savefile = file.toString();
             }
-            ResultSet rs = DatabaseAccess.getDatabyCoursesId(coursId);
-            String[] feild = {"MILITARYID", "RANK", "NAME", "UNIT", "COURSPLASE"};
-            String[] titel = {"الرقم العسكري", "الرتبة", "الاسم", "الوحدة", "مكان انعقادها"};
-            String[] coursname = {"اسماء الحاصلين على دورة :",coursName};
+            ResultSet rs = DatabaseAccess.getDatabyCoursesPlace(coursPlace);
+            String[] feild = {"MILITARYID", "RANK", "NAME", "UNIT", "CORSNAME"};
+            String[] titel = {"الرقم العسكري", "الرتبة", "الاسم", "الوحدة", "اسم الدورة"};
+            String[] coursname = {"اسماء الحاصلين على دورة في :", coursPlace};
             ExporteExcelSheet exporter = new ExporteExcelSheet();
-            ArrayList<Object[]> dataList = exporter.getTableData(rs,feild);
+            ArrayList<Object[]> dataList = exporter.getTableData(rs, feild);
             if (dataList != null && dataList.size() > 0) {
                 exporter.ceratHeader(coursname, 0, exporter.setHederStyle());
                 exporter.ceratHeader(titel, 1, exporter.setHederStyle());
-                exporter.ceratContent(dataList,feild, 2, exporter.setContentStyle());
+                exporter.ceratContent(dataList, feild, 2, exporter.setContentStyle());
                 exporter.writeFile(savefile);
             } else {
                 System.out.println("There is no data available in the table to export");
             }
             rs.close();
         } catch (IOException ex) {
-            Logger.getLogger(SearchByMiltaryIdController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SearchByCoursPlaceController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(SearchByCoursNameController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SearchByCoursPlaceController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    void setCuoursId(String coursid,String coursname) {
-        coursId = coursid;
-        coursName=coursname;
+    void setCuoursId(String coursplace) {
+        coursPlace = coursplace;
         refreshcoursesTableView();
     }
 
@@ -128,19 +124,21 @@ public class SearchByCoursNameController implements Initializable {
 
     private void coursesTableView() {
         try {
-            ResultSet rs = DatabaseAccess.getDatabyCoursesId(coursId);
+            ResultSet rs = DatabaseAccess.getDatabyCoursesPlace(coursPlace);
             int squance = 0;
             while (rs.next()) {
                 squance++;
                 coursList.add(new CoursesModel(
                         squance,
-                        rs.getString("personaldata.MILITARYID"),
-                         rs.getString("personaldata.RANK"),
-                        rs.getString("personaldata.NAME"),
-                        rs.getString("personaldata.UNIT"),
-                        rs.getString("coursesdata.COURSPLASE")
+                        rs.getString("MILITARYID"),
+                        rs.getString("RANK"),
+                        rs.getString("NAME"),
+                        rs.getString("UNIT"),
+                        rs.getString("CORSNAME"),
+                        rs.getString("COURSPLASE")
                 ));
-                coursname.setText(coursName);
+                coursplace.setText(rs.getString("COURSPLASE"));
+                coursPlace = rs.getString("COURSPLASE");
             }
             rs.close();
         } catch (SQLException | IOException ex) {
@@ -151,8 +149,8 @@ public class SearchByCoursNameController implements Initializable {
         rank_col.setCellValueFactory(new PropertyValueFactory<>("rank"));
         name_col.setCellValueFactory(new PropertyValueFactory<>("name"));
         unit_col.setCellValueFactory(new PropertyValueFactory<>("unit"));
-        coursplace_col.setCellValueFactory(new PropertyValueFactory<>("coursplace"));
-        
+        coursname_col.setCellValueFactory(new PropertyValueFactory<>("coursname"));
+
         searchTable.setItems(coursList);
     }
 

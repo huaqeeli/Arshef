@@ -160,37 +160,37 @@ public class SearchByMiltaryIdController implements Initializable {
                 = (final TableColumn<CoursesModel, String> param) -> {
                     final TableCell<CoursesModel, String> cell = new TableCell<CoursesModel, String>() {
 
-                final Button btn = new Button();
+                        final Button btn = new Button();
 
-                @Override
-                public void updateItem(String item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (empty) {
-                        setGraphic(null);
-                        setText(null);
-                    } else {
-                        btn.setOnAction(event -> {
-                            try {
-                                ShowPdf.writePdf(pdfimage);
-                                pdfimage = null;
-                            } catch (Exception ex) {
-                                Logger.getLogger(TrainingDataPageController.class.getName()).log(Level.SEVERE, null, ex);
+                        @Override
+                        public void updateItem(String item, boolean empty) {
+                            super.updateItem(item, empty);
+                            if (empty) {
+                                setGraphic(null);
+                                setText(null);
+                            } else {
+                                btn.setOnAction(event -> {
+                                    try {
+                                        ShowPdf.writePdf(pdfimage);
+                                        pdfimage = null;
+                                    } catch (Exception ex) {
+                                        Logger.getLogger(TrainingDataPageController.class.getName()).log(Level.SEVERE, null, ex);
+                                    }
+                                });
+                                btn.setStyle("-fx-font-family: 'URW DIN Arabic';"
+                                        + "    -fx-font-size: 10px;"
+                                        + "    -fx-background-color: #769676;"
+                                        + "    -fx-background-radius: 10;"
+                                        + "    -fx-text-fill: #FFFFFF;"
+                                        + "    -fx-effect: dropshadow(three-pass-box,#3C3B3B, 20, 0, 5, 5); ");
+                                Image image = new Image("/images/pdf.png");
+                                ImageView view = new ImageView(image);
+                                btn.setGraphic(view);
+                                setGraphic(btn);
+                                setText(null);
                             }
-                        });
-                        btn.setStyle("-fx-font-family: 'URW DIN Arabic';"
-                                + "    -fx-font-size: 10px;"
-                                + "    -fx-background-color: #769676;"
-                                + "    -fx-background-radius: 10;"
-                                + "    -fx-text-fill: #FFFFFF;"
-                                + "    -fx-effect: dropshadow(three-pass-box,#3C3B3B, 20, 0, 5, 5); ");
-                        Image image = new Image("/images/pdf.png");
-                        ImageView view = new ImageView(image);
-                        btn.setGraphic(view);
-                        setGraphic(btn);
-                        setText(null);
-                    }
-                }
-            };
+                        }
+                    };
                     return cell;
                 };
         image_col.setCellFactory(cellFactory);
@@ -254,7 +254,7 @@ public class SearchByMiltaryIdController implements Initializable {
                 savefile = file.toString();
             }
             ResultSet rs = DatabaseAccess.getCourses(milatryId);
-            ResultSet rs1 = DatabaseAccess.select("personaldata","MILITARYID='"+milatryId+"'");
+            ResultSet rs1 = DatabaseAccess.select("personaldata", "MILITARYID='" + milatryId + "'");
             String militaryid = null;
             String name = null;
             String rank = null;
@@ -265,14 +265,18 @@ public class SearchByMiltaryIdController implements Initializable {
                 rank = rs1.getString("RANK");
                 unit = rs1.getString("UNIT");
             }
-            String[] feild = {"CORSNAME", "COURSNUMBER", "COURSPLASE", "COURSDURATION", "STARTDATE", "ENDDATE","COURSESTIMATE"};
+            String[] feild = {"CORSNAME", "COURSNUMBER", "COURSPLASE", "COURSDURATION", "STARTDATE", "ENDDATE", "COURSESTIMATE"};
             String[] titel = {"اسم الدورة", "رقم الدورة", "مكان انعقادها", "مدتها", "تاريخ بداية الدورة", "تاريخ نهاية الدورة", "التقدير"};
-            String[] personaltitel = {"الرقم العسكري",  "الاسم",  "الرتبة",  "الوحدة"};
-            String[] personaldata = { militaryid,  name, rank, unit};
-            ExporteExcelSheet exporter = new ExporteExcelSheet(rs, feild, titel,personaltitel,personaldata);
-            ArrayList<Object[]> dataList = exporter.getTableData();
+            String[] personaltitel = {"الرقم العسكري", "الاسم", "الرتبة", "الوحدة"};
+            String[] personaldata = {militaryid, name, rank, unit};
+            ExporteExcelSheet exporter = new ExporteExcelSheet();
+            ArrayList<Object[]> dataList = exporter.getTableData(rs, feild);
             if (dataList != null && dataList.size() > 0) {
-                exporter.doExport(dataList, savefile);
+                exporter.ceratHeader(personaltitel, 0, exporter.setHederStyle());
+                exporter.ceratHeader(personaldata, 1, exporter.setContentStyle());
+                exporter.ceratHeader(titel, 2, exporter.setHederStyle());
+                exporter.ceratContent(dataList, feild, 3, exporter.setContentStyle());
+                exporter.writeFile(savefile);
             } else {
                 System.out.println("There is no data available in the table to export");
             }

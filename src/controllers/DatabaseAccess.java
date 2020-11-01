@@ -175,7 +175,33 @@ public static int insert(String tapleName, String fildName, String valueNamber, 
         ResultSet rs = null;
         Connection con = DatabaseConniction.dbConnector();
         String query ="SELECT personaldata.MILITARYID,personaldata.NAME,personaldata.RANK ,personaldata.UNIT,coursesdata.COURSPLASE FROM personaldata,coursesdata "
-                    + "WHERE coursesdata.COURSID = '" + coursid + "' AND personaldata.MILITARYID = coursesdata.MILITARYID  ";
+                    + "WHERE coursesdata.COURSID = '" +coursid + "' AND personaldata.MILITARYID = coursesdata.MILITARYID  ";
+        try {
+            PreparedStatement psm = con.prepareStatement(query);
+            rs = psm.executeQuery();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        }
+        return rs;
+    }
+    public static ResultSet getDatabyCoursesPlace(String coursplace) throws IOException {
+        ResultSet rs = null;
+        Connection con = DatabaseConniction.dbConnector();
+        String query ="SELECT personaldata.MILITARYID,personaldata.NAME,personaldata.RANK ,personaldata.UNIT,coursnames.CORSNAME,coursesdata.COURSPLASE FROM personaldata,coursesdata,coursnames "
+                    + "WHERE coursesdata.COURSPLASE LIKE '" +"%"+ coursplace +"%"+ "' AND personaldata.MILITARYID = coursesdata.MILITARYID AND coursesdata.COURSID = coursnames.COURSID";
+        try {
+            PreparedStatement psm = con.prepareStatement(query);
+            rs = psm.executeQuery();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        }
+        return rs;
+    }
+    public static ResultSet getDatabyCoursesPlaceAndCoursName(String coursplace,String coursid) throws IOException {
+        ResultSet rs = null;
+        Connection con = DatabaseConniction.dbConnector();
+        String query ="SELECT personaldata.MILITARYID,personaldata.NAME,personaldata.RANK ,personaldata.UNIT,coursnames.CORSNAME,coursesdata.COURSPLASE FROM personaldata,coursesdata,coursnames "
+                    + "WHERE coursesdata.COURSID = '" +coursid + "' AND coursesdata.COURSPLASE LIKE '" +"%"+ coursplace +"%"+ "' AND personaldata.MILITARYID = coursesdata.MILITARYID AND coursesdata.COURSID = coursnames.COURSID";
         try {
             PreparedStatement psm = con.prepareStatement(query);
             rs = psm.executeQuery();

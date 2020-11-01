@@ -24,11 +24,16 @@ public class ExporteExcelSheet {
     String[] titel;
     String[] personaltitel;
     String[] personalData;
+    HSSFWorkbook workBook = new HSSFWorkbook();
+    HSSFSheet sheet = workBook.createSheet();
 
     public ExporteExcelSheet(ResultSet rs, String[] feild, String[] titel) {
         this.rs = rs;
         this.feild = feild;
         this.titel = titel;
+    }
+
+    public ExporteExcelSheet() {
     }
 
     public ExporteExcelSheet(ResultSet rs, String[] feild, String[] titel, String[] personaltitel, String[] personalData) {
@@ -39,7 +44,7 @@ public class ExporteExcelSheet {
         this.personalData = personalData;
     }
 
-    public ArrayList<Object[]> getTableData() throws IOException {
+    public ArrayList<Object[]> getTableData(ResultSet rs, String[] feild) throws IOException {
         ArrayList<Object[]> tableDataList = null;
         tableDataList = new ArrayList<>();
         try {
@@ -58,7 +63,8 @@ public class ExporteExcelSheet {
         return tableDataList;
     }
 
-    public void setHeserStyle(CellStyle headerstyle) {
+    public CellStyle setHederStyle() {
+        CellStyle headerstyle = workBook.createCellStyle();
         headerstyle.setFillForegroundColor(IndexedColors.LIGHT_GREEN.getIndex());
         headerstyle.setFillPattern(CellStyle.SOLID_FOREGROUND);
         headerstyle.setAlignment(HorizontalAlignment.CENTER);
@@ -66,72 +72,65 @@ public class ExporteExcelSheet {
         headerstyle.setBorderTop((short) 2);
         headerstyle.setBorderRight((short) 2);
         headerstyle.setBorderLeft((short) 2);
+        return headerstyle;
     }
-    public void setContentStyle(CellStyle headerstyle) {
-        headerstyle.setAlignment(HorizontalAlignment.CENTER);
-        headerstyle.setBorderBottom((short) 2);
-        headerstyle.setBorderTop((short) 2);
-        headerstyle.setBorderRight((short) 2);
-        headerstyle.setBorderLeft((short) 2);
+
+    public CellStyle setContentStyle() {
+        CellStyle style = workBook.createCellStyle();
+        style.setAlignment(HorizontalAlignment.CENTER);
+        style.setBorderBottom((short) 2);
+        style.setBorderTop((short) 2);
+        style.setBorderRight((short) 2);
+        style.setBorderLeft((short) 2);
+        return style;
     }
-    
-    public void ceratHeader(HSSFRow row,int rownum){
-    
+
+    public void ceratHeader(String[] titel, int rownum, CellStyle style) {
+        HSSFRow row = sheet.createRow(rownum);
+        for (int i = 0; i < titel.length; i++) {
+            HSSFCell cell = row.createCell((short) i);
+            cell.setCellValue(titel[i]);
+            cell.setCellStyle(style);
+        }
     }
-    public void ceratContent(){}
+
+    public void ceratContent(ArrayList<Object[]> dataList, String[] feild, int rownum, CellStyle style) {
+        short rowNo = (short) rownum;
+        for (Object[] objects : dataList) {
+            HSSFRow row = sheet.createRow(rowNo);
+            for (int i = 0; i < feild.length; i++) {
+                HSSFCell cell = row.createCell((short) i);
+                cell.setCellValue(objects[i].toString());
+                cell.setCellStyle(style);
+            }
+            rowNo++;
+        }
+    }
+
+    public void writeFile(String fileName) {
+        String file = fileName + ".xls";
+        try {
+            sheet.setRightToLeft(true);
+            sheet.setDefaultColumnWidth(20);
+            FileOutputStream fos = new FileOutputStream(file);
+            workBook.write(fos);
+            fos.flush();
+        } catch (FileNotFoundException e) {
+            System.out.println("Invalid directory or file not found");
+        } catch (IOException e) {
+            System.out.println("Error occurred while writting excel file to directory");
+        }
+    }
 
     public void doExport(ArrayList<Object[]> dataList, String fileName) {
         if (dataList != null && !dataList.isEmpty()) {
-            HSSFWorkbook workBook = new HSSFWorkbook();
-            HSSFSheet sheet = workBook.createSheet();
             sheet.setRightToLeft(true);
             sheet.setDefaultColumnWidth(20);
-            
 
-            CellStyle headerstyle = workBook.createCellStyle();
-            headerstyle.setFillForegroundColor(IndexedColors.LIGHT_GREEN.getIndex());
-            headerstyle.setFillPattern(CellStyle.SOLID_FOREGROUND);
-            headerstyle.setAlignment(HorizontalAlignment.CENTER);
-            headerstyle.setBorderBottom((short) 2);
-            headerstyle.setBorderTop((short) 2);
-            headerstyle.setBorderRight((short) 2);
-            headerstyle.setBorderLeft((short) 2);
-
-            CellStyle contentstyle = workBook.createCellStyle();
-            contentstyle.setAlignment(HorizontalAlignment.CENTER);
-            contentstyle.setBorderBottom((short) 2);
-            contentstyle.setBorderTop((short) 2);
-            contentstyle.setBorderRight((short) 2);
-            contentstyle.setBorderLeft((short) 2);
-            
-            HSSFRow personaltitelRow = sheet.createRow(0);
-            HSSFRow personaldataRow = sheet.createRow(1);
-            for (int i = 0; i < personaltitel.length; i++) {
-                HSSFCell cell = personaltitelRow.createCell((short) i);
-                cell.setCellValue(personaltitel[i]);
-                cell.setCellStyle(headerstyle);
-            }
-            for (int i = 0; i < personalData.length; i++) {
-                HSSFCell cell = personaldataRow.createCell((short) i);
-                cell.setCellValue(personalData[i]);
-                cell.setCellStyle(contentstyle);
-            }
-            HSSFRow headingRow = sheet.createRow(2);
-            for (int i = 0; i < titel.length; i++) {
-                HSSFCell cell = headingRow.createCell((short) i);
-                cell.setCellValue(titel[i]);
-                cell.setCellStyle(headerstyle);
-            }
-            short rowNo = 3;
-            for (Object[] objects : dataList) {
-                HSSFRow row = sheet.createRow(rowNo);
-                for (int i = 0; i < feild.length; i++) {
-                    HSSFCell cell = row.createCell((short) i);
-                    cell.setCellValue(objects[i].toString());
-                    cell.setCellStyle(contentstyle);
-                }
-                rowNo++;
-            }
+            ceratHeader(personaltitel, 0, setHederStyle());
+            ceratHeader(personalData, 1, setContentStyle());
+            ceratHeader(titel, 2, setHederStyle());
+            ceratContent(dataList, feild, 3, setContentStyle());
 
             String file = fileName + ".xls";
             try {

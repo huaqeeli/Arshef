@@ -55,7 +55,7 @@ public class SearchPageController implements Initializable {
             FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/view/searchPages/searchByMiltaryId.fxml"));
             Parent root = fxmlLoader.load();
             SearchByMiltaryIdController controller = new SearchByMiltaryIdController();
-            controller = (SearchByMiltaryIdController)fxmlLoader.getController();
+            controller = (SearchByMiltaryIdController) fxmlLoader.getController();
             controller.setMiltaryId(milataryid.getText());
             content.setCenter(root);
         } catch (IOException ex) {
@@ -65,12 +65,12 @@ public class SearchPageController implements Initializable {
 
     @FXML
     private void lodSearchByCoursNamePage(ActionEvent event) {
-         try {
+        try {
             FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/view/searchPages/searchByCoursName.fxml"));
             Parent root = fxmlLoader.load();
             SearchByCoursNameController controller = new SearchByCoursNameController();
-            controller = (SearchByCoursNameController)fxmlLoader.getController();
-            controller.setCuoursId(CoursesModel.getCoursId(coursname.getValue()),coursname.getValue());
+            controller = (SearchByCoursNameController) fxmlLoader.getController();
+            controller.setCuoursId(CoursesModel.getCoursId(coursname.getValue()), coursname.getValue());
             content.setCenter(root);
         } catch (IOException | SQLException ex) {
             Logger.getLogger(SearchPageController.class.getName()).log(Level.SEVERE, null, ex);
@@ -79,6 +79,30 @@ public class SearchPageController implements Initializable {
 
     @FXML
     private void lodSearchByCoursplacePage(ActionEvent event) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/view/searchPages/searchByCoursPlace.fxml"));
+            Parent root = fxmlLoader.load();
+            SearchByCoursPlaceController controller = new SearchByCoursPlaceController();
+            controller = (SearchByCoursPlaceController) fxmlLoader.getController();
+            controller.setCuoursId(coursplace.getText());
+            content.setCenter(root);
+        } catch (IOException ex) {
+            Logger.getLogger(SearchPageController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @FXML
+    private void lodSearchByCoursplaceAndCoursNamePage(ActionEvent event) {
+         try {
+            FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/view/searchPages/searchByCoursplaceAndCoursName.fxml"));
+            Parent root = fxmlLoader.load();
+            SearchByCoursplaceAndCoursNamePageController controller = new SearchByCoursplaceAndCoursNamePageController();
+            controller = (SearchByCoursplaceAndCoursNamePageController) fxmlLoader.getController();
+            controller.setCuoursId(CoursesModel.getCoursId(coursname1.getValue()), coursplace1.getText());
+            content.setCenter(root);
+        } catch (IOException | SQLException ex) {
+            Logger.getLogger(SearchPageController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @FXML
@@ -104,13 +128,12 @@ public class SearchPageController implements Initializable {
 
     public void refreshListCombobox() {
         coursname.setItems(filleCoursNames(coursComboBoxlist));
+        coursname1.setItems(filleCoursNames(coursComboBoxlist));
     }
 
     public void clearListCombobox() {
         coursname.getItems().clear();
+        coursname1.getItems().clear();
     }
 
-    @FXML
-    private void lodSearchByCoursplaceAndCoursNamePage(ActionEvent event) {
-    }
 }

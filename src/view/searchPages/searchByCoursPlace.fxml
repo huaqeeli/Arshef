@@ -11,18 +11,21 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" prefHeight="800.0" prefWidth="1200.0" stylesheets="@../../css/appStyle.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SearchByCoursNameController">
+
+<AnchorPane id="AnchorPane" prefHeight="800.0" prefWidth="1200.0" stylesheets="@../../css/appStyle.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="controllers.SearchByCoursPlaceController">
    <children>
       <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="50.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="45.0" prefWidth="200.0" styleClass="headlabel">
                <children>
-                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="237.0" styleClass="searchlabel" text="اسماء الحاصلين على دورة :">
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="237.0" styleClass="searchlabel" text="اسماء الحاصلين على دورة  :" />
+                  <Label fx:id="coursname" alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="388.0" styleClass="searchdatalabel" />
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="94.0" styleClass="searchlabel" text="في :">
                      <HBox.margin>
                         <Insets left="2.0" right="2.0" />
                      </HBox.margin>
                   </Label>
-                  <Label fx:id="coursname" alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="13.0" prefHeight="40.0" prefWidth="388.0" styleClass="searchdatalabel">
+                  <Label fx:id="coursplace" alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="13.0" prefHeight="40.0" prefWidth="388.0" styleClass="searchdatalabel">
                      <HBox.margin>
                         <Insets right="2.0" />
                      </HBox.margin>
@@ -39,7 +42,7 @@
                   <TableColumn fx:id="rank_col" prefWidth="75.0" text="الرتبة" />
                   <TableColumn fx:id="name_col" minWidth="120.0" prefWidth="75.0" text="الاسم" />
                   <TableColumn fx:id="unit_col" minWidth="120.0" prefWidth="75.0" text="الوحدة" />
-                  <TableColumn fx:id="coursplace_col" minWidth="120.0" prefWidth="75.0" text="مكان انعقادها" />
+                  <TableColumn fx:id="coursname_col" minWidth="120.0" prefWidth="75.0" text="اسم الدورة" />
                </columns>
                <columnResizePolicy>
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

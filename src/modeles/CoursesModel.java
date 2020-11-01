@@ -32,16 +32,24 @@ public class CoursesModel {
         this.coursname = coursname;
     }
 
-    public CoursesModel(int sequence, String militaryId, String name, String rank, String unit, String coursplace) {
+    public CoursesModel(int sequence, String militaryId, String rank, String name,  String unit, String coursplace) {
         this.sequence = sequence;
-        this.militaryId = militaryId;
-        this.name = name;
+        this.militaryId = militaryId; 
         this.rank = rank;
+        this.name = name;
         this.unit = unit;
         this.coursplace = coursplace;
     }
 
-    
+    public CoursesModel(int sequence, String militaryId, String rank, String name, String unit, String coursname, String coursplace) {
+        this.sequence = sequence;
+        this.militaryId = militaryId;
+        this.rank = rank;
+        this.name = name;
+        this.unit = unit;
+        this.coursname = coursname;
+        this.coursplace = coursplace;
+    }
 
     public CoursesModel(String militaryId, String name, String rank, String coursname, String coursNumber, String coursplace, String coursDuration, String estimate) {
         this.militaryId = militaryId;

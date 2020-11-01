@@ -120,6 +120,17 @@ public static int insert(String tapleName, String fildName, String valueNamber, 
         }
         return rs;
     }
+    public static ResultSet getData(String quiry) throws IOException {
+        ResultSet rs = null;
+        Connection con = DatabaseConniction.dbConnector();
+        try {
+            PreparedStatement psm = con.prepareStatement(quiry);
+            rs = psm.executeQuery();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        }
+        return rs;
+    }
 
     public static ResultSet getItems(String tapleName) throws IOException {
         ResultSet rs = null;
@@ -163,7 +174,7 @@ public static int insert(String tapleName, String fildName, String valueNamber, 
     public static ResultSet getDatabyCoursesId(String coursid) throws IOException {
         ResultSet rs = null;
         Connection con = DatabaseConniction.dbConnector();
-        String query ="SELECT personaldata.MILITARYID,personaldata.NAME,personaldata.RANK ,personaldata.UNIT FROM personaldata,coursesdata "
+        String query ="SELECT personaldata.MILITARYID,personaldata.NAME,personaldata.RANK ,personaldata.UNIT,coursesdata.COURSPLASE FROM personaldata,coursesdata "
                     + "WHERE coursesdata.COURSID = '" + coursid + "' AND personaldata.MILITARYID = coursesdata.MILITARYID  ";
         try {
             PreparedStatement psm = con.prepareStatement(query);

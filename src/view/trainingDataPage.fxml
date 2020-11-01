@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" prefHeight="800.0" prefWidth="1200.0" stylesheets="@../css/appStyle.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.TrainingDataPageController">
+<AnchorPane id="AnchorPane" prefHeight="800.0" prefWidth="1200.0" stylesheets="@../css/appStyle.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.TrainingDataPageController">
    <children>
       <AnchorPane layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: #555E62;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="600.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -22,11 +22,11 @@
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
                <columns>
-                  <TableColumn fx:id="milataryid_col" minWidth="200.0" prefWidth="75.0" text="الرقم العسكري" />
-                  <TableColumn fx:id="rank_col" minWidth="150.0" prefWidth="75.0" text="الرتبة" />
+                  <TableColumn fx:id="milataryid_col" prefWidth="75.0" text="الرقم العسكري" />
+                  <TableColumn fx:id="rank_col" prefWidth="75.0" text="الرتبة" />
                   <TableColumn fx:id="name_col" minWidth="200.0" prefWidth="75.0" text="الاسم" />
                   <TableColumn fx:id="coursname_col" minWidth="200.0" prefWidth="75.0" text="مسمى الدورة" />
-                  <TableColumn fx:id="coursImage_col" minWidth="200.0" prefWidth="75.0" text="الشهادة" />
+                  <TableColumn fx:id="coursImage_col" prefWidth="75.0" text="الشهادة" />
                </columns>
             </TableView>
          </children>

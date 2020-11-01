@@ -259,12 +259,11 @@ public class TrainingDataPageController implements Initializable {
 
     private void coursesTableView() {
         try {
-            ResultSet rs = DatabaseAccess.getCourses("SELECT personaldata.MILITARYID ,personaldata.RANK,personaldata.NAME,coursnames.CORSNAME,coursesdata.COURSID "
+            ResultSet rs = DatabaseAccess.getData("SELECT personaldata.MILITARYID ,personaldata.RANK,personaldata.NAME,coursnames.CORSNAME,coursesdata.COURSID "
                     + "FROM personaldata,coursesdata,coursnames "
                     + "WHERE personaldata.MILITARYID = coursesdata.MILITARYID AND coursesdata.COURSID = coursnames.COURSID ORDER BY MILITARYID");
             while (rs.next()) {
                 coursList.add(new CoursesModel(
-                        rs.getInt("coursesdata.COURSID"),
                         rs.getString("personaldata.MILITARYID"),
                         rs.getString("personaldata.NAME"),
                         rs.getString("personaldata.RANK"),

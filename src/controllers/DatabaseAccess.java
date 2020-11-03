@@ -178,7 +178,7 @@ public class DatabaseAccess {
         ResultSet rs = null;
         Connection con = DatabaseConniction.dbConnector();
         String query = "SELECT personaldata.MILITARYID,personaldata.NAME,personaldata.RANK,personaldata.UNIT,personaldata.PERSONALID, "
-                + "personaldata.IMAGE,coursnames.CORSNAME FROM personaldata,coursesdata,coursnames"
+                + "personaldata.PERSONALIMAGE,coursnames.CORSNAME FROM personaldata,coursesdata,coursnames"
                 + " WHERE personaldata.MILITARYID =  '" + miliid + "' AND personaldata.MILITARYID = coursesdata.MILITARYID AND coursesdata.COURSID = coursnames.COURSID";
       
         try {

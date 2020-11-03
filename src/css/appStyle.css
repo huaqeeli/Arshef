@@ -124,8 +124,8 @@
 }
 
 .appTable .table-cell {
-    -fx-border-color: transparent;
-    -fx-border-width: 1;
+/*    -fx-border-color: #4D4D4D;
+    -fx-border-width: 1;*/
     -fx-alignment: CENTER;
     -fx-font-family:'URW DIN Arabic';
     -fx-font-size: 15px;

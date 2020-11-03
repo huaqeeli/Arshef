@@ -19,16 +19,12 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
-import javafx.util.Callback;
 import modeles.CoursesModel;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
@@ -92,7 +88,7 @@ public class PrentIdentitiController implements Initializable {
                 rank.setText(rs.getString("personaldata.RANK"));
                 unit.setText(rs.getString("personaldata.UNIT"));
                 idnumber.setText(rs.getString("personaldata.PERSONALID"));
-                InputStream is = rs.getBinaryStream("personaldata.IMAGE");
+                InputStream is = rs.getBinaryStream("personaldata.PERSONALIMAGE");
                 if (is != null) {
                     OutputStream os = new FileOutputStream(new File("photo.jpg"));
                     byte[] content = new byte[1024];

@@ -23,7 +23,9 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("/view/homePage"));
+        Parent root = FXMLLoader.load(getClass().getResource("/view/homePage.fxml"));
+//        scene = new Scene(loadFXML("/view/homePage"));
+        scene = new Scene(root);
         Screen screen = Screen.getPrimary();
         Rectangle2D bounds = screen.getVisualBounds();
         stage.setX(bounds.getMinX());

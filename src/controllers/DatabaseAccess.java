@@ -1,6 +1,5 @@
 package controllers;
 
-
 import Validation.FormValidation;
 import com.mysql.jdbc.Statement;
 import java.io.File;
@@ -45,7 +44,8 @@ public class DatabaseAccess {
         }
         return lastId;
     }
-public static int insert(String tapleName, String fildName, String valueNamber, String[] data, File imagefile) throws IOException {
+
+    public static int insert(String tapleName, String fildName, String valueNamber, String[] data, File imagefile) throws IOException {
         int lastId = 0;
         Connection con = DatabaseConniction.dbConnector();
         String guiry = "INSERT INTO " + tapleName + "(" + fildName + ")VALUES(" + valueNamber + ")";
@@ -58,7 +58,7 @@ public static int insert(String tapleName, String fildName, String valueNamber, 
             if (imagefile != null) {
                 FileInputStream fin = new FileInputStream(imagefile);
                 int len = (int) imagefile.length();
-                psm.setBinaryStream(e+1, fin, len);
+                psm.setBinaryStream(e + 1, fin, len);
             }
             int t = psm.executeUpdate();
             if (t > 0) {
@@ -73,17 +73,18 @@ public static int insert(String tapleName, String fildName, String valueNamber, 
             psm.close();
             rs.close();
         } catch (SQLException ex) {
-             JOptionPane.showMessageDialog(null, ex);
+            JOptionPane.showMessageDialog(null, ex);
         }
         return lastId;
     }
-public static int insert(String tapleName, String fildName, String valueNamber, File imagefile) throws IOException {
+
+    public static int insert(String tapleName, String fildName, String valueNamber, File imagefile) throws IOException {
         int lastId = 0;
         Connection con = DatabaseConniction.dbConnector();
         String guiry = "INSERT INTO " + tapleName + "(" + fildName + ")VALUES(" + valueNamber + ")";
         try {
             PreparedStatement psm = con.prepareStatement(guiry, Statement.RETURN_GENERATED_KEYS);
-           
+
             if (imagefile != null) {
                 FileInputStream fin = new FileInputStream(imagefile);
                 int len = (int) imagefile.length();
@@ -102,11 +103,10 @@ public static int insert(String tapleName, String fildName, String valueNamber, 
             psm.close();
             rs.close();
         } catch (SQLException ex) {
-             JOptionPane.showMessageDialog(null, ex);
+            JOptionPane.showMessageDialog(null, ex);
         }
         return lastId;
     }
-   
 
     public static ResultSet select(String tapleName) throws IOException {
         ResultSet rs = null;
@@ -120,6 +120,7 @@ public static int insert(String tapleName, String fildName, String valueNamber, 
         }
         return rs;
     }
+
     public static ResultSet getData(String quiry) throws IOException {
         ResultSet rs = null;
         Connection con = DatabaseConniction.dbConnector();
@@ -157,12 +158,13 @@ public static int insert(String tapleName, String fildName, String valueNamber, 
         }
         return rs;
     }
+
     public static ResultSet getCourses(String miliid) throws IOException {
         ResultSet rs = null;
         Connection con = DatabaseConniction.dbConnector();
-        String query ="SELECT personaldata.MILITARYID,personaldata.NAME,personaldata.RANK ,personaldata.UNIT,"
-                    + "coursnames.CORSNAME,coursesdata.COURSNUMBER,coursesdata.COURSPLASE,coursesdata.COURSDURATION,coursesdata.STARTDATE,coursesdata.ENDDATE,coursesdata.COURSESTIMATE FROM personaldata,coursesdata,coursnames "
-                    + "WHERE personaldata.MILITARYID = '" + miliid + "' AND personaldata.MILITARYID = coursesdata.MILITARYID AND coursesdata.COURSID = coursnames.COURSID ";
+        String query = "SELECT personaldata.MILITARYID,personaldata.NAME,personaldata.RANK ,personaldata.UNIT,personaldata.PERSONALID,"
+                + "coursnames.CORSNAME,coursesdata.COURSNUMBER,coursesdata.COURSPLASE,coursesdata.COURSDURATION,coursesdata.STARTDATE,coursesdata.ENDDATE,coursesdata.COURSESTIMATE FROM personaldata,coursesdata,coursnames "
+                + "WHERE personaldata.MILITARYID = '" + miliid + "' AND personaldata.MILITARYID = coursesdata.MILITARYID AND coursesdata.COURSID = coursnames.COURSID ";
         try {
             PreparedStatement psm = con.prepareStatement(query);
             rs = psm.executeQuery();
@@ -171,11 +173,28 @@ public static int insert(String tapleName, String fildName, String valueNamber, 
         }
         return rs;
     }
+
+    public static ResultSet getIdentiti(String miliid) throws IOException {
+        ResultSet rs = null;
+        Connection con = DatabaseConniction.dbConnector();
+        String query = "SELECT personaldata.MILITARYID,personaldata.NAME,personaldata.RANK,personaldata.UNIT,personaldata.PERSONALID, "
+                + "personaldata.IMAGE,coursnames.CORSNAME FROM personaldata,coursesdata,coursnames"
+                + " WHERE personaldata.MILITARYID =  '" + miliid + "' AND personaldata.MILITARYID = coursesdata.MILITARYID AND coursesdata.COURSID = coursnames.COURSID";
+      
+        try {
+            PreparedStatement psm = con.prepareStatement(query);
+            rs = psm.executeQuery();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        }
+        return rs;
+    }
+
     public static ResultSet getDatabyCoursesId(String coursid) throws IOException {
         ResultSet rs = null;
         Connection con = DatabaseConniction.dbConnector();
-        String query ="SELECT personaldata.MILITARYID,personaldata.NAME,personaldata.RANK ,personaldata.UNIT,coursesdata.COURSPLASE FROM personaldata,coursesdata "
-                    + "WHERE coursesdata.COURSID = '" +coursid + "' AND personaldata.MILITARYID = coursesdata.MILITARYID  ";
+        String query = "SELECT personaldata.MILITARYID,personaldata.NAME,personaldata.RANK ,personaldata.UNIT,coursesdata.COURSPLASE FROM personaldata,coursesdata "
+                + "WHERE coursesdata.COURSID = '" + coursid + "' AND personaldata.MILITARYID = coursesdata.MILITARYID  ";
         try {
             PreparedStatement psm = con.prepareStatement(query);
             rs = psm.executeQuery();
@@ -184,11 +203,12 @@ public static int insert(String tapleName, String fildName, String valueNamber, 
         }
         return rs;
     }
+
     public static ResultSet getDatabyCoursesPlace(String coursplace) throws IOException {
         ResultSet rs = null;
         Connection con = DatabaseConniction.dbConnector();
-        String query ="SELECT personaldata.MILITARYID,personaldata.NAME,personaldata.RANK ,personaldata.UNIT,coursnames.CORSNAME,coursesdata.COURSPLASE FROM personaldata,coursesdata,coursnames "
-                    + "WHERE coursesdata.COURSPLASE LIKE '" +"%"+ coursplace +"%"+ "' AND personaldata.MILITARYID = coursesdata.MILITARYID AND coursesdata.COURSID = coursnames.COURSID";
+        String query = "SELECT personaldata.MILITARYID,personaldata.NAME,personaldata.RANK ,personaldata.UNIT,coursnames.CORSNAME,coursesdata.COURSPLASE FROM personaldata,coursesdata,coursnames "
+                + "WHERE coursesdata.COURSPLASE LIKE '" + "%" + coursplace + "%" + "' AND personaldata.MILITARYID = coursesdata.MILITARYID AND coursesdata.COURSID = coursnames.COURSID";
         try {
             PreparedStatement psm = con.prepareStatement(query);
             rs = psm.executeQuery();
@@ -197,11 +217,12 @@ public static int insert(String tapleName, String fildName, String valueNamber, 
         }
         return rs;
     }
-    public static ResultSet getDatabyCoursesPlaceAndCoursName(String coursplace,String coursid) throws IOException {
+
+    public static ResultSet getDatabyCoursesPlaceAndCoursName(String coursplace, String coursid) throws IOException {
         ResultSet rs = null;
         Connection con = DatabaseConniction.dbConnector();
-        String query ="SELECT personaldata.MILITARYID,personaldata.NAME,personaldata.RANK ,personaldata.UNIT,coursnames.CORSNAME,coursesdata.COURSPLASE FROM personaldata,coursesdata,coursnames "
-                    + "WHERE coursesdata.COURSID = '" +coursid + "' AND coursesdata.COURSPLASE LIKE '" +"%"+ coursplace +"%"+ "' AND personaldata.MILITARYID = coursesdata.MILITARYID AND coursesdata.COURSID = coursnames.COURSID";
+        String query = "SELECT personaldata.MILITARYID,personaldata.NAME,personaldata.RANK ,personaldata.UNIT,coursnames.CORSNAME,coursesdata.COURSPLASE FROM personaldata,coursesdata,coursnames "
+                + "WHERE coursesdata.COURSID = '" + coursid + "' AND coursesdata.COURSPLASE LIKE '" + "%" + coursplace + "%" + "' AND personaldata.MILITARYID = coursesdata.MILITARYID AND coursesdata.COURSID = coursnames.COURSID";
         try {
             PreparedStatement psm = con.prepareStatement(query);
             rs = psm.executeQuery();
@@ -210,10 +231,10 @@ public static int insert(String tapleName, String fildName, String valueNamber, 
         }
         return rs;
     }
-    
+
     public static void updat(String tapleName, String fildNameAndValue, String[] data, String condition) throws IOException {
         Connection con = DatabaseConniction.dbConnector();
-        String guiry = "UPDATE " + tapleName + " SET " + fildNameAndValue + "WHERE" +" "+ condition;
+        String guiry = "UPDATE " + tapleName + " SET " + fildNameAndValue + "WHERE" + " " + condition;
         try {
             PreparedStatement psm = con.prepareStatement(guiry);
             int e = data.length;
@@ -222,7 +243,7 @@ public static int insert(String tapleName, String fildName, String valueNamber, 
             }
             int t = psm.executeUpdate();
             if (t > 0) {
-               FormValidation.showAlert("", "تم تحديث البيانات", Alert.AlertType.INFORMATION);
+                FormValidation.showAlert("", "تم تحديث البيانات", Alert.AlertType.INFORMATION);
             }
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, ex);
@@ -240,6 +261,7 @@ public static int insert(String tapleName, String fildName, String valueNamber, 
             JOptionPane.showMessageDialog(null, ex);
         }
     }
+
     public static void updat(String tapleName, String fildNameAndValue, String[] data, String condition, File imagefile) throws IOException {
         Connection con = DatabaseConniction.dbConnector();
         String guiry = "UPDATE " + tapleName + " SET " + fildNameAndValue + " WHERE" + " " + condition;
@@ -248,13 +270,13 @@ public static int insert(String tapleName, String fildName, String valueNamber, 
             int e = data.length;
             for (int i = 1; i <= e; i++) {
                 psm.setString(i, data[i - 1]);
-               
+
             }
             if (imagefile != null) {
                 FileInputStream fin = new FileInputStream(imagefile);
                 int len = (int) imagefile.length();
-                psm.setBinaryStream(e+1, fin, len);
-                
+                psm.setBinaryStream(e + 1, fin, len);
+
             }
             int t = psm.executeUpdate();
             if (t > 0) {
@@ -263,7 +285,7 @@ public static int insert(String tapleName, String fildName, String valueNamber, 
             con.close();
             psm.close();
         } catch (SQLException ex) {
-           JOptionPane.showMessageDialog(null, ex);
+            JOptionPane.showMessageDialog(null, ex);
         }
     }
 

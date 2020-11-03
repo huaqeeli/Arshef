@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.10.0.final using JasperReports Library version 6.10.0-unknown  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Identity" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e2624896-ba46-47fe-b54c-7c329fe42977">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="trainingdb"/>
+	<parameter name="militaryid" class="java.lang.String"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT
+ personaldata.MILITARYID,
+ personaldata.NAME,
+ personaldata.RANK ,
+ personaldata.UNIT,
+ personaldata.PERSONALID,
+ personaldata.IMAGE,
+ coursnames.CORSNAME,
+ reportimage.IMAGE as rerportIogo
+ FROM personaldata,coursesdata,coursnames, reportimage
+ WHERE personaldata.MILITARYID =  $P{militaryid} 
+AND personaldata.MILITARYID = coursesdata.MILITARYID 
+AND coursesdata.COURSID = coursnames.COURSID]]>
+	</queryString>
+	<field name="MILITARYID" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="MILITARYID"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="personaldata"/>
+	</field>
+	<field name="NAME" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="NAME"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="personaldata"/>
+	</field>
+	<field name="RANK" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="RANK"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="personaldata"/>
+	</field>
+	<field name="UNIT" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="UNIT"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="personaldata"/>
+	</field>
+	<field name="PERSONALID" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="PERSONALID"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="personaldata"/>
+	</field>
+	<field name="IMAGE" class="java.awt.Image">
+		<property name="com.jaspersoft.studio.field.label" value="IMAGE"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="personaldata"/>
+	</field>
+	<field name="CORSNAME" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="CORSNAME"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="coursnames"/>
+	</field>
+	<field name="rerportIogo" class="java.awt.Image">
+		<property name="com.jaspersoft.studio.field.label" value="rerportIogo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="reportimage"/>
+	</field>
+	<background>
+		<band height="802" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<frame>
+				<reportElement x="0" y="0" width="555" height="802" uuid="1aaa7b6b-2a46-4865-a65b-51ce6f4f7913"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</frame>
+		</band>
+	</background>
+	<title>
+		<band height="152" splitType="Stretch">
+			<staticText>
+				<reportElement x="394" y="35" width="160" height="26" uuid="0ff5aeb1-3f0b-4e0c-8b9c-524cd499da10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[قوة السيف الاجرب]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="394" y="50" width="160" height="26" uuid="238d24b5-7f85-47db-9234-cd22001ccb5f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[العمليات]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="394" y="2" width="160" height="26" uuid="968bf25c-ace1-435d-a1d0-16a025c132eb"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[المملكة العربية السعودية]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="394" y="17" width="160" height="26" uuid="33a6e0ae-6064-4b68-a565-e4d94206ed3f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[رئاسة الحرس الملكي]]></text>
+			</staticText>
+			<image hAlign="Center" vAlign="Middle">
+				<reportElement stretchType="ContainerHeight" x="10" y="8" width="110" height="132" uuid="8dbbc5b8-051d-4dc9-b540-38ebd5537fab">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<imageExpression><![CDATA[$F{IMAGE}]]></imageExpression>
+			</image>
+			<image hAlign="Center" vAlign="Middle">
+				<reportElement x="241" y="8" width="78" height="70" uuid="717da2d6-69c6-4034-a8be-44d28ec34c46"/>
+				<imageExpression><![CDATA[$F{rerportIogo}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="201" y="80" width="160" height="26" uuid="9ed26651-c98c-426d-b0d8-c3af0967a7e8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[(هوية شخصية)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="201" y="100" width="160" height="26" forecolor="#FA280C" uuid="c219b79f-dbaa-4f43-8ec4-2ab25a6ead67"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[سري بعد التعبئة]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="234" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="3" width="555" height="40" backcolor="#9BD4A0" uuid="20a2f19b-5e4c-41fd-8c3d-f998350f5c44">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="19" isBold="true"/>
+				</textElement>
+				<text><![CDATA[(البيانات الشخصية)]]></text>
+			</staticText>
+			<textField pattern="#0000000000.####;(#0000000000.####-)">
+				<reportElement x="0" y="73" width="455" height="30" uuid="e1400adc-17c2-4292-a8e8-43861159c055">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="81b60120-b6db-4f50-9266-239aec58b4b0"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MILITARYID}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="455" y="73" width="100" height="30" uuid="fb3e46fe-2600-4def-a826-ad9bb751cc14">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="81b60120-b6db-4f50-9266-239aec58b4b0"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[الرقم العسكري]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="43" width="455" height="30" uuid="9d4260c5-c1ae-4221-a82a-13e27a57902f">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a376d55c-549f-4b30-b4a1-7bc69d5a1bab"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NAME}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="455" y="43" width="100" height="30" uuid="59f254bc-ca1b-43b1-8518-8c5cb4f0187c">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a376d55c-549f-4b30-b4a1-7bc69d5a1bab"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[الإسم ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="103" width="455" height="30" uuid="d75bfb7f-0444-4182-98b5-c2d2734cc0de">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4221435c-3e23-42dc-8860-7a3295f675e2"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{RANK}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="455" y="103" width="100" height="30" uuid="4b42b694-f647-447c-bfcf-b8198a13402f">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4221435c-3e23-42dc-8860-7a3295f675e2"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[الرتبة]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="455" y="133" width="100" height="30" uuid="4948f695-e898-4833-8013-7e6eee658ef7">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4221435c-3e23-42dc-8860-7a3295f675e2"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[الوحدة]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="133" width="455" height="30" uuid="4f3cd8fc-2f10-47ef-8d13-8344f4bf8686">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4221435c-3e23-42dc-8860-7a3295f675e2"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{UNIT}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="455" y="163" width="100" height="30" uuid="98cb0bbd-d20a-438d-ad90-a2a8938e26b8">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4221435c-3e23-42dc-8860-7a3295f675e2"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[رقم السجل المدني]]></text>
+			</staticText>
+			<textField pattern="#0000000000.###;(#0000000000.###-)">
+				<reportElement x="0" y="163" width="455" height="30" uuid="37b2a50d-8ec7-4a9c-acd8-aee026623997">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4221435c-3e23-42dc-8860-7a3295f675e2"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PERSONALID}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="193" width="555" height="40" backcolor="#9BD4A0" uuid="f03d2f0a-2844-496f-a9a8-7515b256d3ae">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="19" isBold="true"/>
+				</textElement>
+				<text><![CDATA[(الدورات الحاصل عليها)]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="30" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="455" height="30" uuid="d232824f-205f-4136-be86-457eec27634a">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a376d55c-549f-4b30-b4a1-7bc69d5a1bab"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CORSNAME}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="455" y="0" width="100" height="30" uuid="64e6190a-8f9a-4cdc-8673-e40d65006cbd">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a376d55c-549f-4b30-b4a1-7bc69d5a1bab"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

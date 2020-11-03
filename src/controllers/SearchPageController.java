@@ -107,6 +107,16 @@ public class SearchPageController implements Initializable {
 
     @FXML
     private void lodIdentityPage(ActionEvent event) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/view/searchPages/prentIdentiti.fxml"));
+            Parent root = fxmlLoader.load();
+            PrentIdentitiController controller = new PrentIdentitiController();
+            controller = (PrentIdentitiController) fxmlLoader.getController();
+            controller.setMiltaryId(IdentityMilatryId.getText());
+            content.setCenter(root);
+        } catch (IOException ex) {
+            Logger.getLogger(SearchPageController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private ObservableList filleCoursNames(ObservableList list) {

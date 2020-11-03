@@ -50,4 +50,13 @@
     nbproject/build-impl.xml and nbproject/jfx-impl.xml.
 
     -->
+    <target name="-post-jfx-jar" depends="-check-jfx-sdk-version">
+        <fx:deploy verbose="true" nativeBundles="exe" outdir="${basedir}/${dist.dir}" outfile="${application.title}">
+            <fx:info title="${application.title}" vendor="${application.vendor}"/>            
+            <fx:application name="${application.title}" mainClass="${javafx.main.class}"/>
+            <fx:resources>
+                <fx:fileset dir="${basedir}/${dist.dir}" includes="*.jar"/>
+            </fx:resources>
+        </fx:deploy>
+    </target>
 </project>

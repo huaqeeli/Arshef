@@ -1,5 +1,6 @@
 package trainingdata;
 
+import com.huaqeeli.training.HomePageController;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -9,6 +10,7 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
@@ -23,9 +25,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/view/homePage.fxml"));
-//        scene = new Scene(loadFXML("/view/homePage"));
-        scene = new Scene(root);
+        scene = new Scene(loadFXML("/view/homePage"));
         Screen screen = Screen.getPrimary();
         Rectangle2D bounds = screen.getVisualBounds();
         stage.setX(bounds.getMinX());
@@ -45,10 +45,25 @@ public class App extends Application {
         Parent root = fxmlLoader.load();
         return root;
     }
+
     public static FXMLLoader loadFX(String fxml) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
-        Parent root = fxmlLoader.load();
         return fxmlLoader;
+    }
+
+    public static Parent lodHomePage(String userid) {
+        Parent root = null;
+        try {
+            FXMLLoader fxmlLoader = loadFX("homePage");
+            root = fxmlLoader.load();
+            HomePageController controller = new HomePageController();
+            controller = (HomePageController) fxmlLoader.getController();
+            controller.setUserId(userid);
+
+        } catch (IOException ex) {
+            Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return root;
     }
 
     public static void showFxml(String fxml) {

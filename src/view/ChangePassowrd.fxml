@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+
+<AnchorPane id="AnchorPane" fx:id="content" prefHeight="252.0" prefWidth="300.0" stylesheets="@../../Css/pagStyle.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="Controlleres.ChangePassowrdController">
+   <children>
+      <Label prefHeight="30.0" prefWidth="254.0" styleClass="pagHeaderStyl" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <VBox layoutX="128.0" prefHeight="231.0" prefWidth="348.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="40.0">
+         <children>
+            <TextField fx:id="nationalID" alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="41.0" prefWidth="476.0" promptText="رقم الهوية" styleClass="textStyle">
+               <VBox.margin>
+                  <Insets bottom="5.0" />
+               </VBox.margin>
+            </TextField>
+            <PasswordField fx:id="oldPasowrd" alignment="CENTER" prefHeight="40.0" promptText="كلمة المرور الحالية" styleClass="textStyle">
+               <VBox.margin>
+                  <Insets bottom="5.0" />
+               </VBox.margin>
+            </PasswordField>
+            <PasswordField fx:id="newPassword" alignment="CENTER" layoutX="10.0" layoutY="56.0" prefHeight="40.0" promptText="كلمة المرور الجديدة" styleClass="textStyle">
+               <VBox.margin>
+                  <Insets bottom="5.0" />
+               </VBox.margin>
+            </PasswordField>
+            <PasswordField fx:id="reNewPassowrd" alignment="CENTER" layoutX="10.0" layoutY="56.0" prefHeight="40.0" promptText="اعادة كلمة المرور الجديدة" styleClass="textStyle">
+               <VBox.margin>
+                  <Insets bottom="5.0" />
+               </VBox.margin>
+            </PasswordField>
+            <HBox alignment="CENTER" prefHeight="40.0" prefWidth="260.0">
+               <children>
+                  <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#close" prefHeight="40.0" styleClass="pageButtonStyle" text="اغلاق" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets right="2.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#save" prefHeight="40.0" styleClass="pageButtonStyle" text="حفظ" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

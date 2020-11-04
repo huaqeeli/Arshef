@@ -211,5 +211,26 @@ public class FormValidation {
         }
         return state;
     }
+    public static boolean isMatching(String tapleName, String fildName, String condition, String validationmassage) throws IOException {
+        boolean state = false;
+        try {
+            ResultSet rs = null;
+            String guiry = "SELECT " + " " + fildName + " " + " FROM " + " " + tapleName + " " + " WHERE" + " " + condition;
+            Connection con = DatabaseConniction.dbConnector();
+            PreparedStatement psm = con.prepareStatement(guiry);
+            rs = psm.executeQuery();
+            if (rs.next()) {
+                state = true;
+            } else {
+                showAlert(null, validationmassage, AlertType.ERROR);
+            }
+            con.close();
+            psm.close();
+            rs.close();
+        } catch (IOException | SQLException ex) {
+             showAlert(null, ex.toString(), AlertType.ERROR);
+        }
+        return state;
+    }
 
 }

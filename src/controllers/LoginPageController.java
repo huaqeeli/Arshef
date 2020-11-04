@@ -28,6 +28,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import trainingdata.App;
 
 public class LoginPageController implements Initializable {
 
@@ -128,7 +129,7 @@ public class LoginPageController implements Initializable {
     @FXML
     private void changePassword(ActionEvent event) {
         try {
-            loding.lodNewFXML("/Views/Users/ChangePassowrd");
+            App.loadFXML("/Views/ChangePassowrd");
         } catch (IOException ex) {
             Logger.getLogger(LoginPageController.class.getName()).log(Level.SEVERE, null, ex);
         }

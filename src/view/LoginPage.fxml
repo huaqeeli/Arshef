@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" fx:id="content" nodeOrientation="RIGHT_TO_LEFT" prefHeight="800.0" prefWidth="1200.0" styleClass="backGround" stylesheets="@../Css/loginpage.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controlleres.LoginPageController">
+<AnchorPane id="AnchorPane" fx:id="content" nodeOrientation="RIGHT_TO_LEFT" prefHeight="800.0" prefWidth="1200.0" styleClass="backGround" stylesheets="@../css/appStyle.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controlleres.LoginPageController">
    <children>
       <HBox alignment="CENTER" layoutX="10.0" layoutY="10.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -25,7 +25,7 @@
                <children>
                   <ImageView fitHeight="237.0" fitWidth="405.0" pickOnBounds="true" preserveRatio="true" styleClass="logo">
                      <image>
-                        <Image url="@../Images/logo1.png" />
+                        <Image url="@../images/loginPageIcon.png" />
                      </image>
                      <VBox.margin>
                         <Insets bottom="50.0" />
@@ -34,7 +34,7 @@
                   <Separator prefHeight="26.0" prefWidth="630.0" />
                   <HBox alignment="CENTER" prefHeight="52.0" prefWidth="628.0">
                      <children>
-                        <TextField fx:id="userName" alignment="CENTER" maxWidth="-Infinity" onAction="#login" prefHeight="40.0" prefWidth="450.0" promptText="اسم المستخدم" styleClass="textInput" stylesheets="@../Css/loginpage.css" />
+                        <TextField fx:id="userName" alignment="CENTER" maxWidth="-Infinity" onAction="#login" prefHeight="40.0" prefWidth="450.0" promptText="اسم المستخدم" styleClass="textInput" />
                         <ImageView fitHeight="31.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../Images/Username.png" />
@@ -50,14 +50,14 @@
                   </HBox>
                   <HBox alignment="CENTER" layoutX="22.0" layoutY="552.0" prefHeight="52.0" prefWidth="628.0">
                      <children>
-                        <PasswordField fx:id="password" alignment="CENTER" maxWidth="-Infinity" onAction="#login" prefHeight="40.0" prefWidth="450.0" promptText="كلمة المرور" styleClass="textInput" stylesheets="@../Css/loginpage.css">
+                        <PasswordField fx:id="password" alignment="CENTER" maxWidth="-Infinity" onAction="#login" prefHeight="40.0" prefWidth="450.0" promptText="كلمة المرور" styleClass="textInput">
                            <HBox.margin>
                               <Insets />
                            </HBox.margin>
                         </PasswordField>
                         <ImageView fitHeight="31.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../Images/icons_password.png" />
+                              <Image url="@../images/Password.png" />
                            </image>
                            <HBox.margin>
                               <Insets bottom="5.0" left="-40.0" />
@@ -91,14 +91,6 @@
                               <Insets />
                            </VBox.margin>
                         </Label>
-                        <ImageView fitHeight="85.0" fitWidth="211.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../Images/sign.png" />
-                           </image>
-                           <VBox.margin>
-                              <Insets />
-                           </VBox.margin>
-                        </ImageView>
                      </children>
                      <VBox.margin>
                         <Insets top="100.0" />

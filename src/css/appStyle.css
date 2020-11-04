@@ -256,3 +256,49 @@
 {
     -fx-background-color: #4A4A4A;
 }
+.backGround{
+    -fx-background-image: url(../Images/loginBg.png);
+     /*-fx-background-color: #FFFFFF;*/
+}
+.mainClass {
+ -fx-background-color: #444F52;
+-fx-effect: dropshadow(two-pass-box,#000, 30, 0,15, 15);
+/* -fx-border-color: #6BBAD5;
+    -fx-border-insets: 0;
+    -fx-border-width: 0 0 2 2;
+    -fx-border-style: solid;*/
+}
+.textInput{
+    -fx-font-family: "URW DIN Arabic";
+    -fx-font-size:15px;
+    -fx-text-fill: #CDE7F0;
+    -fx-background-color: #444F52;
+    -fx-border-color: #6BBAD5;
+    -fx-border-insets: 0;
+    -fx-border-width: 0 0 2 0;
+    -fx-border-style: solid;
+}
+.logo{
+    -fx-effect: dropshadow(two-pass-box,#000, 30, 0,15, 15);
+}
+.buttonStyle {
+   -fx-font-family: "URW DIN Arabic";
+    -fx-font-size: 15px;
+    -fx-background-color: #272728;
+    -fx-background-radius: 0;
+    -fx-text-fill: #FFFFFF;
+    -fx-effect: dropshadow(three-pass-box,#3C3B3B, 20, 0, 5, 5); 
+}
+.buttonStyle:hover{
+    -fx-background-color: #000;
+}
+.changePassowrdPuttonStyle {
+   -fx-font-family: "URW DIN Arabic";
+    -fx-font-size: 13px;
+    -fx-background-color: #444F52;
+    -fx-background-radius: 0;
+    -fx-text-fill: #0078D7;
+}
+.changePassowrdPuttonStyle:hover{
+   -fx-text-fill: #FFFFFF;
+}

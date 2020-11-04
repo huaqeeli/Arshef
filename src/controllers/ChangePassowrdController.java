@@ -1,6 +1,7 @@
 package controllers;
 
 import Messages.Controllers.ShowMessage;
+import Validation.FormValidation;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -43,11 +44,11 @@ public class ChangePassowrdController implements Initializable {
         String tabelNme = "users";
         String fieldName = "`PASSWORD`=?";
         String[] data = {newPassword.getText()};
-        boolean nationalIDstatus = Validation.textFieldNotEmpty(nationalID, "ادخل رقم الهوية");
-        boolean oldPasowrdstatus = Validation.textFieldNotEmpty(oldPasowrd, "ادخل كلمة المرور الحالية");
-        boolean oldPasowrdexs = Validation.isMatching(tabelNme, "PASSWORD", "NATIONALID ='" + nationalID.getText() + "' And PASSWORD ='" + oldPasowrd.getText() + "'", "كلمة المرور الحالية غير صحيحة");
-        boolean newPasswordstatus = Validation.textFieldNotEmpty(newPassword, "ادخل كلمة مرور جديدة");
-        boolean reNewPassowrdstatus = Validation.textFieldNotEmpty(reNewPassowrd, "اعد ادخال كلمة المرور الجديدة");
+        boolean nationalIDstatus = FormValidation.textFieldNotEmpty(nationalID, "ادخل رقم الهوية");
+        boolean oldPasowrdstatus = FormValidation.textFieldNotEmpty(oldPasowrd, "ادخل كلمة المرور الحالية");
+        boolean oldPasowrdexs = FormValidation.isMatching(tabelNme, "PASSWORD", "NATIONALID ='" + nationalID.getText() + "' And PASSWORD ='" + oldPasowrd.getText() + "'", "كلمة المرور الحالية غير صحيحة");
+        boolean newPasswordstatus = FormValidation.textFieldNotEmpty(newPassword, "ادخل كلمة مرور جديدة");
+        boolean reNewPassowrdstatus = FormValidation.textFieldNotEmpty(reNewPassowrd, "اعد ادخال كلمة المرور الجديدة");
 
         if (nationalIDstatus && oldPasowrdstatus && oldPasowrdexs && newPasswordstatus && reNewPassowrdstatus) {
             if (newPassword.getText().equals(reNewPassowrd.getText())) {

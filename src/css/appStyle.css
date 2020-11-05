@@ -257,11 +257,11 @@
     -fx-background-color: #4A4A4A;
 }
 .backGround{
-    -fx-background-image: url(../Images/loginBg.png);
+    /*-fx-background-image: url(../Images/loginBg.png);*/
      /*-fx-background-color: #FFFFFF;*/
 }
 .mainClass {
- -fx-background-color: #444F52;
+ -fx-background-color: #686868;
 -fx-effect: dropshadow(two-pass-box,#000, 30, 0,15, 15);
 /* -fx-border-color: #6BBAD5;
     -fx-border-insets: 0;
@@ -272,8 +272,8 @@
     -fx-font-family: "URW DIN Arabic";
     -fx-font-size:15px;
     -fx-text-fill: #CDE7F0;
-    -fx-background-color: #444F52;
-    -fx-border-color: #6BBAD5;
+    -fx-background-color: #686868;
+    -fx-border-color: #7C9D7C;
     -fx-border-insets: 0;
     -fx-border-width: 0 0 2 0;
     -fx-border-style: solid;
@@ -295,7 +295,7 @@
 .changePassowrdPuttonStyle {
    -fx-font-family: "URW DIN Arabic";
     -fx-font-size: 13px;
-    -fx-background-color: #444F52;
+    -fx-background-color: #686868;
     -fx-background-radius: 0;
     -fx-text-fill: #0078D7;
 }

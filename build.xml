@@ -48,7 +48,7 @@
 
     For list of available properties check the files
     nbproject/build-impl.xml and nbproject/jfx-impl.xml.
-    -->
+    
     <target name="-post-jfx-jar" depends="-check-jfx-sdk-version">
         <fx:deploy verbose="true" nativeBundles="exe" outdir="${basedir}/${dist.dir}" outfile="${application.title}">
             <fx:info title="${application.title}" vendor="${application.vendor}"/>            
@@ -59,4 +59,5 @@
             <fx:preferences install="true" /> 
         </fx:deploy>
     </target>
+    -->
 </project>

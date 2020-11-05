@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
@@ -19,6 +20,10 @@ public class HomePageController implements Initializable {
     public boolean logOut;
     private Object userNameLabel;
     private String userid;
+    @FXML
+    private Label rankLable;
+    @FXML
+    private Label usernameLable;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -58,6 +63,11 @@ public class HomePageController implements Initializable {
 
     public void setUserId(String userid) {
        
+    }
+
+    @FXML
+    private void userPage(ActionEvent event) throws IOException {
+         content.setCenter(App.loadFXML("/view/UsersPage"));
     }
 
 }

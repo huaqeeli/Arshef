@@ -1,6 +1,6 @@
 package controllers;
 
-import Messages.Controllers.ShowMessage;
+
 import Validation.FormValidation;
 import java.io.IOException;
 import java.net.URL;
@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
@@ -55,11 +56,10 @@ public class ChangePassowrdController implements Initializable {
                 try {
                     DatabaseAccess.updat(tabelNme, fieldName, data, "NATIONALID ='" + nationalID.getText() + "'");
                 } catch (IOException ex) {
-                    Logger.getLogger(ChangePassowrdController.class.getName()).log(Level.SEVERE, null, ex);
+                    FormValidation.showAlert(null,ex.toString(), Alert.AlertType.ERROR);
                 }
             } else {
-                ShowMessage showMessage = new ShowMessage();
-                showMessage.error("كلمة المرور غير مطابقة");
+                FormValidation.showAlert(null, "كلمة المرور غير مطابقة", Alert.AlertType.ERROR);
             }
         }
     }

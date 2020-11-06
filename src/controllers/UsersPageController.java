@@ -41,7 +41,7 @@ public class UsersPageController implements Initializable {
     private TableColumn<?, ?> squnce_col;
 
     ObservableList<UserModel> userlist = FXCollections.observableArrayList();
-    ObservableList<String> usertypeItem = FXCollections.observableArrayList("مسئول النضام", "مستخدم عادي");
+    ObservableList<String> usertypeItem = FXCollections.observableArrayList("مدير", "مستخدم");
     String militaryid = null;
     
     @FXML
@@ -51,9 +51,7 @@ public class UsersPageController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         FillComboBox.fillComboBox(usertypeItem,userType );
-        refreshUsertable();
-
-        
+        refreshUsertable();   
     }
   
 

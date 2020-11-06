@@ -64,7 +64,7 @@ public class SearchByCoursPlaceController implements Initializable {
     private void printData(ActionEvent event) {
         try {
 //            String reportSrcFile = "C:\\Users\\Administrator\\Documents\\NetBeansProjects\\TrainingData\\src\\reports\\coursByPlace.jrxml";
-            String reportSrcFile = "C:\\Users\\ابو ريان\\Documents\\NetBeansProjects\\TrainingData\\src\\reports\\coursByPlace.jrxml";
+            String reportSrcFile = "C:\\Program Files\\TrainingData\\reports\\coursByPlace.jrxml";
             Connection con = DatabaseConniction.dbConnector();
 
             JasperDesign jasperReport = JRXmlLoader.load(reportSrcFile);

@@ -1,6 +1,8 @@
 package trainingdata;
 
+import Validation.FormValidation;
 import com.huaqeeli.training.HomePageController;
+import controllers.ChangePassowrdController;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -9,8 +11,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
@@ -25,7 +28,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("/view/homePage"));
+        scene = new Scene(loadFXML("/view/LoginPage"));
         Screen screen = Screen.getPrimary();
         Rectangle2D bounds = screen.getVisualBounds();
         stage.setX(bounds.getMinX());
@@ -33,6 +36,7 @@ public class App extends Application {
         stage.setWidth(bounds.getWidth());
         stage.setHeight(bounds.getHeight());
         stage.setScene(scene);
+        stage.getIcons().add(new Image("/images/appicon.png"));
         stage.show();
     }
 
@@ -51,17 +55,30 @@ public class App extends Application {
         return fxmlLoader;
     }
 
-    public static Parent lodHomePage(String userid) {
+    public static Parent lodChangePassowrdPage(String militariid) {
         Parent root = null;
         try {
-            FXMLLoader fxmlLoader = loadFX("homePage");
+            FXMLLoader fxmlLoader = loadFX("/view/ChangePassowrd");
             root = fxmlLoader.load();
-            HomePageController controller = new HomePageController();
-            controller = (HomePageController) fxmlLoader.getController();
-            controller.setUserId(userid);
-
+            ChangePassowrdController controller = new ChangePassowrdController();
+            controller = (ChangePassowrdController) fxmlLoader.getController();
+            controller.setMilitaryId(militariid);
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            scene.setFill(Color.TRANSPARENT);
+            root.setOnMousePressed((MouseEvent event) -> {
+                x = event.getSceneX();
+                y = event.getSceneY();
+            });
+            root.setOnMouseDragged((MouseEvent event) -> {
+                stage.setX(event.getScreenX() - x);
+                stage.setY(event.getScreenY() - y);
+            });
+            stage.setScene(scene);
+            stage.initStyle(StageStyle.TRANSPARENT);
+            stage.showAndWait();
         } catch (IOException ex) {
-            Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
         return root;
     }
@@ -86,7 +103,7 @@ public class App extends Application {
             stage.initStyle(StageStyle.TRANSPARENT);
             stage.showAndWait();
         } catch (IOException ex) {
-            Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
     }
 

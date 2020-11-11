@@ -50,7 +50,7 @@ public class PersonalDataPageController implements Initializable {
     @FXML
     private TableColumn<?, ?> unit_col;
 
-    ObservableList<String> rankComboBoxlist = FXCollections.observableArrayList("فريق اول", "فريق", "لواء", "عميد", "عقيد", "مقدم", "رائد", "نقيب", "ملازم اول", "ملازم", "رئيس رقباء", "رقيب أول", "رقيب", "وكيل رقيب", "عريف", "جندي أول", "جندي");
+    ObservableList<String> rankComboBoxlist = FXCollections.observableArrayList("فريق اول", "فريق", "لواء", "عميد", "عقيد", "مقدم", "رائد", "نقيب", "ملازم أول", "ملازم", "رئيس رقباء", "رقيب أول", "رقيب", "وكيل رقيب", "عريف", "جندي أول", "جندي");
     ObservableList<PersonalModel> personalList = FXCollections.observableArrayList();
     String selectedMilatryid = null;
     Window stage = null;
@@ -234,6 +234,22 @@ public class PersonalDataPageController implements Initializable {
         imagefile = fileChooser.showOpenDialog(stage);
         imageUrl.setText(imagefile.getPath());
         return imagefile;
+    }
+
+    @FXML
+    private void getPersonalData(ActionEvent event) {
+        try {
+            ResultSet rs = DatabaseAccess.select("personaldata","MILITARYID='"+milataryid.getText()+"'");
+            while (rs.next()) {
+                    rank.setValue( rs.getString("RANK"));
+                    name.setText( rs.getString("NAME"));
+                    personalid.setText(rs.getString("PERSONALID"));
+                    unit.setText(rs.getString("UNIT"));
+            }
+            rs.close();
+        } catch (SQLException | IOException ex) {
+            Logger.getLogger(PersonalDataPageController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
 }

@@ -1,6 +1,5 @@
 package controllers;
 
-
 import Validation.FormValidation;
 import java.io.IOException;
 import java.net.URL;
@@ -19,8 +18,6 @@ import javafx.stage.Stage;
 public class ChangePassowrdController implements Initializable {
 
     @FXML
-    private TextField nationalID;
-    @FXML
     private PasswordField oldPasowrd;
     @FXML
     private PasswordField newPassword;
@@ -28,10 +25,13 @@ public class ChangePassowrdController implements Initializable {
     private PasswordField reNewPassowrd;
     @FXML
     private AnchorPane content;
+    @FXML
+    private TextField militaryid;
+    String militaryID = null;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+        militaryid.setText(militaryID);
     }
 
     @FXML
@@ -42,26 +42,30 @@ public class ChangePassowrdController implements Initializable {
 
     @FXML
     private void save(ActionEvent event) throws IOException {
-        String tabelNme = "users";
-        String fieldName = "`PASSWORD`=?";
-        String[] data = {newPassword.getText()};
-        boolean nationalIDstatus = FormValidation.textFieldNotEmpty(nationalID, "ادخل رقم الهوية");
-        boolean oldPasowrdstatus = FormValidation.textFieldNotEmpty(oldPasowrd, "ادخل كلمة المرور الحالية");
-        boolean oldPasowrdexs = FormValidation.isMatching(tabelNme, "PASSWORD", "NATIONALID ='" + nationalID.getText() + "' And PASSWORD ='" + oldPasowrd.getText() + "'", "كلمة المرور الحالية غير صحيحة");
+        String tabelNme = "userdata";
+        String fieldName = "`PASSWORD`=?,`PASSWORDSTATE`=?";
+        String[] data = {newPassword.getText(), "new"};
+        boolean militaryidstatus = FormValidation.textFieldNotEmpty(militaryid, "ادخل الرقم العسكري");
         boolean newPasswordstatus = FormValidation.textFieldNotEmpty(newPassword, "ادخل كلمة مرور جديدة");
         boolean reNewPassowrdstatus = FormValidation.textFieldNotEmpty(reNewPassowrd, "اعد ادخال كلمة المرور الجديدة");
 
-        if (nationalIDstatus && oldPasowrdstatus && oldPasowrdexs && newPasswordstatus && reNewPassowrdstatus) {
+        if (militaryidstatus && newPasswordstatus && reNewPassowrdstatus) {
             if (newPassword.getText().equals(reNewPassowrd.getText())) {
                 try {
-                    DatabaseAccess.updat(tabelNme, fieldName, data, "NATIONALID ='" + nationalID.getText() + "'");
+                    DatabaseAccess.updat(tabelNme, fieldName, data, "MILITARYID ='" + militaryid.getText() + "'");
                 } catch (IOException ex) {
-                    FormValidation.showAlert(null,ex.toString(), Alert.AlertType.ERROR);
+                    FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
                 }
             } else {
                 FormValidation.showAlert(null, "كلمة المرور غير مطابقة", Alert.AlertType.ERROR);
             }
         }
+    }
+
+    public void setMilitaryId(String militariid) {
+        militaryID = militariid;
+        militaryid.setText(militaryID);
+        militaryid.setEditable(false);
     }
 
 }

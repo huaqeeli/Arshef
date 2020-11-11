@@ -118,7 +118,7 @@ public class PrentIdentitiController implements Initializable {
     @FXML
     private void printData(ActionEvent event) {
          try {
-            String reportSrcFile = "C:\\Users\\Administrator\\Documents\\NetBeansProjects\\TrainingData\\src\\reports\\Identity.jrxml";
+            String reportSrcFile = "C:\\Program Files\\TrainingData\\reports\\Identity.jrxml";
 //            String reportSrcFile = "C:\\Users\\ابو ريان\\Documents\\NetBeansProjects\\TrainingData\\src\\reports\\Identity.jrxml";
             Connection con = DatabaseConniction.dbConnector();
 

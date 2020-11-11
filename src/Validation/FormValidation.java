@@ -40,6 +40,33 @@ public class FormValidation {
         return state;
     }
 
+    public static boolean logintextFieldNotEmpty(TextField t, String validationmassage) {
+        boolean state = true;
+        if (!textFieldNotEmpty(t)) {
+            state = false;
+            t.setPromptText(validationmassage);
+            t.setStyle("-fx-font-family: \"URW DIN Arabic\";"
+                    + "    -fx-font-size:15px;"
+                    + "    -fx-text-fill: #E20012;"
+                    + "    -fx-background-color: #EFB0AB;"
+                    + "    -fx-border-color: #E20012;"
+                    + "    -fx-border-insets: 0;"
+                    + "    -fx-border-width: 0 0 2 0;"
+                    + "    -fx-border-style: solid;");
+        } else {
+            t.setStyle("-fx-font-family: \"URW DIN Arabic\";"
+                    + "    -fx-font-size:15px;"
+                    + "    -fx-text-fill: #CDE7F0;"
+                    + "    -fx-background-color: #686868;"
+                    + "    -fx-border-color: #7C9D7C;"
+                    + "    -fx-border-insets: 0;"
+                    + "    -fx-border-width: 0 0 2 0;"
+                    + "    -fx-border-style: solid;");
+        }
+
+        return state;
+    }
+
     public static boolean comboBoxNotEmpty(ComboBox t) {
         boolean state = false;
 
@@ -166,7 +193,7 @@ public class FormValidation {
         boolean state = true;
         try {
             ResultSet rs = null;
-            String guiry = "SELECT " +" "+fildName +" "+ " FROM "+" "+ tapleName +" "+ " WHERE" +" "+ condition;
+            String guiry = "SELECT " + " " + fildName + " " + " FROM " + " " + tapleName + " " + " WHERE" + " " + condition;
             Connection con = DatabaseConniction.dbConnector();
             PreparedStatement psm = con.prepareStatement(guiry);
             rs = psm.executeQuery();
@@ -182,11 +209,12 @@ public class FormValidation {
         }
         return state;
     }
+
     public static boolean ifexisting(String tapleName, String fildName, String condition, String validationmassage) {
         boolean state = true;
         try {
             ResultSet rs = null;
-            String guiry = "SELECT " +" "+fildName +" "+ " FROM "+" "+ tapleName +" "+ " WHERE" +" "+ condition;
+            String guiry = "SELECT " + " " + fildName + " " + " FROM " + " " + tapleName + " " + " WHERE" + " " + condition;
             Connection con = DatabaseConniction.dbConnector();
             PreparedStatement psm = con.prepareStatement(guiry);
             rs = psm.executeQuery();
@@ -211,6 +239,7 @@ public class FormValidation {
         }
         return state;
     }
+
     public static boolean isMatching(String tapleName, String fildName, String condition, String validationmassage) throws IOException {
         boolean state = false;
         try {
@@ -228,7 +257,7 @@ public class FormValidation {
             psm.close();
             rs.close();
         } catch (IOException | SQLException ex) {
-             showAlert(null, ex.toString(), AlertType.ERROR);
+            showAlert(null, ex.toString(), AlertType.ERROR);
         }
         return state;
     }

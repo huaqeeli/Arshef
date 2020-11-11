@@ -1,6 +1,4 @@
-
 package controllers;
-
 
 import Validation.FormValidation;
 import com.huaqeeli.training.HomePageController;
@@ -39,7 +37,6 @@ public class LoginPageController implements Initializable {
     @FXML
     private AnchorPane content;
     HomePageController controller = new HomePageController();
-   
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -48,31 +45,37 @@ public class LoginPageController implements Initializable {
 
     @FXML
     private void login(ActionEvent event) {
-        boolean userNameStatus = FormValidation.textFieldNotEmpty(userName, "ادخل اسم المستخدم");
-        boolean passwordStatus = FormValidation.textFieldNotEmpty(password, "ادخل كلمة المرور");
+        boolean userNameStatus = FormValidation.logintextFieldNotEmpty(userName, "ادخل اسم المستخدم");
+        boolean passwordStatus = FormValidation.logintextFieldNotEmpty(password, "ادخل كلمة المرور");
         if (userNameStatus && passwordStatus) {
-            try {
-                ResultSet rs = DatabaseAccess.select("users", "USERNAME ='" + userName.getText() + "' AND PASSWORD = '" + password.getText() + "'");
+            try { 
+                ResultSet rs = DatabaseAccess.getData("SELECT personaldata.NAME,personaldata.RANK,userdata.USERTYPE,userdata.USERNAME,userdata.PASSWORD,userdata.PASSWORDSTATE FROM personaldata,userdata "
+                        + "WHERE personaldata.MILITARYID = userdata.MILITARYID AND USERNAME ='" + userName.getText() + "' AND PASSWORD = '" + password.getText() + "'");
                 if (rs.next()) {
-                    lodMainPage(rs.getString("NAME"), rs.getString("USERID"));
-                    close();
+                    String mypassword = rs.getString("userdata.PASSWORDSTATE");
+                    if (mypassword.equals("default")) {
+                         App.lodChangePassowrdPage(userName.getText());
+                    } else {
+                        lodMainPage(rs.getString("NAME"), rs.getString("RANK"), rs.getString("USERTYPE"));
+                        close();
+                    }
                 } else {
                     FormValidation.showAlert(null, "اسم المستخدم او كلمة المرور خاطئة الرجاء التاكد من الادخال الصحيح", Alert.AlertType.ERROR);
                 }
             } catch (IOException | SQLException ex) {
-                Logger.getLogger(LoginPageController.class.getName()).log(Level.SEVERE, null, ex);
+                FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
             }
         }
     }
 
-    public void lodMainPage(String userName, String userid) throws IOException {
+    public void lodMainPage(String userName, String rank, String userType) throws IOException {
         Stage stage = new Stage();
         Pane myPane = null;
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/MainPage.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/homePage.fxml"));
         myPane = loader.load();
 
         controller = (HomePageController) loader.getController();
-        controller.setUserName(userName, userid);
+        controller.setData(userName, rank, userType);
         Scene scene = new Scene(myPane);
         Screen screen = Screen.getPrimary();
         Rectangle2D bounds = screen.getVisualBounds();
@@ -81,7 +84,7 @@ public class LoginPageController implements Initializable {
         stage.setWidth(bounds.getWidth());
         stage.setHeight(bounds.getHeight());
 
-        Duration delay = Duration.seconds(200);
+        Duration delay = Duration.seconds(600);
         PauseTransition transition = new PauseTransition(delay);
         transition.setOnFinished(evt -> {
             try {
@@ -98,15 +101,15 @@ public class LoginPageController implements Initializable {
         });
         scene.addEventFilter(InputEvent.ANY, evt -> transition.playFromStart());
         stage.setScene(scene);
-        stage.getIcons().add(new Image("/Images/iconImage.png"));
+        stage.getIcons().add(new Image("/images/appicon.png"));
         stage.setTitle("الصفحة الرئيسية");
         stage.show();
     }
-    
+
     public void lodLogingPage() throws IOException {
         Stage stage = new Stage();
         Pane myPane = null;
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/LoginPage.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/LoginPage.fxml"));
         myPane = loader.load();
         Scene scene = new Scene(myPane);
         Screen screen = Screen.getPrimary();
@@ -116,7 +119,7 @@ public class LoginPageController implements Initializable {
         stage.setWidth(bounds.getWidth());
         stage.setHeight(bounds.getHeight());
         stage.setScene(scene);
-        stage.getIcons().add(new Image("/Images/iconImage.png"));
+        stage.getIcons().add(new Image("/images/appicon.png"));
         stage.setTitle("تسجيل الدخول");
         stage.show();
     }
@@ -128,11 +131,7 @@ public class LoginPageController implements Initializable {
 
     @FXML
     private void changePassword(ActionEvent event) {
-        try {
-            App.loadFXML("/Views/ChangePassowrd");
-        } catch (IOException ex) {
-            Logger.getLogger(LoginPageController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        App.showFxml("/view/ChangePassowrd");
     }
 
 }

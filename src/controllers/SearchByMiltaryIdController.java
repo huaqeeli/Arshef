@@ -1,5 +1,6 @@
 package controllers;
 
+import Validation.FormValidation;
 import com.itextpdf.text.BadElementException;
 import java.io.File;
 import java.io.IOException;
@@ -20,6 +21,7 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
@@ -146,7 +148,7 @@ public class SearchByMiltaryIdController implements Initializable {
             }
             rs.close();
         } catch (SQLException | IOException ex) {
-            Logger.getLogger(PersonalDataPageController.class.getName()).log(Level.SEVERE, null, ex);
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
         squnce_col.setCellValueFactory(new PropertyValueFactory<>("sequence"));
         corsname_col.setCellValueFactory(new PropertyValueFactory<>("coursname"));
@@ -215,7 +217,7 @@ public class SearchByMiltaryIdController implements Initializable {
                             pdfimage = com.itextpdf.text.Image.getInstance(scaledInstance);
                         }
                     } catch (SQLException | IOException | BadElementException ex) {
-                        Logger.getLogger(TrainingDataPageController.class.getName()).log(Level.SEVERE, null, ex);
+                        FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
                     }
                 }
             }
@@ -226,7 +228,7 @@ public class SearchByMiltaryIdController implements Initializable {
     private void printData(ActionEvent event) {
         try {
 //            String reportSrcFile = "C:\\Users\\Administrator\\Documents\\NetBeansProjects\\TrainingData\\src\\reports\\courseByid.jrxml";
-            String reportSrcFile = "C:\\Users\\ابو ريان\\Documents\\NetBeansProjects\\TrainingData\\src\\reports\\courseByid.jrxml";
+            String reportSrcFile = "C:\\Program Files\\TrainingData\\reports\\courseByid.jrxml";
             Connection con = DatabaseConniction.dbConnector();
 
             JasperDesign jasperReport = JRXmlLoader.load(reportSrcFile);
@@ -239,7 +241,7 @@ public class SearchByMiltaryIdController implements Initializable {
 //        JasperPrintManager.printReport(print, false);
             JasperViewer.viewReport(print, false);
         } catch (JRException | IOException ex) {
-            Logger.getLogger(SearchByMiltaryIdController.class.getName()).log(Level.SEVERE, null, ex);
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
     }
 

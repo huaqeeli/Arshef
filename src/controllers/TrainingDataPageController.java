@@ -5,6 +5,7 @@ import com.itextpdf.text.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -19,6 +20,7 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableCell;
@@ -115,16 +117,16 @@ public class TrainingDataPageController implements Initializable {
         }
         boolean milataryidState = FormValidation.textFieldNotEmpty(milataryid, "الرجاء ادخال الرقم العسكري");
         boolean milataryidExisting = FormValidation.ifNotexisting("personaldata", "MILITARYID", "MILITARYID='" + getMilataryid() + "'", "لا توجد بيانات بالرقم العسكري الحالي");
-        boolean coursExisting = FormValidation.ifexisting("coursesdata", "MILITARYID", "MILITARYID ='"+getMilataryid()+"' AND COURSID='" + getCoursid() + "'", "يوجد لديه دورة بنفس المسى");
+        boolean coursExisting = FormValidation.ifexisting("coursesdata", "MILITARYID", "MILITARYID ='" + getMilataryid() + "' AND COURSID='" + getCoursid() + "'", "يوجد لديه دورة بنفس المسى");
         boolean milataryidNumber = FormValidation.textFieldTypeNumber(milataryid, "ادخال ارقام فقط");
-        boolean coursnameState = FormValidation.comboBoxNotEmpty(coursname,  "الرجاء اختيار اسم الدورة");
-        if (coursnameState && milataryidState && milataryidNumber && milataryidExisting&&coursExisting) {
+        boolean coursnameState = FormValidation.comboBoxNotEmpty(coursname, "الرجاء اختيار اسم الدورة");
+        if (coursnameState && milataryidState && milataryidNumber && milataryidExisting && coursExisting) {
             try {
                 DatabaseAccess.insert(tableName, fieldName, valuenumbers, data, imagefile);
                 refreshcoursesTableView();
                 clear(event);
             } catch (IOException ex) {
-                Logger.getLogger(PersonalDataPageController.class.getName()).log(Level.SEVERE, null, ex);
+                FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
             }
         }
     }
@@ -149,7 +151,7 @@ public class TrainingDataPageController implements Initializable {
                 refreshcoursesTableView();
                 clear(event);
             } catch (IOException ex) {
-                Logger.getLogger(PersonalDataPageController.class.getName()).log(Level.SEVERE, null, ex);
+                FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
             }
         }
     }
@@ -161,7 +163,7 @@ public class TrainingDataPageController implements Initializable {
             refreshcoursesTableView();
             clear(event);
         } catch (IOException ex) {
-            Logger.getLogger(PersonalDataPageController.class.getName()).log(Level.SEVERE, null, ex);
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
     }
 
@@ -246,6 +248,7 @@ public class TrainingDataPageController implements Initializable {
         setCoursplace(null);
         setCoursDuration(null);
         imageUrl.setText(null);
+        imagefile = null;
         setEstimate(null);
         AppDate.setCurrentDate(startDateDay, startDateMonth, startDateYear);
         AppDate.setCurrentDate(endDateDay, endDateMonth, endDateYear);
@@ -253,7 +256,7 @@ public class TrainingDataPageController implements Initializable {
 
     private void coursesTableView() {
         try {
-            ResultSet rs = DatabaseAccess.getData("SELECT personaldata.MILITARYID ,personaldata.RANK,personaldata.NAME,coursnames.CORSNAME,coursesdata.COURSID "
+            ResultSet rs = DatabaseAccess.getData("SELECT personaldata.MILITARYID ,personaldata.RANK,personaldata.NAME,coursnames.CORSNAME,coursesdata.COURSID,coursesdata.COURSIMAGE "
                     + "FROM personaldata,coursesdata,coursnames "
                     + "WHERE personaldata.MILITARYID = coursesdata.MILITARYID AND coursesdata.COURSID = coursnames.COURSID ORDER BY MILITARYID");
             while (rs.next()) {
@@ -263,55 +266,64 @@ public class TrainingDataPageController implements Initializable {
                         rs.getString("personaldata.RANK"),
                         rs.getString("coursnames.CORSNAME")
                 ));
+                miltaryID = rs.getString("personaldata.MILITARYID");
+                coursID = rs.getString("coursesdata.COURSID");
             }
             rs.close();
         } catch (SQLException | IOException ex) {
-            Logger.getLogger(PersonalDataPageController.class.getName()).log(Level.SEVERE, null, ex);
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
         milataryid_col.setCellValueFactory(new PropertyValueFactory<>("militaryId"));
         rank_col.setCellValueFactory(new PropertyValueFactory<>("rank"));
         name_col.setCellValueFactory(new PropertyValueFactory<>("name"));
         coursname_col.setCellValueFactory(new PropertyValueFactory<>("coursname"));
+
+        boolean coursImageExisting = FormValidation.ifNotexisting("coursesdata", "COURSIMAGE", "MILITARYID = '" + miltaryID + "'AND COURSID = '" + coursID + "'");
+
         Callback<TableColumn<CoursesModel, String>, TableCell<CoursesModel, String>> cellFactory
-                = new Callback<TableColumn<CoursesModel, String>, TableCell<CoursesModel, String>>() {
-            @Override
-            public TableCell call(final TableColumn<CoursesModel, String> param) {
-                final TableCell<CoursesModel, String> cell = new TableCell<CoursesModel, String>() {
+                = (final TableColumn<CoursesModel, String> param) -> {
+                    final TableCell<CoursesModel, String> cell = new TableCell<CoursesModel, String>() {
 
-                    final Button btn = new Button();
+                final Button btn = new Button();
 
-                    @Override
-                    public void updateItem(String item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (empty) {
-                            setGraphic(null);
-                            setText(null);
-                        } else {
-                            btn.setOnAction(event -> {
-                                try {
+                @Override
+                public void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty) {
+                        setGraphic(null);
+                        setText(null);
+                    } else {
+                        btn.setOnAction(event -> {
+                            try {
+                                if (miltaryID == null || coursID == null) {
+                                    FormValidation.showAlert(null, "اختر السجل من الجدول", Alert.AlertType.ERROR);
+                                } else {
+                                    pdfimage = DatabaseAccess.getCoursImage(miltaryID, coursID);
                                     ShowPdf.writePdf(pdfimage);
                                     pdfimage = null;
-                                } catch (Exception ex) {
-                                    Logger.getLogger(TrainingDataPageController.class.getName()).log(Level.SEVERE, null, ex);
+                                    miltaryID = null;
+                                    coursID = null;
                                 }
-                            });
-                            btn.setStyle("-fx-font-family: 'URW DIN Arabic';"
-                                    + "    -fx-font-size: 10px;"
-                                    + "    -fx-background-color: #769676;"
-                                    + "    -fx-background-radius: 10;"
-                                    + "    -fx-text-fill: #FFFFFF;"
-                                    + "    -fx-effect: dropshadow(three-pass-box,#3C3B3B, 20, 0, 5, 5); ");
-                            Image image = new Image("/images/pdf.png");
-                            ImageView view = new ImageView(image);
-                            btn.setGraphic(view);
-                            setGraphic(btn);
-                            setText(null);
-                        }
+                            } catch (Exception ex) {
+                                FormValidation.showAlert(null, "لا توجد صورة", Alert.AlertType.ERROR);
+                            }
+                        });
+                        btn.setStyle("-fx-font-family: 'URW DIN Arabic';"
+                                + "    -fx-font-size: 10px;"
+                                + "    -fx-background-color: #769676;"
+                                + "    -fx-background-radius: 10;"
+                                + "    -fx-text-fill: #FFFFFF;"
+                                + "    -fx-effect: dropshadow(three-pass-box,#3C3B3B, 20, 0, 5, 5); ");
+                        Image image = new Image("/images/pdf.png");
+                        ImageView view = new ImageView(image);
+                        btn.setGraphic(view);
+                        setGraphic(btn);
+                        setText(null);
                     }
+                }
+            };
+                    return cell;
                 };
-                return cell;
-            }
-        };
         coursImage_col.setCellFactory(cellFactory);
 
         coursesTable.setItems(coursList);
@@ -337,13 +349,10 @@ public class TrainingDataPageController implements Initializable {
                             setEstimate(rs.getString("COURSESTIMATE"));
                             setStartDate(rs.getString("STARTDATE"));
                             setEndDate(rs.getString("ENDDATE"));
-                            ArrayList images = new ArrayList();
-                            images.add(rs.getBytes("COURSIMAGE"));
-                            byte[] scaledInstance = (byte[]) images.get(0);
-                            pdfimage = com.itextpdf.text.Image.getInstance(scaledInstance);
                         }
-                    } catch (SQLException | IOException | BadElementException ex) {
-                        Logger.getLogger(TrainingDataPageController.class.getName()).log(Level.SEVERE, null, ex);
+                        rs.close();
+                    } catch (SQLException | IOException ex) {
+                        FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
                     }
                 }
             }
@@ -370,13 +379,13 @@ public class TrainingDataPageController implements Initializable {
                             setEstimate(rs.getString("COURSESTIMATE"));
                             setStartDate(rs.getString("STARTDATE"));
                             setEndDate(rs.getString("ENDDATE"));
-                             ArrayList images = new ArrayList();
+                            ArrayList images = new ArrayList();
                             images.add(rs.getBytes("COURSIMAGE"));
                             byte[] scaledInstance = (byte[]) images.get(0);
                             pdfimage = com.itextpdf.text.Image.getInstance(scaledInstance);
                         }
                     } catch (SQLException | IOException | BadElementException ex) {
-                        Logger.getLogger(TrainingDataPageController.class.getName()).log(Level.SEVERE, null, ex);
+                        FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
                     }
                 }
             }
@@ -397,10 +406,10 @@ public class TrainingDataPageController implements Initializable {
                 }
                 rs.close();
             } catch (SQLException ex) {
-                Logger.getLogger(TrainingDataPageController.class.getName()).log(Level.SEVERE, null, ex);
+                FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
             }
         } catch (IOException ex) {
-            Logger.getLogger(TrainingDataPageController.class.getName()).log(Level.SEVERE, null, ex);
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
         return list;
     }
@@ -423,7 +432,7 @@ public class TrainingDataPageController implements Initializable {
         try {
             getCoursid();
         } catch (SQLException ex) {
-            Logger.getLogger(TrainingDataPageController.class.getName()).log(Level.SEVERE, null, ex);
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
     }
 
@@ -432,22 +441,11 @@ public class TrainingDataPageController implements Initializable {
         FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter ext1 = new FileChooser.ExtensionFilter("JPG files(*.jpg)", "*.JPG");
         FileChooser.ExtensionFilter ext2 = new FileChooser.ExtensionFilter("PNG files(*.png)", "*.PNG");
-        fileChooser.getExtensionFilters().addAll(ext1, ext2);
+        FileChooser.ExtensionFilter ext3 = new FileChooser.ExtensionFilter("JPEG‬‬  files(*.jpeg)", "*.JPEG‬‬ ");
+        fileChooser.getExtensionFilters().addAll(ext1, ext2, ext3);
         imagefile = fileChooser.showOpenDialog(stage);
         imageUrl.setText(imagefile.getPath());
         return imagefile;
     }
 
-    private void miltaryExisting(KeyEvent event) {
-
-    }
-
-    private void miltaryExisting(ActionEvent event) {
-
-    }
-
-    @FXML
-    private void miltaryExisting(InputMethodEvent event) {
-
-    }
 }

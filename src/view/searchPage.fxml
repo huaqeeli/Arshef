@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" prefHeight="800.0" prefWidth="1200.0" stylesheets="@../css/appStyle.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SearchPageController">
+<AnchorPane id="AnchorPane" prefHeight="800.0" prefWidth="1200.0" stylesheets="@../css/appStyle.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SearchPageController">
    <children>
       <BorderPane fx:id="content" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <right>
@@ -34,7 +34,7 @@
                         <content>
                           <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="200.0">
                                  <children>
-                                    <Button mnemonicParsing="false" onAction="#lodSearchByMiltaryidPage" prefHeight="40.0" styleClass="toolBarButton" text="البحث" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
+                                    <Button mnemonicParsing="false" onAction="#lodSearchByMiltaryidPage" prefHeight="40.0" styleClass="searchPageButton" text="البحث" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
                                        <graphic>
                                           <ImageView fitHeight="22.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -45,7 +45,7 @@
                                     </Button>
                                     <HBox alignment="CENTER" nodeOrientation="RIGHT_TO_LEFT" prefHeight="45.0" prefWidth="200.0" styleClass="headerlabel" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <children>
-                                          <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="150.0" styleClass="toolBarButton" text="الرقم العسكري" />
+                                          <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="150.0" styleClass="searchPageButton" text="الرقم العسكري" />
                                           <TextField fx:id="milataryid" alignment="CENTER" onAction="#lodSearchByMiltaryidPage" prefHeight="40.0" styleClass="appText" HBox.hgrow="ALWAYS" />
                                        </children>
                                     </HBox>
@@ -57,7 +57,7 @@
                         <content>
                           <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="200.0">
                                  <children>
-                                    <Button mnemonicParsing="false" onAction="#lodSearchByCoursNamePage" prefHeight="40.0" styleClass="toolBarButton" text="البحث" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
+                                    <Button mnemonicParsing="false" onAction="#lodSearchByCoursNamePage" prefHeight="40.0" styleClass="searchPageButton" text="البحث" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
                                        <graphic>
                                           <ImageView fitHeight="22.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -68,7 +68,7 @@
                                     </Button>
                                     <HBox alignment="CENTER" nodeOrientation="RIGHT_TO_LEFT" prefHeight="45.0" prefWidth="200.0" styleClass="headerlabel" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <children>
-                                          <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="150.0" styleClass="toolBarButton" text="اسم الدورة" />
+                                          <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="150.0" styleClass="searchPageButton" text="اسم الدورة" />
                                           <ComboBox fx:id="coursname" accessibleText="coursCombobox" maxWidth="1.7976931348623157E308" onAction="#lodSearchByCoursNamePage" prefHeight="40.0" styleClass="appComboBox" HBox.hgrow="ALWAYS" />
                                        </children>
                                     </HBox>
@@ -80,7 +80,7 @@
                         <content>
                           <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="200.0">
                                  <children>
-                                    <Button mnemonicParsing="false" onAction="#lodSearchByCoursplacePage" prefHeight="40.0" styleClass="toolBarButton" text="البحث" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
+                                    <Button mnemonicParsing="false" onAction="#lodSearchByCoursplacePage" prefHeight="40.0" styleClass="searchPageButton" text="البحث" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
                                        <graphic>
                                           <ImageView fitHeight="22.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -91,7 +91,7 @@
                                     </Button>
                                     <HBox alignment="CENTER" nodeOrientation="RIGHT_TO_LEFT" prefHeight="45.0" prefWidth="200.0" styleClass="headerlabel" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <children>
-                                          <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="150.0" styleClass="toolBarButton" text="مكان انعقاد الدورة" />
+                                          <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="150.0" styleClass="searchPageButton" text="مكان انعقاد الدورة" />
                                           <TextField fx:id="coursplace" alignment="CENTER" onAction="#lodSearchByCoursplacePage" prefHeight="40.0" styleClass="appText" HBox.hgrow="ALWAYS" />
                                        </children>
                                     </HBox>
@@ -105,17 +105,17 @@
                                  <children>
                                     <HBox alignment="CENTER" nodeOrientation="RIGHT_TO_LEFT" prefHeight="45.0" prefWidth="200.0" styleClass="headerlabel" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <children>
-                                          <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="150.0" styleClass="toolBarButton" text="اسم الدورة" />
+                                          <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="150.0" styleClass="searchPageButton" text="اسم الدورة" />
                                           <ComboBox fx:id="coursname1" accessibleText="coursCombobox" maxWidth="1.7976931348623157E308" prefHeight="40.0" styleClass="appComboBox" HBox.hgrow="ALWAYS" />
                                        </children>
                                     </HBox>
                                     <HBox alignment="CENTER" nodeOrientation="RIGHT_TO_LEFT" prefHeight="45.0" prefWidth="200.0" styleClass="headerlabel" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
                                        <children>
-                                          <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="150.0" styleClass="toolBarButton" text="مكان انعقاد الدورة" />
+                                          <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="150.0" styleClass="searchPageButton" text="مكان انعقاد الدورة" />
                                           <TextField fx:id="coursplace1" alignment="CENTER" onAction="#lodSearchByCoursplaceAndCoursNamePage" prefHeight="40.0" styleClass="appText" HBox.hgrow="ALWAYS" />
                                        </children>
                                     </HBox>
-                                    <Button mnemonicParsing="false" onAction="#lodSearchByCoursplaceAndCoursNamePage" prefHeight="40.0" styleClass="toolBarButton" text="البحث" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0">
+                                    <Button mnemonicParsing="false" onAction="#lodSearchByCoursplaceAndCoursNamePage" prefHeight="40.0" styleClass="searchPageButton" text="البحث" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0">
                                        <graphic>
                                           <ImageView fitHeight="22.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -132,7 +132,7 @@
                            <content>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="200.0">
                                  <children>
-                                    <Button mnemonicParsing="false" onAction="#lodIdentityPage" prefHeight="40.0" styleClass="toolBarButton" text="البحث" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
+                                    <Button mnemonicParsing="false" onAction="#lodIdentityPage" prefHeight="40.0" styleClass="searchPageButton" text="البحث" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
                                        <graphic>
                                           <ImageView fitHeight="22.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -143,7 +143,7 @@
                                     </Button>
                                     <HBox alignment="CENTER" nodeOrientation="RIGHT_TO_LEFT" prefHeight="45.0" prefWidth="200.0" styleClass="headerlabel" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <children>
-                                          <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="150.0" styleClass="toolBarButton" text="الرقم العسكري" />
+                                          <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="150.0" styleClass="searchPageButton" text="الرقم العسكري" />
                                           <TextField fx:id="IdentityMilatryId" alignment="CENTER" onAction="#lodIdentityPage" prefHeight="40.0" styleClass="appText" HBox.hgrow="ALWAYS" />
                                        </children>
                                     </HBox>

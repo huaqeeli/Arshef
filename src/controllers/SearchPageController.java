@@ -5,6 +5,7 @@
  */
 package controllers;
 
+import Validation.FormValidation;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
@@ -19,6 +20,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
@@ -39,6 +41,7 @@ public class SearchPageController implements Initializable {
     @FXML
     private TextField IdentityMilatryId;
     ObservableList<String> coursComboBoxlist = FXCollections.observableArrayList();
+    ObservableList<String> coursComboBoxlist1 = FXCollections.observableArrayList();
     @FXML
     private ComboBox<String> coursname1;
     @FXML
@@ -46,7 +49,9 @@ public class SearchPageController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        clearListCombobox();
         refreshListCombobox();
+//        refreshListCombobox1();
     }
 
     @FXML
@@ -59,7 +64,7 @@ public class SearchPageController implements Initializable {
             controller.setMiltaryId(milataryid.getText());
             content.setCenter(root);
         } catch (IOException ex) {
-            Logger.getLogger(SearchPageController.class.getName()).log(Level.SEVERE, null, ex);
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
     }
 
@@ -73,7 +78,7 @@ public class SearchPageController implements Initializable {
             controller.setCuoursId(CoursesModel.getCoursId(coursname.getValue()), coursname.getValue());
             content.setCenter(root);
         } catch (IOException | SQLException ex) {
-            Logger.getLogger(SearchPageController.class.getName()).log(Level.SEVERE, null, ex);
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
     }
 
@@ -87,13 +92,13 @@ public class SearchPageController implements Initializable {
             controller.setCuoursId(coursplace.getText());
             content.setCenter(root);
         } catch (IOException ex) {
-            Logger.getLogger(SearchPageController.class.getName()).log(Level.SEVERE, null, ex);
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
     }
 
     @FXML
     private void lodSearchByCoursplaceAndCoursNamePage(ActionEvent event) {
-         try {
+        try {
             FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/view/searchPages/searchByCoursplaceAndCoursName.fxml"));
             Parent root = fxmlLoader.load();
             SearchByCoursplaceAndCoursNamePageController controller = new SearchByCoursplaceAndCoursNamePageController();
@@ -101,13 +106,25 @@ public class SearchPageController implements Initializable {
             controller.setCuoursId(CoursesModel.getCoursId(coursname1.getValue()), coursplace1.getText());
             content.setCenter(root);
         } catch (IOException | SQLException ex) {
-            Logger.getLogger(SearchPageController.class.getName()).log(Level.SEVERE, null, ex);
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
     }
 
     @FXML
     private void lodIdentityPage(ActionEvent event) {
         try {
+            //        try {
+//            FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/view/searchPages/prentIdentiti.fxml"));
+//            Parent root = fxmlLoader.load();
+//            PrentIdentitiController controller = new PrentIdentitiController();
+//            controller = (PrentIdentitiController) fxmlLoader.getController();
+//            controller.setMiltaryId(IdentityMilatryId.getText());
+//            content.setCenter(root);
+//        } catch (IOException ex) {
+//             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+//             System.out.println(ex);
+//        }
+
             FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/view/searchPages/prentIdentiti.fxml"));
             Parent root = fxmlLoader.load();
             PrentIdentitiController controller = new PrentIdentitiController();
@@ -117,6 +134,7 @@ public class SearchPageController implements Initializable {
         } catch (IOException ex) {
             Logger.getLogger(SearchPageController.class.getName()).log(Level.SEVERE, null, ex);
         }
+
     }
 
     private ObservableList filleCoursNames(ObservableList list) {
@@ -128,17 +146,22 @@ public class SearchPageController implements Initializable {
                 }
                 rs.close();
             } catch (SQLException ex) {
-                Logger.getLogger(TrainingDataPageController.class.getName()).log(Level.SEVERE, null, ex);
+                FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
             }
         } catch (IOException ex) {
-            Logger.getLogger(TrainingDataPageController.class.getName()).log(Level.SEVERE, null, ex);
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
         return list;
     }
 
     public void refreshListCombobox() {
         coursname.setItems(filleCoursNames(coursComboBoxlist));
-        coursname1.setItems(filleCoursNames(coursComboBoxlist));
+        coursname1.setItems(filleCoursNames(coursComboBoxlist1));
+    }
+
+    public void refreshListCombobox1() {
+//        coursname.setItems(filleCoursNames(coursComboBoxlist));
+        coursname1.setItems(filleCoursNames(coursComboBoxlist1));
     }
 
     public void clearListCombobox() {

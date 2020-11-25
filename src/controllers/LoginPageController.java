@@ -96,7 +96,7 @@ public class LoginPageController implements Initializable {
                     transition.stop();
                 }
             } catch (IOException ex) {
-                Logger.getLogger(LoginPageController.class.getName()).log(Level.SEVERE, null, ex);
+                FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
             }
         });
         scene.addEventFilter(InputEvent.ANY, evt -> transition.playFromStart());

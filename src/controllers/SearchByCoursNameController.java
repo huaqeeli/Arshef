@@ -1,5 +1,6 @@
 package controllers;
 
+import Validation.FormValidation;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -17,6 +18,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -78,7 +80,7 @@ public class SearchByCoursNameController implements Initializable {
 //        JasperPrintManager.printReport(print, false);
             JasperViewer.viewReport(print, false);
         } catch (JRException | IOException ex) {
-            Logger.getLogger(SearchByMiltaryIdController.class.getName()).log(Level.SEVERE, null, ex);
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
     }
     
@@ -105,13 +107,11 @@ public class SearchByCoursNameController implements Initializable {
                 exporter.ceratContent(dataList,feild, 2, exporter.setContentStyle());
                 exporter.writeFile(savefile);
             } else {
-                System.out.println("There is no data available in the table to export");
+                FormValidation.showAlert(null, "There is no data available in the table to export", Alert.AlertType.ERROR);
             }
             rs.close();
-        } catch (IOException ex) {
-            Logger.getLogger(SearchByMiltaryIdController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(SearchByCoursNameController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException | SQLException ex) {
+           FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
     }
 
@@ -144,7 +144,7 @@ public class SearchByCoursNameController implements Initializable {
             }
             rs.close();
         } catch (SQLException | IOException ex) {
-            Logger.getLogger(PersonalDataPageController.class.getName()).log(Level.SEVERE, null, ex);
+             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
         squnce_col.setCellValueFactory(new PropertyValueFactory<>("sequence"));
         militaryid_col.setCellValueFactory(new PropertyValueFactory<>("militaryId"));

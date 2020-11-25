@@ -15,6 +15,7 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -59,7 +60,7 @@ public class AddNewCoursNameController implements Initializable {
                 refreshcoursnamesTableView();
                 setNewcoursname(null);
             } catch (IOException ex) {
-                Logger.getLogger(AddNewCoursNameController.class.getName()).log(Level.SEVERE, null, ex);
+                 FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
             }
         }
     }
@@ -76,7 +77,7 @@ public class AddNewCoursNameController implements Initializable {
                 DatabaseAccess.updat(tableName, fieldName, data, "COURSID = '" + coursID + "'");
                 refreshcoursnamesTableView();
             } catch (IOException ex) {
-                Logger.getLogger(PersonalDataPageController.class.getName()).log(Level.SEVERE, null, ex);
+                 FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
             }
         }
     }
@@ -89,7 +90,7 @@ public class AddNewCoursNameController implements Initializable {
                 DatabaseAccess.delete("coursnames", "COURSID = '" + coursID + "' ");
                 refreshcoursnamesTableView();
             } catch (IOException ex) {
-                Logger.getLogger(PersonalDataPageController.class.getName()).log(Level.SEVERE, null, ex);
+                 FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
             }
         }
     }
@@ -117,7 +118,7 @@ public class AddNewCoursNameController implements Initializable {
             }
             rs.close();
         } catch (SQLException | IOException ex) {
-            Logger.getLogger(PersonalDataPageController.class.getName()).log(Level.SEVERE, null, ex);
+             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
         coursId_col.setCellValueFactory(new PropertyValueFactory<>("coursid"));
         coursname_col.setCellValueFactory(new PropertyValueFactory<>("coursname"));

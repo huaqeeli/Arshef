@@ -10,23 +10,23 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" stylesheets="@../css/appStyle.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.huaqeeli.training.HomePageController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" stylesheets="@../css/appStyle.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.huaqeeli.training.HomePageController">
    <children>
       <BorderPane fx:id="content" layoutX="10.0" layoutY="16.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <right>
-            <VBox alignment="TOP_RIGHT" prefHeight="759.0" prefWidth="240.0" style="-fx-background-color: #686868;" BorderPane.alignment="CENTER">
+            <VBox alignment="TOP_RIGHT" prefHeight="759.0" prefWidth="300.0" style="-fx-background-color: #686868;" BorderPane.alignment="CENTER">
                <children>
                   <Button alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#personalData" prefHeight="43.0" prefWidth="100.0" styleClass="toolBarButton" text="بيانات الهوية" VBox.vgrow="ALWAYS">
                      <VBox.margin>
                         <Insets bottom="5.0" />
                      </VBox.margin>
                   </Button>
-                  <Button alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="10.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#trainingData" prefHeight="43.0" prefWidth="100.0" styleClass="toolBarButton" text="ادخال الدورات">
+                  <Button alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="10.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#trainingData" prefHeight="43.0" prefWidth="100.0" styleClass="toolBarButton" text="بيانات الدورات">
                      <VBox.margin>
                         <Insets bottom="5.0" />
                      </VBox.margin>
                   </Button>
-                  <Button alignment="CENTER" layoutX="10.0" layoutY="53.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#searchPage" prefHeight="43.0" prefWidth="100.0" styleClass="toolBarButton" text="البحث" VBox.vgrow="ALWAYS">
+                  <Button alignment="CENTER" layoutX="10.0" layoutY="53.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#searchPage" prefHeight="43.0" prefWidth="100.0" styleClass="toolBarButton" text="استعراض البيانات والتقارير" VBox.vgrow="ALWAYS">
                      <VBox.margin>
                         <Insets bottom="5.0" />
                      </VBox.margin>
@@ -47,15 +47,15 @@
                <left>
                   <HBox alignment="CENTER" nodeOrientation="RIGHT_TO_LEFT" prefHeight="86.0" prefWidth="461.0" BorderPane.alignment="CENTER">
                      <children>
-                        <Label fx:id="rankLable" alignment="CENTER" prefHeight="40.0" prefWidth="97.0" styleClass="username" text="رقيب اول" />
-                        <Label alignment="CENTER" layoutX="89.0" layoutY="38.0" prefHeight="40.0" prefWidth="16.0" styleClass="username" text="/" />
-                        <Label fx:id="usernameLable" layoutX="124.0" layoutY="38.0" prefHeight="40.0" prefWidth="236.0" styleClass="username" text="حسين بن احمد عقيلي">
+                        <Label fx:id="rankLable" alignment="CENTER" prefHeight="40.0" prefWidth="97.0" style="-fx-background-radius: 15 0 15 0;" styleClass="username" text="رقيب اول" />
+                        <Label alignment="CENTER" layoutX="89.0" layoutY="38.0" prefHeight="40.0" prefWidth="16.0" style="-fx-background-radius: 0 15 0 15;" styleClass="username" text="/" />
+                        <Label fx:id="usernameLable" layoutX="124.0" layoutY="38.0" prefHeight="40.0" prefWidth="236.0" style="-fx-background-radius: 15 0 15 0;" styleClass="username" text="حسين بن احمد عقيلي">
                            <padding>
                               <Insets left="10.0" />
                            </padding></Label>
-                        <Button mnemonicParsing="false" onAction="#logout" prefWidth="100.0" style="-fx-background-radius: 15;" styleClass="toolBarButton">
+                        <Button mnemonicParsing="false" onAction="#logout" prefHeight="40.0" prefWidth="72.0" style="-fx-background-radius: 0 15 0 15;" styleClass="logoutButton">
                            <graphic>
-                              <ImageView fitHeight="35.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="27.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../images/logout.png" />
                                  </image>
@@ -77,6 +77,17 @@
                </right>
             </BorderPane>
          </top>
+         <center>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <ImageView fitHeight="800.0" fitWidth="1200.0" pickOnBounds="true" preserveRatio="true" styleClass="logoutButton" HBox.hgrow="ALWAYS">
+                     <image>
+                        <Image url="@../images/forceLogo.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </HBox>
+         </center>
       </BorderPane>
    </children>
 </AnchorPane>

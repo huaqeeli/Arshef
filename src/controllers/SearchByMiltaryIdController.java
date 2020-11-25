@@ -76,6 +76,8 @@ public class SearchByMiltaryIdController implements Initializable {
     private TableColumn<CoursesModel, String> image_col;
     ObservableList<CoursesModel> coursList = FXCollections.observableArrayList();
     com.itextpdf.text.Image pdfimage = null;
+    String miltaryID = null;
+    String coursID = null;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -145,6 +147,8 @@ public class SearchByMiltaryIdController implements Initializable {
                 name.setText(rs.getString("personaldata.NAME"));
                 rank.setText(rs.getString("personaldata.RANK"));
                 unit.setText(rs.getString("personaldata.UNIT"));
+                miltaryID = rs.getString("personaldata.MILITARYID");
+                coursID = rs.getString("coursesdata.COURSID");
             }
             rs.close();
         } catch (SQLException | IOException ex) {
@@ -162,37 +166,45 @@ public class SearchByMiltaryIdController implements Initializable {
                 = (final TableColumn<CoursesModel, String> param) -> {
                     final TableCell<CoursesModel, String> cell = new TableCell<CoursesModel, String>() {
 
-                        final Button btn = new Button();
+                final Button btn = new Button();
 
-                        @Override
-                        public void updateItem(String item, boolean empty) {
-                            super.updateItem(item, empty);
-                            if (empty) {
-                                setGraphic(null);
-                                setText(null);
-                            } else {
-                                btn.setOnAction(event -> {
-                                    try {
-                                        ShowPdf.writePdf(pdfimage);
-                                        pdfimage = null;
-                                    } catch (Exception ex) {
-                                        Logger.getLogger(TrainingDataPageController.class.getName()).log(Level.SEVERE, null, ex);
-                                    }
-                                });
-                                btn.setStyle("-fx-font-family: 'URW DIN Arabic';"
-                                        + "    -fx-font-size: 10px;"
-                                        + "    -fx-background-color: #769676;"
-                                        + "    -fx-background-radius: 10;"
-                                        + "    -fx-text-fill: #FFFFFF;"
-                                        + "    -fx-effect: dropshadow(three-pass-box,#3C3B3B, 20, 0, 5, 5); ");
-                                Image image = new Image("/images/pdf.png");
-                                ImageView view = new ImageView(image);
-                                btn.setGraphic(view);
-                                setGraphic(btn);
-                                setText(null);
+                @Override
+                public void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty) {
+                        setGraphic(null);
+                        setText(null);
+                    } else {
+                        btn.setOnAction(event -> {
+                            try {
+                                if (miltaryID == null || coursID == null) {
+                                    FormValidation.showAlert(null, "اختر السجل من الجدول", Alert.AlertType.ERROR);
+                                } else {
+                                    pdfimage = DatabaseAccess.getCoursImage(miltaryID, coursID);
+                                    ShowPdf.writePdf(pdfimage);
+                                    pdfimage = null;
+                                    miltaryID = null;
+                                    coursID = null;
+                                }
+                            } catch (Exception ex) {
+                                FormValidation.showAlert(null, "لا توجد صورة", Alert.AlertType.ERROR);
                             }
-                        }
-                    };
+                        });
+                        btn.setStyle("-fx-font-family: 'URW DIN Arabic';"
+                                + "    -fx-font-size: 10px;"
+                                + "    -fx-background-color: #769676;"
+                                + "    -fx-background-radius: 10;"
+                                + "    -fx-text-fill: #FFFFFF;"
+                                + "    -fx-effect: dropshadow(three-pass-box,#3C3B3B, 20, 0, 5, 5); ");
+                        Image image = new Image("/images/pdf.png");
+                        ImageView view = new ImageView(image);
+                        btn.setGraphic(view);
+                        setGraphic(btn);
+                        setText(null);
+                    }
+
+                }
+            };
                     return cell;
                 };
         image_col.setCellFactory(cellFactory);
@@ -208,15 +220,12 @@ public class SearchByMiltaryIdController implements Initializable {
                 list = table.getSelectionModel().getSelectedItems();
                 if (!list.isEmpty()) {
                     try {
-                        String coursID = list.get(0).getCoursId(list.get(0).getCoursname());
+                        coursID = list.get(0).getCoursId(list.get(0).getCoursname());
                         ResultSet rs = DatabaseAccess.select("coursesdata", "MILITARYID = '" + milatryId + "'AND COURSID = '" + coursID + "'");
                         if (rs.next()) {
-                            ArrayList images = new ArrayList();
-                            images.add(rs.getBytes("COURSIMAGE"));
-                            byte[] scaledInstance = (byte[]) images.get(0);
-                            pdfimage = com.itextpdf.text.Image.getInstance(scaledInstance);
+                            miltaryID = rs.getString("MILITARYID");
                         }
-                    } catch (SQLException | IOException | BadElementException ex) {
+                    } catch (SQLException | IOException ex) {
                         FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
                     }
                 }
@@ -280,12 +289,12 @@ public class SearchByMiltaryIdController implements Initializable {
                 exporter.ceratContent(dataList, feild, 3, exporter.setContentStyle());
                 exporter.writeFile(savefile);
             } else {
-                System.out.println("There is no data available in the table to export");
+                FormValidation.showAlert(null, "There is no data available in the table to export", Alert.AlertType.ERROR);
             }
             rs.close();
             rs1.close();
         } catch (IOException ex) {
-            Logger.getLogger(SearchByMiltaryIdController.class.getName()).log(Level.SEVERE, null, ex);
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
     }
 

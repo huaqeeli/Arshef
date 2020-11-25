@@ -1,5 +1,6 @@
 package controllers;
 
+import Validation.FormValidation;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -12,13 +13,12 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -60,7 +60,9 @@ public class PrentIdentitiController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+        personalImage.setStyle("-fx-border-style: null;"
+                + "    -fx-border-color:#000;"
+                + "    -fx-border-width: 1;");
     }
 
     public void setMiltaryId(String milataryid) {
@@ -75,20 +77,19 @@ public class PrentIdentitiController implements Initializable {
 
     private void coursesTableView() {
         try {
-            ResultSet rs = DatabaseAccess.getIdentiti(milatryId);
-            int squance = 0;
-            while (rs.next()) {
-                squance++;
-                coursList.add(new CoursesModel(
-                        squance,
-                        rs.getString("coursnames.CORSNAME")
-                ));
-                militaryid.setText(rs.getString("personaldata.MILITARYID"));
-                name.setText(rs.getString("personaldata.NAME"));
-                rank.setText(rs.getString("personaldata.RANK"));
-                unit.setText(rs.getString("personaldata.UNIT"));
-                idnumber.setText(rs.getString("personaldata.PERSONALID"));
-                InputStream is = rs.getBinaryStream("personaldata.PERSONALIMAGE");
+            String query = "SELECT personaldata.MILITARYID,coursnames.CORSNAME FROM personaldata,coursesdata,coursnames"
+                    + " WHERE personaldata.MILITARYID =  '" + milatryId + "' And personaldata.MILITARYID = coursesdata.MILITARYID AND coursesdata.COURSID = coursnames.COURSID";
+            String query1 = "SELECT MILITARYID,NAME,RANK,UNIT,PERSONALID,PERSONALIMAGE FROM personaldata"
+                    + " WHERE MILITARYID =  '" + milatryId + "' ";
+            ResultSet rs = DatabaseAccess.getIdentiti(query);
+            ResultSet rs1 = DatabaseAccess.getIdentiti(query1);
+            if (rs1.next()) {
+                militaryid.setText(rs1.getString("MILITARYID"));
+                name.setText(rs1.getString("NAME"));
+                rank.setText(rs1.getString("RANK"));
+                unit.setText(rs1.getString("UNIT"));
+                idnumber.setText(rs1.getString("PERSONALID"));
+                InputStream is = rs1.getBinaryStream("PERSONALIMAGE");
                 if (is != null) {
                     OutputStream os = new FileOutputStream(new File("photo.jpg"));
                     byte[] content = new byte[1024];
@@ -98,17 +99,25 @@ public class PrentIdentitiController implements Initializable {
                     }
                     os.close();
                     is.close();
-                    Image imagex = new Image("file:photo.jpg", 250, 250, true, true);
+                    Image imagex = new Image("file:photo.jpg", 130, 160, true, true);
                     personalImage.setImage(imagex);
                 } else {
                     personalImage.setImage(null);
                 }
-               
+            }
+            int squance = 0;
+            while (rs.next()) {
+                squance++;
+                coursList.add(new CoursesModel(
+                        squance,
+                        rs.getString("coursnames.CORSNAME")
+                ));
 
             }
             rs.close();
+            rs1.close();
         } catch (SQLException | IOException ex) {
-            Logger.getLogger(PersonalDataPageController.class.getName()).log(Level.SEVERE, null, ex);
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
         squance_col.setCellValueFactory(new PropertyValueFactory<>("sequence"));
         coursname_col.setCellValueFactory(new PropertyValueFactory<>("coursname"));
@@ -117,7 +126,7 @@ public class PrentIdentitiController implements Initializable {
 
     @FXML
     private void printData(ActionEvent event) {
-         try {
+        try {
             String reportSrcFile = "C:\\Program Files\\TrainingData\\reports\\Identity.jrxml";
 //            String reportSrcFile = "C:\\Users\\ابو ريان\\Documents\\NetBeansProjects\\TrainingData\\src\\reports\\Identity.jrxml";
             Connection con = DatabaseConniction.dbConnector();
@@ -132,7 +141,7 @@ public class PrentIdentitiController implements Initializable {
 //        JasperPrintManager.printReport(print, false);
             JasperViewer.viewReport(print, false);
         } catch (JRException | IOException ex) {
-            Logger.getLogger(SearchByMiltaryIdController.class.getName()).log(Level.SEVERE, null, ex);
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
     }
 }

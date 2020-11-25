@@ -78,7 +78,7 @@ public class HomePageController implements Initializable {
         usertype = userType;
         rankLable.setText(userrank);
         usernameLable.setText(username);
-        content.setCenter(App.loadFXML("/view/personalDataPage"));
+//        content.setCenter(App.loadFXML("/view/personalDataPage"));
     }
 
     @FXML

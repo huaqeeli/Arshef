@@ -12,8 +12,28 @@
     -fx-background-color: #333333;
     -fx-background-radius: 0;
 }
+.toolBarButton:pressed{
+    -fx-background-color: #000;
+    -fx-background-radius: 0;
+}
 .toolBarButton:focus{
     -fx-background-color: #718A76;
+    -fx-background-radius: 0;
+}
+.searchPageButton{
+    -fx-background-color: #7C9185;
+    -fx-background-radius: 0;
+    -fx-font-family:'URW DIN Arabic';
+    -fx-font-size: 18px;
+    -fx-text-fill: #FFFFFF;
+}
+
+.searchPageButton:hover{
+    -fx-background-color: #457F62;
+    -fx-background-radius: 0;
+}
+.searchPageButton:focus{
+    -fx-background-color: #457F62;
     -fx-background-radius: 0;
 }
 .headerlabel{
@@ -65,10 +85,19 @@
 
 .username{
     -fx-background-color: #4E4E4E;
-    -fx-background-radius: 15;
+    /*-fx-background-radius: 15;*/
     -fx-font-family:'URW DIN Arabic';
     -fx-font-size: 15px;
     -fx-text-fill: #FFFFFF;
+     -fx-effect: dropshadow(three-pass-box,#000000, 10, 0, 5, 5); 
+}
+.logoutButton{
+    -fx-background-color: #4E4E4E;
+    -fx-background-radius: 0;
+    -fx-font-family:'URW DIN Arabic';
+    -fx-font-size: 18px;
+    -fx-text-fill: #FFFFFF;
+    -fx-effect: dropshadow(three-pass-box,#000000, 10, 0, 5, 5); 
 }
 .addname{
     -fx-background-color: #B6CD54;
@@ -128,7 +157,7 @@
     -fx-border-width: 1;*/
     -fx-alignment: CENTER;
     -fx-font-family:'URW DIN Arabic';
-    -fx-font-size: 15px;
+    -fx-font-size: 12px;
 }
 .appTable .table-row-cell:selected .table-cell {
     -fx-background-color: #718A76;
@@ -221,7 +250,11 @@
 
 .titled-pane:focused > .title 
 {
-    -fx-background-color: #7C9D7C;
+    -fx-background-color: #000;
+}
+.titled-pane:selected > .title 
+{
+    -fx-background-color: #000;
 }
 
 .titled-pane > .title > .arrow-button 

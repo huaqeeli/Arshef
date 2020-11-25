@@ -10,22 +10,22 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" fx:id="content" prefHeight="150.0" prefWidth="300.0" stylesheets="@../css/appStyle.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ChangePassowrdController">
+<AnchorPane id="AnchorPane" fx:id="content" prefHeight="150.0" prefWidth="300.0" stylesheets="@../css/appStyle.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ChangePassowrdController">
    <children>
       <Label prefHeight="30.0" prefWidth="254.0" styleClass="pagHeaderStyl" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
       <VBox layoutX="128.0" prefHeight="223.0" prefWidth="260.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
          <children>
-            <TextField fx:id="militaryid" alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="29.0" prefWidth="290.0" promptText="الرقم العسكري" styleClass="appText">
+            <TextField fx:id="militaryid" alignment="CENTER" layoutX="10.0" layoutY="10.0" onAction="#save" prefHeight="29.0" prefWidth="290.0" promptText="الرقم العسكري" styleClass="appText">
                <VBox.margin>
                   <Insets bottom="5.0" />
                </VBox.margin>
             </TextField>
-            <PasswordField fx:id="newPassword" alignment="CENTER" layoutX="10.0" layoutY="56.0" prefHeight="25.0" promptText="كلمة المرور الجديدة" styleClass="appText">
+            <PasswordField fx:id="newPassword" alignment="CENTER" layoutX="10.0" layoutY="56.0" onAction="#save" prefHeight="25.0" promptText="كلمة المرور الجديدة" styleClass="appText">
                <VBox.margin>
                   <Insets bottom="5.0" />
                </VBox.margin>
             </PasswordField>
-            <PasswordField fx:id="reNewPassowrd" alignment="CENTER" layoutX="10.0" layoutY="56.0" prefHeight="25.0" promptText="اعادة كلمة المرور الجديدة" styleClass="appText">
+            <PasswordField fx:id="reNewPassowrd" alignment="CENTER" layoutX="10.0" layoutY="56.0" onAction="#save" prefHeight="25.0" promptText="اعادة كلمة المرور الجديدة" styleClass="appText">
                <VBox.margin>
                   <Insets bottom="5.0" />
                </VBox.margin>

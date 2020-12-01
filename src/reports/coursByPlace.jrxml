@@ -69,16 +69,16 @@ WHERE coursesdata.COURSPLASE =$P{coursPlace}
 	<title>
 		<band height="62" splitType="Stretch">
 			<staticText>
-				<reportElement x="641" y="25" width="160" height="26" uuid="a71c3030-3d19-4dff-8481-b7ea693be320"/>
+				<reportElement x="641" y="29" width="160" height="26" uuid="a71c3030-3d19-4dff-8481-b7ea693be320"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="19" isBold="true"/>
+					<font fontName="URW DIN Arabic" size="16" isBold="false"/>
 				</textElement>
 				<text><![CDATA[العمليات]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="640" y="10" width="160" height="26" uuid="25fbb911-0260-42a1-98e3-7afc8d952506"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="19" isBold="true"/>
+					<font fontName="URW DIN Arabic" size="16" isBold="false"/>
 				</textElement>
 				<text><![CDATA[قوة السيف الاجرب]]></text>
 			</staticText>
@@ -101,13 +101,14 @@ WHERE coursesdata.COURSPLASE =$P{coursPlace}
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="16" isBold="true"/>
+					<font fontName="URW DIN Arabic" size="13" isBold="true"/>
 				</textElement>
 				<text><![CDATA[اسماء الحاصلين على دورة  في :]]></text>
 			</staticText>
 			<textField>
 				<reportElement mode="Opaque" x="328" y="8" width="290" height="30" backcolor="#D1E3D1" uuid="687841e9-e192-4413-90e9-078797e12763">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="11336b24-6a68-455b-9946-0e4ac4eeeef1"/>
+					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
 				</reportElement>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -115,15 +116,17 @@ WHERE coursesdata.COURSPLASE =$P{coursPlace}
 					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="16" isBold="true"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="URW DIN Arabic" size="13" isBold="true"/>
+					<paragraph rightIndent="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{COURSPLASE}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>
 	<columnHeader>
-		<band height="32" splitType="Stretch">
+		<band height="30" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<staticText>
 				<reportElement mode="Opaque" x="740" y="0" width="60" height="30" backcolor="#AADBA9" uuid="3370199e-d518-405b-a48e-b60e8f2a718a">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a62d61dd-e2de-4d31-ac8c-4412b445f97c"/>
@@ -135,7 +138,7 @@ WHERE coursesdata.COURSPLASE =$P{coursPlace}
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
+					<font fontName="URW DIN Arabic" size="13" isBold="true"/>
 				</textElement>
 				<text><![CDATA[تسلسل]]></text>
 			</staticText>
@@ -150,7 +153,7 @@ WHERE coursesdata.COURSPLASE =$P{coursPlace}
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
+					<font fontName="URW DIN Arabic" size="13" isBold="true"/>
 				</textElement>
 				<text><![CDATA[الرتبة]]></text>
 			</staticText>
@@ -165,7 +168,7 @@ WHERE coursesdata.COURSPLASE =$P{coursPlace}
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
+					<font fontName="URW DIN Arabic" size="13" isBold="true"/>
 				</textElement>
 				<text><![CDATA[الاسم]]></text>
 			</staticText>
@@ -180,7 +183,7 @@ WHERE coursesdata.COURSPLASE =$P{coursPlace}
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
+					<font fontName="URW DIN Arabic" size="13" isBold="true"/>
 				</textElement>
 				<text><![CDATA[الوحدة]]></text>
 			</staticText>
@@ -195,7 +198,7 @@ WHERE coursesdata.COURSPLASE =$P{coursPlace}
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
+					<font fontName="URW DIN Arabic" size="13" isBold="true"/>
 				</textElement>
 				<text><![CDATA[اسم الدورة]]></text>
 			</staticText>
@@ -210,14 +213,15 @@ WHERE coursesdata.COURSPLASE =$P{coursPlace}
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
+					<font fontName="URW DIN Arabic" size="13" isBold="true"/>
 				</textElement>
 				<text><![CDATA[الرقم العسكري]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="32" splitType="Stretch">
+		<band height="30" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<textField>
 				<reportElement x="0" y="0" width="180" height="30" uuid="a1af05fd-036f-4a70-a7fc-803d62addbc1">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="0a6cc4f4-f6fc-442c-b992-827bcef59bb2"/>
@@ -229,7 +233,7 @@ WHERE coursesdata.COURSPLASE =$P{coursPlace}
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
+					<font fontName="URW DIN Arabic" size="11" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{CORSNAME}]]></textFieldExpression>
 			</textField>
@@ -244,7 +248,7 @@ WHERE coursesdata.COURSPLASE =$P{coursPlace}
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
+					<font fontName="URW DIN Arabic" size="11" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{UNIT}]]></textFieldExpression>
 			</textField>
@@ -259,7 +263,7 @@ WHERE coursesdata.COURSPLASE =$P{coursPlace}
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
+					<font fontName="URW DIN Arabic" size="11" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{NAME}]]></textFieldExpression>
 			</textField>
@@ -274,7 +278,7 @@ WHERE coursesdata.COURSPLASE =$P{coursPlace}
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
+					<font fontName="URW DIN Arabic" size="11" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{RANK}]]></textFieldExpression>
 			</textField>
@@ -289,7 +293,7 @@ WHERE coursesdata.COURSPLASE =$P{coursPlace}
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
+					<font fontName="URW DIN Arabic" size="11" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{MILITARYID}]]></textFieldExpression>
 			</textField>
@@ -304,7 +308,7 @@ WHERE coursesdata.COURSPLASE =$P{coursPlace}
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
+					<font fontName="URW DIN Arabic" size="11" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
 			</textField>

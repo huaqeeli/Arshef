@@ -2,11 +2,11 @@ package com.huaqeeli.training;
 
 import Validation.FormValidation;
 import controllers.LoginPageController;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -15,11 +15,13 @@ import javafx.scene.control.Label;
 
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import trainingdata.App;
 
 public class HomePageController implements Initializable {
 
+   
     @FXML
     private BorderPane content;
     public boolean logOut;
@@ -78,19 +80,25 @@ public class HomePageController implements Initializable {
         usertype = userType;
         rankLable.setText(userrank);
         usernameLable.setText(username);
-//        content.setCenter(App.loadFXML("/view/personalDataPage"));
+        content.setCenter(App.loadFXML("/view/LogoPage"));
+
     }
 
     @FXML
     private void logout(ActionEvent event) {
-         try {
+        try {
             close();
             LoginPageController login = new LoginPageController();
             login.lodLogingPage();
             logOut = true;
         } catch (IOException ex) {
-            FormValidation.showAlert(null,ex.toString(), Alert.AlertType.ERROR); 
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
+    }
+
+    @FXML
+    private void logoPageLod(MouseEvent event) throws IOException {
+         content.setCenter(App.loadFXML("/view/LogoPage"));
     }
 
 }

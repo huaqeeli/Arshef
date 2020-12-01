@@ -1,7 +1,5 @@
 package controllers;
 
-
-
 import Validation.FormValidation;
 import java.io.IOException;
 import java.net.URL;
@@ -11,6 +9,8 @@ import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -19,21 +19,20 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import modeles.CoursesModel;
 import modeles.UserModel;
 
 public class UsersPageController implements Initializable {
 
-  
-   
     @FXML
     private ComboBox<String> userType;
     @FXML
     private TableView<UserModel> userTable;
-     @FXML
+    @FXML
     private TableColumn<?, ?> militaryid_col;
-     @FXML
+    @FXML
     private TableColumn<?, ?> name_col;
-     @FXML
+    @FXML
     private TableColumn<?, ?> nationalID_col;
     @FXML
     private TableColumn<?, ?> userType_col;
@@ -42,18 +41,18 @@ public class UsersPageController implements Initializable {
 
     ObservableList<UserModel> userlist = FXCollections.observableArrayList();
     ObservableList<String> usertypeItem = FXCollections.observableArrayList("مدير", "مستخدم");
-    String militaryid = null;
-    
+    String selectedmilitaryid = null;
+
     @FXML
     private TextField miliataryid;
-   
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        FillComboBox.fillComboBox(usertypeItem,userType );
-        refreshUsertable();   
+        FillComboBox.fillComboBox(usertypeItem, userType);
+        refreshUsertable();
+        getTableRow(userTable);
+        getTableRowByInterKey(userTable);
     }
-  
 
     public void clearField() {
         miliataryid.setText(null);
@@ -64,14 +63,13 @@ public class UsersPageController implements Initializable {
     private void saveData(ActionEvent event) {
         String tabelNme = "userdata";
         String fieldName = "`MILITARYID`,`USERTYPE`,`USERNAME`,`PASSWORD`,`PASSWORDSTATE`";
-        String[] data = {miliataryid.getText(), userType.getValue(), miliataryid.getText(), "123456","default"};
+        String[] data = {miliataryid.getText(), userType.getValue(), miliataryid.getText(), "123456", "default"};
         String valuenumbers = "?,?,?,?,?";
-      
+
         boolean miliataryidstatus = FormValidation.textFieldNotEmpty(miliataryid, "ادخل الرقم العسكري");
         boolean miliataryidOnly = FormValidation.textFieldTypeNumber(miliataryid, "ادخل ارقام فقط");
         boolean userTypestatus = FormValidation.comboBoxNotEmpty(userType, "اختر نوع المستخدم");
-        boolean miliataryidExisting = FormValidation.ifNotexisting("personaldata", "MILITARYID","MILITARYID = '"+miliataryid.getText()+"'","لا يوجد له بيانات الرجاء اضافة البيانات اولا");
-      
+        boolean miliataryidExisting = FormValidation.ifNotexisting("personaldata", "MILITARYID", "MILITARYID = '" + miliataryid.getText() + "'", "لا يوجد له بيانات الرجاء اضافة البيانات اولا");
 
         if (miliataryidstatus && userTypestatus && miliataryidOnly && miliataryidExisting) {
             try {
@@ -79,38 +77,37 @@ public class UsersPageController implements Initializable {
                 refreshUsertable();
                 clearField();
             } catch (IOException ex) {
-                 FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+                FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
             }
         }
     }
 
     @FXML
     private void editData(ActionEvent event) {
-         String tabelNme = "userdata";
+        String tabelNme = "userdata";
         String fieldName = "`MILITARYID`=?,`USERTYPE`=?";
         String[] data = {miliataryid.getText(), userType.getValue()};
-      
+
         boolean miliataryidstatus = FormValidation.textFieldNotEmpty(miliataryid, "ادخل الرقم العسكري");
         boolean miliataryidOnly = FormValidation.textFieldTypeNumber(miliataryid, "ادخل ارقام فقط");
         boolean userTypestatus = FormValidation.comboBoxNotEmpty(userType, "اختر نوع المستخدم");
-      
 
         if (miliataryidstatus && userTypestatus && miliataryidOnly) {
             try {
-                DatabaseAccess.updat(tabelNme, fieldName, data, "MILITARYID = '" + miliataryid + "'");
+                DatabaseAccess.updat(tabelNme, fieldName, data, "MILITARYID = '" + selectedmilitaryid + "'");
                 refreshUsertable();
                 clearField();
             } catch (IOException ex) {
-                 FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+                FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
             }
         }
     }
 
     @FXML
     private void deleteData(ActionEvent event) {
-        String tabelNme = "users";
+        String tabelNme = "userdata";
         try {
-            DatabaseAccess.delete(tabelNme, "MILITARYID = '" + miliataryid + "'");
+            DatabaseAccess.delete(tabelNme, "MILITARYID = '" + selectedmilitaryid + "'");
             refreshUsertable();
             clearField();
         } catch (IOException ex) {
@@ -120,7 +117,7 @@ public class UsersPageController implements Initializable {
 
     private void userTableView() {
         try {
-            ResultSet rs = DatabaseAccess.getData("SELECT personaldata.MILITARYID,personaldata.NAME,personaldata.PERSONALID,userdata.USERTYPE FROM personaldata,userdata WHERE personaldata.MILITARYID = userdata.MILITARYID" );
+            ResultSet rs = DatabaseAccess.getData("SELECT personaldata.MILITARYID,personaldata.NAME,personaldata.PERSONALID,userdata.USERTYPE FROM personaldata,userdata WHERE personaldata.MILITARYID = userdata.MILITARYID");
             int squnce = 0;
             while (rs.next()) {
                 squnce++;
@@ -141,11 +138,42 @@ public class UsersPageController implements Initializable {
         nationalID_col.setCellValueFactory(new PropertyValueFactory<>("nationalid"));
         userType_col.setCellValueFactory(new PropertyValueFactory<>("usertype"));
         squnce_col.setCellValueFactory(new PropertyValueFactory<>("squnce"));
-       
+
         userTable.setItems(userlist);
     }
 
+    public void getTableRow(TableView table) {
+        table.setOnMouseClicked(new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                ObservableList<UserModel> list = FXCollections.observableArrayList();
+                list = table.getSelectionModel().getSelectedItems();
+                if (!list.isEmpty()) {
+                    selectedmilitaryid = list.get(0).getMilitaryid();
+                    miliataryid.setText(list.get(0).getMilitaryid());
+                    userType.setValue(list.get(0).getUsertype());
+                }
+            }
+        });
+    }
+
+    private void getTableRowByInterKey(TableView table) {
+        table.setOnMouseClicked(new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                ObservableList<UserModel> list = FXCollections.observableArrayList();
+                list = table.getSelectionModel().getSelectedItems();
+                if (!list.isEmpty()) {
+                    selectedmilitaryid = list.get(0).getMilitaryid();
+                    miliataryid.setText(list.get(0).getMilitaryid());
+                    userType.setValue(list.get(0).getUsertype());
+                }
+            }
+        });
+    }
+
     private void refreshUsertable() {
+
         userlist.clear();
         userTableView();
     }

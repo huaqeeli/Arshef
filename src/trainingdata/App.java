@@ -1,11 +1,10 @@
 package trainingdata;
 
 import Validation.FormValidation;
-import com.huaqeeli.training.HomePageController;
 import controllers.ChangePassowrdController;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
@@ -16,6 +15,7 @@ import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -28,7 +28,9 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
+        final Font font = Font.loadFont(new FileInputStream(new File("C:\\Program Files\\TrainingData\\fonts\\URW-DIN-Arabic.ttf")), 12);
         scene = new Scene(loadFXML("/view/LoginPage"));
+
         Screen screen = Screen.getPrimary();
         Rectangle2D bounds = screen.getVisualBounds();
         stage.setX(bounds.getMinX());

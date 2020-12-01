@@ -11,7 +11,7 @@
  personaldata.RANK ,
  personaldata.UNIT,
  personaldata.PERSONALID,
- personaldata.IMAGE,
+ personaldata.PERSONALIMAGE,
  coursnames.CORSNAME,
  reportimage.IMAGE as rerportIogo
  FROM personaldata,coursesdata,coursnames, reportimage
@@ -19,7 +19,7 @@
 AND personaldata.MILITARYID = coursesdata.MILITARYID 
 AND coursesdata.COURSID = coursnames.COURSID]]>
 	</queryString>
-	<field name="MILITARYID" class="java.lang.Long">
+	<field name="MILITARYID" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="MILITARYID"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="personaldata"/>
 	</field>
@@ -35,12 +35,12 @@ AND coursesdata.COURSID = coursnames.COURSID]]>
 		<property name="com.jaspersoft.studio.field.label" value="UNIT"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="personaldata"/>
 	</field>
-	<field name="PERSONALID" class="java.lang.Integer">
+	<field name="PERSONALID" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="PERSONALID"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="personaldata"/>
 	</field>
-	<field name="IMAGE" class="java.awt.Image">
-		<property name="com.jaspersoft.studio.field.label" value="IMAGE"/>
+	<field name="PERSONALIMAGE" class="java.awt.Image">
+		<property name="com.jaspersoft.studio.field.label" value="PERSONALIMAGE"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="personaldata"/>
 	</field>
 	<field name="CORSNAME" class="java.lang.String">
@@ -70,28 +70,28 @@ AND coursesdata.COURSID = coursnames.COURSID]]>
 			<staticText>
 				<reportElement x="394" y="35" width="160" height="26" uuid="0ff5aeb1-3f0b-4e0c-8b9c-524cd499da10"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="13" isBold="true"/>
+					<font fontName="URW DIN Arabic" size="13" isBold="false"/>
 				</textElement>
 				<text><![CDATA[قوة السيف الاجرب]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="394" y="50" width="160" height="26" uuid="238d24b5-7f85-47db-9234-cd22001ccb5f"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="13" isBold="true"/>
+					<font fontName="URW DIN Arabic" size="13" isBold="false"/>
 				</textElement>
 				<text><![CDATA[العمليات]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="394" y="2" width="160" height="26" uuid="968bf25c-ace1-435d-a1d0-16a025c132eb"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="13" isBold="true"/>
+					<font fontName="URW DIN Arabic" size="13" isBold="false"/>
 				</textElement>
 				<text><![CDATA[المملكة العربية السعودية]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="394" y="17" width="160" height="26" uuid="33a6e0ae-6064-4b68-a565-e4d94206ed3f"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="13" isBold="true"/>
+					<font fontName="URW DIN Arabic" size="13" isBold="false"/>
 				</textElement>
 				<text><![CDATA[رئاسة الحرس الملكي]]></text>
 			</staticText>
@@ -106,7 +106,7 @@ AND coursesdata.COURSID = coursnames.COURSID]]>
 					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
-				<imageExpression><![CDATA[$F{IMAGE}]]></imageExpression>
+				<imageExpression><![CDATA[$F{PERSONALIMAGE}]]></imageExpression>
 			</image>
 			<image hAlign="Center" vAlign="Middle">
 				<reportElement x="241" y="8" width="78" height="70" uuid="717da2d6-69c6-4034-a8be-44d28ec34c46"/>
@@ -115,14 +115,14 @@ AND coursesdata.COURSID = coursnames.COURSID]]>
 			<staticText>
 				<reportElement x="201" y="80" width="160" height="26" uuid="9ed26651-c98c-426d-b0d8-c3af0967a7e8"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="13" isBold="true"/>
+					<font fontName="URW DIN Arabic" size="13" isBold="false"/>
 				</textElement>
 				<text><![CDATA[(هوية شخصية)]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="201" y="100" width="160" height="26" forecolor="#FA280C" uuid="c219b79f-dbaa-4f43-8ec4-2ab25a6ead67"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="13" isBold="true"/>
+					<font fontName="URW DIN Arabic" size="13" isBold="false"/>
 				</textElement>
 				<text><![CDATA[سري بعد التعبئة]]></text>
 			</staticText>
@@ -144,13 +144,14 @@ AND coursesdata.COURSID = coursnames.COURSID]]>
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="19" isBold="true"/>
+					<font fontName="URW DIN Arabic" size="19" isBold="false"/>
 				</textElement>
 				<text><![CDATA[(البيانات الشخصية)]]></text>
 			</staticText>
 			<textField pattern="#0000000000.####;(#0000000000.####-)">
 				<reportElement x="0" y="73" width="455" height="30" uuid="e1400adc-17c2-4292-a8e8-43861159c055">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="81b60120-b6db-4f50-9266-239aec58b4b0"/>
+					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
 				</reportElement>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -158,8 +159,9 @@ AND coursesdata.COURSID = coursnames.COURSID]]>
 					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="14" isBold="true"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="URW DIN Arabic" size="14" isBold="false"/>
+					<paragraph lineSpacingSize="1.0" leftIndent="0" rightIndent="10" spacingBefore="0" spacingAfter="0"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{MILITARYID}]]></textFieldExpression>
 			</textField>
@@ -174,13 +176,17 @@ AND coursesdata.COURSID = coursnames.COURSID]]>
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="14" isBold="true"/>
+					<font fontName="URW DIN Arabic" size="14" isBold="false"/>
 				</textElement>
 				<text><![CDATA[الرقم العسكري]]></text>
 			</staticText>
 			<textField isStretchWithOverflow="true">
 				<reportElement x="0" y="43" width="455" height="30" uuid="9d4260c5-c1ae-4221-a82a-13e27a57902f">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a376d55c-549f-4b30-b4a1-7bc69d5a1bab"/>
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.spacingBefore" value="px"/>
+					<property name="com.jaspersoft.studio.unit.spacingAfter" value="px"/>
+					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
 				</reportElement>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -188,8 +194,9 @@ AND coursesdata.COURSID = coursnames.COURSID]]>
 					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="14" isBold="true"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="URW DIN Arabic" size="14" isBold="false"/>
+					<paragraph lineSpacingSize="1.0" leftIndent="0" rightIndent="10" spacingBefore="0" spacingAfter="0"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{NAME}]]></textFieldExpression>
 			</textField>
@@ -204,13 +211,14 @@ AND coursesdata.COURSID = coursnames.COURSID]]>
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="14" isBold="true"/>
+					<font fontName="URW DIN Arabic" size="14" isBold="false"/>
 				</textElement>
 				<text><![CDATA[الإسم ]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="0" y="103" width="455" height="30" uuid="d75bfb7f-0444-4182-98b5-c2d2734cc0de">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4221435c-3e23-42dc-8860-7a3295f675e2"/>
+					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
 				</reportElement>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -218,8 +226,9 @@ AND coursesdata.COURSID = coursnames.COURSID]]>
 					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="14" isBold="true"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="URW DIN Arabic" size="14" isBold="false"/>
+					<paragraph lineSpacingSize="1.0" leftIndent="0" rightIndent="10" spacingBefore="0" spacingAfter="0"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{RANK}]]></textFieldExpression>
 			</textField>
@@ -234,7 +243,7 @@ AND coursesdata.COURSID = coursnames.COURSID]]>
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="14" isBold="true"/>
+					<font fontName="URW DIN Arabic" size="14" isBold="false"/>
 				</textElement>
 				<text><![CDATA[الرتبة]]></text>
 			</staticText>
@@ -249,13 +258,14 @@ AND coursesdata.COURSID = coursnames.COURSID]]>
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="14" isBold="true"/>
+					<font fontName="URW DIN Arabic" size="14" isBold="false"/>
 				</textElement>
 				<text><![CDATA[الوحدة]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="0" y="133" width="455" height="30" uuid="4f3cd8fc-2f10-47ef-8d13-8344f4bf8686">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4221435c-3e23-42dc-8860-7a3295f675e2"/>
+					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
 				</reportElement>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -263,8 +273,9 @@ AND coursesdata.COURSID = coursnames.COURSID]]>
 					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="14" isBold="true"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="URW DIN Arabic" size="14" isBold="false"/>
+					<paragraph lineSpacingSize="1.0" leftIndent="0" rightIndent="10" spacingBefore="0" spacingAfter="0"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{UNIT}]]></textFieldExpression>
 			</textField>
@@ -279,13 +290,14 @@ AND coursesdata.COURSID = coursnames.COURSID]]>
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="14" isBold="true"/>
+					<font fontName="URW DIN Arabic" size="14" isBold="false"/>
 				</textElement>
 				<text><![CDATA[رقم السجل المدني]]></text>
 			</staticText>
 			<textField pattern="#0000000000.###;(#0000000000.###-)">
 				<reportElement x="0" y="163" width="455" height="30" uuid="37b2a50d-8ec7-4a9c-acd8-aee026623997">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4221435c-3e23-42dc-8860-7a3295f675e2"/>
+					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
 				</reportElement>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -293,8 +305,9 @@ AND coursesdata.COURSID = coursnames.COURSID]]>
 					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="14" isBold="true"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="URW DIN Arabic" size="14" isBold="false"/>
+					<paragraph lineSpacingSize="1.0" leftIndent="0" rightIndent="10" spacingBefore="0" spacingAfter="0"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{PERSONALID}]]></textFieldExpression>
 			</textField>
@@ -309,7 +322,7 @@ AND coursesdata.COURSID = coursnames.COURSID]]>
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="19" isBold="true"/>
+					<font fontName="URW DIN Arabic" size="19" isBold="false"/>
 				</textElement>
 				<text><![CDATA[(الدورات الحاصل عليها)]]></text>
 			</staticText>
@@ -320,6 +333,7 @@ AND coursesdata.COURSID = coursnames.COURSID]]>
 			<textField>
 				<reportElement x="0" y="0" width="455" height="30" uuid="d232824f-205f-4136-be86-457eec27634a">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a376d55c-549f-4b30-b4a1-7bc69d5a1bab"/>
+					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
 				</reportElement>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -327,8 +341,9 @@ AND coursesdata.COURSID = coursnames.COURSID]]>
 					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="14" isBold="true"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="URW DIN Arabic" size="14" isBold="false"/>
+					<paragraph rightIndent="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{CORSNAME}]]></textFieldExpression>
 			</textField>
@@ -343,7 +358,7 @@ AND coursesdata.COURSID = coursnames.COURSID]]>
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="14" isBold="true"/>
+					<font fontName="URW DIN Arabic" size="14" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
 			</textField>

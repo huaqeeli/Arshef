@@ -90,16 +90,16 @@ WHERE personaldata.MILITARYID =$P{milataryId}
 				<imageExpression><![CDATA[$F{IMAGE}]]></imageExpression>
 			</image>
 			<staticText>
-				<reportElement x="640" y="10" width="160" height="26" uuid="36a8dcd8-2544-4faa-9fda-012117e3d068"/>
+				<reportElement x="640" y="3" width="160" height="26" uuid="36a8dcd8-2544-4faa-9fda-012117e3d068"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="19" isBold="true"/>
+					<font fontName="URW DIN Arabic" size="16" isBold="false"/>
 				</textElement>
 				<text><![CDATA[قوة السيف الاجرب]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="641" y="25" width="160" height="26" uuid="1de9a1a0-e680-47d7-921e-1b690a0d0b87"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="19" isBold="true"/>
+					<font fontName="URW DIN Arabic" size="16" isBold="false"/>
 				</textElement>
 				<text><![CDATA[العمليات]]></text>
 			</staticText>
@@ -114,7 +114,7 @@ WHERE personaldata.MILITARYID =$P{milataryId}
 					<pen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="14" isBold="true"/>
+					<font fontName="URW DIN Arabic" size="11" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{MILITARYID}]]></textFieldExpression>
 			</textField>
@@ -124,7 +124,7 @@ WHERE personaldata.MILITARYID =$P{milataryId}
 					<pen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="14" isBold="true"/>
+					<font fontName="URW DIN Arabic" size="11" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{NAME}]]></textFieldExpression>
 			</textField>
@@ -136,7 +136,7 @@ WHERE personaldata.MILITARYID =$P{milataryId}
 					<pen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="14" isBold="true"/>
+					<font fontName="URW DIN Arabic" size="11" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{RANK}]]></textFieldExpression>
 			</textField>
@@ -146,12 +146,12 @@ WHERE personaldata.MILITARYID =$P{milataryId}
 					<pen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="14" isBold="true"/>
+					<font fontName="URW DIN Arabic" size="11" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{UNIT}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement mode="Opaque" x="672" y="0" width="127" height="30" backcolor="#D2D4D6" uuid="50748d7f-42d3-4aa0-96fd-94c01f32f125">
+				<reportElement mode="Opaque" x="672" y="0" width="127" height="30" backcolor="#AADBA9" uuid="50748d7f-42d3-4aa0-96fd-94c01f32f125">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="1c1e3a8b-761f-48a4-953b-4b72ac337a6b"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
@@ -159,12 +159,12 @@ WHERE personaldata.MILITARYID =$P{milataryId}
 					<pen lineWidth="1.0" lineStyle="Solid"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="14" isBold="true"/>
+					<font fontName="URW DIN Arabic" size="13" isBold="false"/>
 				</textElement>
 				<text><![CDATA[الرقم العسكري ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="340" y="0" width="232" height="30" backcolor="#D2D4D6" uuid="98f45191-ea21-4778-aae5-da1b7b6b9852">
+				<reportElement mode="Opaque" x="340" y="0" width="232" height="30" backcolor="#AADBA9" uuid="98f45191-ea21-4778-aae5-da1b7b6b9852">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="1c1e3a8b-761f-48a4-953b-4b72ac337a6b"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
@@ -172,12 +172,12 @@ WHERE personaldata.MILITARYID =$P{milataryId}
 					<pen lineWidth="1.0" lineStyle="Solid"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="14" isBold="true"/>
+					<font fontName="URW DIN Arabic" size="13" isBold="false"/>
 				</textElement>
 				<text><![CDATA[الاسم ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="572" y="0" width="100" height="30" backcolor="#D2D4D6" uuid="830b1bf0-7d41-4a15-8cb1-9fe83a6ce429">
+				<reportElement mode="Opaque" x="572" y="0" width="100" height="30" backcolor="#AADBA9" uuid="830b1bf0-7d41-4a15-8cb1-9fe83a6ce429">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="1c1e3a8b-761f-48a4-953b-4b72ac337a6b"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
@@ -185,12 +185,12 @@ WHERE personaldata.MILITARYID =$P{milataryId}
 					<pen lineWidth="1.0" lineStyle="Solid"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="14" isBold="true"/>
+					<font fontName="URW DIN Arabic" size="13" isBold="false"/>
 				</textElement>
 				<text><![CDATA[الرتبة]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="120" y="0" width="220" height="30" backcolor="#D2D4D6" uuid="ffea4e93-6ac6-4d05-b327-1e6b077a2ef1">
+				<reportElement mode="Opaque" x="120" y="0" width="220" height="30" backcolor="#AADBA9" uuid="ffea4e93-6ac6-4d05-b327-1e6b077a2ef1">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="1c1e3a8b-761f-48a4-953b-4b72ac337a6b"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
@@ -198,12 +198,12 @@ WHERE personaldata.MILITARYID =$P{milataryId}
 					<pen lineWidth="1.0" lineStyle="Solid"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="14" isBold="true"/>
+					<font fontName="URW DIN Arabic" size="13" isBold="false"/>
 				</textElement>
 				<text><![CDATA[الوحدة ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="0" width="120" height="30" backcolor="#D2D4D6" uuid="b721fc75-b7a2-4cf6-8c95-e90ede45c0d3">
+				<reportElement mode="Opaque" x="0" y="0" width="120" height="30" backcolor="#AADBA9" uuid="b721fc75-b7a2-4cf6-8c95-e90ede45c0d3">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="1c1e3a8b-761f-48a4-953b-4b72ac337a6b"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
@@ -211,7 +211,7 @@ WHERE personaldata.MILITARYID =$P{milataryId}
 					<pen lineWidth="1.0" lineStyle="Solid"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="14" isBold="true"/>
+					<font fontName="URW DIN Arabic" size="13" isBold="false"/>
 				</textElement>
 				<text><![CDATA[رقم السجل المدني]]></text>
 			</staticText>
@@ -223,7 +223,7 @@ WHERE personaldata.MILITARYID =$P{milataryId}
 					<pen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="14" isBold="true"/>
+					<font fontName="URW DIN Arabic" size="11" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{PERSONALID}]]></textFieldExpression>
 			</textField>
@@ -233,7 +233,7 @@ WHERE personaldata.MILITARYID =$P{milataryId}
 		<band height="30" splitType="Stretch">
 			<property name="com.jaspersoft.studio.layout"/>
 			<staticText>
-				<reportElement mode="Opaque" x="610" y="0" width="130" height="30" backcolor="#D2D4D6" uuid="8435ef1c-4003-4d9a-9f72-1288dc08c9fc">
+				<reportElement mode="Opaque" x="610" y="0" width="130" height="30" backcolor="#AADBA9" uuid="8435ef1c-4003-4d9a-9f72-1288dc08c9fc">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a00160c6-a9fe-4ee1-8729-cdc613cee923"/>
 				</reportElement>
 				<box>
@@ -243,12 +243,12 @@ WHERE personaldata.MILITARYID =$P{milataryId}
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="14" isBold="true"/>
+					<font fontName="URW DIN Arabic" size="13" isBold="false"/>
 				</textElement>
 				<text><![CDATA[إسم الدورة]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="516" y="0" width="94" height="30" backcolor="#D2D4D6" uuid="31e6867c-bb28-4f7a-86d5-69ef8a8e4c74">
+				<reportElement mode="Opaque" x="516" y="0" width="94" height="30" backcolor="#AADBA9" uuid="31e6867c-bb28-4f7a-86d5-69ef8a8e4c74">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="1c1e3a8b-761f-48a4-953b-4b72ac337a6b"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
@@ -259,12 +259,12 @@ WHERE personaldata.MILITARYID =$P{milataryId}
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="14" isBold="true"/>
+					<font fontName="URW DIN Arabic" size="13" isBold="false"/>
 				</textElement>
 				<text><![CDATA[رقم الدورة]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="386" y="0" width="130" height="30" backcolor="#D2D4D6" uuid="54e763df-7a98-490b-9986-d3d0472b20e7">
+				<reportElement mode="Opaque" x="386" y="0" width="130" height="30" backcolor="#AADBA9" uuid="54e763df-7a98-490b-9986-d3d0472b20e7">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="df14c318-d26d-48ee-adf1-4e92809cddfe"/>
 				</reportElement>
 				<box>
@@ -274,12 +274,12 @@ WHERE personaldata.MILITARYID =$P{milataryId}
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="14" isBold="true"/>
+					<font fontName="URW DIN Arabic" size="13" isBold="false"/>
 				</textElement>
 				<text><![CDATA[مكان انعقادها]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="286" y="0" width="100" height="30" backcolor="#D2D4D6" uuid="4364e266-dd99-4c27-b3a5-a64ec81f7f49">
+				<reportElement mode="Opaque" x="290" y="0" width="96" height="30" backcolor="#AADBA9" uuid="4364e266-dd99-4c27-b3a5-a64ec81f7f49">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d411cc17-abf0-4f7d-a990-74a185d8e6f2"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
@@ -290,12 +290,12 @@ WHERE personaldata.MILITARYID =$P{milataryId}
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="14" isBold="true"/>
+					<font fontName="URW DIN Arabic" size="13" isBold="false"/>
 				</textElement>
 				<text><![CDATA[مدتها]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="186" y="0" width="100" height="30" backcolor="#D2D4D6" uuid="30edf733-bfcb-49d7-be1d-3083d8e1e9aa">
+				<reportElement mode="Opaque" x="186" y="0" width="104" height="30" backcolor="#AADBA9" uuid="30edf733-bfcb-49d7-be1d-3083d8e1e9aa">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c157d712-fe4c-4afc-9e68-4835cab7bcab"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
@@ -306,12 +306,12 @@ WHERE personaldata.MILITARYID =$P{milataryId}
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="14" isBold="true"/>
+					<font fontName="URW DIN Arabic" size="13" isBold="false"/>
 				</textElement>
 				<text><![CDATA[تاريخ بداية الدورة]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="86" y="0" width="100" height="30" backcolor="#D2D4D6" uuid="0124c38a-9b32-4631-bdf9-655c2463f381">
+				<reportElement mode="Opaque" x="80" y="0" width="106" height="30" backcolor="#AADBA9" uuid="0124c38a-9b32-4631-bdf9-655c2463f381">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="524202c8-4df2-4099-bf27-42b4cd7980e7"/>
 				</reportElement>
 				<box>
@@ -321,12 +321,12 @@ WHERE personaldata.MILITARYID =$P{milataryId}
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="14" isBold="true"/>
+					<font fontName="URW DIN Arabic" size="13" isBold="false"/>
 				</textElement>
 				<text><![CDATA[تاريخ نهاية الدورة]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="0" width="86" height="30" backcolor="#D2D4D6" uuid="e0119e97-9239-4989-b7a2-04acae54d52f">
+				<reportElement mode="Opaque" x="0" y="0" width="80" height="30" backcolor="#AADBA9" uuid="e0119e97-9239-4989-b7a2-04acae54d52f">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c7432fa7-4762-4a14-a10f-dfe1c515fe26"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
@@ -337,12 +337,12 @@ WHERE personaldata.MILITARYID =$P{milataryId}
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="14" isBold="true"/>
+					<font fontName="URW DIN Arabic" size="13" isBold="false"/>
 				</textElement>
 				<text><![CDATA[التقدير]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="740" y="0" width="60" height="30" backcolor="#D2D4D6" uuid="ec212853-579d-4f3f-a581-fc765cc1f8ef">
+				<reportElement mode="Opaque" x="740" y="0" width="60" height="30" backcolor="#AADBA9" uuid="ec212853-579d-4f3f-a581-fc765cc1f8ef">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="1c1e3a8b-761f-48a4-953b-4b72ac337a6b"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
@@ -353,7 +353,7 @@ WHERE personaldata.MILITARYID =$P{milataryId}
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="14" isBold="true"/>
+					<font fontName="URW DIN Arabic" size="13" isBold="false"/>
 				</textElement>
 				<text><![CDATA[تسلسل]]></text>
 			</staticText>
@@ -374,7 +374,7 @@ WHERE personaldata.MILITARYID =$P{milataryId}
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
+					<font fontName="URW DIN Arabic" size="11" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{CORSNAME}]]></textFieldExpression>
 			</textField>
@@ -390,7 +390,7 @@ WHERE personaldata.MILITARYID =$P{milataryId}
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
+					<font fontName="URW DIN Arabic" size="11" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{COURSNUMBER}]]></textFieldExpression>
 			</textField>
@@ -406,12 +406,12 @@ WHERE personaldata.MILITARYID =$P{milataryId}
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
+					<font fontName="URW DIN Arabic" size="11" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{COURSPLASE}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="286" y="0" width="100" height="30" uuid="41967d59-d178-4b57-ba7f-94fe72c9352e">
+				<reportElement x="290" y="0" width="96" height="30" uuid="41967d59-d178-4b57-ba7f-94fe72c9352e">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d411cc17-abf0-4f7d-a990-74a185d8e6f2"/>
 				</reportElement>
 				<box>
@@ -421,12 +421,12 @@ WHERE personaldata.MILITARYID =$P{milataryId}
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
+					<font fontName="URW DIN Arabic" size="11" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{COURSDURATION}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="186" y="0" width="100" height="30" uuid="dea9a80b-8d97-4aea-953f-92632cefdb81">
+				<reportElement x="186" y="0" width="104" height="30" uuid="dea9a80b-8d97-4aea-953f-92632cefdb81">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c157d712-fe4c-4afc-9e68-4835cab7bcab"/>
 				</reportElement>
 				<box>
@@ -436,12 +436,12 @@ WHERE personaldata.MILITARYID =$P{milataryId}
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
+					<font fontName="URW DIN Arabic" size="11" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{STARTDATE}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="86" y="0" width="100" height="30" uuid="61dfe9ee-2f0f-45b0-a570-b5c05332550a">
+				<reportElement x="80" y="0" width="106" height="30" uuid="61dfe9ee-2f0f-45b0-a570-b5c05332550a">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="524202c8-4df2-4099-bf27-42b4cd7980e7"/>
 				</reportElement>
 				<box>
@@ -451,12 +451,12 @@ WHERE personaldata.MILITARYID =$P{milataryId}
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
+					<font fontName="URW DIN Arabic" size="11" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{ENDDATE}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="0" y="0" width="86" height="30" uuid="923ee552-91de-467c-a313-b405a7cf4824">
+				<reportElement x="0" y="0" width="80" height="30" uuid="923ee552-91de-467c-a313-b405a7cf4824">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c7432fa7-4762-4a14-a10f-dfe1c515fe26"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
@@ -467,12 +467,12 @@ WHERE personaldata.MILITARYID =$P{milataryId}
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
+					<font fontName="URW DIN Arabic" size="11" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{COURSESTIMATE}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement mode="Opaque" x="740" y="0" width="60" height="30" backcolor="#D2D4D6" uuid="fe73ffb4-821b-4886-b520-42bfdc6aa4a2">
+				<reportElement mode="Opaque" x="740" y="0" width="60" height="30" backcolor="#AADBA9" uuid="fe73ffb4-821b-4886-b520-42bfdc6aa4a2">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="1c1e3a8b-761f-48a4-953b-4b72ac337a6b"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
@@ -483,7 +483,7 @@ WHERE personaldata.MILITARYID =$P{milataryId}
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
+					<font fontName="URW DIN Arabic" size="11" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
 			</textField>

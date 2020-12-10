@@ -213,10 +213,8 @@
         -fx-background-insets: 1.4, 0, 1, 2;*/
 }
 .closeButton{
-    -fx-background-color: linear-gradient(#DD5145, #fff);
+    -fx-background-color: #fff;
     -fx-text-fill: #491B17;
-    -fx-border-color: #491B17;
-    -fx-border-width: 1;
     -fx-font-family:'URW DIN Arabic';
     -fx-font-size: 20px;
 }

@@ -5,14 +5,11 @@ import com.itextpdf.text.*;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -30,8 +27,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.InputMethodEvent;
-import javafx.scene.input.KeyEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -59,12 +54,13 @@ public class TrainingDataPageController implements Initializable {
 
     ObservableList<CoursesModel> coursList = FXCollections.observableArrayList();
     ObservableList<String> coursComboBoxlist = FXCollections.observableArrayList();
+    ObservableList<String> placeComboBoxlist = FXCollections.observableArrayList();
     ObservableList<String> estimatelist = FXCollections.observableArrayList("ممتاز", "جيد جدا", "جيد", "مقبول", "ضعيف");
 
     @FXML
     private TextField coursNumber;
     @FXML
-    private TextField coursplace;
+    private ComboBox<String> coursplace;
     @FXML
     private TextField coursDuration;
     @FXML
@@ -207,11 +203,11 @@ public class TrainingDataPageController implements Initializable {
     }
 
     public String getCoursplace() {
-        return coursplace.getText();
+        return coursplace.getValue();
     }
 
     public void setCoursplace(String coursplace) {
-        this.coursplace.setText(coursplace);
+        this.coursplace.setValue(coursplace);
     }
 
     public String getEstimate() {
@@ -413,13 +409,31 @@ public class TrainingDataPageController implements Initializable {
         }
         return list;
     }
+    private ObservableList filleCoursPlace(ObservableList list) {
+        try {
+            ResultSet rs = DatabaseAccess.select("placenames");
+            try {
+                while (rs.next()) {
+                    list.add(rs.getString("PLACENAME"));
+                }
+                rs.close();
+            } catch (SQLException ex) {
+                FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+            }
+        } catch (IOException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
+        return list;
+    }
 
     public void refreshListCombobox() {
         coursname.setItems(filleCoursNames(coursComboBoxlist));
+        coursplace.setItems(filleCoursPlace(placeComboBoxlist));
     }
 
     public void clearListCombobox() {
         coursname.getItems().clear();
+        coursplace.getItems().clear();
     }
 
     @FXML
@@ -446,6 +460,11 @@ public class TrainingDataPageController implements Initializable {
         imagefile = fileChooser.showOpenDialog(stage);
         imageUrl.setText(imagefile.getPath());
         return imagefile;
+    }
+
+    @FXML
+    private void addNewCoursPlace(ActionEvent event) {
+         App.showFxml("/view/AddNewCoursPlace");
     }
 
 }

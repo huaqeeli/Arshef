@@ -5,6 +5,8 @@ import controllers.ChangePassowrdController;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
@@ -106,7 +108,9 @@ public class App extends Application {
             stage.showAndWait();
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+           Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
     }
 
     public static void main(String[] args) {

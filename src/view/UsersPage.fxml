@@ -9,16 +9,26 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #fff;" styleClass="mainFxmlClass" stylesheets="@../css/appStyle.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.UsersPageController">
+<AnchorPane id="AnchorPane" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #fff;" styleClass="mainFxmlClass" stylesheets="@../css/appStyle.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.UsersPageController">
    <children>
       <HBox layoutX="10.0" layoutY="10.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="61.0" prefWidth="1200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <VBox alignment="CENTER" prefHeight="200.0" prefWidth="600.0">
                <children>
+                  <ImageView fitHeight="224.0" fitWidth="277.0" pickOnBounds="true" preserveRatio="true">
+                     <VBox.margin>
+                        <Insets bottom="40.0" />
+                     </VBox.margin>
+                     <image>
+                        <Image url="@../images/users.png" />
+                     </image>
+                  </ImageView>
                   <HBox layoutX="10.0" layoutY="140.0" prefHeight="40.0" prefWidth="550.0">
                      <children>
                         <Label alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="40.0" prefWidth="150.0" text="الرقم العسكري :">
@@ -76,8 +86,23 @@
                         </Button>
                         <Button layoutX="135.0" layoutY="10.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#deleteData" prefHeight="40.0" prefWidth="125.0" text="حذف" HBox.hgrow="ALWAYS">
                            <HBox.margin>
-                              <Insets />
+                              <Insets right="2.0" />
                            </HBox.margin>
+                           <styleClass>
+                              <String fx:value="pageButtonStyle" />
+                              <String fx:value="toolBarButton" />
+                           </styleClass>
+                        </Button>
+                        <Button layoutX="412.0" layoutY="10.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#countingReport" prefHeight="40.0" prefWidth="125.0" text="الاحصائية">
+                           <styleClass>
+                              <String fx:value="pageButtonStyle" />
+                              <String fx:value="toolBarButton" />
+                           </styleClass>
+                           <HBox.margin>
+                              <Insets right="2.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button layoutX="485.0" layoutY="10.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#oprationReport" prefHeight="40.0" prefWidth="125.0" text="العمليات">
                            <styleClass>
                               <String fx:value="pageButtonStyle" />
                               <String fx:value="toolBarButton" />

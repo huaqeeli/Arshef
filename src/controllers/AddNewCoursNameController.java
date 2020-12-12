@@ -27,8 +27,11 @@ public class AddNewCoursNameController implements Initializable {
     @FXML
     private TextField newcoursname;
     String coursID = null;
+    @FXML
     private TableView<CourrsNamesModel> coursnamesTable;
+    @FXML
     private TableColumn<?, ?> coursId_col;
+    @FXML
     private TableColumn<?, ?> coursname_col;
     ObservableList<CourrsNamesModel> coursList = FXCollections.observableArrayList();
     @FXML

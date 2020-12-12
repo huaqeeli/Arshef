@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" stylesheets="@../css/appStyle.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.huaqeeli.training.HomePageController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" stylesheets="@../css/appStyle.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.huaqeeli.training.HomePageController">
    <children>
       <BorderPane fx:id="content" layoutX="10.0" layoutY="16.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <right>
@@ -45,11 +45,11 @@
          <top>
             <BorderPane prefHeight="86.0" prefWidth="1280.0" style="-fx-background-color: #686868;" BorderPane.alignment="CENTER">
                <left>
-                  <HBox alignment="CENTER" nodeOrientation="RIGHT_TO_LEFT" prefHeight="86.0" prefWidth="504.0" BorderPane.alignment="CENTER">
+                  <HBox alignment="CENTER" nodeOrientation="RIGHT_TO_LEFT" prefHeight="86.0" prefWidth="452.0" BorderPane.alignment="CENTER">
                      <children>
                         <Label fx:id="rankLable" alignment="CENTER" prefHeight="40.0" prefWidth="97.0" style="-fx-background-radius: 15 0 15 0;" styleClass="username" text="رقيب اول" />
                         <Label alignment="CENTER" layoutX="89.0" layoutY="38.0" prefHeight="40.0" prefWidth="16.0" style="-fx-background-radius: 0 15 0 15;" styleClass="username" text="/" />
-                        <Label fx:id="usernameLable" layoutX="124.0" layoutY="38.0" prefHeight="40.0" prefWidth="278.0" style="-fx-background-radius: 15 0 15 0;" styleClass="username" text="حسين بن احمد عقيلي">
+                        <Label fx:id="usernameLable" layoutX="124.0" layoutY="38.0" prefHeight="40.0" prefWidth="211.0" style="-fx-background-radius: 15 0 15 0;" styleClass="username" text="حسين بن احمد عقيلي">
                            <padding>
                               <Insets left="10.0" />
                            </padding></Label>

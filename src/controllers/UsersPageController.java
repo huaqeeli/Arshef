@@ -3,8 +3,11 @@ package controllers;
 import Validation.FormValidation;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -19,8 +22,15 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import modeles.CoursesModel;
 import modeles.UserModel;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 public class UsersPageController implements Initializable {
 
@@ -176,5 +186,47 @@ public class UsersPageController implements Initializable {
 
         userlist.clear();
         userTableView();
+    }
+
+    @FXML
+    private void countingReport(ActionEvent event) {
+         try {
+            String reportSrcFile = "C:\\Users\\ابو ريان\\Documents\\NetBeansProjects\\TrainingData\\src\\reports\\countingReport.jrxml";
+//            String reportSrcFile = "C:\\Program Files\\TrainingData\\reports\\courseByid.jrxml";
+            Connection con = DatabaseConniction.dbConnector();
+
+            JasperDesign jasperReport = JRXmlLoader.load(reportSrcFile);
+            Map parameters = new HashMap();
+//            parameters.put("milataryId", "");
+
+            JasperReport jrr = JasperCompileManager.compileReport(jasperReport);
+            JasperPrint print = JasperFillManager.fillReport(jrr, null, con);
+
+//        JasperPrintManager.printReport(print, false);
+            JasperViewer.viewReport(print, false);
+        } catch (JRException | IOException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
+    }
+
+    @FXML
+    private void oprationReport(ActionEvent event) {
+         try {
+            String reportSrcFile = "C:\\Users\\ابو ريان\\Documents\\NetBeansProjects\\TrainingData\\src\\reports\\oprationReport.jrxml";
+//            String reportSrcFile = "C:\\Program Files\\TrainingData\\reports\\courseByid.jrxml";
+            Connection con = DatabaseConniction.dbConnector();
+
+            JasperDesign jasperReport = JRXmlLoader.load(reportSrcFile);
+            Map parameters = new HashMap();
+//            parameters.put("milataryId", "");
+
+            JasperReport jrr = JasperCompileManager.compileReport(jasperReport);
+            JasperPrint print = JasperFillManager.fillReport(jrr, null, con);
+
+//        JasperPrintManager.printReport(print, false);
+            JasperViewer.viewReport(print, false);
+        } catch (JRException | IOException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
     }
 }

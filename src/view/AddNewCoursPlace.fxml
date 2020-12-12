@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="content" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" prefHeight="500.0" prefWidth="797.0" style="-fx-border-color: #4A4A4A; -fx-border-width: 2;" stylesheets="@../css/appStyle.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.AddNewCoursPlaceController">
+<VBox fx:id="content" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" prefHeight="500.0" prefWidth="797.0" style="-fx-border-color: #4A4A4A; -fx-border-width: 2;" stylesheets="@../css/appStyle.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AddNewCoursPlaceController">
    <children>
       <HBox alignment="CENTER_RIGHT" layoutX="15.0" layoutY="60.0" prefHeight="37.0" prefWidth="793.0" style="-fx-background-color: #596367;">
          <children>

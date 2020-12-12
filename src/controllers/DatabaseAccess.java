@@ -270,6 +270,20 @@ public class DatabaseAccess {
              FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
     }
+    public static void updat(String tapleName, String fildNameAndValue, int[] data, String condition) throws IOException {
+        Connection con = DatabaseConniction.dbConnector();
+        String guiry = "UPDATE " + tapleName + " SET " + fildNameAndValue +" "+ "WHERE" + " "+ condition;
+        try {
+            PreparedStatement psm = con.prepareStatement(guiry);
+            int e = data.length;
+            for (int i = 1; i <= e; i++) {
+                psm.setInt(i, data[i - 1]);
+            }
+            psm.executeUpdate();
+        } catch (SQLException ex) {
+             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
+    }
 
     public static void updat(String tapleName, String fildNameAndValue, String condition) throws IOException {
         Connection con = DatabaseConniction.dbConnector();

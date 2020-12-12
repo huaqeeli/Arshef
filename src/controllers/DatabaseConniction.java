@@ -1,12 +1,13 @@
 
 package controllers;
 
+import Validation.FormValidation;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import javax.swing.JOptionPane;
+import javafx.scene.control.Alert;
 
 
 public class DatabaseConniction {
@@ -24,9 +25,8 @@ public class DatabaseConniction {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection("jdbc:mysql://"+hostName+":3306/"+dbName+"?useUnicode=true&characterEncoding=utf-8", userName, password);
-//            con = DriverManager.getConnection("jdbc:mysql://maylocalehost:3307/"+dbName+"?useUnicode=true&characterEncoding=utf-8", userName, password);
         } catch (ClassNotFoundException | SQLException ex) {
-            JOptionPane.showMessageDialog(null, ex);
+           FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
         return con;
     }

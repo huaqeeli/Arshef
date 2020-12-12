@@ -31,6 +31,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import modeles.CoursesModel;
+import modeles.UserModel;
 import trainingdata.App;
 
 public class TrainingDataPageController implements Initializable {
@@ -64,17 +65,17 @@ public class TrainingDataPageController implements Initializable {
     @FXML
     private TextField coursDuration;
     @FXML
-    private ComboBox<String> startDateDay;
+    private ComboBox<?> startDateDay;
     @FXML
-    private ComboBox<String> startDateMonth;
+    private ComboBox<?> startDateMonth;
     @FXML
-    private ComboBox<String> startDateYear;
+    private ComboBox<?> startDateYear;
     @FXML
-    private ComboBox<String> endDateDay;
+    private ComboBox<?> endDateDay;
     @FXML
-    private ComboBox<String> endDateMonth;
+    private ComboBox<?> endDateMonth;
     @FXML
-    private ComboBox<String> endDateYear;
+    private ComboBox<?> endDateYear;
     @FXML
     private ComboBox<String> estimate;
     @FXML
@@ -84,6 +85,7 @@ public class TrainingDataPageController implements Initializable {
     File imagefile = null;
     Stage stage = new Stage();
     com.itextpdf.text.Image pdfimage = null;
+    String userId = null;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -111,14 +113,24 @@ public class TrainingDataPageController implements Initializable {
             fieldName = "`MILITARYID`,`COURSID`,`COURSNUMBER`,`COURSPLASE`,`COURSDURATION`,`STARTDATE`,`ENDDATE`,`COURSESTIMATE`";
             valuenumbers = "?,?,?,?,?,?,?,?";
         }
+
+        String poriationTableName = "opration";
+        String poriationFielsName = "`USERID`,`OPRATIONTYPE`,`DESCRIPTION`,`OPRATIONDATE`";
+        String opriationvaluenumbers = "?,?,?,?";
+        String dexcription = "حفظ دورة " + getCoursname() + " لـ " + getMilataryid();
+        String[] poraitionData = {userId, "save", dexcription, HijriCalendar.getSimpleDate()};
+
         boolean milataryidState = FormValidation.textFieldNotEmpty(milataryid, "الرجاء ادخال الرقم العسكري");
         boolean milataryidExisting = FormValidation.ifNotexisting("personaldata", "MILITARYID", "MILITARYID='" + getMilataryid() + "'", "لا توجد بيانات بالرقم العسكري الحالي");
         boolean coursExisting = FormValidation.ifexisting("coursesdata", "MILITARYID", "MILITARYID ='" + getMilataryid() + "' AND COURSID='" + getCoursid() + "'", "يوجد لديه دورة بنفس المسى");
         boolean milataryidNumber = FormValidation.textFieldTypeNumber(milataryid, "ادخال ارقام فقط");
         boolean coursnameState = FormValidation.comboBoxNotEmpty(coursname, "الرجاء اختيار اسم الدورة");
-        if (coursnameState && milataryidState && milataryidNumber && milataryidExisting && coursExisting) {
+        boolean coursDurationState = FormValidation.textFieldNotEmpty(coursDuration, "اضغط على (احسب)لحساب مدة الدورة");
+        if (coursnameState && milataryidState && milataryidNumber && milataryidExisting && coursExisting && coursDurationState) {
             try {
                 DatabaseAccess.insert(tableName, fieldName, valuenumbers, data, imagefile);
+                DatabaseAccess.insert(poriationTableName, poriationFielsName, opriationvaluenumbers, poraitionData);
+                UserModel.incrementSavCount(userId);
                 refreshcoursesTableView();
                 clear(event);
             } catch (IOException ex) {
@@ -137,6 +149,12 @@ public class TrainingDataPageController implements Initializable {
         } else {
             fieldName = "`MILITARYID`=?,`COURSID`=?,`COURSNUMBER`=?,`COURSPLASE`=?,`COURSDURATION`=?,`STARTDATE`=?,`ENDDATE`=?,`COURSESTIMATE`=?";
         }
+        String poriationTableName = "opration";
+        String poriationFielsName = "`USERID`,`OPRATIONTYPE`,`DESCRIPTION`,`OPRATIONDATE`";
+        String opriationvaluenumbers = "?,?,?,?";
+        String dexcription = "تعديل دورة " + getCoursname() + " لـ " + getMilataryid();
+        String[] poraitionData = {userId, "edit", dexcription, HijriCalendar.getSimpleDate()};
+
         boolean milataryidState = FormValidation.textFieldNotEmpty(milataryid, "الرجاء ادخال الرقم العسكري");
         boolean milataryidExisting = FormValidation.ifNotexisting("personaldata", "MILITARYID", "MILITARYID='" + getMilataryid() + "'", "لا توجد بيانات بالرقم العسكري الحالي");
         boolean milataryidNumber = FormValidation.textFieldTypeNumber(milataryid, "ادخال ارقام فقط");
@@ -144,6 +162,8 @@ public class TrainingDataPageController implements Initializable {
         if (coursnameState && milataryidState && milataryidNumber && milataryidExisting) {
             try {
                 DatabaseAccess.updat(tableName, fieldName, data, "MILITARYID = '" + miltaryID + "' AND COURSID = '" + coursID + "' ", imagefile);
+                DatabaseAccess.insert(poriationTableName, poriationFielsName, opriationvaluenumbers, poraitionData);
+                UserModel.incrementEditCount(userId);
                 refreshcoursesTableView();
                 clear(event);
             } catch (IOException ex) {
@@ -155,7 +175,15 @@ public class TrainingDataPageController implements Initializable {
     @FXML
     private void delete(ActionEvent event) {
         try {
+            String poriationTableName = "opration";
+            String poriationFielsName = "`USERID`,`OPRATIONTYPE`,`DESCRIPTION`,`OPRATIONDATE`";
+            String opriationvaluenumbers = "?,?,?,?";
+            String dexcription = "حذف دورة " + getCoursname() + " لـ " + getMilataryid();
+            String[] poraitionData = {userId, "delete", dexcription, HijriCalendar.getSimpleDate()};
+
             DatabaseAccess.delete("coursesdata", "MILITARYID = '" + miltaryID + "' AND COURSID = '" + coursID + "' ");
+            DatabaseAccess.insert(poriationTableName, poriationFielsName, opriationvaluenumbers, poraitionData);
+            UserModel.incrementDeleteCount(userId);
             refreshcoursesTableView();
             clear(event);
         } catch (IOException ex) {
@@ -280,44 +308,44 @@ public class TrainingDataPageController implements Initializable {
                 = (final TableColumn<CoursesModel, String> param) -> {
                     final TableCell<CoursesModel, String> cell = new TableCell<CoursesModel, String>() {
 
-                final Button btn = new Button();
+                        final Button btn = new Button();
 
-                @Override
-                public void updateItem(String item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (empty) {
-                        setGraphic(null);
-                        setText(null);
-                    } else {
-                        btn.setOnAction(event -> {
-                            try {
-                                if (miltaryID == null || coursID == null) {
-                                    FormValidation.showAlert(null, "اختر السجل من الجدول", Alert.AlertType.ERROR);
-                                } else {
-                                    pdfimage = DatabaseAccess.getCoursImage(miltaryID, coursID);
-                                    ShowPdf.writePdf(pdfimage);
-                                    pdfimage = null;
-                                    miltaryID = null;
-                                    coursID = null;
-                                }
-                            } catch (Exception ex) {
-                                FormValidation.showAlert(null, "لا توجد صورة", Alert.AlertType.ERROR);
+                        @Override
+                        public void updateItem(String item, boolean empty) {
+                            super.updateItem(item, empty);
+                            if (empty) {
+                                setGraphic(null);
+                                setText(null);
+                            } else {
+                                btn.setOnAction(event -> {
+                                    try {
+                                        if (miltaryID == null || coursID == null) {
+                                            FormValidation.showAlert(null, "اختر السجل من الجدول", Alert.AlertType.ERROR);
+                                        } else {
+                                            pdfimage = DatabaseAccess.getCoursImage(miltaryID, coursID);
+                                            ShowPdf.writePdf(pdfimage);
+                                            pdfimage = null;
+                                            miltaryID = null;
+                                            coursID = null;
+                                        }
+                                    } catch (Exception ex) {
+                                        FormValidation.showAlert(null, "لا توجد صورة", Alert.AlertType.ERROR);
+                                    }
+                                });
+                                btn.setStyle("-fx-font-family: 'URW DIN Arabic';"
+                                        + "    -fx-font-size: 10px;"
+                                        + "    -fx-background-color: #769676;"
+                                        + "    -fx-background-radius: 10;"
+                                        + "    -fx-text-fill: #FFFFFF;"
+                                        + "    -fx-effect: dropshadow(three-pass-box,#3C3B3B, 20, 0, 5, 5); ");
+                                Image image = new Image("/images/pdf.png");
+                                ImageView view = new ImageView(image);
+                                btn.setGraphic(view);
+                                setGraphic(btn);
+                                setText(null);
                             }
-                        });
-                        btn.setStyle("-fx-font-family: 'URW DIN Arabic';"
-                                + "    -fx-font-size: 10px;"
-                                + "    -fx-background-color: #769676;"
-                                + "    -fx-background-radius: 10;"
-                                + "    -fx-text-fill: #FFFFFF;"
-                                + "    -fx-effect: dropshadow(three-pass-box,#3C3B3B, 20, 0, 5, 5); ");
-                        Image image = new Image("/images/pdf.png");
-                        ImageView view = new ImageView(image);
-                        btn.setGraphic(view);
-                        setGraphic(btn);
-                        setText(null);
-                    }
-                }
-            };
+                        }
+                    };
                     return cell;
                 };
         coursImage_col.setCellFactory(cellFactory);
@@ -409,6 +437,7 @@ public class TrainingDataPageController implements Initializable {
         }
         return list;
     }
+
     private ObservableList filleCoursPlace(ObservableList list) {
         try {
             ResultSet rs = DatabaseAccess.select("placenames");
@@ -464,7 +493,24 @@ public class TrainingDataPageController implements Initializable {
 
     @FXML
     private void addNewCoursPlace(ActionEvent event) {
-         App.showFxml("/view/AddNewCoursPlace");
+        App.showFxml("/view/AddNewCoursPlace");
+    }
+
+    public void setUserId(String userid) {
+        this.userId = userid;
+    }
+
+    @FXML
+    private void calculateDuration(ActionEvent event) {
+       
+        setCoursDuration(AppDate.getDifferenceDate(
+                Integer.parseInt(startDateDay.getValue().toString()),
+                Integer.parseInt(startDateMonth.getValue().toString()),
+                Integer.parseInt(startDateYear.getValue().toString()),
+                Integer.parseInt(endDateDay.getValue().toString()),
+                Integer.parseInt(endDateMonth.getValue().toString()),
+                Integer.parseInt(endDateYear.getValue().toString())
+        ));
     }
 
 }

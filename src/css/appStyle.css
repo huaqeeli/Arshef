@@ -87,7 +87,7 @@
     -fx-font-family:'URW DIN Arabic';
     -fx-font-size: 15px;
     -fx-text-fill: #FFFFFF;
-     -fx-effect: dropshadow(three-pass-box,#000000, 10, 0, 5, 5); 
+    -fx-effect: dropshadow(three-pass-box,#000000, 10, 0, 5, 5); 
 }
 .logoutButton{
     -fx-background-color: #4E4E4E;
@@ -115,7 +115,6 @@
 .appTable .filler, .table-view .column-header
 {
     -fx-size: 40;
-    -fx-border-style: null;
     -fx-border-color: rgb(200.0, 200.0, 200.0);
     -fx-border-width: 1;
     -fx-background-color: transparent;
@@ -151,8 +150,8 @@
 }
 
 .appTable .table-cell {
-/*    -fx-border-color: #4D4D4D;
-    -fx-border-width: 1;*/
+    /*    -fx-border-color: #4D4D4D;
+        -fx-border-width: 1;*/
     -fx-alignment: CENTER;
     -fx-font-family:'URW DIN Arabic';
     -fx-font-size: 12px;
@@ -287,15 +286,15 @@
 }
 .backGround{
     /*-fx-background-image: url(../Images/loginBg.png);*/
-     /*-fx-background-color: #FFFFFF;*/
+    /*-fx-background-color: #FFFFFF;*/
 }
 .mainClass {
- -fx-background-color: #686868;
--fx-effect: dropshadow(two-pass-box,#000, 30, 0,15, 15);
-/* -fx-border-color: #6BBAD5;
-    -fx-border-insets: 0;
-    -fx-border-width: 0 0 2 2;
-    -fx-border-style: solid;*/
+    -fx-background-color: #686868;
+    -fx-effect: dropshadow(two-pass-box,#000, 30, 0,15, 15);
+    /* -fx-border-color: #6BBAD5;
+        -fx-border-insets: 0;
+        -fx-border-width: 0 0 2 2;
+        -fx-border-style: solid;*/
 }
 .textInput{
     -fx-font-family: "URW DIN Arabic";
@@ -311,7 +310,7 @@
     -fx-effect: dropshadow(two-pass-box,#000, 30, 0,15, 15);
 }
 .buttonStyle {
-   -fx-font-family: "URW DIN Arabic";
+    -fx-font-family: "URW DIN Arabic";
     -fx-font-size: 15px;
     -fx-background-color: #272728;
     -fx-background-radius: 0;
@@ -322,12 +321,36 @@
     -fx-background-color: #000;
 }
 .changePassowrdPuttonStyle {
-   -fx-font-family: "URW DIN Arabic";
+    -fx-font-family: "URW DIN Arabic";
     -fx-font-size: 13px;
     -fx-background-color: #686868;
     -fx-background-radius: 0;
     -fx-text-fill: #0078D7;
 }
 .changePassowrdPuttonStyle:hover{
-   -fx-text-fill: #FFFFFF;
+    -fx-text-fill: #FFFFFF;
+}
+.logoPageLableStyle {
+    -fx-font-family: "URW DIN Arabic";
+    -fx-font-size: 30px;
+    -fx-text-fill: #365542;
+    -fx-border-color: #7C9D7C;
+    -fx-border-insets: 0;
+    -fx-border-width: 5 5 5 0 ;
+    -fx-border-radius: 50 0 0 50 ;
+    -fx-border-style: solid;
+    -fx-effect: dropshadow(three-pass-box,#3C3B3B, 20, 0, 5, 5); 
+}
+.logoPagenumberLableStyle {
+    -fx-font-family: "URW DIN Arabic";
+    -fx-font-size: 60px;
+    -fx-text-fill: #11E811;
+    -fx-background-color: #686868;
+    -fx-background-radius: 50;
+    -fx-border-insets: 0;
+    -fx-border-color: #7C9D7C;
+    -fx-border-width: 0 5 0 0 ;
+    -fx-border-radius: 0 50 50 0 ;
+    -fx-border-style: solid;
+    -fx-effect: dropshadow(three-pass-box,#3C3B3B, 20, 0, 5, 5); 
 }

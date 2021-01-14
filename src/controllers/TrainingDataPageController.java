@@ -150,7 +150,9 @@ public class TrainingDataPageController implements Initializable {
             fieldName = "`MILITARYID`=?,`COURSID`=?,`COURSNUMBER`=?,`COURSPLASE`=?,`COURSDURATION`=?,`STARTDATE`=?,`ENDDATE`=?,`COURSESTIMATE`=?";
         }
         String poriationTableName = "opration";
-        String poriationFielsName = "`USERID`,`OPRATIONTYPE`,`DESCRIPTION`,`OPRATIONDATE`";
+        String poriationFielsName = "`USERID`,`OPRATIONTYPE`,`DESCRIPTION`,`"
+                + ""
+                + "`";
         String opriationvaluenumbers = "?,?,?,?";
         String dexcription = "تعديل دورة " + getCoursname() + " لـ " + getMilataryid();
         String[] poraitionData = {userId, "edit", dexcription, HijriCalendar.getSimpleDate()};

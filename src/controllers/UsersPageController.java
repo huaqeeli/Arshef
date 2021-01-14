@@ -191,8 +191,8 @@ public class UsersPageController implements Initializable {
     @FXML
     private void countingReport(ActionEvent event) {
          try {
-            String reportSrcFile = "C:\\Users\\ابو ريان\\Documents\\NetBeansProjects\\TrainingData\\src\\reports\\countingReport.jrxml";
-//            String reportSrcFile = "C:\\Program Files\\TrainingData\\reports\\courseByid.jrxml";
+//            String reportSrcFile = "C:\\Users\\ابو ريان\\Documents\\NetBeansProjects\\TrainingData\\src\\reports\\countingReport.jrxml";
+            String reportSrcFile = "C:\\Program Files\\TrainingData\\reports\\countingReport.jrxml";
             Connection con = DatabaseConniction.dbConnector();
 
             JasperDesign jasperReport = JRXmlLoader.load(reportSrcFile);
@@ -212,8 +212,8 @@ public class UsersPageController implements Initializable {
     @FXML
     private void oprationReport(ActionEvent event) {
          try {
-            String reportSrcFile = "C:\\Users\\ابو ريان\\Documents\\NetBeansProjects\\TrainingData\\src\\reports\\oprationReport.jrxml";
-//            String reportSrcFile = "C:\\Program Files\\TrainingData\\reports\\courseByid.jrxml";
+//            String reportSrcFile = "C:\\Users\\ابو ريان\\Documents\\NetBeansProjects\\TrainingData\\src\\reports\\oprationReport.jrxml";
+            String reportSrcFile = "C:\\Program Files\\TrainingData\\reports\\oprationReport.jrxml";
             Connection con = DatabaseConniction.dbConnector();
 
             JasperDesign jasperReport = JRXmlLoader.load(reportSrcFile);

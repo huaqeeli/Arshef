@@ -6,6 +6,8 @@ import controllers.TrainingDataPageController;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -23,7 +25,6 @@ public class HomePageController implements Initializable {
 
     @FXML
     private BorderPane content;
-    public boolean logOut;
 
     @FXML
     private Label rankLable;
@@ -33,6 +34,7 @@ public class HomePageController implements Initializable {
     String userrank;
     String usertype;
     String userId;
+    public boolean logOut;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -96,6 +98,11 @@ public class HomePageController implements Initializable {
     }
 
     @FXML
+    private void logoPageLod(MouseEvent event) throws IOException {
+        content.setCenter(App.loadFXML("/view/LogoPage"));
+    }
+
+    @FXML
     private void logout(ActionEvent event) {
         try {
             close();
@@ -103,13 +110,8 @@ public class HomePageController implements Initializable {
             login.lodLogingPage();
             logOut = true;
         } catch (IOException ex) {
-            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+            Logger.getLogger(HomePageController.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-
-    @FXML
-    private void logoPageLod(MouseEvent event) throws IOException {
-        content.setCenter(App.loadFXML("/view/LogoPage"));
     }
 
 }

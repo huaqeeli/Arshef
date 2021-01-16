@@ -197,6 +197,20 @@ public class DatabaseAccess {
         }
         return rs;
     }
+    public static ResultSet getCourses() throws IOException {
+        ResultSet rs = null;
+        Connection con = DatabaseConniction.dbConnector();
+        String query = "SELECT personaldata.MILITARYID,personaldata.NAME,personaldata.RANK ,personaldata.UNIT,personaldata.PERSONALID,coursesdata.COURSID,"
+                + "coursnames.CORSNAME,coursesdata.COURSNUMBER,coursesdata.COURSPLASE,coursesdata.COURSDURATION,coursesdata.STARTDATE,coursesdata.ENDDATE,coursesdata.COURSESTIMATE FROM personaldata,coursesdata,coursnames "
+                + "WHERE personaldata.MILITARYID = coursesdata.MILITARYID AND coursesdata.COURSID = coursnames.COURSID ";
+        try {
+            PreparedStatement psm = con.prepareStatement(query);
+            rs = psm.executeQuery();
+        } catch (SQLException ex) {
+             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
+        return rs;
+    }
 
     public static ResultSet getIdentiti(String query) throws IOException {
         ResultSet rs = null;

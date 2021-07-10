@@ -1,3 +1,4 @@
+
 package controllers;
 
 import Validation.FormValidation;
@@ -20,21 +21,22 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import modeles.CoursPlaceModel;
+import modeles.DestinationModel;
 
-public class AddNewCoursPlaceController implements Initializable {
 
-    @FXML
+public class AddNewDestinationController implements Initializable {
+
+   @FXML
     private VBox content;
     @FXML
     private TextField newplacename;
     @FXML
-    private TableView<CoursPlaceModel> coursplaceTable;
+    private TableView<DestinationModel> coursplaceTable;
     @FXML
     private TableColumn<?, ?> placeid_col;
     @FXML
     private TableColumn<?, ?> coursplace_col;
-    ObservableList<CoursPlaceModel> placeList = FXCollections.observableArrayList();
+    ObservableList<DestinationModel> placeList = FXCollections.observableArrayList();
     String placeid = null;
 
     @Override
@@ -110,7 +112,7 @@ public class AddNewCoursPlaceController implements Initializable {
         try {
             ResultSet rs = DatabaseAccess.select("placenames");
             while (rs.next()) {
-                placeList.add(new CoursPlaceModel(
+                placeList.add(new DestinationModel(
                         rs.getString("PLACEID"),
                         rs.getString("PLACENAME")
                 ));
@@ -129,7 +131,7 @@ public class AddNewCoursPlaceController implements Initializable {
         table.setOnMouseClicked(new EventHandler() {
             @Override
             public void handle(Event event) {
-                ObservableList<CoursPlaceModel> list = FXCollections.observableArrayList();
+                ObservableList<DestinationModel> list = FXCollections.observableArrayList();
                 list = table.getSelectionModel().getSelectedItems();
                 if (list.isEmpty()) {
                     FormValidation.showAlert("", "لاتوجد بيانات");
@@ -145,7 +147,7 @@ public class AddNewCoursPlaceController implements Initializable {
         table.setOnKeyPressed(new EventHandler() {
             @Override
             public void handle(Event event) {
-                ObservableList<CoursPlaceModel> list = FXCollections.observableArrayList();
+                ObservableList<DestinationModel> list = FXCollections.observableArrayList();
                 list = table.getSelectionModel().getSelectedItems();
                 if (list.isEmpty()) {
                     FormValidation.showAlert("", "لاتوجد بيانات");
@@ -162,4 +164,5 @@ public class AddNewCoursPlaceController implements Initializable {
         coursplaceTableView();
     }
 
+    
 }

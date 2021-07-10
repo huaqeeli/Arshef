@@ -1,4 +1,4 @@
-package trainingdata;
+package arshef;
 
 import Validation.FormValidation;
 import controllers.ChangePassowrdController;
@@ -30,7 +30,8 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        final Font font = Font.loadFont(new FileInputStream(new File("C:\\Program Files\\TrainingData\\fonts\\URW-DIN-Arabic.ttf")), 12);
+//        final Font font = Font.loadFont(new FileInputStream(new File("C:\\Program Files\\Arshef\\fonts\\URW-DIN-Arabic.ttf")), 12);
+        Font.loadFont(new FileInputStream(new File("C:\\Users\\ابو ريان\\Documents\\NetBeansProjects\\Arshef\\src\\fonts\\URW-DIN-Arabic.ttf")), 12);
         scene = new Scene(loadFXML("/view/LoginPage"));
 
         Screen screen = Screen.getPrimary();

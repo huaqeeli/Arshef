@@ -1,0 +1,543 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane id="AnchorPane" prefHeight="800.0" prefWidth="1200.0" style="-fx-border-color: #9A9A9A; -fx-border-width: 0 5 0 0;" stylesheets="@../css/appStyle.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.CensusPageController">
+   <children>
+      <VBox alignment="TOP_RIGHT" nodeOrientation="RIGHT_TO_LEFT" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <HBox alignment="CENTER" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: #686868;">
+               <children>
+                  <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="300.0">
+                     <children>
+                        <ComboBox fx:id="DateDay" accessibleText="coursCombobox" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="50.0" styleClass="appComboBox" HBox.hgrow="ALWAYS" />
+                        <ComboBox fx:id="DateMonth" accessibleText="coursCombobox" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="50.0" styleClass="appComboBox" HBox.hgrow="ALWAYS" />
+                        <ComboBox fx:id="DateYear" accessibleText="coursCombobox" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="50.0" styleClass="appComboBox" HBox.hgrow="ALWAYS" />
+                     </children>
+                  </HBox>
+                  <ComboBox fx:id="unt" accessibleText="coursCombobox" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="100.0" styleClass="appComboBox" HBox.hgrow="ALWAYS" />
+                  <Button contentDisplay="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#searchData" prefHeight="40.0" prefWidth="29.0" styleClass="searchPageButton">
+                     <graphic>
+                        <ImageView fitHeight="17.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/search.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <HBox.margin>
+                        <Insets right="5.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="160.0" prefWidth="1185.0">
+               <VBox.margin>
+                  <Insets left="5.0" right="5.0" top="10.0" />
+               </VBox.margin>
+               <children>
+                  <VBox prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="80.0" prefWidth="100.0" styleClass="censusLable" text="الفئة" textAlignment="CENTER" wrapText="true" VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets bottom="2.0" right="2.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="40.0" prefWidth="100.0" styleClass="censusLable" text="ضباط" textAlignment="CENTER" wrapText="true">
+                           <VBox.margin>
+                              <Insets bottom="2.0" right="2.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="50.0" prefHeight="40.0" prefWidth="100.0" styleClass="censusLable" text="افراد" textAlignment="CENTER" wrapText="true">
+                           <VBox.margin>
+                              <Insets right="2.0" />
+                           </VBox.margin>
+                        </Label>
+                     </children>
+                  </VBox>
+                  <VBox layoutX="503.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="80.0" prefWidth="100.0" styleClass="censusLable" text="القوة الاصلية" textAlignment="CENTER" wrapText="true" VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets bottom="2.0" right="2.0" />
+                           </VBox.margin>
+                        </Label>
+                        <TextField fx:id="originalCensusOF" alignment="CENTER" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets bottom="2.0" right="2.0" />
+                           </VBox.margin>
+                        </TextField>
+                        <TextField fx:id="originalCensusSR" alignment="CENTER" layoutX="10.0" layoutY="50.0" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets right="2.0" />
+                           </VBox.margin>
+                        </TextField>
+                     </children>
+                  </VBox>
+                  <VBox layoutX="553.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="80.0" prefWidth="100.0" styleClass="censusLable" text="القوة الحالية" textAlignment="CENTER" wrapText="true" VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets bottom="2.0" right="2.0" />
+                           </VBox.margin>
+                        </Label>
+                        <TextField fx:id="currentCensusOF" alignment="CENTER" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets bottom="2.0" right="2.0" />
+                           </VBox.margin>
+                        </TextField>
+                        <TextField fx:id="currentCensusSR" alignment="CENTER" layoutX="10.0" layoutY="50.0" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets right="2.0" />
+                           </VBox.margin>
+                        </TextField>
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="160.0" prefWidth="300.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="300.0" styleClass="censusLable" text="اجازة" textAlignment="CENTER" wrapText="true" VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets bottom="2.0" right="2.0" />
+                           </VBox.margin>
+                        </Label>
+                        <HBox maxWidth="1.7976931348623157E308" prefHeight="125.0" prefWidth="254.0" VBox.vgrow="ALWAYS">
+                           <children>
+                              <VBox prefHeight="200.0" prefWidth="100.0">
+                                 <children>
+                                    <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="100.0" styleClass="censusLable" text="اعتيادية" textAlignment="CENTER" wrapText="true" VBox.vgrow="ALWAYS">
+                                       <VBox.margin>
+                                          <Insets bottom="2.0" right="2.0" />
+                                       </VBox.margin>
+                                    </Label>
+                                    <TextField fx:id="OrdinaryVacationOF" alignment="CENTER" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
+                                       <VBox.margin>
+                                          <Insets bottom="2.0" right="2.0" />
+                                       </VBox.margin>
+                                    </TextField>
+                                    <TextField fx:id="OrdinaryVacationSR" alignment="CENTER" layoutX="10.0" layoutY="50.0" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
+                                       <VBox.margin>
+                                          <Insets right="2.0" />
+                                       </VBox.margin>
+                                    </TextField>
+                                 </children>
+                              </VBox>
+                              <VBox prefHeight="200.0" prefWidth="100.0">
+                                 <children>
+                                    <Label alignment="CENTER" blendMode="MULTIPLY" contentDisplay="CENTER" prefHeight="40.0" prefWidth="100.0" styleClass="censusLable" text="عرضية" textAlignment="CENTER" wrapText="true" VBox.vgrow="ALWAYS">
+                                       <VBox.margin>
+                                          <Insets bottom="2.0" right="2.0" />
+                                       </VBox.margin>
+                                    </Label>
+                                    <TextField fx:id="OccasionalVacationOF" alignment="CENTER" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
+                                       <VBox.margin>
+                                          <Insets bottom="2.0" right="2.0" />
+                                       </VBox.margin>
+                                    </TextField>
+                                    <TextField fx:id="OccasionalVacationSR" alignment="CENTER" layoutX="10.0" layoutY="50.0" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
+                                       <VBox.margin>
+                                          <Insets right="2.0" />
+                                       </VBox.margin>
+                                    </TextField>
+                                 </children>
+                              </VBox>
+                              <VBox prefHeight="200.0" prefWidth="100.0">
+                                 <children>
+                                    <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="100.0" styleClass="censusLable" text="مرضية" textAlignment="CENTER" wrapText="true" VBox.vgrow="ALWAYS">
+                                       <VBox.margin>
+                                          <Insets bottom="2.0" right="2.0" />
+                                       </VBox.margin>
+                                    </Label>
+                                    <TextField fx:id="SickleaveOF" alignment="CENTER" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
+                                       <VBox.margin>
+                                          <Insets bottom="2.0" right="2.0" />
+                                       </VBox.margin>
+                                    </TextField>
+                                    <TextField fx:id="SickleaveSR" alignment="CENTER" layoutX="10.0" layoutY="50.0" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
+                                       <VBox.margin>
+                                          <Insets right="2.0" />
+                                       </VBox.margin>
+                                    </TextField>
+                                 </children>
+                              </VBox>
+                              <VBox prefHeight="200.0" prefWidth="100.0">
+                                 <children>
+                                    <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="100.0" styleClass="censusLable" text="حجر صحي" textAlignment="CENTER" wrapText="true" VBox.vgrow="ALWAYS">
+                                       <VBox.margin>
+                                          <Insets bottom="2.0" right="2.0" />
+                                       </VBox.margin>
+                                    </Label>
+                                    <TextField fx:id="QuarantineOF" alignment="CENTER" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
+                                       <VBox.margin>
+                                          <Insets bottom="2.0" right="2.0" />
+                                       </VBox.margin>
+                                    </TextField>
+                                    <TextField fx:id="QuarantineSR" alignment="CENTER" layoutX="10.0" layoutY="50.0" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
+                                       <VBox.margin>
+                                          <Insets right="2.0" />
+                                       </VBox.margin>
+                                    </TextField>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+                  <VBox prefWidth="280.0">
+                     <children>
+                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="300.0" styleClass="censusLable" text="دورة" textAlignment="CENTER" wrapText="true" VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets bottom="2.0" right="2.0" />
+                           </VBox.margin>
+                        </Label>
+                        <HBox prefHeight="125.0" prefWidth="234.0">
+                           <children>
+                              <VBox prefHeight="200.0" prefWidth="100.0">
+                                 <children>
+                                    <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="100.0" styleClass="censusLable" text="داخل المنطقة" textAlignment="CENTER" wrapText="true" VBox.vgrow="ALWAYS">
+                                       <VBox.margin>
+                                          <Insets bottom="2.0" right="2.0" />
+                                       </VBox.margin>
+                                    </Label>
+                                    <TextField fx:id="InareaTrainingOF" alignment="CENTER" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
+                                       <VBox.margin>
+                                          <Insets bottom="2.0" right="2.0" />
+                                       </VBox.margin>
+                                    </TextField>
+                                    <TextField fx:id="InareaTrainingSR" alignment="CENTER" layoutX="10.0" layoutY="50.0" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
+                                       <VBox.margin>
+                                          <Insets right="2.0" />
+                                       </VBox.margin>
+                                    </TextField>
+                                 </children>
+                              </VBox>
+                              <VBox prefHeight="200.0" prefWidth="100.0">
+                                 <children>
+                                    <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="100.0" styleClass="censusLable" text=" خارج المنطقة" textAlignment="CENTER" wrapText="true" VBox.vgrow="ALWAYS">
+                                       <VBox.margin>
+                                          <Insets bottom="2.0" right="2.0" />
+                                       </VBox.margin>
+                                    </Label>
+                                    <TextField fx:id="OutareaTrainingOF" alignment="CENTER" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
+                                       <VBox.margin>
+                                          <Insets bottom="2.0" right="2.0" />
+                                       </VBox.margin>
+                                    </TextField>
+                                    <TextField fx:id="OutareaTrainingSR" alignment="CENTER" layoutX="10.0" layoutY="50.0" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
+                                       <VBox.margin>
+                                          <Insets right="2.0" />
+                                       </VBox.margin>
+                                    </TextField>
+                                 </children>
+                              </VBox>
+                              <VBox prefHeight="200.0" prefWidth="100.0">
+                                 <children>
+                                    <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="100.0" styleClass="censusLable" text=" خارج المملكة" textAlignment="CENTER" wrapText="true" VBox.vgrow="ALWAYS">
+                                       <VBox.margin>
+                                          <Insets bottom="2.0" right="2.0" />
+                                       </VBox.margin>
+                                    </Label>
+                                    <TextField fx:id="OutKingdomTrainingOF" alignment="CENTER" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
+                                       <VBox.margin>
+                                          <Insets bottom="2.0" right="2.0" />
+                                       </VBox.margin>
+                                    </TextField>
+                                    <TextField fx:id="OutKingdomTrainingSR" alignment="CENTER" layoutX="10.0" layoutY="50.0" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
+                                       <VBox.margin>
+                                          <Insets right="2.0" />
+                                       </VBox.margin>
+                                    </TextField>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+                  <VBox prefWidth="150.0">
+                     <children>
+                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="200.0" styleClass="censusLable" text="مهمة" textAlignment="CENTER" wrapText="true" VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets bottom="2.0" right="2.0" />
+                           </VBox.margin>
+                        </Label>
+                        <HBox prefHeight="125.0" prefWidth="104.0">
+                           <children>
+                              <VBox prefHeight="200.0" prefWidth="100.0">
+                                 <children>
+                                    <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="100.0" styleClass="censusLable" text="رسمية" textAlignment="CENTER" wrapText="true" VBox.vgrow="ALWAYS">
+                                       <VBox.margin>
+                                          <Insets bottom="2.0" right="2.0" />
+                                       </VBox.margin>
+                                    </Label>
+                                    <TextField fx:id="OfficialMissionOF" alignment="CENTER" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
+                                       <VBox.margin>
+                                          <Insets bottom="2.0" right="2.0" />
+                                       </VBox.margin>
+                                    </TextField>
+                                    <TextField fx:id="OfficialMissionSR" alignment="CENTER" layoutX="10.0" layoutY="50.0" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
+                                       <VBox.margin>
+                                          <Insets right="2.0" />
+                                       </VBox.margin>
+                                    </TextField>
+                                 </children>
+                              </VBox>
+                              <VBox prefHeight="200.0" prefWidth="100.0">
+                                 <children>
+                                    <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="100.0" styleClass="censusLable" text="عمل" textAlignment="CENTER" wrapText="true" VBox.vgrow="ALWAYS">
+                                       <VBox.margin>
+                                          <Insets bottom="2.0" right="2.0" />
+                                       </VBox.margin>
+                                    </Label>
+                                    <TextField fx:id="JoblMissionOF" alignment="CENTER" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
+                                       <VBox.margin>
+                                          <Insets bottom="2.0" right="2.0" />
+                                       </VBox.margin>
+                                    </TextField>
+                                    <TextField fx:id="JobMissionSR" alignment="CENTER" layoutX="10.0" layoutY="50.0" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
+                                       <VBox.margin>
+                                          <Insets right="2.0" />
+                                       </VBox.margin>
+                                    </TextField>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+                  <VBox layoutX="1132.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="80.0" prefWidth="120.0" styleClass="censusLable" text="مستشفى" textAlignment="CENTER" wrapText="true" VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets bottom="2.0" right="2.0" />
+                           </VBox.margin>
+                        </Label>
+                        <TextField fx:id="hospitalOF" alignment="CENTER" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets bottom="2.0" right="2.0" />
+                           </VBox.margin>
+                        </TextField>
+                        <TextField fx:id="hospitalSR" alignment="CENTER" layoutX="10.0" layoutY="50.0" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets right="2.0" />
+                           </VBox.margin>
+                        </TextField>
+                     </children>
+                  </VBox>
+                  <VBox layoutX="1096.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="80.0" prefWidth="100.0" styleClass="censusLable" text="ندب   خارج المملكة" textAlignment="CENTER" wrapText="true" VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets bottom="2.0" right="2.0" />
+                           </VBox.margin>
+                        </Label>
+                        <TextField fx:id="outKingdomJobOF" alignment="CENTER" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets bottom="2.0" right="2.0" />
+                           </VBox.margin>
+                        </TextField>
+                        <TextField fx:id="outKingdomJobSR" alignment="CENTER" layoutX="10.0" layoutY="50.0" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets right="2.0" />
+                           </VBox.margin>
+                        </TextField>
+                     </children>
+                  </VBox>
+                  <VBox layoutX="1103.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="80.0" prefWidth="100.0" styleClass="censusLable" text="مكلف خارج القوة" textAlignment="CENTER" wrapText="true" VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets bottom="2.0" right="2.0" />
+                           </VBox.margin>
+                        </Label>
+                        <TextField fx:id="outOftheForceOF" alignment="CENTER" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets bottom="2.0" right="2.0" />
+                           </VBox.margin>
+                        </TextField>
+                        <TextField fx:id="outOftheForceSR" alignment="CENTER" layoutX="10.0" layoutY="50.0" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets right="2.0" />
+                           </VBox.margin>
+                        </TextField>
+                     </children>
+                  </VBox>
+                  <VBox layoutX="1110.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="80.0" prefWidth="100.0" styleClass="censusLable" text="المناوبين" textAlignment="CENTER" wrapText="true" VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets bottom="2.0" right="2.0" />
+                           </VBox.margin>
+                        </Label>
+                        <TextField fx:id="alternatesOF" alignment="CENTER" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets bottom="2.0" right="2.0" />
+                           </VBox.margin>
+                        </TextField>
+                        <TextField fx:id="alternatesSR" alignment="CENTER" layoutX="10.0" layoutY="50.0" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets right="2.0" />
+                           </VBox.margin>
+                        </TextField>
+                     </children>
+                  </VBox>
+                  <VBox layoutX="1116.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="80.0" prefWidth="100.0" styleClass="censusLable" text="رخصة ادارية" textAlignment="CENTER" wrapText="true" VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets bottom="2.0" right="2.0" />
+                           </VBox.margin>
+                        </Label>
+                        <TextField fx:id="administrativeleaveOF" alignment="CENTER" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets bottom="2.0" right="2.0" />
+                           </VBox.margin>
+                        </TextField>
+                        <TextField fx:id="administrativeleaveSR" alignment="CENTER" layoutX="10.0" layoutY="50.0" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets right="2.0" />
+                           </VBox.margin>
+                        </TextField>
+                     </children>
+                  </VBox>
+                  <VBox layoutX="1120.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="80.0" prefWidth="100.0" styleClass="censusLable" text="متاخرين " textAlignment="CENTER" wrapText="true" VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets bottom="2.0" right="2.0" />
+                           </VBox.margin>
+                        </Label>
+                        <TextField fx:id="lateOF" alignment="CENTER" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets bottom="2.0" right="2.0" />
+                           </VBox.margin>
+                        </TextField>
+                        <TextField fx:id="lateSR" alignment="CENTER" layoutX="10.0" layoutY="50.0" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets right="2.0" />
+                           </VBox.margin>
+                        </TextField>
+                     </children>
+                  </VBox>
+                  <VBox layoutX="1125.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="80.0" prefWidth="100.0" styleClass="censusLable" text="الغياب" textAlignment="CENTER" wrapText="true" VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets bottom="2.0" right="2.0" />
+                           </VBox.margin>
+                        </Label>
+                        <TextField fx:id="AbsenceOF" alignment="CENTER" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets bottom="2.0" right="2.0" />
+                           </VBox.margin>
+                        </TextField>
+                        <TextField fx:id="AbsenceSR" alignment="CENTER" layoutX="10.0" layoutY="50.0" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets right="2.0" />
+                           </VBox.margin>
+                        </TextField>
+                     </children>
+                  </VBox>
+                  <VBox layoutX="1129.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="80.0" prefWidth="100.0" styleClass="censusLable" text="سجن" textAlignment="CENTER" wrapText="true" VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets bottom="2.0" />
+                           </VBox.margin>
+                        </Label>
+                        <TextField fx:id="PrisonOF" alignment="CENTER" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets bottom="2.0" right="2.0" />
+                           </VBox.margin>
+                        </TextField>
+                        <TextField fx:id="PrisonSR" alignment="CENTER" layoutX="10.0" layoutY="50.0" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets right="2.0" />
+                           </VBox.margin>
+                        </TextField>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #898989;">
+               <children>
+                  <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#save" prefHeight="40.0" styleClass="toolBarButton" text="حفظ" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets right="2.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#edit" prefHeight="40.0" styleClass="toolBarButton" text="تعديل" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets right="2.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#delete" prefHeight="40.0" styleClass="toolBarButton" text="حذف" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets right="2.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button layoutX="748.0" layoutY="15.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#delete" prefHeight="40.0" styleClass="toolBarButton" text="طباعة نموذج هيئة العمليات" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets right="2.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button layoutX="707.0" layoutY="15.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#delete" prefHeight="40.0" styleClass="toolBarButton" text="طباعة نموذج قائد القوة" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets right="2.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#clear" prefHeight="40.0" prefWidth="80.0" styleClass="toolBarButton">
+                     <graphic>
+                        <ImageView fitHeight="28.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/refreach.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </children>
+               <VBox.margin>
+                  <Insets left="5.0" right="5.0" />
+               </VBox.margin>
+            </HBox>
+            <TableView fx:id="censusTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" nodeOrientation="RIGHT_TO_LEFT" prefHeight="465.0" prefWidth="1198.0" styleClass="appTable" VBox.vgrow="ALWAYS">
+               <columns>
+                  <TableColumn fx:id="uint_col" minWidth="200.0" prefWidth="75.0" text="الوحدة" />
+                  <TableColumn fx:id="originalCensus_col" minWidth="80.0" prefWidth="75.0" text="القوة الاصلية" />
+                  <TableColumn fx:id="currentCensus_col" minWidth="80.0" prefWidth="75.0" text="القوة الحالية" />
+                  <TableColumn fx:id="OrdinaryVacation_col" minWidth="80.0" prefWidth="75.0" text="اجازة اعتيادية" />
+                  <TableColumn fx:id="OccasionalVacation_col" minWidth="80.0" prefWidth="75.0" text="اجازة عرضية" />
+                  <TableColumn fx:id="Sickleave_col" minWidth="80.0" prefWidth="75.0" text="اجازة مرضية" />
+                  <TableColumn fx:id="Quarantine_col" minWidth="80.0" prefWidth="75.0" text="حجر صحي" />
+                  <TableColumn fx:id="InareaTraining_col" minWidth="100.0" prefWidth="75.0" text="دورة داخل المنطقة" />
+                  <TableColumn fx:id="OutareaTraining_col" minWidth="100.0" prefWidth="75.0" text="دورة خارج المنطقة" />
+                  <TableColumn fx:id="OfficialMission_col" minWidth="100.0" prefWidth="75.0" text="مهمة رسمية" />
+                  <TableColumn fx:id="JoblMission_col1" minWidth="80.0" prefWidth="75.0" text="مهمة عمل" />
+                  <TableColumn fx:id="hospital_col" minWidth="80.0" prefWidth="75.0" text="مستشفى" />
+                  <TableColumn fx:id="outKingdomJob_col" minWidth="100.0" prefWidth="75.0" text="ندب خارج المملكة" />
+                  <TableColumn fx:id="outOftheForce_col" minWidth="100.0" prefWidth="75.0" text="مكلف خارج القوة" />
+                  <TableColumn fx:id="alternates_col" minWidth="80.0" prefWidth="75.0" text="المناوبين" />
+                  <TableColumn fx:id="administrativeleave_col" minWidth="80.0" prefWidth="75.0" text="رخصة ادارية" />
+                  <TableColumn fx:id="late_col" minWidth="80.0" prefWidth="75.0" text="متاخرين" />
+                  <TableColumn fx:id="Absence_col" minWidth="80.0" prefWidth="75.0" text="غياب" />
+                  <TableColumn fx:id="Prison_col" minWidth="80.0" prefWidth="75.0" text="سجن" />
+               </columns>
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </VBox.margin>
+            </TableView>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

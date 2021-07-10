@@ -21,8 +21,18 @@ public class AppDate {
                 month.getItems().addAll(Integer.toString(i));
             }
         }
-        for (int i = 1400; i <= 1490; i++) {
-            year.getItems().addAll(Integer.toString(i));
+        int yearvalue = HijriCalendar.getSimpleYear();
+        for (int i = 0; i <= 50; i++) {
+            year.getItems().addAll(Integer.toString(yearvalue));
+            yearvalue = yearvalue - 1;
+        }
+    }
+
+    public static void setYearValue(ComboBox year) {
+        int yearvalue = HijriCalendar.getSimpleYear();
+        for (int i = 0; i <= 50; i++) {
+            year.getItems().addAll(Integer.toString(yearvalue));
+            yearvalue = yearvalue - 1;
         }
     }
 
@@ -106,7 +116,7 @@ public class AppDate {
             } else if (deffday > 10) {
                 dayText = "يوما";
             }
-            if (deffmonth == 1 || deffmonth == 2 ) {
+            if (deffmonth == 1 || deffmonth == 2) {
                 monthText = "شهرا";
             } else if (deffmonth <= 10 && deffmonth > 2) {
                 monthText = "أشهر";

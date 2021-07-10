@@ -1,8 +1,7 @@
-package com.huaqeeli.training;
+package com.huaqeeli.arshef;
 
 import Validation.FormValidation;
 import controllers.LoginPageController;
-import controllers.TrainingDataPageController;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -10,16 +9,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import trainingdata.App;
+import arshef.App;
 
 public class HomePageController implements Initializable {
 
@@ -38,7 +35,11 @@ public class HomePageController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+        try {
+            content.setCenter(App.loadFXML("/view/InsertDataPage"));
+        } catch (IOException ex) {
+           FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
     }
 
     private void close(MouseEvent event) {
@@ -46,27 +47,10 @@ public class HomePageController implements Initializable {
         stage.close();
     }
 
-    @FXML
     private void personalData(ActionEvent event) throws IOException {
         content.setCenter(App.loadFXML("/view/personalDataPage"));
     }
 
-    @FXML
-    private void trainingData(ActionEvent event) throws IOException {
-         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/view/trainingDataPage.fxml"));
-            Parent root = fxmlLoader.load();
-            TrainingDataPageController controller = new TrainingDataPageController();
-            controller = (TrainingDataPageController) fxmlLoader.getController();
-            controller.setUserId(userId);
-            content.setCenter(root);
-        } catch (IOException ex) {
-            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
-        }
-
-    }
-
-    @FXML
     private void searchPage(ActionEvent event) throws IOException {
         content.setCenter(App.loadFXML("/view/searchPage"));
     }
@@ -93,7 +77,6 @@ public class HomePageController implements Initializable {
         userId = userid;
         rankLable.setText(userrank);
         usernameLable.setText(username);
-        content.setCenter(App.loadFXML("/view/LogoPage"));
 
     }
 
@@ -112,6 +95,33 @@ public class HomePageController implements Initializable {
         } catch (IOException ex) {
             Logger.getLogger(HomePageController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    @FXML
+    private void insertDataPage(ActionEvent event) throws IOException {
+        content.setCenter(App.loadFXML("/view/InsertDataPage"));
+    }
+
+    @FXML
+    private void addNewDaetination(ActionEvent event) throws IOException {
+        content.setCenter(App.loadFXML("/view/AddNewDestination"));
+    }
+
+    @FXML
+    private void addExportsPage(ActionEvent event) {
+    }
+
+    @FXML
+    private void addDisplayPage(ActionEvent event) {
+    }
+
+    @FXML
+    private void secretPage(ActionEvent event) {
+    }
+
+    @FXML
+    private void censusPage(ActionEvent event) throws IOException {
+        content.setCenter(App.loadFXML("/view/censusPage"));
     }
 
 }

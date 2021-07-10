@@ -1,7 +1,7 @@
 package controllers;
 
 import Validation.FormValidation;
-import com.huaqeeli.training.HomePageController;
+import com.huaqeeli.arshef.HomePageController;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
@@ -26,7 +26,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import trainingdata.App;
+import arshef.App;
 
 public class LoginPageController implements Initializable {
 
@@ -49,10 +49,9 @@ public class LoginPageController implements Initializable {
         boolean passwordStatus = FormValidation.logintextFieldNotEmpty(password, "ادخل كلمة المرور");
         if (userNameStatus && passwordStatus) {
             try { 
-                ResultSet rs = DatabaseAccess.getData("SELECT personaldata.NAME,personaldata.RANK,personaldata.MILITARYID,userdata.USERTYPE,userdata.USERNAME,userdata.PASSWORD,userdata.PASSWORDSTATE FROM personaldata,userdata "
-                        + "WHERE personaldata.MILITARYID = userdata.MILITARYID AND USERNAME ='" + userName.getText() + "' AND PASSWORD = '" + password.getText() + "'");
+                ResultSet rs = DatabaseAccess.getData("SELECT * FROM userdata WHERE USERNAME ='" + userName.getText() + "' AND PASSWORD = '" + password.getText() + "'");
                 if (rs.next()) {
-                    String mypassword = rs.getString("userdata.PASSWORDSTATE");
+                    String mypassword = rs.getString("PASSWORDSTATE");
                     if (mypassword.equals("default")) {
                          App.lodChangePassowrdPage(userName.getText());
                     } else {

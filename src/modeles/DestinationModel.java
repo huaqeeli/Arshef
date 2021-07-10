@@ -1,10 +1,11 @@
 
 package modeles;
 
-public class CoursPlaceModel {
+
+public class DestinationModel {
     String placeid,placeName;
 
-    public CoursPlaceModel(String placeid, String placeName) {
+    public DestinationModel(String placeid, String placeName) {
         this.placeid = placeid;
         this.placeName = placeName;
     }
@@ -29,5 +30,4 @@ public class CoursPlaceModel {
     public String toString() {
         return "CoursPlaceModel{" + "placeid=" + placeid + ", placeName=" + placeName + '}';
     }
-    
 }

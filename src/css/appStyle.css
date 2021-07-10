@@ -6,6 +6,7 @@
     -fx-text-fill: #FFFFFF;
 }
 
+
 .toolBarButton:hover{
     -fx-background-color: #333333;
     -fx-background-radius: 0;
@@ -18,8 +19,15 @@
     -fx-background-color: #718A76;
     -fx-background-radius: 0;
 }
+.censusLable{
+    -fx-background-color: #4E4E4E;
+    -fx-background-radius: 0;
+    -fx-font-family:'URW DIN Arabic';
+    -fx-font-size: 13px;
+    -fx-text-fill: #FFFFFF;
+}
 .searchPageButton{
-    -fx-background-color: #7C9185;
+    -fx-background-color: #F68A1F;
     -fx-background-radius: 0;
     -fx-font-family:'URW DIN Arabic';
     -fx-font-size: 18px;
@@ -82,15 +90,15 @@
 }
 
 .username{
-    -fx-background-color: #4E4E4E;
+    -fx-background-color: #1E3606;
     /*-fx-background-radius: 15;*/
     -fx-font-family:'URW DIN Arabic';
     -fx-font-size: 15px;
     -fx-text-fill: #FFFFFF;
-    -fx-effect: dropshadow(three-pass-box,#000000, 10, 0, 5, 5); 
+    /*-fx-effect: dropshadow(three-pass-box,#000000, 10, 0, 5, 5);*/ 
 }
 .logoutButton{
-    -fx-background-color: #4E4E4E;
+    -fx-background-color: #F68A1F;
     -fx-background-radius: 0;
     -fx-font-family:'URW DIN Arabic';
     -fx-font-size: 18px;
@@ -105,10 +113,9 @@
     -fx-text-fill: #FFFFFF;
 }
 .appTable {
-    /*     Constants used throughout the tableview. */
+   
     -fx-table-header-border-color: transparent;
     -fx-table-cell-border-color: -fx-box-border;
-    /*    Horizontal Lines*/
     -fx-background-color: #BEC2C3;
 }
 
@@ -308,6 +315,9 @@
 }
 .logo{
     -fx-effect: dropshadow(two-pass-box,#000, 30, 0,15, 15);
+}
+.logoCountConteiner{
+    -fx-effect: dropshadow(two-pass-box,#313131, 30, 0,15, 15);
 }
 .buttonStyle {
     -fx-font-family: "URW DIN Arabic";

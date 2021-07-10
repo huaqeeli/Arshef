@@ -1,4 +1,4 @@
-package view;
+package controllers;
 
 import Validation.FormValidation;
 import controllers.DatabaseAccess;

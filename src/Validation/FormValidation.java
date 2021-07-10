@@ -40,6 +40,20 @@ public class FormValidation {
         return state;
     }
 
+    public static boolean textFieldNotEmpty(TextField[] t, String validationmassage) {
+        boolean state = true;
+        for (int i = 0; i < t.length; i++) {
+            if (!textFieldNotEmpty(t[i])) {
+                state = false;
+               showAlert("خطاء حقل فارغ", validationmassage);
+                t[i].setStyle("-fx-background-color:#F8DCDA");
+            } else {
+                t[i].setStyle("#117E88;-fx-background-color:#FFFFFF");
+            }
+        }
+        return state;
+    }
+
     public static boolean logintextFieldNotEmpty(TextField t, String validationmassage) {
         boolean state = true;
         if (!textFieldNotEmpty(t)) {
@@ -209,6 +223,7 @@ public class FormValidation {
         }
         return state;
     }
+
     public static boolean ifNotexisting(String tapleName, String fildName, String condition) {
         boolean state = true;
         try {
@@ -219,6 +234,9 @@ public class FormValidation {
             rs = psm.executeQuery();
             if (!rs.next()) {
                 state = false;
+                System.out.println("no image");
+            } else {
+                System.out.println("ther is image");
             }
             con.close();
             psm.close();

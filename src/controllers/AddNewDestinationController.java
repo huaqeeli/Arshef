@@ -1,4 +1,3 @@
-
 package controllers;
 
 import Validation.FormValidation;
@@ -15,6 +14,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -23,27 +23,30 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import modeles.DestinationModel;
 
-
 public class AddNewDestinationController implements Initializable {
 
-   @FXML
+    @FXML
     private VBox content;
     @FXML
     private TextField newplacename;
     @FXML
-    private TableView<DestinationModel> coursplaceTable;
+    private TableView<DestinationModel> destinationTable;
     @FXML
     private TableColumn<?, ?> placeid_col;
     @FXML
     private TableColumn<?, ?> coursplace_col;
     ObservableList<DestinationModel> placeList = FXCollections.observableArrayList();
     String placeid = null;
+    @FXML
+    private ComboBox<String> uintType;
+    ObservableList<String> uintTypelist = FXCollections.observableArrayList("داخلي", "خارجي");
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         refreshcoursplaceTableView();
-        getTableRow(coursplaceTable);
-        getTableRowByInterKey(coursplaceTable);
+        getTableRow(destinationTable);
+        getTableRowByInterKey(destinationTable);
+        FillComboBox.fillComboBox(uintTypelist, uintType);
     }
 
     public String getNewplacename() {
@@ -54,7 +57,14 @@ public class AddNewDestinationController implements Initializable {
         this.newplacename.setText(newplacename);
     }
 
-    @FXML
+    public String getUintType() {
+        return uintType.getValue();
+    }
+
+    public void setUintType(String uintType) {
+        this.uintType.setValue(uintType);
+    }
+
     private void close(ActionEvent event) {
         Stage stage = (Stage) content.getScene().getWindow();
         stage.close();
@@ -63,9 +73,9 @@ public class AddNewDestinationController implements Initializable {
     @FXML
     private void coursplaceSave(ActionEvent event) {
         String tableName = "placenames";
-        String fieldName = "`PLACENAME`";
-        String[] data = {getNewplacename()};
-        String valuenumbers = "?";
+        String fieldName = "`PLACENAME`,`UINTTYPE`";
+        String[] data = {getNewplacename(), getUintType()};
+        String valuenumbers = "?,?";
         boolean newcoursnameState = FormValidation.textFieldNotEmpty(newplacename, "الرجاء ادخال مكان الانعقاد");
         if (newcoursnameState) {
             try {
@@ -81,10 +91,10 @@ public class AddNewDestinationController implements Initializable {
     @FXML
     private void coursplaceEdit(ActionEvent event) {
         String tableName = "placenames";
-        String fieldName = "`PLACENAME`=?";
+        String fieldName = "`PLACENAME`=?,`UINTTYPE`=?";
         String[] data = {getNewplacename()};
-        boolean newcoursnameState = FormValidation.textFieldNotEmpty(newplacename, "الرجاء ادخال مسمى الدورة");
-        boolean newcoursidState = FormValidation.notNull(placeid, "الرجاء اختر مكان الانعقاد من الجدول");
+        boolean newcoursnameState = FormValidation.textFieldNotEmpty(newplacename, "الرجاء اسم الجهة");
+        boolean newcoursidState = FormValidation.notNull(placeid, "الرجاء اختر السجل من الجدول");
         if (newcoursnameState && newcoursidState) {
             try {
                 DatabaseAccess.updat(tableName, fieldName, data, "PLACEID = '" + placeid + "'");
@@ -97,7 +107,7 @@ public class AddNewDestinationController implements Initializable {
 
     @FXML
     private void coursplaceDelete(ActionEvent event) {
-        boolean newcoursidState = FormValidation.notNull(placeid, "الرجاء اختر مسمى الدورة من القائمة اعلاه");
+        boolean newcoursidState = FormValidation.notNull(placeid, "الرجاء اختر السجل من الجدول");
         if (newcoursidState) {
             try {
                 DatabaseAccess.delete("placenames", "PLACEID = '" + placeid + "' ");
@@ -124,7 +134,7 @@ public class AddNewDestinationController implements Initializable {
         placeid_col.setCellValueFactory(new PropertyValueFactory<>("placeid"));
         coursplace_col.setCellValueFactory(new PropertyValueFactory<>("placeName"));
 
-        coursplaceTable.setItems(placeList);
+        destinationTable.setItems(placeList);
     }
 
     public void getTableRow(TableView table) {
@@ -164,5 +174,4 @@ public class AddNewDestinationController implements Initializable {
         coursplaceTableView();
     }
 
-    
 }

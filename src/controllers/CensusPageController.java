@@ -3,7 +3,14 @@ package controllers;
 import Validation.FormValidation;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -12,7 +19,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javax.print.attribute.standard.JobImpressions;
+import modeles.CensusModel;
 
 public class CensusPageController implements Initializable {
 
@@ -101,7 +108,7 @@ public class CensusPageController implements Initializable {
     @FXML
     private TextField PrisonSR;
     @FXML
-    private TableView<?> censusTable;
+    private TableView<CensusModel> censusTable;
     @FXML
     private TableColumn<?, ?> uint_col;
     @FXML
@@ -138,13 +145,17 @@ public class CensusPageController implements Initializable {
     private TableColumn<?, ?> late_col;
     @FXML
     private TableColumn<?, ?> Absence_col;
+    ObservableList<String> uintComboBoxlist = FXCollections.observableArrayList();
+    ObservableList<CensusModel> placeList = FXCollections.observableArrayList();
     @FXML
-    private TableColumn<?, ?> PrisonOF_col;
+    private TableColumn<?, ?> Prison_col;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         AppDate.setDateValue(DateDay, DateMonth, DateYear);
         AppDate.setCurrentDate(DateDay, DateMonth, DateYear);
+        clearListCombobox();
+        refreshListCombobox();
     }
 
     @FXML
@@ -153,8 +164,7 @@ public class CensusPageController implements Initializable {
 
     @FXML
     private void save(ActionEvent event) {
-        String tableName = "arshefdata";
-        String fieldName = null;
+        String tableName = "census";
         String daydate = AppDate.getDate(DateDay, DateMonth, DateYear);
         String[] OFdata = {uint.getValue(), daydate, originalCensusOF.getText(), currentCensusOF.getText(), OrdinaryVacationOF.getText(), OccasionalVacationOF.getText(),
             SickleaveOF.getText(), QuarantineOF.getText(), InareaTrainingOF.getText(), OutareaTrainingOF.getText(), OutKingdomTrainingOF.getText(), OfficialMissionOF.getText(), JoblMissionOF.getText(),
@@ -165,19 +175,19 @@ public class CensusPageController implements Initializable {
             SickleaveSR.getText(), QuarantineSR.getText(), InareaTrainingSR.getText(), OutareaTrainingSR.getText(), OutKingdomTrainingSR.getText(), OfficialMissionSR.getText(), JobMissionSR.getText(),
             hospitalSR.getText(), outKingdomJobSR.getText(), outOftheForceSR.getText(), alternatesSR.getText(), administrativeleaveSR.getText(), lateSR.getText(),
             AbsenceSR.getText(), PrisonSR.getText(), "SR"};
-        fieldName = "`uint`,`dayDate`,`originalCensus`,`currentCensus`,`OrdinaryVacation`,`OccasionalVacation`,`Sickleave`,`Quarantine`,"
+        String fieldName = "`uint`,`dayDate`,`originalCensus`,`currentCensus`,`OrdinaryVacation`,`OccasionalVacation`,`Sickleave`,`Quarantine`,"
                 + "`InareaTraining`,`OutareaTraining`,` OutKingdomTraining`,`OfficialMission`,`JoblMission`,`hospital`,`outKingdomJob`,`outOftheForce`,`alternates`,"
                 + "`administrativeleave`,`late`,`Absence`,`Prison`,`type`";
-        String valuenumbers = "?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?";
+        String valuenumbers = "?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?";
         TextField[] textfield = {originalCensusOF, originalCensusSR, currentCensusOF, currentCensusSR, OrdinaryVacationOF, OrdinaryVacationSR, OccasionalVacationOF,
             OccasionalVacationSR, SickleaveOF, SickleaveSR, QuarantineOF, QuarantineSR, InareaTrainingOF, InareaTrainingSR, OutareaTrainingOF, OutareaTrainingSR, OutKingdomTrainingOF,
             OutKingdomTrainingSR, OfficialMissionOF, OfficialMissionSR, JoblMissionOF, JobMissionSR, hospitalOF, hospitalSR, outKingdomJobOF, outKingdomJobSR, outOftheForceOF, outOftheForceSR,
             alternatesOF, alternatesSR, administrativeleaveOF, administrativeleaveSR, lateOF, lateSR, AbsenceOF, AbsenceSR, PrisonOF, PrisonSR};
 
-        boolean textfieldState = FormValidation.textFieldNotEmpty(textfield, "الرجاء ادخال رقم المعاملة");
+        boolean textfieldState = FormValidation.textFieldNotEmpty(textfield, "الرجاء تعبئة الحقل الفارغ");
 
-//        boolean circularidSNotexisting = FormValidation.ifexisting("arshefdata", "`CIRCULARID`,`ARSHEFYEAR`", "CIRCULARID ='" + getCircularid() + "' AND ARSHEFYEAR='" + arshefyear + "'", "تم ادخال رقم المعاملة مسبقا");
-        if (textfieldState) {
+        boolean censusNotexisting = FormValidation.ifexisting("census", "`uint`,`dayDate`", "uint ='" + uint.getValue() + "' AND dayDate='" + daydate + "'", "تم ادخال تمام " + " " + uint.getValue() + "لهذا اليوم");
+        if (textfieldState && censusNotexisting) {
             try {
                 DatabaseAccess.insert(tableName, fieldName, valuenumbers, OFdata);
                 DatabaseAccess.insert(tableName, fieldName, valuenumbers, SRdata);
@@ -191,6 +201,25 @@ public class CensusPageController implements Initializable {
 
     @FXML
     private void edit(ActionEvent event) {
+        try {
+            String[] fi = {"originalCensus", "currentCensus", "OrdinaryVacation", "OccasionalVacation", "Sickleave", "Quarantine", "InareaTraining",
+                "OutareaTraining", "OutKingdomTraining", "OfficialMission", "JoblMission", "hospital", "outKingdomJob", "outOftheForce", "alternates",
+                "administrativeleave", "late", "Absence", "Prison"};
+            ResultSet rs = DatabaseAccess.getSum("census", fi, "uint = '" + uint.getValue() + "' AND dayDate = '" + AppDate.getDate(DateDay, DateMonth, DateYear) + "'");
+
+            ResultSetMetaData rsmd = rs.getMetaData();
+            int columnCount = rsmd.getColumnCount();
+            for (int i = 1; i <= columnCount; i++) {
+                String name = rsmd.getColumnName(i);
+                System.out.println(name);
+            }
+//            if (rs.next()) {
+//                System.out.println(rs.getCursorName());
+//            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(CensusPageController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @FXML
@@ -201,4 +230,47 @@ public class CensusPageController implements Initializable {
     private void clear(ActionEvent event) {
     }
 
+    private ObservableList filleUint(ObservableList list) {
+        try {
+            ResultSet rs = DatabaseAccess.select("placenames", "UINTTYPE='داخلي'");
+            try {
+                while (rs.next()) {
+                    list.add(rs.getString("PLACENAME"));
+                }
+                rs.close();
+            } catch (SQLException ex) {
+                FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+            }
+        } catch (IOException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
+        return list;
+    }
+
+    private void refreshListCombobox() {
+        uint.setItems(filleUint(uintComboBoxlist));
+    }
+
+    public void clearListCombobox() {
+        uint.getItems().clear();
+    }
+
+//    private void censusTableView() {
+//        try {
+//            ResultSet rs = DatabaseAccess.select("census");
+//            while (rs.next()) {
+//                placeList.add(new CensusModel(
+//                        rs.getString("PLACEID"),
+//                        rs.getString("PLACENAME")
+//                ));
+//            }
+//            rs.close();
+//        } catch (SQLException | IOException ex) {
+//            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+//        }
+//        placeid_col.setCellValueFactory(new PropertyValueFactory<>("placeid"));
+//        coursplace_col.setCellValueFactory(new PropertyValueFactory<>("placeName"));
+//
+//        destinationTable.setItems(placeList);
+//    }
 }

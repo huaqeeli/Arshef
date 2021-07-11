@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="content" alignment="CENTER" nodeOrientation="RIGHT_TO_LEFT" prefHeight="800.0" prefWidth="1200.0" stylesheets="@../../../TrainingData/src/css/appStyle.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AddNewDestinationController">
+<VBox fx:id="content" alignment="CENTER" nodeOrientation="RIGHT_TO_LEFT" prefHeight="800.0" prefWidth="1200.0" stylesheets="@../../../TrainingData/src/css/appStyle.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AddNewDestinationController">
    <children>
       <HBox alignment="CENTER" prefHeight="60.0" prefWidth="200.0">
          <children>
@@ -22,7 +22,7 @@
                      </HBox.margin>
                   </Label>
                   <TextField fx:id="newplacename" alignment="CENTER" onAction="#coursplaceSave" prefHeight="40.0" prefWidth="500.0" styleClass="appText" HBox.hgrow="ALWAYS" />
-                  <ComboBox fx:id="year" accessibleText="coursCombobox" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="200.0" styleClass="appComboBox" />
+                  <ComboBox fx:id="uintType" accessibleText="coursCombobox" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="200.0" styleClass="appComboBox" />
                   <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#coursplaceSave" prefHeight="40.0" prefWidth="200.0" styleClass="toolBarButton" text="حفظ" HBox.hgrow="ALWAYS">
                      <HBox.margin>
                         <Insets right="2.0" />
@@ -48,7 +48,7 @@
             <Insets left="5.0" right="5.0" />
          </VBox.margin>
       </HBox>
-      <TableView fx:id="uintType" prefHeight="173.0" prefWidth="600.0" styleClass="appTable" VBox.vgrow="ALWAYS">
+      <TableView fx:id="destinationTable" prefHeight="173.0" prefWidth="600.0" styleClass="appTable" VBox.vgrow="ALWAYS">
         <columns>
           <TableColumn fx:id="placeid_col" maxWidth="500.0" minWidth="80.0" prefWidth="75.0" text="الرقم" />
           <TableColumn fx:id="coursplace_col" minWidth="200.0" prefWidth="75.0" text="جهة الوارد" />

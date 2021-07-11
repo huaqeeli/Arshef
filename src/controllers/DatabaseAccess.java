@@ -405,16 +405,19 @@ public class DatabaseAccess {
         }
     }
 
-    public static  ResultSet getSum(String tableName, String[] fieldNames, String condation) {
+    public static ResultSet getSum(String tableName, String condation) {
         ResultSet rs = null;
         PreparedStatement psm = null;
         String quiry = null;
+//        String[] fi = {"sum(originalCensus)", "sum(currentCensus)", "sum(OrdinaryVacation)", "sum(OccasionalVacation)", "sum(Sickleave)", "sum(Quarantine)", "sum(InareaTraining)",
+//                "sum(OutareaTraining)", "sum(OutKingdomTraining)", "sum(OfficialMission)", "sum(JoblMission)", "sum(hospital)", "sum(outKingdomJob)", "sum(outOftheForce)", "sum(alternates)",
+//                "sum(administrativeleave)", "sum(late)", "sum(Absence)", "sum(Prison)"};
+
+        quiry = "SELECT sum(originalCensus), sum(currentCensus), sum(OrdinaryVacation), sum(OccasionalVacation), sum(Sickleave), sum(Quarantine), sum(InareaTraining),"
+                + " sum(OutareaTraining), sum(OutKingdomTraining), sum(OfficialMission), sum(JoblMission), sum(hospital), sum(outKingdomJob), sum(outOftheForce), sum(alternates),"
+                + "sum(administrativeleave), sum(late), sum(Absence), sum(Prison) FROM " + tableName + " where " + condation;
         try {
             Connection con = DatabaseConniction.dbConnector();
-            for (int i = 0; i < fieldNames.length; i++) {
-                quiry = "SELECT uint,sum(" + fieldNames[i] + ") FROM " + tableName + " where " + condation;
-                
-            }
             psm = con.prepareStatement(quiry);
             rs = psm.executeQuery();
         } catch (IOException | SQLException ex) {

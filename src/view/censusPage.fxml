@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" prefHeight="800.0" prefWidth="1200.0" style="-fx-border-color: #9A9A9A; -fx-border-width: 0 5 0 0;" stylesheets="@../css/appStyle.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.CensusPageController">
+<AnchorPane id="AnchorPane" prefHeight="800.0" prefWidth="1200.0" style="-fx-border-color: #9A9A9A; -fx-border-width: 0 5 0 0;" stylesheets="@../css/appStyle.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.CensusPageController">
    <children>
       <VBox alignment="TOP_RIGHT" nodeOrientation="RIGHT_TO_LEFT" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -487,12 +487,17 @@
                         <Insets right="2.0" />
                      </HBox.margin>
                   </Button>
-                  <Button layoutX="748.0" layoutY="15.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#delete" prefHeight="40.0" styleClass="toolBarButton" text="طباعة نموذج هيئة العمليات" HBox.hgrow="ALWAYS">
+                  <Button layoutX="748.0" layoutY="15.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#printOprationReport" prefHeight="40.0" styleClass="toolBarButton" text="طباعة نموذج هيئة العمليات" HBox.hgrow="ALWAYS">
                      <HBox.margin>
                         <Insets right="2.0" />
                      </HBox.margin>
                   </Button>
-                  <Button layoutX="707.0" layoutY="15.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#delete" prefHeight="40.0" styleClass="toolBarButton" text="طباعة نموذج قائد القوة" HBox.hgrow="ALWAYS">
+                  <Button layoutX="707.0" layoutY="15.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#printForceReport" prefHeight="40.0" styleClass="toolBarButton" text="طباعة نموذج قائد القوة" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets right="2.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button layoutX="821.0" layoutY="15.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#printManualReport" prefHeight="40.0" styleClass="toolBarButton" text="طباعة التعداد المختصر">
                      <HBox.margin>
                         <Insets right="2.0" />
                      </HBox.margin>
@@ -513,25 +518,26 @@
             </HBox>
             <TableView fx:id="censusTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" nodeOrientation="RIGHT_TO_LEFT" prefHeight="465.0" prefWidth="1198.0" styleClass="appTable" VBox.vgrow="ALWAYS">
                <columns>
-                  <TableColumn fx:id="uint_col" minWidth="200.0" prefWidth="75.0" text="الوحدة" />
-                  <TableColumn fx:id="originalCensus_col" minWidth="80.0" prefWidth="75.0" text="القوة الاصلية" />
-                  <TableColumn fx:id="currentCensus_col" minWidth="80.0" prefWidth="75.0" text="القوة الحالية" />
-                  <TableColumn fx:id="OrdinaryVacation_col" minWidth="80.0" prefWidth="75.0" text="اجازة اعتيادية" />
-                  <TableColumn fx:id="OccasionalVacation_col" minWidth="80.0" prefWidth="75.0" text="اجازة عرضية" />
-                  <TableColumn fx:id="Sickleave_col" minWidth="80.0" prefWidth="75.0" text="اجازة مرضية" />
-                  <TableColumn fx:id="Quarantine_col" minWidth="80.0" prefWidth="75.0" text="حجر صحي" />
+                  <TableColumn fx:id="uint_col" minWidth="170.0" prefWidth="75.0" text="الوحدة" />
+                  <TableColumn fx:id="originalCensus_col" minWidth="80.0" prefWidth="50.0" text="القوة الاصلية" />
+                  <TableColumn fx:id="currentCensus_col" minWidth="80.0" prefWidth="50.0" text="القوة الحالية" />
+                  <TableColumn fx:id="OrdinaryVacation_col" minWidth="80.0" prefWidth="50.0" text="اجازة اعتيادية" />
+                  <TableColumn fx:id="OccasionalVacation_col" minWidth="60.0" prefWidth="50.0" text="اجازة عرضية" />
+                  <TableColumn fx:id="Sickleave_col" minWidth="60.0" prefWidth="50.0" text="اجازة مرضية" />
+                  <TableColumn fx:id="Quarantine_col" minWidth="60.0" prefWidth="50.0" text="حجر صحي" />
                   <TableColumn fx:id="InareaTraining_col" minWidth="100.0" prefWidth="75.0" text="دورة داخل المنطقة" />
                   <TableColumn fx:id="OutareaTraining_col" minWidth="100.0" prefWidth="75.0" text="دورة خارج المنطقة" />
-                  <TableColumn fx:id="OfficialMission_col" minWidth="100.0" prefWidth="75.0" text="مهمة رسمية" />
-                  <TableColumn fx:id="JoblMission_col1" minWidth="80.0" prefWidth="75.0" text="مهمة عمل" />
-                  <TableColumn fx:id="hospital_col" minWidth="80.0" prefWidth="75.0" text="مستشفى" />
+                  <TableColumn fx:id="OutKingdomTraining_col" minWidth="100.0" prefWidth="75.0" text="دورة خارج المملكة" />
+                  <TableColumn fx:id="OfficialMission_col" minWidth="80.0" prefWidth="50.0" text="مهمة رسمية" />
+                  <TableColumn fx:id="JoblMission_col1" minWidth="80.0" prefWidth="50.0" text="مهمة عمل" />
+                  <TableColumn fx:id="hospital_col" minWidth="60.0" prefWidth="50.0" text="مستشفى" />
                   <TableColumn fx:id="outKingdomJob_col" minWidth="100.0" prefWidth="75.0" text="ندب خارج المملكة" />
-                  <TableColumn fx:id="outOftheForce_col" minWidth="100.0" prefWidth="75.0" text="مكلف خارج القوة" />
-                  <TableColumn fx:id="alternates_col" minWidth="80.0" prefWidth="75.0" text="المناوبين" />
-                  <TableColumn fx:id="administrativeleave_col" minWidth="80.0" prefWidth="75.0" text="رخصة ادارية" />
-                  <TableColumn fx:id="late_col" minWidth="80.0" prefWidth="75.0" text="متاخرين" />
-                  <TableColumn fx:id="Absence_col" minWidth="80.0" prefWidth="75.0" text="غياب" />
-                  <TableColumn fx:id="Prison_col" minWidth="80.0" prefWidth="75.0" text="سجن" />
+                  <TableColumn fx:id="outOftheForce_col" minWidth="80.0" prefWidth="75.0" text="مكلف خارج القوة" />
+                  <TableColumn fx:id="alternates_col" minWidth="60.0" prefWidth="60.0" text="المناوبين" />
+                  <TableColumn fx:id="administrativeleave_col" minWidth="60.0" prefWidth="60.0" text="رخصة ادارية" />
+                  <TableColumn fx:id="late_col" minWidth="60.0" prefWidth="60.0" text="متاخرين" />
+                  <TableColumn fx:id="Absence_col" minWidth="60.0" prefWidth="60.0" text="غياب" />
+                  <TableColumn fx:id="Prison_col" minWidth="60.0" prefWidth="60.0" text="سجن" />
                </columns>
                <VBox.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

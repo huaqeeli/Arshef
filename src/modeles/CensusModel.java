@@ -2,9 +2,11 @@
 package modeles;
 
 public class CensusModel {
-    String originalCensus,currentCensus,OrdinaryVacation,OccasionalVacation,Sickleave,Quarantine,InareaTraining,OutareaTraining,OfficialMission,JoblMission,hospital,outKingdomJob,outOftheForce,alternates,administrativeleave,late,Absence,Prison;
+    String uint,originalCensus,currentCensus,OrdinaryVacation,OccasionalVacation,Sickleave,Quarantine,InareaTraining,OutareaTraining,OutKingdomTraining ,
+            OfficialMission,JoblMission,hospital,outKingdomJob,outOftheForce,alternates,administrativeleave,late,Absence,Prison;
 
-    public CensusModel(String originalCensus, String currentCensus, String OrdinaryVacation, String OccasionalVacation, String Sickleave, String Quarantine, String InareaTraining, String OutareaTraining, String OfficialMission, String JoblMission, String hospital, String outKingdomJob, String outOftheForce, String alternates, String administrativeleave, String late, String Absence, String Prison) {
+    public CensusModel(String uint, String originalCensus, String currentCensus, String OrdinaryVacation, String OccasionalVacation, String Sickleave, String Quarantine, String InareaTraining, String OutareaTraining, String OutKingdomTraining, String OfficialMission, String JoblMission, String hospital, String outKingdomJob, String outOftheForce, String alternates, String administrativeleave, String late, String Absence, String Prison) {
+        this.uint = uint;
         this.originalCensus = originalCensus;
         this.currentCensus = currentCensus;
         this.OrdinaryVacation = OrdinaryVacation;
@@ -13,6 +15,7 @@ public class CensusModel {
         this.Quarantine = Quarantine;
         this.InareaTraining = InareaTraining;
         this.OutareaTraining = OutareaTraining;
+        this.OutKingdomTraining = OutKingdomTraining;
         this.OfficialMission = OfficialMission;
         this.JoblMission = JoblMission;
         this.hospital = hospital;
@@ -23,6 +26,22 @@ public class CensusModel {
         this.late = late;
         this.Absence = Absence;
         this.Prison = Prison;
+    }
+
+    public String getOutKingdomTraining() {
+        return OutKingdomTraining;
+    }
+
+    public void setOutKingdomTraining(String OutKingdomTraining) {
+        this.OutKingdomTraining = OutKingdomTraining;
+    }
+
+    public String getUint() {
+        return uint;
+    }
+
+    public void setUint(String uint) {
+        this.uint = uint;
     }
 
     public String getOriginalCensus() {

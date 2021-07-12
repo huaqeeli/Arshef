@@ -1,0 +1,31 @@
+CREATE TABLE `manualtable` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uint` varchar(45) COLLATE utf8_bin DEFAULT NULL,
+  `daydate` varchar(45) COLLATE utf8_bin DEFAULT NULL,
+  `originalCensusOF` int(11) DEFAULT NULL,
+  `originalCensusSR` int(11) DEFAULT NULL,
+  `infieldOF` int(11) DEFAULT NULL,
+  `outfiedOF` int(11) DEFAULT NULL,
+  `infieldSR` int(11) DEFAULT NULL,
+  `outfieldSR` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+CREATE TABLE `reportimage` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `IMAGE` longblob,
+  `KINGDOMIMAGE` longblob,
+  `BSMALLHIMAG` longblob,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+CREATE TABLE `signature` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(200) COLLATE utf8_bin DEFAULT NULL,
+  `rank` varchar(45) COLLATE utf8_bin DEFAULT NULL,
+  `jopname` varchar(200) COLLATE utf8_bin DEFAULT NULL,
+  `uintname` varchar(200) COLLATE utf8_bin DEFAULT NULL,
+  `oprationname` varchar(200) COLLATE utf8_bin DEFAULT NULL,
+  `manegarname` varchar(200) COLLATE utf8_bin DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;

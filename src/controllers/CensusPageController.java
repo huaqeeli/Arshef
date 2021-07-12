@@ -199,7 +199,29 @@ public class CensusPageController implements Initializable {
         String fieldName = "`uint`,`dayDate`,`originalCensus`,`currentCensus`,`OrdinaryVacation`,`OccasionalVacation`,`Sickleave`,`Quarantine`,"
                 + "`InareaTraining`,`OutareaTraining`,`OutKingdomTraining`,`OfficialMission`,`JoblMission`,`hospital`,`outKingdomJob`,`outOftheForce`,`alternates`,"
                 + "`administrativeleave`,`late`,`Absence`,`Prison`,`type`";
+
         String valuenumbers = "?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?";
+        /*جدول التمام المختصر*/
+        String origalOF = ArabicSetting.EnglishToarabic(originalCensusOF.getText());
+        String origalSR = ArabicSetting.EnglishToarabic(originalCensusSR.getText());
+        String inFieldOF = ArabicSetting.EnglishToarabic(currentCensusOF.getText());
+        String inFieldSR = ArabicSetting.EnglishToarabic(originalCensusSR.getText());
+        int intoriginalCensusOf = Integer.parseInt(originalCensusOF.getText());
+        int intcurrentCensusOF = Integer.parseInt(currentCensusOF.getText());
+        int totalOF = intoriginalCensusOf - intcurrentCensusOF;
+        String outfieldOF = Integer.toString(totalOF);
+        int intoriginalCensusSR = Integer.parseInt(originalCensusSR.getText());
+        int intcurrentCensusSR = Integer.parseInt(currentCensusSR.getText());
+        int totalSR = intoriginalCensusSR - intcurrentCensusSR;
+        String outfieldSR = Integer.toString(totalSR);
+        
+        String outFieldOF = ArabicSetting.EnglishToarabic(outfieldOF);
+        String outFieldSR = ArabicSetting.EnglishToarabic(outfieldSR);
+
+        String[] mdata = {uint.getValue(), daydate, origalOF, origalSR, inFieldOF, inFieldSR, outFieldOF, outFieldSR};
+
+        String mfieldName = "`uint`,`daydate`,`originalCensusOF`,`originalCensusSR`,`infieldOF`,`infieldSR`,`outfiedOF`,`outfieldSR`";
+        String mvaluenumbers = "?,?,?,?,?,?,?,?";
 
         TextField[] textfield = {originalCensusOF, originalCensusSR, currentCensusOF, currentCensusSR, OrdinaryVacationOF, OrdinaryVacationSR, OccasionalVacationOF,
             OccasionalVacationSR, SickleaveOF, SickleaveSR, QuarantineOF, QuarantineSR, InareaTrainingOF, InareaTrainingSR, OutareaTrainingOF, OutareaTrainingSR, OutKingdomTrainingOF,
@@ -213,6 +235,7 @@ public class CensusPageController implements Initializable {
             try {
                 DatabaseAccess.insert(tableName, fieldName, valuenumbers, OFdata);
                 DatabaseAccess.insert(tableName, fieldName, valuenumbers, SRdata);
+                DatabaseAccess.insert("manualtable", mfieldName, mvaluenumbers, mdata);
                 refreshcensusTableView();
                 clear(event);
             } catch (IOException ex) {
@@ -237,6 +260,26 @@ public class CensusPageController implements Initializable {
         String fieldName = "`originalCensus`=?,`currentCensus`=?,`OrdinaryVacation`=?,`OccasionalVacation`=?,`Sickleave`=?,`Quarantine`=?,"
                 + "`InareaTraining`=?,`OutareaTraining`=?,`OutKingdomTraining`=?,`OfficialMission`=?,`JoblMission`=?,`hospital`=?,`outKingdomJob`=?,`outOftheForce`=?,`alternates`=?,"
                 + "`administrativeleave`=?,`late`=?,`Absence`=?,`Prison`=?";
+        /*جدول التمام المختصر*/
+        String origalOF = ArabicSetting.EnglishToarabic(originalCensusOF.getText());
+        String origalSR = ArabicSetting.EnglishToarabic(originalCensusSR.getText());
+        String inFieldOF = ArabicSetting.EnglishToarabic(currentCensusOF.getText());
+        String inFieldSR = ArabicSetting.EnglishToarabic(originalCensusSR.getText());
+        int intoriginalCensusOf = Integer.parseInt(originalCensusOF.getText());
+        int intcurrentCensusOF = Integer.parseInt(currentCensusOF.getText());
+        int totalOF = intoriginalCensusOf - intcurrentCensusOF;
+        String outfieldOF = Integer.toString(totalOF);
+        int intoriginalCensusSR = Integer.parseInt(originalCensusSR.getText());
+        int intcurrentCensusSR = Integer.parseInt(currentCensusSR.getText());
+        int totalSR = intoriginalCensusSR - intcurrentCensusSR;
+        String outfieldSR = Integer.toString(totalSR);
+
+        String outFieldOF = ArabicSetting.EnglishToarabic(outfieldOF);
+        String outFieldSR = ArabicSetting.EnglishToarabic(outfieldSR);
+
+        String[] mdata = {origalOF, origalSR, inFieldOF, inFieldSR, outFieldOF, outFieldSR};
+
+        String mfieldName = "=`originalCensusOF`=?,`originalCensusSR`=?,`infieldOF`=?,`infieldSR`=?,`outfiedOF`=?,`outfieldSR`=?";
 
         TextField[] textfield = {originalCensusOF, originalCensusSR, currentCensusOF, currentCensusSR, OrdinaryVacationOF, OrdinaryVacationSR, OccasionalVacationOF,
             OccasionalVacationSR, SickleaveOF, SickleaveSR, QuarantineOF, QuarantineSR, InareaTrainingOF, InareaTrainingSR, OutareaTrainingOF, OutareaTrainingSR, OutKingdomTrainingOF,
@@ -250,6 +293,7 @@ public class CensusPageController implements Initializable {
             try {
                 DatabaseAccess.updat(tableName, fieldName, OFdata, "uint = '" + tabeluint + "' AND dayDate = '" + daydate + "'AND type = 'OF'");
                 DatabaseAccess.updat(tableName, fieldName, SRdata, "uint = '" + tabeluint + "' AND dayDate = '" + daydate + "'AND type = 'SR'");
+                DatabaseAccess.updat("manualtable", mfieldName, mdata, "uint = '" + tabeluint + "' AND dayDate = '" + daydate + "'");
                 refreshcensusTableView();
                 clear(event);
             } catch (IOException ex) {
@@ -537,8 +581,8 @@ public class CensusPageController implements Initializable {
     @FXML
     private void printOprationReport(ActionEvent event) {
         try {
-//            String reportSrcFile = "C:\\Users\\ابو ريان\\Documents\\NetBeansProjects\\Arshef\\src\\reports\\oprationReport.jrxml";
-            String reportSrcFile = "C:\\Users\\y50\\Documents\\NetBeansProjects\\Arshef\\src\\reports\\oprationReports.jrxml";
+            String reportSrcFile = "C:\\Users\\ابو ريان\\Documents\\NetBeansProjects\\Arshef\\src\\reports\\reportofopration.jrxml";
+//            String reportSrcFile = "C:\\Users\\y50\\Documents\\NetBeansProjects\\Arshef\\src\\reports\\oprationReports.jrxml";
             Connection con = DatabaseConniction.dbConnector();
             ResultSet rs = DatabaseAccess.getSum("census", "dayDate = '" + AppDate.getDate(DateDay, DateMonth, DateYear) + "'AND type = 'OF'");
             ResultSet rs1 = DatabaseAccess.getSum("census", "dayDate = '" + AppDate.getDate(DateDay, DateMonth, DateYear) + "'AND type = 'SR'");
@@ -598,7 +642,7 @@ public class CensusPageController implements Initializable {
                 parameters.put("OutKingdomTraining", ArabicSetting.EnglishToarabic(rs2.getString("sum(OutKingdomTraining)")));
                 parameters.put("OfficialMission", ArabicSetting.EnglishToarabic(rs2.getString("sum(OfficialMission)")));
                 parameters.put("JoblMission", ArabicSetting.EnglishToarabic(rs2.getString("sum(JoblMission)")));
-                parameters.put("hospitalSR", ArabicSetting.EnglishToarabic(rs2.getString("sum(hospital)")));
+                parameters.put("hospital", ArabicSetting.EnglishToarabic(rs2.getString("sum(hospital)")));
                 parameters.put("outKingdomJob", ArabicSetting.EnglishToarabic(rs2.getString("sum(outKingdomJob)")));
                 parameters.put("outOftheForce", ArabicSetting.EnglishToarabic(rs2.getString("sum(outOftheForce)")));
                 parameters.put("alternates", ArabicSetting.EnglishToarabic(rs2.getString("sum(alternates)")));
@@ -607,7 +651,94 @@ public class CensusPageController implements Initializable {
                 parameters.put("Absence", ArabicSetting.EnglishToarabic(rs2.getString("sum(Absence)")));
                 parameters.put("Prison", ArabicSetting.EnglishToarabic(rs2.getString("sum(Prison)")));
                 parameters.put("day", HijriCalendar.getSimpleWeekday());
-                parameters.put("date", HijriCalendar.getSimpleDate() + "هـ");
+                parameters.put("date", ArabicSetting.EnglishToarabic(HijriCalendar.getSimpleDate()) + "هـ");
+
+            }
+            JasperReport jrr = JasperCompileManager.compileReport(jasperReport);
+            JasperPrint print = JasperFillManager.fillReport(jrr, parameters, con);
+
+//        JasperPrintManager.printReport(print, false);
+            JasperViewer.viewReport(print, false);
+            rs.close();
+        } catch (JRException | IOException | SQLException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
+    }
+
+    @FXML//interyReport
+    private void printForceReport(ActionEvent event) {
+        try {
+            String reportSrcFile = "C:\\Users\\ابو ريان\\Documents\\NetBeansProjects\\Arshef\\src\\reports\\ForceReport.jrxml";
+//            String reportSrcFile = "C:\\Users\\y50\\Documents\\NetBeansProjects\\Arshef\\src\\reports\\oprationReports.jrxml";
+            Connection con = DatabaseConniction.dbConnector();
+            ResultSet rs = DatabaseAccess.getSum("census", "dayDate = '" + AppDate.getDate(DateDay, DateMonth, DateYear) + "'AND type = 'OF'");
+            ResultSet rs1 = DatabaseAccess.getSum("census", "dayDate = '" + AppDate.getDate(DateDay, DateMonth, DateYear) + "'AND type = 'SR'");
+            ResultSet rs2 = DatabaseAccess.getSum("census", "dayDate = '" + AppDate.getDate(DateDay, DateMonth, DateYear) + "'");
+            JasperDesign jasperReport = JRXmlLoader.load(reportSrcFile);
+            Map parameters = new HashMap();
+            while (rs.next() && rs1.next() && rs2.next()) {
+
+                parameters.put("originalCensusOF", ArabicSetting.EnglishToarabic(rs.getString("sum(originalCensus)")));
+                parameters.put("currentCensusOF", ArabicSetting.EnglishToarabic(rs.getString("sum(currentCensus)")));
+                parameters.put("OrdinaryVacationOF", ArabicSetting.EnglishToarabic(rs.getString("sum(OrdinaryVacation)")));
+                parameters.put("OccasionalVacationOF", ArabicSetting.EnglishToarabic(rs.getString("sum(OccasionalVacation)")));
+                parameters.put("SickleaveOF", ArabicSetting.EnglishToarabic(rs.getString("sum(Sickleave)")));
+                parameters.put("QuarantineOF", ArabicSetting.EnglishToarabic(rs.getString("sum(Quarantine)")));
+                parameters.put("InareaTrainingOF", ArabicSetting.EnglishToarabic(rs.getString("sum(InareaTraining)")));
+                parameters.put("OutareaTrainingOF", ArabicSetting.EnglishToarabic(rs.getString("sum(OutareaTraining)")));
+                parameters.put("OutKingdomTrainingOF", ArabicSetting.EnglishToarabic(rs.getString("sum(OutKingdomTraining)")));
+                parameters.put("OfficialMissionOF", ArabicSetting.EnglishToarabic(rs.getString("sum(OfficialMission)")));
+                parameters.put("JoblMissionOF", ArabicSetting.EnglishToarabic(rs.getString("sum(JoblMission)")));
+                parameters.put("hospitalOF", ArabicSetting.EnglishToarabic(rs.getString("sum(hospital)")));
+                parameters.put("outKingdomJobOF", ArabicSetting.EnglishToarabic(rs.getString("sum(outKingdomJob)")));
+                parameters.put("outOftheForceOF", ArabicSetting.EnglishToarabic(rs.getString("sum(outOftheForce)")));
+                parameters.put("alternatesOF", ArabicSetting.EnglishToarabic(rs.getString("sum(alternates)")));
+                parameters.put("administrativeleaveOF", ArabicSetting.EnglishToarabic(rs.getString("sum(administrativeleave)")));
+                parameters.put("lateOF", ArabicSetting.EnglishToarabic(rs.getString("sum(late)")));
+                parameters.put("AbsenceOF", ArabicSetting.EnglishToarabic(rs.getString("sum(Absence)")));
+                parameters.put("PrisonOF", ArabicSetting.EnglishToarabic(rs.getString("sum(Prison)")));
+
+                parameters.put("originalCensusSR", ArabicSetting.EnglishToarabic(rs1.getString("sum(originalCensus)")));
+                parameters.put("currentCensusSR", ArabicSetting.EnglishToarabic(rs1.getString("sum(currentCensus)")));
+                parameters.put("OrdinaryVacationSR", ArabicSetting.EnglishToarabic(rs1.getString("sum(OrdinaryVacation)")));
+                parameters.put("OccasionalVacationSR", ArabicSetting.EnglishToarabic(rs1.getString("sum(OccasionalVacation)")));
+                parameters.put("SickleaveSR", ArabicSetting.EnglishToarabic(rs1.getString("sum(Sickleave)")));
+                parameters.put("QuarantineSR", ArabicSetting.EnglishToarabic(rs1.getString("sum(Quarantine)")));
+                parameters.put("InareaTrainingSR", ArabicSetting.EnglishToarabic(rs1.getString("sum(InareaTraining)")));
+                parameters.put("OutareaTrainingSR", ArabicSetting.EnglishToarabic(rs1.getString("sum(OutareaTraining)")));
+                parameters.put("OutKingdomTrainingSR", ArabicSetting.EnglishToarabic(rs1.getString("sum(OutKingdomTraining)")));
+                parameters.put("OfficialMissionSR", ArabicSetting.EnglishToarabic(rs1.getString("sum(OfficialMission)")));
+                parameters.put("JoblMissionSR", ArabicSetting.EnglishToarabic(rs1.getString("sum(JoblMission)")));
+                parameters.put("hospitalSR", ArabicSetting.EnglishToarabic(rs1.getString("sum(hospital)")));
+                parameters.put("outKingdomJobSR", ArabicSetting.EnglishToarabic(rs1.getString("sum(outKingdomJob)")));
+                parameters.put("outOftheForceSR", ArabicSetting.EnglishToarabic(rs1.getString("sum(outOftheForce)")));
+                parameters.put("alternatesSR", ArabicSetting.EnglishToarabic(rs1.getString("sum(alternates)")));
+                parameters.put("administrativeleaveSR", ArabicSetting.EnglishToarabic(rs1.getString("sum(administrativeleave)")));
+                parameters.put("lateSR", ArabicSetting.EnglishToarabic(rs1.getString("sum(late)")));
+                parameters.put("AbsenceSR", ArabicSetting.EnglishToarabic(rs1.getString("sum(Absence)")));
+                parameters.put("PrisonSR", ArabicSetting.EnglishToarabic(rs1.getString("sum(Prison)")));
+
+                parameters.put("originalCensus", ArabicSetting.EnglishToarabic(rs2.getString("sum(originalCensus)")));
+                parameters.put("currentCensus", ArabicSetting.EnglishToarabic(rs2.getString("sum(currentCensus)")));
+                parameters.put("OrdinaryVacation", ArabicSetting.EnglishToarabic(rs2.getString("sum(OrdinaryVacation)")));
+                parameters.put("OccasionalVacation", ArabicSetting.EnglishToarabic(rs2.getString("sum(OccasionalVacation)")));
+                parameters.put("Sickleave", ArabicSetting.EnglishToarabic(rs2.getString("sum(Sickleave)")));
+                parameters.put("Quarantine", ArabicSetting.EnglishToarabic(rs2.getString("sum(Quarantine)")));
+                parameters.put("InareaTraining", ArabicSetting.EnglishToarabic(rs2.getString("sum(InareaTraining)")));
+                parameters.put("OutareaTraining", ArabicSetting.EnglishToarabic(rs2.getString("sum(OutareaTraining)")));
+                parameters.put("OutKingdomTraining", ArabicSetting.EnglishToarabic(rs2.getString("sum(OutKingdomTraining)")));
+                parameters.put("OfficialMission", ArabicSetting.EnglishToarabic(rs2.getString("sum(OfficialMission)")));
+                parameters.put("JoblMission", ArabicSetting.EnglishToarabic(rs2.getString("sum(JoblMission)")));
+                parameters.put("hospital", ArabicSetting.EnglishToarabic(rs2.getString("sum(hospital)")));
+                parameters.put("outKingdomJob", ArabicSetting.EnglishToarabic(rs2.getString("sum(outKingdomJob)")));
+                parameters.put("outOftheForce", ArabicSetting.EnglishToarabic(rs2.getString("sum(outOftheForce)")));
+                parameters.put("alternates", ArabicSetting.EnglishToarabic(rs2.getString("sum(alternates)")));
+                parameters.put("administrativeleave", ArabicSetting.EnglishToarabic(rs2.getString("sum(administrativeleave)")));
+                parameters.put("late", ArabicSetting.EnglishToarabic(rs2.getString("sum(late)")));
+                parameters.put("Absence", ArabicSetting.EnglishToarabic(rs2.getString("sum(Absence)")));
+                parameters.put("Prison", ArabicSetting.EnglishToarabic(rs2.getString("sum(Prison)")));
+                parameters.put("day", HijriCalendar.getSimpleWeekday());
+                parameters.put("date", ArabicSetting.EnglishToarabic(HijriCalendar.getSimpleDate()) + "هـ");
 
             }
             JasperReport jrr = JasperCompileManager.compileReport(jasperReport);
@@ -622,10 +753,33 @@ public class CensusPageController implements Initializable {
     }
 
     @FXML
-    private void printForceReport(ActionEvent event) {
-    }
-
-    @FXML
     private void printManualReport(ActionEvent event) {
+         try {
+            String reportSrcFile = "C:\\Users\\ابو ريان\\Documents\\NetBeansProjects\\Arshef\\src\\reports\\ManualReport.jrxml";
+//            String reportSrcFile = "C:\\Users\\y50\\Documents\\NetBeansProjects\\Arshef\\src\\reports\\oprationReports.jrxml";
+            Connection con = DatabaseConniction.dbConnector();
+            ResultSet rs = DatabaseAccess.getManualSum("manualtable", "dayDate = '" + AppDate.getDate(DateDay, DateMonth, DateYear) + "'");
+            JasperDesign jasperReport = JRXmlLoader.load(reportSrcFile);
+            Map parameters = new HashMap();
+            while (rs.next() ) {//sum(originalCensusOF), sum(originalCensusSR), sum(infieldOF), sum(infieldSR), sum(outfiedOF), sum(outfieldSR)
+                parameters.put("originalCensusOF", ArabicSetting.EnglishToarabic(rs.getString("sum(originalCensusOF)")));
+                parameters.put("originalCensusSR", ArabicSetting.EnglishToarabic(rs.getString("sum(originalCensusSR)")));
+                parameters.put("infieldOF", ArabicSetting.EnglishToarabic(rs.getString("sum(infieldOF)")));
+                parameters.put("infieldSR", ArabicSetting.EnglishToarabic(rs.getString("sum(infieldSR)")));
+                parameters.put("outfieldOF", ArabicSetting.EnglishToarabic(rs.getString("sum(outfiedOF)")));
+                parameters.put("outfieldSR", ArabicSetting.EnglishToarabic(rs.getString("sum(outfieldSR)")));
+                parameters.put("day", HijriCalendar.getSimpleWeekday());
+                parameters.put("date", ArabicSetting.EnglishToarabic(HijriCalendar.getSimpleDate()) + "هـ");
+                parameters.put("quaridate", AppDate.getDate(DateDay, DateMonth, DateYear));
+            }
+            JasperReport jrr = JasperCompileManager.compileReport(jasperReport);
+            JasperPrint print = JasperFillManager.fillReport(jrr, parameters, con);
+
+//        JasperPrintManager.printReport(print, false);
+            JasperViewer.viewReport(print, false);
+            rs.close();
+        } catch (JRException | IOException | SQLException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
     }
 }

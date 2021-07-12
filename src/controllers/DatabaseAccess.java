@@ -409,13 +409,23 @@ public class DatabaseAccess {
         ResultSet rs = null;
         PreparedStatement psm = null;
         String quiry = null;
-//        String[] fi = {"sum(originalCensus)", "sum(currentCensus)", "sum(OrdinaryVacation)", "sum(OccasionalVacation)", "sum(Sickleave)", "sum(Quarantine)", "sum(InareaTraining)",
-//                "sum(OutareaTraining)", "sum(OutKingdomTraining)", "sum(OfficialMission)", "sum(JoblMission)", "sum(hospital)", "sum(outKingdomJob)", "sum(outOftheForce)", "sum(alternates)",
-//                "sum(administrativeleave)", "sum(late)", "sum(Absence)", "sum(Prison)"};
-
         quiry = "SELECT sum(originalCensus), sum(currentCensus), sum(OrdinaryVacation), sum(OccasionalVacation), sum(Sickleave), sum(Quarantine), sum(InareaTraining),"
                 + " sum(OutareaTraining), sum(OutKingdomTraining), sum(OfficialMission), sum(JoblMission), sum(hospital), sum(outKingdomJob), sum(outOftheForce), sum(alternates),"
                 + "sum(administrativeleave), sum(late), sum(Absence), sum(Prison) FROM " + tableName + " where " + condation;
+        try {
+            Connection con = DatabaseConniction.dbConnector();
+            psm = con.prepareStatement(quiry);
+            rs = psm.executeQuery();
+        } catch (IOException | SQLException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
+        return rs;
+    }
+    public static ResultSet getManualSum(String tableName, String condation) {
+        ResultSet rs = null;
+        PreparedStatement psm = null;
+        String quiry = null;//`originalCensusOF`,`originalCensusSR`,`infieldOF`,`infieldSR`,`outfiedOF`,`outfieldSR`
+        quiry = "SELECT sum(originalCensusOF), sum(originalCensusSR), sum(infieldOF), sum(infieldSR), sum(outfiedOF), sum(outfieldSR) FROM " + tableName + " where " + condation;
         try {
             Connection con = DatabaseConniction.dbConnector();
             psm = con.prepareStatement(quiry);

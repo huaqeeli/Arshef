@@ -180,6 +180,7 @@ public class CensusPageController implements Initializable {
 
     @FXML
     private void searchData(ActionEvent event) {
+        refreshcensusTableView();
     }
 
     @FXML
@@ -536,8 +537,8 @@ public class CensusPageController implements Initializable {
     @FXML
     private void printOprationReport(ActionEvent event) {
         try {
-            String reportSrcFile = "C:\\Users\\ابو ريان\\Documents\\NetBeansProjects\\Arshef\\src\\reports\\oprationReport.jrxml";
-//            String reportSrcFile = "C:\\Program Files\\TrainingData\\reports\\courseByid.jrxml";
+//            String reportSrcFile = "C:\\Users\\ابو ريان\\Documents\\NetBeansProjects\\Arshef\\src\\reports\\oprationReport.jrxml";
+            String reportSrcFile = "C:\\Users\\y50\\Documents\\NetBeansProjects\\Arshef\\src\\reports\\oprationReports.jrxml";
             Connection con = DatabaseConniction.dbConnector();
             ResultSet rs = DatabaseAccess.getSum("census", "dayDate = '" + AppDate.getDate(DateDay, DateMonth, DateYear) + "'AND type = 'OF'");
             ResultSet rs1 = DatabaseAccess.getSum("census", "dayDate = '" + AppDate.getDate(DateDay, DateMonth, DateYear) + "'AND type = 'SR'");

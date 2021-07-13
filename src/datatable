@@ -2,12 +2,12 @@ CREATE TABLE `manualtable` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `uint` varchar(45) COLLATE utf8_bin DEFAULT NULL,
   `daydate` varchar(45) COLLATE utf8_bin DEFAULT NULL,
-  `originalCensusOF` int(11) DEFAULT NULL,
-  `originalCensusSR` int(11) DEFAULT NULL,
-  `infieldOF` int(11) DEFAULT NULL,
-  `outfiedOF` int(11) DEFAULT NULL,
-  `infieldSR` int(11) DEFAULT NULL,
-  `outfieldSR` int(11) DEFAULT NULL,
+  `originalCensusOF` varchar(45) DEFAULT NULL,
+  `originalCensusSR` varchar(45) DEFAULT NULL,
+  `infieldOF` varchar(45) DEFAULT NULL,
+  `outfiedOF` varchar(45) DEFAULT NULL,
+  `infieldSR` varchar(45) DEFAULT NULL,
+  `outfieldSR` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 

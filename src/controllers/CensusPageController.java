@@ -279,7 +279,7 @@ public class CensusPageController implements Initializable {
 
         String[] mdata = {origalOF, origalSR, inFieldOF, inFieldSR, outFieldOF, outFieldSR};
 
-        String mfieldName = "=`originalCensusOF`=?,`originalCensusSR`=?,`infieldOF`=?,`infieldSR`=?,`outfiedOF`=?,`outfieldSR`=?";
+        String mfieldName = "`originalCensusOF`=?,`originalCensusSR`=?,`infieldOF`=?,`infieldSR`=?,`outfiedOF`=?,`outfieldSR`=?";
 
         TextField[] textfield = {originalCensusOF, originalCensusSR, currentCensusOF, currentCensusSR, OrdinaryVacationOF, OrdinaryVacationSR, OccasionalVacationOF,
             OccasionalVacationSR, SickleaveOF, SickleaveSR, QuarantineOF, QuarantineSR, InareaTrainingOF, InareaTrainingSR, OutareaTrainingOF, OutareaTrainingSR, OutKingdomTrainingOF,
@@ -581,8 +581,8 @@ public class CensusPageController implements Initializable {
     @FXML
     private void printOprationReport(ActionEvent event) {
         try {
-            String reportSrcFile = "C:\\Users\\ابو ريان\\Documents\\NetBeansProjects\\Arshef\\src\\reports\\reportofopration.jrxml";
-//            String reportSrcFile = "C:\\Users\\y50\\Documents\\NetBeansProjects\\Arshef\\src\\reports\\oprationReports.jrxml";
+//            String reportSrcFile = "C:\\Users\\ابو ريان\\Documents\\NetBeansProjects\\Arshef\\src\\reports\\reportofopration.jrxml";
+            String reportSrcFile = "C:\\Users\\y50\\Documents\\NetBeansProjects\\Arshef\\src\\reports\\reportofopration.jrxml";
             Connection con = DatabaseConniction.dbConnector();
             ResultSet rs = DatabaseAccess.getSum("census", "dayDate = '" + AppDate.getDate(DateDay, DateMonth, DateYear) + "'AND type = 'OF'");
             ResultSet rs1 = DatabaseAccess.getSum("census", "dayDate = '" + AppDate.getDate(DateDay, DateMonth, DateYear) + "'AND type = 'SR'");
@@ -668,8 +668,8 @@ public class CensusPageController implements Initializable {
     @FXML//interyReport
     private void printForceReport(ActionEvent event) {
         try {
-            String reportSrcFile = "C:\\Users\\ابو ريان\\Documents\\NetBeansProjects\\Arshef\\src\\reports\\ForceReport.jrxml";
-//            String reportSrcFile = "C:\\Users\\y50\\Documents\\NetBeansProjects\\Arshef\\src\\reports\\oprationReports.jrxml";
+//            String reportSrcFile = "C:\\Users\\ابو ريان\\Documents\\NetBeansProjects\\Arshef\\src\\reports\\ForceReport.jrxml";
+            String reportSrcFile = "C:\\Users\\y50\\Documents\\NetBeansProjects\\Arshef\\src\\reports\\ForceReport.jrxml";
             Connection con = DatabaseConniction.dbConnector();
             ResultSet rs = DatabaseAccess.getSum("census", "dayDate = '" + AppDate.getDate(DateDay, DateMonth, DateYear) + "'AND type = 'OF'");
             ResultSet rs1 = DatabaseAccess.getSum("census", "dayDate = '" + AppDate.getDate(DateDay, DateMonth, DateYear) + "'AND type = 'SR'");
@@ -755,8 +755,8 @@ public class CensusPageController implements Initializable {
     @FXML
     private void printManualReport(ActionEvent event) {
          try {
-            String reportSrcFile = "C:\\Users\\ابو ريان\\Documents\\NetBeansProjects\\Arshef\\src\\reports\\ManualReport.jrxml";
-//            String reportSrcFile = "C:\\Users\\y50\\Documents\\NetBeansProjects\\Arshef\\src\\reports\\oprationReports.jrxml";
+//            String reportSrcFile = "C:\\Users\\ابو ريان\\Documents\\NetBeansProjects\\Arshef\\src\\reports\\ManualReport.jrxml";
+            String reportSrcFile = "C:\\Users\\y50\\Documents\\NetBeansProjects\\Arshef\\src\\reports\\ManualReport.jrxml";
             Connection con = DatabaseConniction.dbConnector();
             ResultSet rs = DatabaseAccess.getManualSum("manualtable", "dayDate = '" + AppDate.getDate(DateDay, DateMonth, DateYear) + "'");
             JasperDesign jasperReport = JRXmlLoader.load(reportSrcFile);

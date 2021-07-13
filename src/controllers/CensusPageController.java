@@ -205,7 +205,7 @@ public class CensusPageController implements Initializable {
         String origalOF = ArabicSetting.EnglishToarabic(originalCensusOF.getText());
         String origalSR = ArabicSetting.EnglishToarabic(originalCensusSR.getText());
         String inFieldOF = ArabicSetting.EnglishToarabic(currentCensusOF.getText());
-        String inFieldSR = ArabicSetting.EnglishToarabic(originalCensusSR.getText());
+        String inFieldSR = ArabicSetting.EnglishToarabic(currentCensusSR.getText());
         int intoriginalCensusOf = Integer.parseInt(originalCensusOF.getText());
         int intcurrentCensusOF = Integer.parseInt(currentCensusOF.getText());
         int totalOF = intoriginalCensusOf - intcurrentCensusOF;
@@ -214,7 +214,7 @@ public class CensusPageController implements Initializable {
         int intcurrentCensusSR = Integer.parseInt(currentCensusSR.getText());
         int totalSR = intoriginalCensusSR - intcurrentCensusSR;
         String outfieldSR = Integer.toString(totalSR);
-        
+
         String outFieldOF = ArabicSetting.EnglishToarabic(outfieldOF);
         String outFieldSR = ArabicSetting.EnglishToarabic(outfieldSR);
 
@@ -308,6 +308,7 @@ public class CensusPageController implements Initializable {
         if (tabeluintState) {
             try {
                 DatabaseAccess.delete("census", "uint = '" + tabeluint + "' AND dayDate = '" + AppDate.getDate(DateDay, DateMonth, DateYear) + "'");
+                DatabaseAccess.delete("manualtable", "uint = '" + tabeluint + "' AND dayDate = '" + AppDate.getDate(DateDay, DateMonth, DateYear) + "'");
                 refreshcensusTableView();
                 clear(event);
             } catch (IOException ex) {
@@ -581,8 +582,8 @@ public class CensusPageController implements Initializable {
     @FXML
     private void printOprationReport(ActionEvent event) {
         try {
-//            String reportSrcFile = "C:\\Users\\ابو ريان\\Documents\\NetBeansProjects\\Arshef\\src\\reports\\reportofopration.jrxml";
-            String reportSrcFile = "C:\\Users\\y50\\Documents\\NetBeansProjects\\Arshef\\src\\reports\\reportofopration.jrxml";
+            String reportSrcFile = "C:\\Users\\ابو ريان\\Documents\\NetBeansProjects\\Arshef\\src\\reports\\reportofopration.jrxml";
+//            String reportSrcFile = "C:\\Users\\y50\\Documents\\NetBeansProjects\\Arshef\\src\\reports\\reportofopration.jrxml";
             Connection con = DatabaseConniction.dbConnector();
             ResultSet rs = DatabaseAccess.getSum("census", "dayDate = '" + AppDate.getDate(DateDay, DateMonth, DateYear) + "'AND type = 'OF'");
             ResultSet rs1 = DatabaseAccess.getSum("census", "dayDate = '" + AppDate.getDate(DateDay, DateMonth, DateYear) + "'AND type = 'SR'");
@@ -652,6 +653,7 @@ public class CensusPageController implements Initializable {
                 parameters.put("Prison", ArabicSetting.EnglishToarabic(rs2.getString("sum(Prison)")));
                 parameters.put("day", HijriCalendar.getSimpleWeekday());
                 parameters.put("date", ArabicSetting.EnglishToarabic(HijriCalendar.getSimpleDate()) + "هـ");
+                parameters.put("uintNum", ArabicSetting.EnglishToarabic("067"));
 
             }
             JasperReport jrr = JasperCompileManager.compileReport(jasperReport);
@@ -668,8 +670,8 @@ public class CensusPageController implements Initializable {
     @FXML//interyReport
     private void printForceReport(ActionEvent event) {
         try {
-//            String reportSrcFile = "C:\\Users\\ابو ريان\\Documents\\NetBeansProjects\\Arshef\\src\\reports\\ForceReport.jrxml";
-            String reportSrcFile = "C:\\Users\\y50\\Documents\\NetBeansProjects\\Arshef\\src\\reports\\ForceReport.jrxml";
+            String reportSrcFile = "C:\\Users\\ابو ريان\\Documents\\NetBeansProjects\\Arshef\\src\\reports\\ForceReport.jrxml";
+//            String reportSrcFile = "C:\\Users\\y50\\Documents\\NetBeansProjects\\Arshef\\src\\reports\\ForceReport.jrxml";
             Connection con = DatabaseConniction.dbConnector();
             ResultSet rs = DatabaseAccess.getSum("census", "dayDate = '" + AppDate.getDate(DateDay, DateMonth, DateYear) + "'AND type = 'OF'");
             ResultSet rs1 = DatabaseAccess.getSum("census", "dayDate = '" + AppDate.getDate(DateDay, DateMonth, DateYear) + "'AND type = 'SR'");
@@ -739,7 +741,7 @@ public class CensusPageController implements Initializable {
                 parameters.put("Prison", ArabicSetting.EnglishToarabic(rs2.getString("sum(Prison)")));
                 parameters.put("day", HijriCalendar.getSimpleWeekday());
                 parameters.put("date", ArabicSetting.EnglishToarabic(HijriCalendar.getSimpleDate()) + "هـ");
-
+                parameters.put("uintNum", ArabicSetting.EnglishToarabic("067"));
             }
             JasperReport jrr = JasperCompileManager.compileReport(jasperReport);
             JasperPrint print = JasperFillManager.fillReport(jrr, parameters, con);
@@ -754,23 +756,33 @@ public class CensusPageController implements Initializable {
 
     @FXML
     private void printManualReport(ActionEvent event) {
-         try {
-//            String reportSrcFile = "C:\\Users\\ابو ريان\\Documents\\NetBeansProjects\\Arshef\\src\\reports\\ManualReport.jrxml";
-            String reportSrcFile = "C:\\Users\\y50\\Documents\\NetBeansProjects\\Arshef\\src\\reports\\ManualReport.jrxml";
+        try {
+            String reportSrcFile = "C:\\Users\\ابو ريان\\Documents\\NetBeansProjects\\Arshef\\src\\reports\\ManualReport.jrxml";
+//            String reportSrcFile = "C:\\Users\\y50\\Documents\\NetBeansProjects\\Arshef\\src\\reports\\ManualReport.jrxml";
             Connection con = DatabaseConniction.dbConnector();
-            ResultSet rs = DatabaseAccess.getManualSum("manualtable", "dayDate = '" + AppDate.getDate(DateDay, DateMonth, DateYear) + "'");
+            ResultSet rs = DatabaseAccess.getManualSum("census", "dayDate = '" + AppDate.getDate(DateDay, DateMonth, DateYear) + "'AND type = 'OF'");
+            ResultSet rs1 = DatabaseAccess.getManualSum("census", "dayDate = '" + AppDate.getDate(DateDay, DateMonth, DateYear) + "'AND type = 'SR'");
             JasperDesign jasperReport = JRXmlLoader.load(reportSrcFile);
             Map parameters = new HashMap();
-            while (rs.next() ) {//sum(originalCensusOF), sum(originalCensusSR), sum(infieldOF), sum(infieldSR), sum(outfiedOF), sum(outfieldSR)
-                parameters.put("originalCensusOF", ArabicSetting.EnglishToarabic(rs.getString("sum(originalCensusOF)")));
-                parameters.put("originalCensusSR", ArabicSetting.EnglishToarabic(rs.getString("sum(originalCensusSR)")));
-                parameters.put("infieldOF", ArabicSetting.EnglishToarabic(rs.getString("sum(infieldOF)")));
-                parameters.put("infieldSR", ArabicSetting.EnglishToarabic(rs.getString("sum(infieldSR)")));
-                parameters.put("outfieldOF", ArabicSetting.EnglishToarabic(rs.getString("sum(outfiedOF)")));
-                parameters.put("outfieldSR", ArabicSetting.EnglishToarabic(rs.getString("sum(outfieldSR)")));
+            while (rs.next() && rs1.next()) {
+                int intoriginalCensusOf = rs.getInt("sum(originalCensus)");
+                int intcurrentCensusOF = rs.getInt("sum(currentCensus)");
+                int totalOF = intoriginalCensusOf - intcurrentCensusOF;
+                String outfieldOF = Integer.toString(totalOF);
+                int intoriginalCensusSR = rs1.getInt("sum(originalCensus)");
+                int intcurrentCensusSR = rs1.getInt("sum(currentCensus)");
+                int totalSR = intoriginalCensusSR - intcurrentCensusSR;
+                String outfieldSR = Integer.toString(totalSR);
+                parameters.put("originalCensusOF", ArabicSetting.EnglishToarabic(rs.getString("sum(originalCensus)")));
+                parameters.put("originalCensusSR", ArabicSetting.EnglishToarabic(rs1.getString("sum(originalCensus)")));
+                parameters.put("infieldOF", ArabicSetting.EnglishToarabic(rs.getString("sum(currentCensus)")));
+                parameters.put("infieldSR", ArabicSetting.EnglishToarabic(rs1.getString("sum(currentCensus)")));
+                parameters.put("outfieldOF", ArabicSetting.EnglishToarabic(outfieldOF));
+                parameters.put("outfieldSR", ArabicSetting.EnglishToarabic(outfieldSR));
                 parameters.put("day", HijriCalendar.getSimpleWeekday());
                 parameters.put("date", ArabicSetting.EnglishToarabic(HijriCalendar.getSimpleDate()) + "هـ");
                 parameters.put("quaridate", AppDate.getDate(DateDay, DateMonth, DateYear));
+                parameters.put("uintNum", ArabicSetting.EnglishToarabic("067"));
             }
             JasperReport jrr = JasperCompileManager.compileReport(jasperReport);
             JasperPrint print = JasperFillManager.fillReport(jrr, parameters, con);
@@ -778,6 +790,7 @@ public class CensusPageController implements Initializable {
 //        JasperPrintManager.printReport(print, false);
             JasperViewer.viewReport(print, false);
             rs.close();
+            rs1.close();
         } catch (JRException | IOException | SQLException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }

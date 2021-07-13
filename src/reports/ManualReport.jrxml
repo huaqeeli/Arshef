@@ -16,11 +16,12 @@
 	<parameter name="originalCensusSR" class="java.lang.String"/>
 	<parameter name="day" class="java.lang.String"/>
 	<parameter name="date" class="java.lang.String"/>
-	<parameter name="infieldOf" class="java.lang.String"/>
+	<parameter name="infieldOF" class="java.lang.String"/>
 	<parameter name="infieldSR" class="java.lang.String"/>
 	<parameter name="outfieldOF" class="java.lang.String"/>
 	<parameter name="outfieldSR" class="java.lang.String"/>
 	<parameter name="quaridate" class="java.lang.String"/>
+	<parameter name="uintNum" class="java.lang.String"/>
 	<queryString language="SQL">
 		<![CDATA[SELECT * FROM manualtable,reportimage,signature
 where manualtable.daydate = $P{quaridate}]]>
@@ -109,16 +110,16 @@ where manualtable.daydate = $P{quaridate}]]>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="71" splitType="Stretch">
+		<band height="82" splitType="Stretch">
 			<image>
-				<reportElement x="257" y="31" width="40" height="40" uuid="65f57c13-f266-48e0-99ad-943b06b3b8a8">
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				<reportElement x="252" y="20" width="50" height="50" uuid="65f57c13-f266-48e0-99ad-943b06b3b8a8">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<imageExpression><![CDATA[$F{IMAGE}]]></imageExpression>
 			</image>
 			<image>
-				<reportElement x="234" y="1" width="87" height="30" uuid="1fdc0e39-a613-4d5e-a59c-b4863c080614"/>
+				<reportElement x="252" y="0" width="55" height="19" uuid="1fdc0e39-a613-4d5e-a59c-b4863c080614"/>
 				<imageExpression><![CDATA[$F{BSMALLHIMAG}]]></imageExpression>
 			</image>
 			<image>
@@ -149,12 +150,27 @@ where manualtable.daydate = $P{quaridate}]]>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{uintname}]]></textFieldExpression>
 			</textField>
+			<textField>
+				<reportElement x="420" y="60" width="128" height="20" uuid="b61b0a7a-ddf0-4ede-b881-4ebe7e11b04c">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a62d61dd-e2de-4d31-ac8c-4412b445f97c"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["("+$P{uintNum}+")"]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<pageHeader>
 		<band height="31" splitType="Stretch">
 			<textField>
-				<reportElement x="0" y="-1" width="554" height="30" uuid="8a08b644-d96b-4cd8-9c9a-9afded5477fe">
+				<reportElement x="0" y="10" width="554" height="19" forecolor="#F5260F" uuid="8a08b644-d96b-4cd8-9c9a-9afded5477fe">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a62d61dd-e2de-4d31-ac8c-4412b445f97c"/>
 				</reportElement>
 				<box>
@@ -166,7 +182,7 @@ where manualtable.daydate = $P{quaridate}]]>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" size="11" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA["تعداد قوة السيف الاجرب ليوم ("+$P{day}+") وتاريخ ("+$P{date}+")"]]></textFieldExpression>
+				<textFieldExpression><![CDATA["تعداد قوة السيف الاجرب ليوم ("+ $P{day} +") وتاريخ ("+ $P{date} +")"]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>
@@ -174,7 +190,7 @@ where manualtable.daydate = $P{quaridate}]]>
 		<band height="61" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<staticText>
-				<reportElement mode="Opaque" x="309" y="31" width="61" height="30" backcolor="#AADBA9" uuid="08f9b950-ccbd-4393-9b09-61662ea28b2d">
+				<reportElement mode="Opaque" x="307" y="31" width="61" height="30" backcolor="#CEEDCE" uuid="08f9b950-ccbd-4393-9b09-61662ea28b2d">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="9ffc45ec-b60f-45d2-9a1f-14d741c893b6"/>
 				</reportElement>
 				<box>
@@ -189,7 +205,7 @@ where manualtable.daydate = $P{quaridate}]]>
 				<text><![CDATA[ضباط]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="249" y="1" width="122" height="30" backcolor="#AADBA9" uuid="320d78e0-00f4-49fa-89ab-7b1e9e07a4f4">
+				<reportElement mode="Opaque" x="247" y="1" width="122" height="30" backcolor="#CEEDCE" uuid="320d78e0-00f4-49fa-89ab-7b1e9e07a4f4">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="11336b24-6a68-455b-9946-0e4ac4eeeef1"/>
 				</reportElement>
 				<box>
@@ -204,7 +220,7 @@ where manualtable.daydate = $P{quaridate}]]>
 				<text><![CDATA[القوة الاصلية]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="370" y="1" width="184" height="60" backcolor="#AADBA9" uuid="b6880ab3-71af-4ec8-bb6f-9aef3c406d2e">
+				<reportElement mode="Opaque" x="368" y="1" width="184" height="60" backcolor="#CEEDCE" uuid="b6880ab3-71af-4ec8-bb6f-9aef3c406d2e">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a62d61dd-e2de-4d31-ac8c-4412b445f97c"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
@@ -221,7 +237,7 @@ where manualtable.daydate = $P{quaridate}]]>
 				<text><![CDATA[الوحدة]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="249" y="31" width="60" height="30" backcolor="#AADBA9" uuid="8ea465f1-0797-4b10-8692-b16060518df8">
+				<reportElement mode="Opaque" x="247" y="31" width="60" height="30" backcolor="#CEEDCE" uuid="8ea465f1-0797-4b10-8692-b16060518df8">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="9ffc45ec-b60f-45d2-9a1f-14d741c893b6"/>
 				</reportElement>
 				<box>
@@ -236,7 +252,7 @@ where manualtable.daydate = $P{quaridate}]]>
 				<text><![CDATA[أفراد]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="127" y="1" width="122" height="30" backcolor="#AADBA9" uuid="3562aa37-c03d-4730-8c65-258cb4660bf9">
+				<reportElement mode="Opaque" x="125" y="1" width="122" height="30" backcolor="#CEEDCE" uuid="3562aa37-c03d-4730-8c65-258cb4660bf9">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="11336b24-6a68-455b-9946-0e4ac4eeeef1"/>
 				</reportElement>
 				<box>
@@ -251,7 +267,7 @@ where manualtable.daydate = $P{quaridate}]]>
 				<text><![CDATA[نازل الميدان]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="127" y="31" width="61" height="30" backcolor="#AADBA9" uuid="5055415d-bfac-4c13-bb85-cd2febb7ea0c">
+				<reportElement mode="Opaque" x="125" y="31" width="61" height="30" backcolor="#CEEDCE" uuid="5055415d-bfac-4c13-bb85-cd2febb7ea0c">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="9ffc45ec-b60f-45d2-9a1f-14d741c893b6"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
@@ -267,7 +283,7 @@ where manualtable.daydate = $P{quaridate}]]>
 				<text><![CDATA[أفراد]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="188" y="31" width="61" height="30" backcolor="#AADBA9" uuid="8e95e102-f7f2-4f40-aa30-7ed41fdb0692">
+				<reportElement mode="Opaque" x="186" y="31" width="61" height="30" backcolor="#CEEDCE" uuid="8e95e102-f7f2-4f40-aa30-7ed41fdb0692">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="9ffc45ec-b60f-45d2-9a1f-14d741c893b6"/>
 				</reportElement>
 				<box>
@@ -282,7 +298,7 @@ where manualtable.daydate = $P{quaridate}]]>
 				<text><![CDATA[ضباط]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="5" y="1" width="122" height="30" backcolor="#AADBA9" uuid="c1222617-17ed-4ec6-b8df-98b03cb31f41">
+				<reportElement mode="Opaque" x="3" y="1" width="122" height="30" backcolor="#CEEDCE" uuid="c1222617-17ed-4ec6-b8df-98b03cb31f41">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="11336b24-6a68-455b-9946-0e4ac4eeeef1"/>
 				</reportElement>
 				<box>
@@ -297,7 +313,7 @@ where manualtable.daydate = $P{quaridate}]]>
 				<text><![CDATA[غير نازل الميدان]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="5" y="31" width="61" height="30" backcolor="#AADBA9" uuid="af83d8d8-0fc7-4c66-9864-647072a34ce8">
+				<reportElement mode="Opaque" x="3" y="31" width="61" height="30" backcolor="#CEEDCE" uuid="af83d8d8-0fc7-4c66-9864-647072a34ce8">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="9ffc45ec-b60f-45d2-9a1f-14d741c893b6"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
@@ -313,7 +329,7 @@ where manualtable.daydate = $P{quaridate}]]>
 				<text><![CDATA[أفراد]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="66" y="31" width="61" height="30" backcolor="#AADBA9" uuid="3fa1c61f-2924-44b4-bb0a-2faaabf75d0a">
+				<reportElement mode="Opaque" x="64" y="31" width="61" height="30" backcolor="#CEEDCE" uuid="3fa1c61f-2924-44b4-bb0a-2faaabf75d0a">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="9ffc45ec-b60f-45d2-9a1f-14d741c893b6"/>
 				</reportElement>
 				<box>
@@ -333,7 +349,7 @@ where manualtable.daydate = $P{quaridate}]]>
 		<band height="30" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<textField>
-				<reportElement x="309" y="0" width="61" height="30" uuid="6a58111f-92b4-4715-a9a1-11e2c7302682">
+				<reportElement x="307" y="0" width="61" height="30" uuid="6a58111f-92b4-4715-a9a1-11e2c7302682">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a62d61dd-e2de-4d31-ac8c-4412b445f97c"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
@@ -349,7 +365,7 @@ where manualtable.daydate = $P{quaridate}]]>
 				<textFieldExpression><![CDATA[$F{originalCensusOF}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="249" y="0" width="60" height="30" uuid="a4676e8e-bfa8-443e-b1c4-a01de24b2eb9">
+				<reportElement x="247" y="0" width="60" height="30" uuid="a4676e8e-bfa8-443e-b1c4-a01de24b2eb9">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a62d61dd-e2de-4d31-ac8c-4412b445f97c"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
@@ -365,7 +381,7 @@ where manualtable.daydate = $P{quaridate}]]>
 				<textFieldExpression><![CDATA[$F{originalCensusSR}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="370" y="0" width="184" height="30" uuid="3ddeabb6-30a2-4034-b912-1ab5285bd8b2">
+				<reportElement mode="Opaque" x="368" y="0" width="184" height="30" backcolor="#CEEDCE" uuid="3ddeabb6-30a2-4034-b912-1ab5285bd8b2">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a62d61dd-e2de-4d31-ac8c-4412b445f97c"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
@@ -382,7 +398,7 @@ where manualtable.daydate = $P{quaridate}]]>
 				<textFieldExpression><![CDATA[$F{uint}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="127" y="0" width="61" height="30" uuid="dd392be7-dd06-44ec-a072-3dfd8c6781f8">
+				<reportElement x="125" y="0" width="61" height="30" uuid="dd392be7-dd06-44ec-a072-3dfd8c6781f8">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a62d61dd-e2de-4d31-ac8c-4412b445f97c"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
@@ -398,7 +414,7 @@ where manualtable.daydate = $P{quaridate}]]>
 				<textFieldExpression><![CDATA[$F{infieldSR}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="188" y="0" width="61" height="30" uuid="cc6f3de3-3592-435a-a886-565e6417a447">
+				<reportElement x="186" y="0" width="61" height="30" uuid="cc6f3de3-3592-435a-a886-565e6417a447">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a62d61dd-e2de-4d31-ac8c-4412b445f97c"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
@@ -414,7 +430,7 @@ where manualtable.daydate = $P{quaridate}]]>
 				<textFieldExpression><![CDATA[$F{infieldOF}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="5" y="0" width="61" height="30" uuid="9752760e-9afe-487f-9062-29aad2c79953">
+				<reportElement x="3" y="0" width="61" height="30" uuid="9752760e-9afe-487f-9062-29aad2c79953">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a62d61dd-e2de-4d31-ac8c-4412b445f97c"/>
 				</reportElement>
 				<box>
@@ -429,7 +445,7 @@ where manualtable.daydate = $P{quaridate}]]>
 				<textFieldExpression><![CDATA[$F{outfieldSR}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="66" y="0" width="61" height="30" uuid="96c6a3ac-d530-491c-8ab6-20bf3166ed44">
+				<reportElement x="64" y="0" width="61" height="30" uuid="96c6a3ac-d530-491c-8ab6-20bf3166ed44">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a62d61dd-e2de-4d31-ac8c-4412b445f97c"/>
 				</reportElement>
 				<box>
@@ -446,103 +462,18 @@ where manualtable.daydate = $P{quaridate}]]>
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="35" splitType="Prevent">
-			<textField>
-				<reportElement mode="Opaque" x="249" y="0" width="60" height="30" backcolor="#AADBA9" uuid="f015b6a6-79bf-4970-b0aa-abe9c1ed3d3c">
-					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a62d61dd-e2de-4d31-ac8c-4412b445f97c"/>
-					<property name="com.jaspersoft.studio.unit.width" value="px"/>
-				</reportElement>
-				<box>
-					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" size="11" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{originalCensusSR}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement mode="Opaque" x="127" y="0" width="61" height="30" backcolor="#AADBA9" uuid="83523dd8-e80b-4f2e-81f9-04ef9b26953d">
-					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a62d61dd-e2de-4d31-ac8c-4412b445f97c"/>
-					<property name="com.jaspersoft.studio.unit.width" value="px"/>
-				</reportElement>
-				<box>
-					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" size="11" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{infieldSR}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement mode="Opaque" x="188" y="0" width="61" height="30" backcolor="#AADBA9" uuid="7012b586-022b-4146-8ede-2666c1e4fec4">
-					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a62d61dd-e2de-4d31-ac8c-4412b445f97c"/>
-					<property name="com.jaspersoft.studio.unit.width" value="px"/>
-				</reportElement>
-				<box>
-					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" size="11" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{infieldOf}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement mode="Opaque" x="5" y="0" width="61" height="30" backcolor="#AADBA9" uuid="937787dd-4e9f-4896-83ae-c3583de8c7f8">
-					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a62d61dd-e2de-4d31-ac8c-4412b445f97c"/>
-				</reportElement>
-				<box>
-					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" size="11" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{outfieldSR}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement mode="Opaque" x="309" y="0" width="61" height="30" backcolor="#AADBA9" uuid="2f0f8585-2519-4ed4-b6e1-b73e48c460af">
-					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a62d61dd-e2de-4d31-ac8c-4412b445f97c"/>
-					<property name="com.jaspersoft.studio.unit.width" value="px"/>
-				</reportElement>
-				<box>
-					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" size="11" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{originalCensusOF}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement mode="Opaque" x="66" y="0" width="61" height="30" backcolor="#AADBA9" uuid="e2161a30-1c0e-47b2-b61b-a61e335bf5ff">
-					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a62d61dd-e2de-4d31-ac8c-4412b445f97c"/>
-				</reportElement>
-				<box>
-					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" size="11" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{outfieldOF}]]></textFieldExpression>
-			</textField>
+		<band splitType="Immediate"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Prevent">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="35" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<staticText>
-				<reportElement mode="Opaque" x="370" y="0" width="184" height="30" backcolor="#AADBA9" uuid="8104bfbe-93cc-4fed-95b3-00af0857efa9">
+				<reportElement mode="Opaque" x="368" y="0" width="184" height="30" backcolor="#CEEDCE" uuid="c68e91b7-1eab-400a-b797-b5f43edd3855">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a62d61dd-e2de-4d31-ac8c-4412b445f97c"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
@@ -558,14 +489,100 @@ where manualtable.daydate = $P{quaridate}]]>
 				</textElement>
 				<text><![CDATA[المجموع]]></text>
 			</staticText>
+			<textField>
+				<reportElement mode="Opaque" x="247" y="0" width="60" height="30" backcolor="#CEEDCE" uuid="af65d23c-20f4-4d24-b69d-c7f6bf635f37">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a62d61dd-e2de-4d31-ac8c-4412b445f97c"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{originalCensusSR}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="64" y="0" width="61" height="30" backcolor="#CEEDCE" uuid="a1663d70-eb93-4370-8b02-8da4f4b92a9c">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a62d61dd-e2de-4d31-ac8c-4412b445f97c"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{outfieldOF}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="307" y="0" width="61" height="30" backcolor="#CEEDCE" uuid="c7425d0c-40af-4c97-a5dc-d2b58dc86099">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a62d61dd-e2de-4d31-ac8c-4412b445f97c"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{originalCensusOF}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="186" y="0" width="61" height="30" backcolor="#CEEDCE" uuid="47cc5855-1756-4c59-9d9a-08421d314795">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a62d61dd-e2de-4d31-ac8c-4412b445f97c"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{infieldOF}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="3" y="0" width="61" height="30" backcolor="#CEEDCE" uuid="36d47151-5ced-4b49-be51-81fe3a2ba5f8">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a62d61dd-e2de-4d31-ac8c-4412b445f97c"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{outfieldSR}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="125" y="0" width="61" height="30" backcolor="#CEEDCE" uuid="1cc12c7d-b5b7-4004-ab56-77ae056bb4fa">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a62d61dd-e2de-4d31-ac8c-4412b445f97c"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{infieldSR}]]></textFieldExpression>
+			</textField>
 		</band>
-	</columnFooter>
-	<pageFooter>
-		<band height="30" splitType="Prevent">
-			<property name="com.jaspersoft.studio.unit.height" value="px"/>
-		</band>
-	</pageFooter>
-	<summary>
-		<band splitType="Stretch"/>
 	</summary>
 </jasperReport>

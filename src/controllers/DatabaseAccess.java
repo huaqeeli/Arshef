@@ -425,7 +425,7 @@ public class DatabaseAccess {
         ResultSet rs = null;
         PreparedStatement psm = null;
         String quiry = null;//`originalCensusOF`,`originalCensusSR`,`infieldOF`,`infieldSR`,`outfiedOF`,`outfieldSR`
-        quiry = "SELECT sum(originalCensusOF), sum(originalCensusSR), sum(infieldOF), sum(infieldSR), sum(outfiedOF), sum(outfieldSR) FROM " + tableName + " where " + condation;
+        quiry = "SELECT sum(originalCensus), sum(currentCensus) FROM " + tableName + " where " + condation;
         try {
             Connection con = DatabaseConniction.dbConnector();
             psm = con.prepareStatement(quiry);

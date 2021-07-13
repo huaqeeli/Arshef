@@ -108,7 +108,8 @@ public class HomePageController implements Initializable {
     }
 
     @FXML
-    private void addExportsPage(ActionEvent event) {
+    private void addExportsPage(ActionEvent event) throws IOException {
+        content.setCenter(App.loadFXML("/view/ExportsPage"));
     }
 
     @FXML

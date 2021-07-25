@@ -17,7 +17,8 @@ public class ShowPdf {
 
     public static void writePdf(byte[] pdfByte) {
         try {
-            File f = new File("C:\\Program Files\\Arshef\\pdf");
+//            File f = new File("C:\\Program Files\\Arshef\\pdf");
+            File f = new File("C:\\Users\\ابو ريان\\Documents\\NetBeansProjects\\Arshef\\src\\pdfFiles");
             f.mkdir();
             String path = f.getPath() + "\\showPdf.pdf";
             FileOutputStream fout = new FileOutputStream(path);

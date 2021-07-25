@@ -502,6 +502,7 @@
                         <Insets right="2.0" />
                      </HBox.margin>
                   </Button>
+                  <Button layoutX="922.0" layoutY="15.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#printManualReport" prefHeight="40.0" styleClass="toolBarButton" text="اضافة الى عرض القائد" />
                   <Button mnemonicParsing="false" onAction="#clear" prefHeight="40.0" prefWidth="80.0" styleClass="toolBarButton">
                      <graphic>
                         <ImageView fitHeight="28.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">

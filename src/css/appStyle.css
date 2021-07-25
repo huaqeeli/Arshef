@@ -6,7 +6,6 @@
     -fx-text-fill: #FFFFFF;
 }
 
-
 .toolBarButton:hover{
     -fx-background-color: #333333;
     -fx-background-radius: 0;
@@ -16,6 +15,27 @@
     -fx-background-radius: 0;
 }
 .toolBarButton:focus{
+    -fx-background-color: #718A76;
+    -fx-background-radius: 0;
+}
+
+.showButton{
+    -fx-background-color: #1E3606;
+    -fx-background-radius: 0;
+    -fx-font-family:'URW DIN Arabic';
+    -fx-font-size: 15px;
+    -fx-text-fill: #FFFFFF;
+}
+
+.showButton:hover{
+    -fx-background-color: #333333;
+    -fx-background-radius: 0;
+}
+.showButton:pressed{
+    -fx-background-color: #000;
+    -fx-background-radius: 0;
+}
+.showButton:focus{
     -fx-background-color: #718A76;
     -fx-background-radius: 0;
 }
@@ -43,10 +63,8 @@
     -fx-background-radius: 0;
 }
 .headerlabel{
-    -fx-background-color: #4E4E4E;
-    -fx-background-radius: 0;
     -fx-font-family:'URW DIN Arabic';
-    -fx-font-size: 18px;
+    -fx-font-size: 12px;
     -fx-text-fill: #FFFFFF;
 
 }
@@ -166,7 +184,7 @@
     -fx-font-size: 12px;
 }
 .appTable .table-row-cell:selected .table-cell {
-    -fx-background-color: #718A76;
+    -fx-background-color: #F68A1F;
 }
 .appTable .table-row-cell:empty{ 
     -fx-background-color: #F4F4F4;   
@@ -298,18 +316,52 @@
     /*-fx-background-color: #FFFFFF;*/
 }
 .mainClass {
-    -fx-background-color: #686868;
-    -fx-effect: dropshadow(two-pass-box,#000, 30, 0,15, 15);
-    /* -fx-border-color: #6BBAD5;
-        -fx-border-insets: 0;
-        -fx-border-width: 0 0 2 2;
-        -fx-border-style: solid;*/
+    -fx-background-image: url(../images/logingbg.jpg);
+    -fx-background-position: left top, center;
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover, auto;
+}
+.loginData {
+    -fx-background-image: url(../images/loginBG2.png);
+    -fx-background-position: center, center;
+    -fx-background-repeat: no-repeat;
+}
+.loginButton {
+    -fx-font-family: "URW DIN Arabic";
+    -fx-font-size: 15px;
+    -fx-background-color: #1E3606;
+    -fx-background-radius: 50;
+    -fx-text-fill: #FFFFFF;
+    /*-fx-effect: dropshadow(three-pass-box,#3C3B3B, 20, 0, 5, 5);*/ 
+}
+.loginButton:hover{
+    -fx-background-color: #0CB200;
+    -fx-background-radius:50;
+}
+.loginButton:pressed{
+    -fx-background-color: #000;
+    -fx-background-radius: 50;
+}
+.loginButton:focus{
+    -fx-background-color: #718A76;
+    -fx-background-radius: 50;
+}
+.logintextInput{
+    -fx-font-family: "URW DIN Arabic";
+    -fx-font-size:15px;
+    -fx-text-fill: #121E29;
+    -fx-background-color: #FFFFFF;
+     -fx-background-radius: 50;
+    -fx-border-color: #000;
+    -fx-border-insets: 0;
+    -fx-border-width: 0 0 0 0;
+    -fx-border-style: solid;
 }
 .textInput{
     -fx-font-family: "URW DIN Arabic";
     -fx-font-size:15px;
     -fx-text-fill: #CDE7F0;
-    -fx-background-color: #686868;
+    -fx-background-color: #FFFFFF;
     -fx-border-color: #7C9D7C;
     -fx-border-insets: 0;
     -fx-border-width: 0 0 2 0;
@@ -335,9 +387,9 @@
 .changePassowrdPuttonStyle {
     -fx-font-family: "URW DIN Arabic";
     -fx-font-size: 13px;
-    -fx-background-color: #686868;
-    -fx-background-radius: 0;
-    -fx-text-fill: #0078D7;
+    -fx-background-color: #121E29;
+    -fx-background-radius: 50;
+    -fx-text-fill: #FFFFFF;
 }
 .changePassowrdPuttonStyle:hover{
     -fx-text-fill: #FFFFFF;

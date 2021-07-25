@@ -2,20 +2,30 @@ package modeles;
 
 public class ArchefModel {
 
-    String circularid, circularDate, receiptNumber, receiptDate, topic, destination, saveFile, circularType;
+    String circularid, circularDate, receiptNumber, receiptDate, topic, destination, saveFile, action;
     int squnce;
 
-    public ArchefModel(String circularid, String circularDate, String receiptNumber, String receiptDate, String destination, String topic, String saveFile, String circularType, int squnce) {
+    public ArchefModel(String circularid, String circularDate, String receiptNumber, String receiptDate, String topic, String destination, String saveFile, String action, int squnce) {
         this.circularid = circularid;
         this.circularDate = circularDate;
         this.receiptNumber = receiptNumber;
         this.receiptDate = receiptDate;
-        this.destination = destination;
         this.topic = topic;
+        this.destination = destination;
         this.saveFile = saveFile;
-        this.circularType = circularType;
+        this.action = action;
         this.squnce = squnce;
     }
+
+    public String getAction() {
+        return action;
+    }
+
+    public void setAction(String action) {
+        this.action = action;
+    }
+
+   
 
     public String getCircularid() {
         return circularid;
@@ -73,14 +83,6 @@ public class ArchefModel {
         this.saveFile = saveFile;
     }
 
-    public String getCircularType() {
-        return circularType;
-    }
-
-    public void setCircularType(String circularType) {
-        this.circularType = circularType;
-    }
-
     public int getSqunce() {
         return squnce;
     }
@@ -91,7 +93,8 @@ public class ArchefModel {
 
     @Override
     public String toString() {
-        return "ArchefModel{" + "circularid=" + circularid + ", circularDate=" + circularDate + ", receiptNumber=" + receiptNumber + ", receiptDate=" + receiptDate + ", topic=" + topic + ", destination=" + destination + ", saveFile=" + saveFile + ", circularType=" + circularType + ", squnce=" + squnce + '}';
+        return "ArchefModel{" + "circularid=" + circularid + ", circularDate=" + circularDate + ", receiptNumber=" + receiptNumber + ", receiptDate=" + receiptDate + ", topic=" + topic + ", destination=" + destination + ", saveFile=" + saveFile + ", action=" + action + ", squnce=" + squnce + '}';
     }
+
 
 }

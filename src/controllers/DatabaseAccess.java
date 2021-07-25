@@ -12,8 +12,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javax.swing.JOptionPane;
@@ -116,6 +114,28 @@ public class DatabaseAccess {
                 ResultSet rs = DatabaseAccess.getData("SELECT CIRCULARIMAGE FROM arshefdata WHERE CIRCULARID = '" + circularid + "'AND CIRCULARDATE = '" + circulardate + "'");
                 if (rs.next()) {
                     image = rs.getBinaryStream("CIRCULARIMAGE");
+                    pdfByte = new byte[image.available()];
+                    image.read(pdfByte);
+                } else {
+                    FormValidation.showAlert(null, "لا توجد صورة للشهادة", Alert.AlertType.ERROR);
+                }
+                rs.close();
+            }
+        } catch (IOException | SQLException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
+        return pdfByte;
+    }
+    public static byte[] getExportPdfFile(String id, String entrydate) {
+        InputStream image = null;
+        byte[] pdfByte = null;
+        try {
+            if (id == null || entrydate == null) {
+                FormValidation.showAlert(null, "اختر السجل من الجدول", Alert.AlertType.ERROR);
+            } else {
+                ResultSet rs = DatabaseAccess.getData("SELECT EXPORTSIMAGE FROM exportsdata WHERE ID = '" + id + "'AND ENTRYDATE = '" + entrydate + "'");
+                if (rs.next()) {
+                    image = rs.getBinaryStream("EXPORTSIMAGE");
                     pdfByte = new byte[image.available()];
                     image.read(pdfByte);
                 } else {

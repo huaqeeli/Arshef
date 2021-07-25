@@ -32,9 +32,9 @@ public class FormValidation {
         if (!textFieldNotEmpty(t)) {
             state = false;
             t.setPromptText(validationmassage);
-            t.setStyle(" -fx-border-color: #DC4D41; -fx-background-color:#F8DCDA");
+            t.setStyle("-fx-background-color:#F8DCDA");
         } else {
-            t.setStyle(" -fx-border-color: #117E88;-fx-background-color:#FFFFFF");
+            t.setStyle("-fx-background-color:#FFFFFF");
         }
 
         return state;
@@ -96,9 +96,9 @@ public class FormValidation {
         if (!comboBoxNotEmpty(t)) {
             state = false;
             t.setPromptText(validationmassage);
-            t.setStyle(" -fx-border-color: #DC4D41; -fx-background-color:#F8DCDA");
+            t.setStyle(" -fx-background-color:#F8DCDA");
         } else {
-            t.setStyle(" -fx-border-color: #117E88;-fx-background-color:#FFFFFF");
+            t.setStyle("-fx-background-color:#FFFFFF");
         }
 
         return state;
@@ -119,9 +119,9 @@ public class FormValidation {
         if (!textFieldTypeDate(t)) {
             state = false;
             t.setPromptText(validationmassage);
-            t.setStyle(" -fx-border-color: #DC4D41; -fx-background-color:#F8DCDA");
+            t.setStyle("-fx-background-color:#F8DCDA");
         } else {
-            t.setStyle(" -fx-border-color: #117E88;-fx-background-color:#FFFFFF");
+            t.setStyle("-fx-background-color:#FFFFFF");
         }
 
         return state;
@@ -143,9 +143,9 @@ public class FormValidation {
             state = false;
             t.setText("");
             t.setPromptText(validationmassage);
-            t.setStyle(" -fx-border-color: #DC4D41; -fx-background-color:#F8DCDA");
+            t.setStyle(" -fx-background-color:#F8DCDA");
         } else {
-            t.setStyle(" -fx-border-color: #117E88;-fx-background-color:#FFFFFF");
+            t.setStyle("-fx-background-color:#FFFFFF");
         }
 
         return state;

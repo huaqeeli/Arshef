@@ -107,7 +107,7 @@
                   </Button>
                   <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" VBox.vgrow="ALWAYS">
                      <children>
-                        <ImageView fitHeight="237.0" fitWidth="278.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="278.0" fitWidth="444.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../images/royallogo.png" />
                            </image>

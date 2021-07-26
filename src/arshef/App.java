@@ -31,7 +31,7 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
 //         Font.loadFont(new FileInputStream(new File("C:\\Users\\y50\\Documents\\NetBeansProjects\\Arshef\\src\\fonts\\URW-DIN-Arabic.ttf")), 12);
-         Font.loadFont(new FileInputStream(new File("C:\\Users\\ابو ريان\\Documents\\NetBeansProjects\\Arshef\\src\\fonts\\URW-DIN-Arabic.ttf")), 12);
+         Font.loadFont(new FileInputStream(new File("C:\\Program Files\\Arshef\\fonts\\URW-DIN-Arabic.ttf")), 12);
         scene = new Scene(loadFXML("/view/LoginPage"));
 
         Screen screen = Screen.getPrimary();

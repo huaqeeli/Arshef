@@ -218,10 +218,10 @@ public class CensusPageController implements Initializable {
         String outFieldOF = ArabicSetting.EnglishToarabic(outfieldOF);
         String outFieldSR = ArabicSetting.EnglishToarabic(outfieldSR);
 
-        String[] mdata = {uint.getValue(), daydate, origalOF, origalSR, inFieldOF, inFieldSR, outFieldOF, outFieldSR};
+        String[] mdata = {uint.getValue(),getUintOrder(uint.getValue()), daydate, origalOF, origalSR, inFieldOF, inFieldSR, outFieldOF, outFieldSR};
 
-        String mfieldName = "`uint`,`daydate`,`originalCensusOF`,`originalCensusSR`,`infieldOF`,`infieldSR`,`outfiedOF`,`outfieldSR`";
-        String mvaluenumbers = "?,?,?,?,?,?,?,?";
+        String mfieldName = "`uint`,`uintOrder`,`daydate`,`originalCensusOF`,`originalCensusSR`,`infieldOF`,`infieldSR`,`outfiedOF`,`outfieldSR`";
+        String mvaluenumbers = "?,?,?,?,?,?,?,?,?";
 
         TextField[] textfield = {originalCensusOF, originalCensusSR, currentCensusOF, currentCensusSR, OrdinaryVacationOF, OrdinaryVacationSR, OccasionalVacationOF,
             OccasionalVacationSR, SickleaveOF, SickleaveSR, QuarantineOF, QuarantineSR, InareaTrainingOF, InareaTrainingSR, OutareaTrainingOF, OutareaTrainingSR, OutKingdomTrainingOF,
@@ -264,7 +264,7 @@ public class CensusPageController implements Initializable {
         String origalOF = ArabicSetting.EnglishToarabic(originalCensusOF.getText());
         String origalSR = ArabicSetting.EnglishToarabic(originalCensusSR.getText());
         String inFieldOF = ArabicSetting.EnglishToarabic(currentCensusOF.getText());
-        String inFieldSR = ArabicSetting.EnglishToarabic(originalCensusSR.getText());
+        String inFieldSR = ArabicSetting.EnglishToarabic(currentCensusSR.getText());
         int intoriginalCensusOf = Integer.parseInt(originalCensusOF.getText());
         int intcurrentCensusOF = Integer.parseInt(currentCensusOF.getText());
         int totalOF = intoriginalCensusOf - intcurrentCensusOF;
@@ -384,6 +384,23 @@ public class CensusPageController implements Initializable {
 
     public void clearListCombobox() {
         uint.getItems().clear();
+    }
+    public String getUintOrder(String uint) {
+        String uintOrder = null;
+        try {
+            ResultSet rs = DatabaseAccess.select("placenames", "PLACENAME='"+uint+"'");
+            try {
+                while (rs.next()) {
+                    uintOrder = rs.getString("PLACEID");
+                }
+                rs.close();
+            } catch (SQLException ex) {
+                FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+            }
+        } catch (IOException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
+        return uintOrder;
     }
 
     private void censusTableView() {
@@ -582,7 +599,7 @@ public class CensusPageController implements Initializable {
     @FXML
     private void printOprationReport(ActionEvent event) {
         try {
-            String reportSrcFile = "C:\\Users\\ابو ريان\\Documents\\NetBeansProjects\\Arshef\\src\\reports\\reportofopration.jrxml";
+            String reportSrcFile = "C:\\Program Files\\Arshef\\reports\\reportofopration.jrxml";
 //            String reportSrcFile = "C:\\Users\\y50\\Documents\\NetBeansProjects\\Arshef\\src\\reports\\reportofopration.jrxml";
             Connection con = DatabaseConniction.dbConnector();
             ResultSet rs = DatabaseAccess.getSum("census", "dayDate = '" + AppDate.getDate(DateDay, DateMonth, DateYear) + "'AND type = 'OF'");
@@ -670,7 +687,7 @@ public class CensusPageController implements Initializable {
     @FXML//interyReport
     private void printForceReport(ActionEvent event) {
         try {
-            String reportSrcFile = "C:\\Users\\ابو ريان\\Documents\\NetBeansProjects\\Arshef\\src\\reports\\ForceReport.jrxml";
+            String reportSrcFile = "C:\\Program Files\\Arshef\\reports\\ForceReport.jrxml";
 //            String reportSrcFile = "C:\\Users\\y50\\Documents\\NetBeansProjects\\Arshef\\src\\reports\\ForceReport.jrxml";
             Connection con = DatabaseConniction.dbConnector();
             ResultSet rs = DatabaseAccess.getSum("census", "dayDate = '" + AppDate.getDate(DateDay, DateMonth, DateYear) + "'AND type = 'OF'");
@@ -757,10 +774,10 @@ public class CensusPageController implements Initializable {
     @FXML
     private void printManualReport(ActionEvent event) {
         try {
-            String reportSrcFile = "C:\\Users\\ابو ريان\\Documents\\NetBeansProjects\\Arshef\\src\\reports\\ManualReport.jrxml";
+            String reportSrcFile = "C:\\Program Files\\Arshef\\reports\\ManualReport.jrxml";
 //            String reportSrcFile = "C:\\Users\\y50\\Documents\\NetBeansProjects\\Arshef\\src\\reports\\ManualReport.jrxml";
             Connection con = DatabaseConniction.dbConnector();
-            ResultSet rs = DatabaseAccess.getManualSum("census", "dayDate = '" + AppDate.getDate(DateDay, DateMonth, DateYear) + "'AND type = 'OF'");
+            ResultSet rs = DatabaseAccess.getManualSum("census", "dayDate = '" + AppDate.getDate(DateDay, DateMonth, DateYear) + "'AND type = 'OF' ");
             ResultSet rs1 = DatabaseAccess.getManualSum("census", "dayDate = '" + AppDate.getDate(DateDay, DateMonth, DateYear) + "'AND type = 'SR'");
             JasperDesign jasperReport = JRXmlLoader.load(reportSrcFile);
             Map parameters = new HashMap();

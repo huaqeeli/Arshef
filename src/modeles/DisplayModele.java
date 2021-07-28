@@ -2,19 +2,38 @@ package modeles;
 
 public class DisplayModele {
 
-    String displayid, displayDate, destination, topic, displayType;
-    int squence ;
+    String displayid, displayDate, destination, topic, displayType, notes,squ;
+    int squence;
 
-    public DisplayModele( String displayid, String displayDate, String destination, String topic, String displayType, int squence) {
+    public DisplayModele(String displayid, String displayDate, String destination, String topic, String displayType, String notes, int squence) {
         this.displayid = displayid;
         this.displayDate = displayDate;
         this.destination = destination;
         this.topic = topic;
         this.displayType = displayType;
+        this.notes = notes;
         this.squence = squence;
     }
 
-   
+    public String getSqu() {
+        return squ;
+    }
+
+    public void setSqu(String squ) {
+        this.squ = squ;
+    }
+
+    public DisplayModele() {
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
     public String getDisplayid() {
         return displayid;
     }
@@ -65,9 +84,9 @@ public class DisplayModele {
 
     @Override
     public String toString() {
-        return "DisplayModele{" + "displayid=" + displayid + ", displayDate=" + displayDate + ", destination=" + destination + ", topic=" + topic + ", displayType=" + displayType + ", squence=" + squence + '}';
+        return "DisplayModele{" + "displayid=" + displayid + ", displayDate=" + displayDate + ", destination=" + destination + ", topic=" + topic + ", displayType=" + displayType + ", notes=" + notes + ", squence=" + squence + '}';
     }
 
-  
-    
+   
+
 }

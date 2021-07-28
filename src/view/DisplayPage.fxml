@@ -80,6 +80,15 @@
                   <Insets left="5.0" right="5.0" />
                </VBox.margin>
             </HBox>
+            <HBox alignment="CENTER" layoutX="15.0" layoutY="100.0" prefHeight="45.0" prefWidth="200.0">
+               <children>
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="190.0" styleClass="toolBarButton" text="ملاحظات" />
+                  <TextField fx:id="notes" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="300.0" styleClass="appText" HBox.hgrow="ALWAYS" />
+               </children>
+               <VBox.margin>
+                  <Insets left="5.0" right="5.0" />
+               </VBox.margin>
+            </HBox>
             <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #898989;">
                <children>
                   <Button layoutX="10.0" layoutY="15.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#save" prefHeight="40.0" styleClass="toolBarButton" text="حفظ" HBox.hgrow="ALWAYS">
@@ -131,6 +140,7 @@
                   <TableColumn fx:id="destination_col" minWidth="200.0" prefWidth="75.0" text="جهة المعاملة" />
                   <TableColumn fx:id="topic_col" minWidth="200.0" prefWidth="75.0" text="الموضوع" />
                   <TableColumn fx:id="displayType_col" minWidth="80.0" prefWidth="75.0" text="نوع العرض" />
+                  <TableColumn fx:id="notes_col" minWidth="80.0" prefWidth="75.0" text="ملاحظات" />
                </columns>
                <VBox.margin>
                   <Insets bottom="2.0" left="5.0" right="5.0" />

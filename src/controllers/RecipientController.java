@@ -201,7 +201,7 @@ public class RecipientController implements Initializable {
                     recipientDate = new StringBuilder().append(rs.getString("RECIPIENT_DATE")).append("هـ").toString();
                     circularDir = rs.getString("CIRCULAR_DIR");
                     quRegisNo = rs.getInt("REGIS_NO");
-                    unitName = DatabaseAccess.getUintName();
+//                    unitName = DatabaseAccess.getUintName();
                 }
                 Map barrcod = new HashMap();
                 barrcod.put("ex_id", regisNo);
@@ -225,7 +225,7 @@ public class RecipientController implements Initializable {
     @FXML
     private void addNames(ActionEvent event) {
         if (lastRegisId != 0) {
-            lodPages.lodAddNamesPage(Integer.toString(lastRegisId));
+//            lodPages.lodAddNamesPage(Integer.toString(lastRegisId));
         } else {
             showAlert("", "اختر السجل من الجدول");
         }
@@ -233,14 +233,10 @@ public class RecipientController implements Initializable {
 
     @FXML
     private void addImages(ActionEvent event) {
-        try {
-            if (lastRegisId != 0) {
-                DatabaseAccess.insertImage(Integer.toString(lastRegisId));
-            } else {
-                showAlert("", "اختر السجل من الجدول");
-            }
-        } catch (IOException ex) {
-            Logger.getLogger(RecipientController.class.getName()).log(Level.SEVERE, null, ex);
+        if (lastRegisId != 0) {
+//                DatabaseAccess.insertImage(Integer.toString(lastRegisId));
+        } else {
+            showAlert("", "اختر السجل من الجدول");
         }
     }
 
@@ -250,7 +246,7 @@ public class RecipientController implements Initializable {
 
     @FXML
     private void printImage(ActionEvent event) {
-        lodPages.lodShowImage(lastRegisId);
+//        lodPages.lodShowImage(lastRegisId);
     }
 
     @FXML
@@ -315,12 +311,12 @@ public class RecipientController implements Initializable {
                 } else {
                     try {
                         ResultSet rs = DatabaseAccess.select("ex_and_re_recordes", "REGIS_NO = '" + list.get(0).getRegisNo() + "'");
-                        reday.setValue(DateBoxController.getDay(list.get(0).getRecipientDate()));
-                        remonth.setValue(DateBoxController.getMonth(list.get(0).getRecipientDate()));
-                        reyear.setValue(DateBoxController.getYear(list.get(0).getRecipientDate()));
-                        circularDateday.setValue(DateBoxController.getDay(list.get(0).getCircularDate()));
-                        circularDatemonth.setValue(DateBoxController.getMonth(list.get(0).getCircularDate()));
-                        circularDateyear.setValue(DateBoxController.getYear(list.get(0).getCircularDate()));
+//                        reday.setValue(DateBoxController.getDay(list.get(0).getRecipientDate()));
+//                        remonth.setValue(DateBoxController.getMonth(list.get(0).getRecipientDate()));
+//                        reyear.setValue(DateBoxController.getYear(list.get(0).getRecipientDate()));
+//                        circularDateday.setValue(DateBoxController.getDay(list.get(0).getCircularDate()));
+//                        circularDatemonth.setValue(DateBoxController.getMonth(list.get(0).getCircularDate()));
+//                        circularDateyear.setValue(DateBoxController.getYear(list.get(0).getCircularDate()));
                         circularNumber.setText(list.get(0).getCircularNo());
                         dirList.setValue(list.get(0).getCircularDir());
                         topic.setText(list.get(0).getTopic());
@@ -347,12 +343,12 @@ public class RecipientController implements Initializable {
                 } else {
                     try {
                         ResultSet rs = DatabaseAccess.select("ex_and_re_recordes", "REGIS_NO = '" + list.get(0).getRegisNo() + "'");
-                        reday.setValue(DateBoxController.getDay(list.get(0).getRecipientDate()));
-                        remonth.setValue(DateBoxController.getMonth(list.get(0).getRecipientDate()));
-                        reyear.setValue(DateBoxController.getYear(list.get(0).getRecipientDate()));
-                        circularDateday.setValue(DateBoxController.getDay(list.get(0).getCircularDate()));
-                        circularDatemonth.setValue(DateBoxController.getMonth(list.get(0).getCircularDate()));
-                        circularDateyear.setValue(DateBoxController.getYear(list.get(0).getCircularDate()));
+//                        reday.setValue(DateBoxController.getDay(list.get(0).getRecipientDate()));
+//                        remonth.setValue(DateBoxController.getMonth(list.get(0).getRecipientDate()));
+//                        reyear.setValue(DateBoxController.getYear(list.get(0).getRecipientDate()));
+//                        circularDateday.setValue(DateBoxController.getDay(list.get(0).getCircularDate()));
+//                        circularDatemonth.setValue(DateBoxController.getMonth(list.get(0).getCircularDate()));
+//                        circularDateyear.setValue(DateBoxController.getYear(list.get(0).getCircularDate()));
                         circularNumber.setText(list.get(0).getCircularNo());
                         dirList.setValue(list.get(0).getCircularDir());
                         topic.setText(list.get(0).getTopic());

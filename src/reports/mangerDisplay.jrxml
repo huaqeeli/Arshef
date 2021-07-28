@@ -9,6 +9,7 @@
 	<parameter name="displayDateprameter" class="java.lang.String"/>
 	<parameter name="subReport1" class="java.lang.String"/>
 	<parameter name="subReport2" class="java.lang.String"/>
+	<parameter name="repotCollation" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
 	<queryString language="SQL">
 		<![CDATA[SELECT * FROM signature,reportimage]]>
 	</queryString>
@@ -146,23 +147,21 @@
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="40" splitType="Stretch">
+		<band height="30" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<subreport>
-				<reportElement x="0" y="0" width="800" height="40" uuid="b498d60e-554a-42b8-ba69-697aff20fe9b">
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<subreportParameter name="displaydate">
-					<subreportParameterExpression><![CDATA[$P{displayDateprameter}]]></subreportParameterExpression>
+				<reportElement x="0" y="0" width="800" height="29" uuid="5aff6add-b192-4e31-b0ee-5df6d1305259"/>
+				<subreportParameter name="collictionData">
+					<subreportParameterExpression><![CDATA[$P{repotCollation}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 				<subreportExpression><![CDATA[$P{subReport1}]]></subreportExpression>
 			</subreport>
 		</band>
-		<band height="40">
+		<band height="31">
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<subreport>
-				<reportElement x="0" y="0" width="800" height="40" uuid="d8f7d921-c753-47ce-98c5-d89c7267d684">
+				<reportElement x="0" y="0" width="800" height="30" uuid="d8f7d921-c753-47ce-98c5-d89c7267d684">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<subreportParameter name="displaydate">

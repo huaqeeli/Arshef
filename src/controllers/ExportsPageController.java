@@ -317,27 +317,7 @@ public class ExportsPageController implements Initializable {
 
     @FXML
     private void addtoManagerSmallSignature(ActionEvent event) {
-        String tableName = "displaydata";
-        String[] data = {HijriCalendar.getSimpleDate(), "توجيه الركن", topic.getText(), destination.getValue()};
-        String fieldName = "`DISPLAYDATE`,`DISPLAYTYPE`,`TOPIC`,`DESTINATION`";
-        String valuenumbers = "?,?,?,?";
-
-        boolean idState = FormValidation.notNull(id, "الرجاءاختر السجل من الجدول");
-
-        if (idState) {
-            try {
-                DatabaseAccess.insert(tableName, fieldName, valuenumbers, data);
-                FormValidation.showAlert(null, "تم اضافة المعاملة الى توجيه الركن", Alert.AlertType.INFORMATION);
-                clear(event);
-            } catch (IOException ex) {
-                FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
-            }
-        }
-    }
-
-    @FXML
-    private void addtoManagerOrders(ActionEvent event) {
-        String tableName = "displaydata";
+       String tableName = "displaydata";
         String[] data = {HijriCalendar.getSimpleDate(), "تاشير الركن", topic.getText(), destination.getValue()};
         String fieldName = "`DISPLAYDATE`,`DISPLAYTYPE`,`TOPIC`,`DESTINATION`";
         String valuenumbers = "?,?,?,?";
@@ -348,6 +328,26 @@ public class ExportsPageController implements Initializable {
             try {
                 DatabaseAccess.insert(tableName, fieldName, valuenumbers, data);
                 FormValidation.showAlert(null, "تم اضافة المعاملة الى تاشير الركن", Alert.AlertType.INFORMATION);
+                clear(event);
+            } catch (IOException ex) {
+                FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+            }
+        }
+    }
+
+    @FXML
+    private void addtoManagerOrders(ActionEvent event) {
+         String tableName = "displaydata";
+        String[] data = {HijriCalendar.getSimpleDate(), "توجيه الركن", topic.getText(), destination.getValue()};
+        String fieldName = "`DISPLAYDATE`,`DISPLAYTYPE`,`TOPIC`,`DESTINATION`";
+        String valuenumbers = "?,?,?,?";
+
+        boolean idState = FormValidation.notNull(id, "الرجاءاختر السجل من الجدول");
+
+        if (idState) {
+            try {
+                DatabaseAccess.insert(tableName, fieldName, valuenumbers, data);
+                FormValidation.showAlert(null, "تم اضافة المعاملة الى توجيه الركن", Alert.AlertType.INFORMATION);
                 clear(event);
             } catch (IOException ex) {
                 FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);

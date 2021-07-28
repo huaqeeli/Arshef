@@ -2,7 +2,7 @@ package modeles;
 
 public class DisplayModele {
 
-    String displayid, displayDate, destination, topic, displayType, notes,squ;
+    String displayid, displayDate, destination, topic, displayType, notes,squnces;
     int squence;
 
     public DisplayModele(String displayid, String displayDate, String destination, String topic, String displayType, String notes, int squence) {
@@ -15,15 +15,21 @@ public class DisplayModele {
         this.squence = squence;
     }
 
-    public String getSqu() {
-        return squ;
+    public DisplayModele(String topic, String notes, String squnces) {
+        this.topic = topic;
+        this.notes = notes;
+        this.squnces = squnces;
     }
-
-    public void setSqu(String squ) {
-        this.squ = squ;
-    }
-
+    
     public DisplayModele() {
+    }
+
+    public String getSqunces() {
+        return squnces;
+    }
+
+    public void setSqunces(String squnces) {
+        this.squnces = squnces;
     }
 
     public String getNotes() {
@@ -84,8 +90,9 @@ public class DisplayModele {
 
     @Override
     public String toString() {
-        return "DisplayModele{" + "displayid=" + displayid + ", displayDate=" + displayDate + ", destination=" + destination + ", topic=" + topic + ", displayType=" + displayType + ", notes=" + notes + ", squence=" + squence + '}';
+        return "DisplayModele{" + "displayid=" + displayid + ", displayDate=" + displayDate + ", destination=" + destination + ", topic=" + topic + ", displayType=" + displayType + ", notes=" + notes + ", squnces=" + squnces + ", squence=" + squence + '}';
     }
+
 
    
 

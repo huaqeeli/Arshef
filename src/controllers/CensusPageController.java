@@ -1,6 +1,7 @@
 package controllers;
 
 import Validation.FormValidation;
+import arshef.App;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
@@ -24,6 +25,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
 import modeles.CensusModel;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
@@ -162,10 +164,19 @@ public class CensusPageController implements Initializable {
     private TableColumn<?, ?> Prison_col;
     @FXML
     private TableColumn<?, ?> OutKingdomTraining_col;
-
+    String usertype;
     ObservableList<String> uintComboBoxlist = FXCollections.observableArrayList();
     ObservableList<CensusModel> censusList = FXCollections.observableArrayList();
     String tabeluint = null;
+    Config config = new Config();
+
+    public String getUsertype() {
+        return usertype;
+    }
+
+    public void setUsertype(String usertype) {
+        this.usertype = usertype;
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -187,6 +198,8 @@ public class CensusPageController implements Initializable {
     private void save(ActionEvent event) {
         String tableName = "census";
         String daydate = AppDate.getDate(DateDay, DateMonth, DateYear);
+        String currentcensusOF = null;
+
         String[] OFdata = {uint.getValue(), daydate, originalCensusOF.getText(), currentCensusOF.getText(), OrdinaryVacationOF.getText(), OccasionalVacationOF.getText(),
             SickleaveOF.getText(), QuarantineOF.getText(), InareaTrainingOF.getText(), OutareaTrainingOF.getText(), OutKingdomTrainingOF.getText(), OfficialMissionOF.getText(), JoblMissionOF.getText(),
             hospitalOF.getText(), outKingdomJobOF.getText(), outOftheForceOF.getText(), alternatesOF.getText(), administrativeleaveOF.getText(), lateOF.getText(),
@@ -218,19 +231,19 @@ public class CensusPageController implements Initializable {
         String outFieldOF = ArabicSetting.EnglishToarabic(outfieldOF);
         String outFieldSR = ArabicSetting.EnglishToarabic(outfieldSR);
 
-        String[] mdata = {uint.getValue(),getUintOrder(uint.getValue()), daydate, origalOF, origalSR, inFieldOF, inFieldSR, outFieldOF, outFieldSR};
+        String[] mdata = {uint.getValue(), getUintOrder(uint.getValue()), daydate, origalOF, origalSR, inFieldOF, inFieldSR, outFieldOF, outFieldSR};
 
         String mfieldName = "`uint`,`uintOrder`,`daydate`,`originalCensusOF`,`originalCensusSR`,`infieldOF`,`infieldSR`,`outfiedOF`,`outfieldSR`";
         String mvaluenumbers = "?,?,?,?,?,?,?,?,?";
 
-        TextField[] textfield = {originalCensusOF, originalCensusSR, currentCensusOF, currentCensusSR, OrdinaryVacationOF, OrdinaryVacationSR, OccasionalVacationOF,
+        TextField[] textfield = {OrdinaryVacationOF, OrdinaryVacationSR, OccasionalVacationOF,
             OccasionalVacationSR, SickleaveOF, SickleaveSR, QuarantineOF, QuarantineSR, InareaTrainingOF, InareaTrainingSR, OutareaTrainingOF, OutareaTrainingSR, OutKingdomTrainingOF,
             OutKingdomTrainingSR, OfficialMissionOF, OfficialMissionSR, JoblMissionOF, JobMissionSR, hospitalOF, hospitalSR, outKingdomJobOF, outKingdomJobSR, outOftheForceOF, outOftheForceSR,
             alternatesOF, alternatesSR, administrativeleaveOF, administrativeleaveSR, lateOF, lateSR, AbsenceOF, AbsenceSR, PrisonOF, PrisonSR};
 
         boolean textfieldState = FormValidation.textFieldNotEmpty(textfield, "الرجاء تعبئة الحقل الفارغ");
-
         boolean censusNotexisting = FormValidation.ifexisting("census", "`uint`,`dayDate`", "uint ='" + uint.getValue() + "' AND dayDate='" + daydate + "'", "تم ادخال تمام " + uint.getValue() + " " + "لهذا اليوم");
+
         if (textfieldState && censusNotexisting) {
             try {
                 DatabaseAccess.insert(tableName, fieldName, valuenumbers, OFdata);
@@ -385,10 +398,11 @@ public class CensusPageController implements Initializable {
     public void clearListCombobox() {
         uint.getItems().clear();
     }
+
     public String getUintOrder(String uint) {
         String uintOrder = null;
         try {
-            ResultSet rs = DatabaseAccess.select("placenames", "PLACENAME='"+uint+"'");
+            ResultSet rs = DatabaseAccess.select("placenames", "PLACENAME='" + uint + "'");
             try {
                 while (rs.next()) {
                     uintOrder = rs.getString("PLACEID");
@@ -599,8 +613,7 @@ public class CensusPageController implements Initializable {
     @FXML
     private void printOprationReport(ActionEvent event) {
         try {
-            String reportSrcFile = "C:\\Program Files\\Arshef\\reports\\reportofopration.jrxml";
-//            String reportSrcFile = "C:\\Users\\y50\\Documents\\NetBeansProjects\\Arshef\\src\\reports\\reportofopration.jrxml";
+            String reportSrcFile = config.getAppURL() + "\\reports\\reportofopration.jrxml";
             Connection con = DatabaseConniction.dbConnector();
             ResultSet rs = DatabaseAccess.getSum("census", "dayDate = '" + AppDate.getDate(DateDay, DateMonth, DateYear) + "'AND type = 'OF'");
             ResultSet rs1 = DatabaseAccess.getSum("census", "dayDate = '" + AppDate.getDate(DateDay, DateMonth, DateYear) + "'AND type = 'SR'");
@@ -687,8 +700,7 @@ public class CensusPageController implements Initializable {
     @FXML//interyReport
     private void printForceReport(ActionEvent event) {
         try {
-            String reportSrcFile = "C:\\Program Files\\Arshef\\reports\\ForceReport.jrxml";
-//            String reportSrcFile = "C:\\Users\\y50\\Documents\\NetBeansProjects\\Arshef\\src\\reports\\ForceReport.jrxml";
+            String reportSrcFile = config.getAppURL() + "\\reports\\ForceReport.jrxml";
             Connection con = DatabaseConniction.dbConnector();
             ResultSet rs = DatabaseAccess.getSum("census", "dayDate = '" + AppDate.getDate(DateDay, DateMonth, DateYear) + "'AND type = 'OF'");
             ResultSet rs1 = DatabaseAccess.getSum("census", "dayDate = '" + AppDate.getDate(DateDay, DateMonth, DateYear) + "'AND type = 'SR'");
@@ -774,8 +786,7 @@ public class CensusPageController implements Initializable {
     @FXML
     private void printManualReport(ActionEvent event) {
         try {
-            String reportSrcFile = "C:\\Program Files\\Arshef\\reports\\ManualReport.jrxml";
-//            String reportSrcFile = "C:\\Users\\y50\\Documents\\NetBeansProjects\\Arshef\\src\\reports\\ManualReport.jrxml";
+            String reportSrcFile = config.getAppURL() + "\\reports\\ManualReport.jrxml";
             Connection con = DatabaseConniction.dbConnector();
             ResultSet rs = DatabaseAccess.getManualSum("census", "dayDate = '" + AppDate.getDate(DateDay, DateMonth, DateYear) + "'AND type = 'OF' ");
             ResultSet rs1 = DatabaseAccess.getManualSum("census", "dayDate = '" + AppDate.getDate(DateDay, DateMonth, DateYear) + "'AND type = 'SR'");
@@ -812,4 +823,70 @@ public class CensusPageController implements Initializable {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
     }
+
+    @FXML
+    private void getOriginalCensus(ActionEvent event) {
+        try {
+            ResultSet rs = DatabaseAccess.select("originalcensus", "UINT = '" + uint.getValue() + "'");
+            while (rs.next()) {
+                originalCensusOF.setText(rs.getString("OFCENSUS"));
+                originalCensusSR.setText(rs.getString("SRCEMSUS"));
+                currentCensusOF.setText(rs.getString("OFCENSUS"));
+                currentCensusSR.setText(rs.getString("SRCEMSUS"));
+            }
+            rs.close();
+        } catch (SQLException | IOException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
+    }
+
+    @FXML
+    private void originalCensusPage(ActionEvent event) {
+        if ("مدير".equals(usertype)) {
+            App.showFxml("/view/addOriginalCensus");
+        } else {
+            FormValidation.showAlert(null, "ليس لديك الصلاحية في الدخول", Alert.AlertType.ERROR);
+        }
+    }
+
+    @FXML
+    private void sumCurrentCensusOF(KeyEvent event) {
+        String[] OFtextfield = {OrdinaryVacationOF.getText(), OccasionalVacationOF.getText(), SickleaveOF.getText(), QuarantineOF.getText(), InareaTrainingOF.getText(), OutareaTrainingOF.getText(), OutKingdomTrainingOF.getText(),
+            OfficialMissionOF.getText(), JoblMissionOF.getText(), hospitalOF.getText(), outKingdomJobOF.getText(), outOftheForceOF.getText(), alternatesOF.getText(), administrativeleaveOF.getText(), lateOF.getText(), AbsenceOF.getText(), PrisonOF.getText()};
+        int i = 0;
+        int sumTextValue = 0;
+        int orginalValue = Integer.parseInt(originalCensusOF.getText());
+        int currentValue = 0;
+        for (String textfield1 : OFtextfield) {
+            if (OFtextfield[i] == null || "".equals(OFtextfield[i])) {
+                sumTextValue = sumTextValue + 0;
+            } else {
+                sumTextValue = sumTextValue + Integer.parseInt(OFtextfield[i]);
+            }
+            i++;
+        }
+        currentValue = orginalValue - sumTextValue;
+        currentCensusOF.setText(Integer.toString(currentValue));
+    }
+
+    @FXML
+    private void sumCurrentCensusSR(KeyEvent event) {
+        String[] SRtextfield = {OrdinaryVacationSR.getText(), OccasionalVacationSR.getText(), SickleaveSR.getText(), QuarantineSR.getText(), InareaTrainingSR.getText(), OutareaTrainingSR.getText(), OutKingdomTrainingSR.getText(),
+            OfficialMissionSR.getText(), JobMissionSR.getText(), hospitalSR.getText(), outKingdomJobSR.getText(), outOftheForceSR.getText(), alternatesSR.getText(), administrativeleaveSR.getText(), lateSR.getText(), AbsenceSR.getText(), PrisonSR.getText()};
+        int i = 0;
+        int sumTextValue = 0;
+        int orginalValue = Integer.parseInt(originalCensusSR.getText());
+        int currentValue = 0;
+        for (String textfield1 : SRtextfield) {
+            if (SRtextfield[i] == null || "".equals(SRtextfield[i])) {
+                sumTextValue = sumTextValue + 0;
+            } else {
+                sumTextValue = sumTextValue + Integer.parseInt(SRtextfield[i]);
+            }
+            i++;
+        }
+        currentValue = orginalValue - sumTextValue;
+        currentCensusSR.setText(Integer.toString(currentValue));
+    }
+
 }

@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.10.0.final using JasperReports Library version 6.10.0-unknown  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" pageWidth="170" pageHeight="113" columnWidth="160" leftMargin="5" rightMargin="5" topMargin="5" bottomMargin="5" isSummaryNewPage="true" uuid="7cc5bb89-873a-490f-99d9-40067b8567a7">
+	<property name="ireport.zoom" value="4.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter (2)"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="ex_id" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="ex_date" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="dir_to" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="qex_id" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="unitName" class="java.lang.String"/>
+	<parameter name="savefile" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT *
+FROM
+     internalexports
+WHERE
+     REGISNO = $P{qex_id}]]>
+	</queryString>
+	<field name="ID" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="ID"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="internalexports"/>
+	</field>
+	<field name="REGISNO" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="REGISNO"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="internalexports"/>
+	</field>
+	<field name="EXPORTDATE" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="EXPORTDATE"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="internalexports"/>
+	</field>
+	<field name="DESTINATION" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="DESTINATION"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="internalexports"/>
+	</field>
+	<field name="TOPIC" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="TOPIC"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="internalexports"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="SAVEFILE" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="SAVEFILE"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="internalexports"/>
+	</field>
+	<field name="NOTES" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="NOTES"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="internalexports"/>
+	</field>
+	<field name="RECORDYEAR" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="RECORDYEAR"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="internalexports"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="20" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="82" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<staticText>
+				<reportElement x="110" y="22" width="49" height="15" uuid="b6ee663c-86d4-4190-acf1-2f606a1cb7e2">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[رقم الـقيد    :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="110" y="52" width="49" height="15" uuid="9020613f-92c1-49e7-8bef-cb6b12977d3d">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[جهة الصادر:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="110" y="37" width="49" height="15" uuid="2a8a470d-ee14-41d1-b40c-9840f0dc009a">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[التـاريخ      :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="37" width="110" height="15" uuid="19179a32-5275-48ad-9d74-ddc0a7f3f6f6">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{ex_date}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement stretchType="RelativeToTallestObject" x="0" y="52" width="110" height="15" uuid="d9aa4041-12d8-46f5-a8f4-0f1bc8a11285">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{dir_to}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="22" width="110" height="15" uuid="70c44d26-eaa2-4c81-af6f-0b6e0aa8e1fb"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{ex_id}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="0" width="160" height="22" uuid="55d897cb-e7d9-4ad9-a297-da8a01a42a2a">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{unitName}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="110" y="67" width="49" height="15" uuid="8d3e0d46-8e66-4fbf-b8bb-67bb9f95d82a">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ملف الحفظ :]]></text>
+			</staticText>
+			<textField>
+				<reportElement stretchType="RelativeToTallestObject" x="0" y="67" width="110" height="15" uuid="fb1dee9c-abf4-4699-b5e9-ee831d704746"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{savefile}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.10.0.final using JasperReports Library version 6.10.0-unknown  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" pageWidth="170" pageHeight="113" columnWidth="160" leftMargin="5" rightMargin="5" topMargin="5" bottomMargin="5" isSummaryNewPage="true" uuid="7cc5bb89-873a-490f-99d9-40067b8567a7">
+	<property name="ireport.zoom" value="4.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter (2)"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="ex_id" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="ex_date" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="dir_to" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="qex_id" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="savefile" class="java.lang.String"/>
+	<parameter name="unitName" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT *
+FROM
+     internalincoming
+WHERE
+     REGIS_NO = $P{qex_id}]]>
+	</queryString>
+	<field name="ID" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="ID"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="internalincoming"/>
+	</field>
+	<field name="REGIS_NO" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="REGIS_NO"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="internalincoming"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="RECIPIENT_DATE" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="RECIPIENT_DATE"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="internalincoming"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="CIRCULAR_NO" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="CIRCULAR_NO"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="internalincoming"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="CIRCULAR_DATE" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="CIRCULAR_DATE"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="internalincoming"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="CIRCULAR_DIR" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="CIRCULAR_DIR"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="internalincoming"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="TOPIC" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="TOPIC"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="internalincoming"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="SAVE_FILE" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="SAVE_FILE"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="internalincoming"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="NOTES" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="NOTES"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="internalincoming"/>
+	</field>
+	<field name="RECORD_YEAR" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="RECORD_YEAR"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="internalincoming"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="20" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="83" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<staticText>
+				<reportElement x="110" y="22" width="49" height="15" uuid="b6ee663c-86d4-4190-acf1-2f606a1cb7e2">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[رقم الـقيد   :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="110" y="52" width="49" height="15" uuid="9020613f-92c1-49e7-8bef-cb6b12977d3d">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[جهة الوارد :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="110" y="37" width="49" height="15" uuid="2a8a470d-ee14-41d1-b40c-9840f0dc009a">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[التـاريخ     :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="3" y="37" width="107" height="15" uuid="19179a32-5275-48ad-9d74-ddc0a7f3f6f6">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{ex_date}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement stretchType="RelativeToTallestObject" x="3" y="52" width="107" height="15" uuid="d9aa4041-12d8-46f5-a8f4-0f1bc8a11285"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{dir_to}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="3" y="22" width="107" height="15" uuid="70c44d26-eaa2-4c81-af6f-0b6e0aa8e1fb">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{ex_id}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="3" y="0" width="156" height="20" uuid="07bbee77-a5b2-4aab-8fa4-d768c2644ebf"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{unitName}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="110" y="67" width="49" height="15" uuid="a95e652e-2e9c-47c4-9346-8867a41b72c4">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ملف الحفظ :]]></text>
+			</staticText>
+			<textField>
+				<reportElement stretchType="RelativeToTallestObject" x="3" y="67" width="107" height="15" uuid="eeb584e1-07b6-450b-8ec7-250f7760e387"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{savefile}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

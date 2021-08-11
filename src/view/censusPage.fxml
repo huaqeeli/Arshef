@@ -15,7 +15,16 @@
 
 <AnchorPane id="AnchorPane" prefHeight="800.0" prefWidth="1200.0" style="-fx-border-color: #9A9A9A; -fx-border-width: 0 5 0 0;" stylesheets="@../css/appStyle.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.CensusPageController">
    <children>
-      <VBox alignment="TOP_RIGHT" nodeOrientation="RIGHT_TO_LEFT" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <HBox alignment="CENTER_RIGHT" prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #1E3606;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label styleClass="headerlabel" text="التعداد">
+               <HBox.margin>
+                  <Insets right="5.0" />
+               </HBox.margin>
+            </Label>
+         </children>
+      </HBox>
+      <VBox alignment="TOP_RIGHT" nodeOrientation="RIGHT_TO_LEFT" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">
          <children>
             <HBox alignment="CENTER" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: #686868;">
                <children>
@@ -26,7 +35,7 @@
                         <ComboBox fx:id="DateYear" accessibleText="coursCombobox" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="50.0" styleClass="appComboBox" HBox.hgrow="ALWAYS" />
                      </children>
                   </HBox>
-                  <ComboBox fx:id="uint" accessibleText="coursCombobox" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="100.0" styleClass="appComboBox" HBox.hgrow="ALWAYS" />
+                  <ComboBox fx:id="uint" accessibleText="coursCombobox" maxWidth="1.7976931348623157E308" onAction="#getOriginalCensus" prefHeight="40.0" prefWidth="100.0" styleClass="appComboBox" HBox.hgrow="ALWAYS" />
                   <Button contentDisplay="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#searchData" prefHeight="40.0" prefWidth="29.0" styleClass="searchPageButton">
                      <graphic>
                         <ImageView fitHeight="17.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
@@ -75,12 +84,12 @@
                               <Insets bottom="2.0" right="2.0" />
                            </VBox.margin>
                         </Label>
-                        <TextField fx:id="originalCensusOF" alignment="CENTER" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
+                        <TextField fx:id="originalCensusOF" alignment="CENTER" editable="false" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
                            <VBox.margin>
                               <Insets bottom="2.0" right="2.0" />
                            </VBox.margin>
                         </TextField>
-                        <TextField fx:id="originalCensusSR" alignment="CENTER" layoutX="10.0" layoutY="50.0" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
+                        <TextField fx:id="originalCensusSR" alignment="CENTER" editable="false" layoutX="10.0" layoutY="50.0" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
                            <VBox.margin>
                               <Insets right="2.0" />
                            </VBox.margin>
@@ -94,12 +103,12 @@
                               <Insets bottom="2.0" right="2.0" />
                            </VBox.margin>
                         </Label>
-                        <TextField fx:id="currentCensusOF" alignment="CENTER" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
+                        <TextField fx:id="currentCensusOF" alignment="CENTER" editable="false" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
                            <VBox.margin>
                               <Insets bottom="2.0" right="2.0" />
                            </VBox.margin>
                         </TextField>
-                        <TextField fx:id="currentCensusSR" alignment="CENTER" layoutX="10.0" layoutY="50.0" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
+                        <TextField fx:id="currentCensusSR" alignment="CENTER" editable="false" layoutX="10.0" layoutY="50.0" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
                            <VBox.margin>
                               <Insets right="2.0" />
                            </VBox.margin>
@@ -122,12 +131,12 @@
                                           <Insets bottom="2.0" right="2.0" />
                                        </VBox.margin>
                                     </Label>
-                                    <TextField fx:id="OrdinaryVacationOF" alignment="CENTER" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
+                                    <TextField fx:id="OrdinaryVacationOF" alignment="CENTER" onKeyReleased="#sumCurrentCensusOF" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
                                        <VBox.margin>
                                           <Insets bottom="2.0" right="2.0" />
                                        </VBox.margin>
                                     </TextField>
-                                    <TextField fx:id="OrdinaryVacationSR" alignment="CENTER" layoutX="10.0" layoutY="50.0" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
+                                    <TextField fx:id="OrdinaryVacationSR" alignment="CENTER" layoutX="10.0" layoutY="50.0" onKeyReleased="#sumCurrentCensusSR" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
                                        <VBox.margin>
                                           <Insets right="2.0" />
                                        </VBox.margin>
@@ -141,12 +150,12 @@
                                           <Insets bottom="2.0" right="2.0" />
                                        </VBox.margin>
                                     </Label>
-                                    <TextField fx:id="OccasionalVacationOF" alignment="CENTER" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
+                                    <TextField fx:id="OccasionalVacationOF" alignment="CENTER" onKeyReleased="#sumCurrentCensusOF" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
                                        <VBox.margin>
                                           <Insets bottom="2.0" right="2.0" />
                                        </VBox.margin>
                                     </TextField>
-                                    <TextField fx:id="OccasionalVacationSR" alignment="CENTER" layoutX="10.0" layoutY="50.0" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
+                                    <TextField fx:id="OccasionalVacationSR" alignment="CENTER" layoutX="10.0" layoutY="50.0" onKeyReleased="#sumCurrentCensusSR" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
                                        <VBox.margin>
                                           <Insets right="2.0" />
                                        </VBox.margin>
@@ -160,12 +169,12 @@
                                           <Insets bottom="2.0" right="2.0" />
                                        </VBox.margin>
                                     </Label>
-                                    <TextField fx:id="SickleaveOF" alignment="CENTER" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
+                                    <TextField fx:id="SickleaveOF" alignment="CENTER" onKeyReleased="#sumCurrentCensusOF" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
                                        <VBox.margin>
                                           <Insets bottom="2.0" right="2.0" />
                                        </VBox.margin>
                                     </TextField>
-                                    <TextField fx:id="SickleaveSR" alignment="CENTER" layoutX="10.0" layoutY="50.0" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
+                                    <TextField fx:id="SickleaveSR" alignment="CENTER" layoutX="10.0" layoutY="50.0" onKeyReleased="#sumCurrentCensusSR" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
                                        <VBox.margin>
                                           <Insets right="2.0" />
                                        </VBox.margin>
@@ -179,12 +188,12 @@
                                           <Insets bottom="2.0" right="2.0" />
                                        </VBox.margin>
                                     </Label>
-                                    <TextField fx:id="QuarantineOF" alignment="CENTER" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
+                                    <TextField fx:id="QuarantineOF" alignment="CENTER" onKeyReleased="#sumCurrentCensusOF" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
                                        <VBox.margin>
                                           <Insets bottom="2.0" right="2.0" />
                                        </VBox.margin>
                                     </TextField>
-                                    <TextField fx:id="QuarantineSR" alignment="CENTER" layoutX="10.0" layoutY="50.0" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
+                                    <TextField fx:id="QuarantineSR" alignment="CENTER" layoutX="10.0" layoutY="50.0" onKeyReleased="#sumCurrentCensusSR" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
                                        <VBox.margin>
                                           <Insets right="2.0" />
                                        </VBox.margin>
@@ -211,12 +220,12 @@
                                           <Insets bottom="2.0" right="2.0" />
                                        </VBox.margin>
                                     </Label>
-                                    <TextField fx:id="InareaTrainingOF" alignment="CENTER" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
+                                    <TextField fx:id="InareaTrainingOF" alignment="CENTER" onKeyReleased="#sumCurrentCensusOF" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
                                        <VBox.margin>
                                           <Insets bottom="2.0" right="2.0" />
                                        </VBox.margin>
                                     </TextField>
-                                    <TextField fx:id="InareaTrainingSR" alignment="CENTER" layoutX="10.0" layoutY="50.0" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
+                                    <TextField fx:id="InareaTrainingSR" alignment="CENTER" layoutX="10.0" layoutY="50.0" onKeyReleased="#sumCurrentCensusSR" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
                                        <VBox.margin>
                                           <Insets right="2.0" />
                                        </VBox.margin>
@@ -230,12 +239,12 @@
                                           <Insets bottom="2.0" right="2.0" />
                                        </VBox.margin>
                                     </Label>
-                                    <TextField fx:id="OutareaTrainingOF" alignment="CENTER" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
+                                    <TextField fx:id="OutareaTrainingOF" alignment="CENTER" onKeyReleased="#sumCurrentCensusOF" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
                                        <VBox.margin>
                                           <Insets bottom="2.0" right="2.0" />
                                        </VBox.margin>
                                     </TextField>
-                                    <TextField fx:id="OutareaTrainingSR" alignment="CENTER" layoutX="10.0" layoutY="50.0" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
+                                    <TextField fx:id="OutareaTrainingSR" alignment="CENTER" layoutX="10.0" layoutY="50.0" onKeyReleased="#sumCurrentCensusSR" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
                                        <VBox.margin>
                                           <Insets right="2.0" />
                                        </VBox.margin>
@@ -249,12 +258,12 @@
                                           <Insets bottom="2.0" right="2.0" />
                                        </VBox.margin>
                                     </Label>
-                                    <TextField fx:id="OutKingdomTrainingOF" alignment="CENTER" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
+                                    <TextField fx:id="OutKingdomTrainingOF" alignment="CENTER" onKeyReleased="#sumCurrentCensusOF" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
                                        <VBox.margin>
                                           <Insets bottom="2.0" right="2.0" />
                                        </VBox.margin>
                                     </TextField>
-                                    <TextField fx:id="OutKingdomTrainingSR" alignment="CENTER" layoutX="10.0" layoutY="50.0" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
+                                    <TextField fx:id="OutKingdomTrainingSR" alignment="CENTER" layoutX="10.0" layoutY="50.0" onKeyReleased="#sumCurrentCensusSR" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
                                        <VBox.margin>
                                           <Insets right="2.0" />
                                        </VBox.margin>
@@ -281,12 +290,12 @@
                                           <Insets bottom="2.0" right="2.0" />
                                        </VBox.margin>
                                     </Label>
-                                    <TextField fx:id="OfficialMissionOF" alignment="CENTER" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
+                                    <TextField fx:id="OfficialMissionOF" alignment="CENTER" onKeyReleased="#sumCurrentCensusOF" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
                                        <VBox.margin>
                                           <Insets bottom="2.0" right="2.0" />
                                        </VBox.margin>
                                     </TextField>
-                                    <TextField fx:id="OfficialMissionSR" alignment="CENTER" layoutX="10.0" layoutY="50.0" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
+                                    <TextField fx:id="OfficialMissionSR" alignment="CENTER" layoutX="10.0" layoutY="50.0" onKeyReleased="#sumCurrentCensusSR" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
                                        <VBox.margin>
                                           <Insets right="2.0" />
                                        </VBox.margin>
@@ -300,12 +309,12 @@
                                           <Insets bottom="2.0" right="2.0" />
                                        </VBox.margin>
                                     </Label>
-                                    <TextField fx:id="JoblMissionOF" alignment="CENTER" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
+                                    <TextField fx:id="JoblMissionOF" alignment="CENTER" onKeyReleased="#sumCurrentCensusOF" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
                                        <VBox.margin>
                                           <Insets bottom="2.0" right="2.0" />
                                        </VBox.margin>
                                     </TextField>
-                                    <TextField fx:id="JobMissionSR" alignment="CENTER" layoutX="10.0" layoutY="50.0" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
+                                    <TextField fx:id="JobMissionSR" alignment="CENTER" layoutX="10.0" layoutY="50.0" onKeyReleased="#sumCurrentCensusSR" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
                                        <VBox.margin>
                                           <Insets right="2.0" />
                                        </VBox.margin>
@@ -323,12 +332,12 @@
                               <Insets bottom="2.0" right="2.0" />
                            </VBox.margin>
                         </Label>
-                        <TextField fx:id="hospitalOF" alignment="CENTER" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
+                        <TextField fx:id="hospitalOF" alignment="CENTER" onKeyReleased="#sumCurrentCensusOF" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
                            <VBox.margin>
                               <Insets bottom="2.0" right="2.0" />
                            </VBox.margin>
                         </TextField>
-                        <TextField fx:id="hospitalSR" alignment="CENTER" layoutX="10.0" layoutY="50.0" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
+                        <TextField fx:id="hospitalSR" alignment="CENTER" layoutX="10.0" layoutY="50.0" onKeyReleased="#sumCurrentCensusSR" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
                            <VBox.margin>
                               <Insets right="2.0" />
                            </VBox.margin>
@@ -342,12 +351,12 @@
                               <Insets bottom="2.0" right="2.0" />
                            </VBox.margin>
                         </Label>
-                        <TextField fx:id="outKingdomJobOF" alignment="CENTER" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
+                        <TextField fx:id="outKingdomJobOF" alignment="CENTER" onKeyReleased="#sumCurrentCensusOF" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
                            <VBox.margin>
                               <Insets bottom="2.0" right="2.0" />
                            </VBox.margin>
                         </TextField>
-                        <TextField fx:id="outKingdomJobSR" alignment="CENTER" layoutX="10.0" layoutY="50.0" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
+                        <TextField fx:id="outKingdomJobSR" alignment="CENTER" layoutX="10.0" layoutY="50.0" onKeyReleased="#sumCurrentCensusSR" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
                            <VBox.margin>
                               <Insets right="2.0" />
                            </VBox.margin>
@@ -361,12 +370,12 @@
                               <Insets bottom="2.0" right="2.0" />
                            </VBox.margin>
                         </Label>
-                        <TextField fx:id="outOftheForceOF" alignment="CENTER" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
+                        <TextField fx:id="outOftheForceOF" alignment="CENTER" onKeyReleased="#sumCurrentCensusOF" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
                            <VBox.margin>
                               <Insets bottom="2.0" right="2.0" />
                            </VBox.margin>
                         </TextField>
-                        <TextField fx:id="outOftheForceSR" alignment="CENTER" layoutX="10.0" layoutY="50.0" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
+                        <TextField fx:id="outOftheForceSR" alignment="CENTER" layoutX="10.0" layoutY="50.0" onKeyReleased="#sumCurrentCensusSR" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
                            <VBox.margin>
                               <Insets right="2.0" />
                            </VBox.margin>
@@ -380,12 +389,12 @@
                               <Insets bottom="2.0" right="2.0" />
                            </VBox.margin>
                         </Label>
-                        <TextField fx:id="alternatesOF" alignment="CENTER" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
+                        <TextField fx:id="alternatesOF" alignment="CENTER" onKeyReleased="#sumCurrentCensusOF" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
                            <VBox.margin>
                               <Insets bottom="2.0" right="2.0" />
                            </VBox.margin>
                         </TextField>
-                        <TextField fx:id="alternatesSR" alignment="CENTER" layoutX="10.0" layoutY="50.0" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
+                        <TextField fx:id="alternatesSR" alignment="CENTER" layoutX="10.0" layoutY="50.0" onKeyReleased="#sumCurrentCensusSR" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
                            <VBox.margin>
                               <Insets right="2.0" />
                            </VBox.margin>
@@ -399,12 +408,12 @@
                               <Insets bottom="2.0" right="2.0" />
                            </VBox.margin>
                         </Label>
-                        <TextField fx:id="administrativeleaveOF" alignment="CENTER" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
+                        <TextField fx:id="administrativeleaveOF" alignment="CENTER" onKeyReleased="#sumCurrentCensusOF" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
                            <VBox.margin>
                               <Insets bottom="2.0" right="2.0" />
                            </VBox.margin>
                         </TextField>
-                        <TextField fx:id="administrativeleaveSR" alignment="CENTER" layoutX="10.0" layoutY="50.0" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
+                        <TextField fx:id="administrativeleaveSR" alignment="CENTER" layoutX="10.0" layoutY="50.0" onKeyReleased="#sumCurrentCensusSR" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
                            <VBox.margin>
                               <Insets right="2.0" />
                            </VBox.margin>
@@ -418,12 +427,12 @@
                               <Insets bottom="2.0" right="2.0" />
                            </VBox.margin>
                         </Label>
-                        <TextField fx:id="lateOF" alignment="CENTER" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
+                        <TextField fx:id="lateOF" alignment="CENTER" onKeyReleased="#sumCurrentCensusOF" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
                            <VBox.margin>
                               <Insets bottom="2.0" right="2.0" />
                            </VBox.margin>
                         </TextField>
-                        <TextField fx:id="lateSR" alignment="CENTER" layoutX="10.0" layoutY="50.0" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
+                        <TextField fx:id="lateSR" alignment="CENTER" layoutX="10.0" layoutY="50.0" onKeyReleased="#sumCurrentCensusSR" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
                            <VBox.margin>
                               <Insets right="2.0" />
                            </VBox.margin>
@@ -437,12 +446,12 @@
                               <Insets bottom="2.0" right="2.0" />
                            </VBox.margin>
                         </Label>
-                        <TextField fx:id="AbsenceOF" alignment="CENTER" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
+                        <TextField fx:id="AbsenceOF" alignment="CENTER" onKeyReleased="#sumCurrentCensusOF" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
                            <VBox.margin>
                               <Insets bottom="2.0" right="2.0" />
                            </VBox.margin>
                         </TextField>
-                        <TextField fx:id="AbsenceSR" alignment="CENTER" layoutX="10.0" layoutY="50.0" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
+                        <TextField fx:id="AbsenceSR" alignment="CENTER" layoutX="10.0" layoutY="50.0" onKeyReleased="#sumCurrentCensusSR" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
                            <VBox.margin>
                               <Insets right="2.0" />
                            </VBox.margin>
@@ -456,12 +465,12 @@
                               <Insets bottom="2.0" />
                            </VBox.margin>
                         </Label>
-                        <TextField fx:id="PrisonOF" alignment="CENTER" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
+                        <TextField fx:id="PrisonOF" alignment="CENTER" onKeyReleased="#sumCurrentCensusOF" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
                            <VBox.margin>
                               <Insets bottom="2.0" right="2.0" />
                            </VBox.margin>
                         </TextField>
-                        <TextField fx:id="PrisonSR" alignment="CENTER" layoutX="10.0" layoutY="50.0" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
+                        <TextField fx:id="PrisonSR" alignment="CENTER" layoutX="10.0" layoutY="50.0" onKeyReleased="#sumCurrentCensusSR" prefHeight="40.0" prefWidth="20.0" styleClass="appText" VBox.vgrow="ALWAYS">
                            <VBox.margin>
                               <Insets right="2.0" />
                            </VBox.margin>
@@ -502,7 +511,10 @@
                         <Insets right="2.0" />
                      </HBox.margin>
                   </Button>
-                  <Button layoutX="922.0" layoutY="15.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#printManualReport" prefHeight="40.0" styleClass="toolBarButton" text="اضافة الى عرض القائد" />
+                  <Button layoutX="922.0" layoutY="15.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#originalCensusPage" prefHeight="40.0" styleClass="toolBarButton" text="القوة الاصلية للوحدات">
+                     <HBox.margin>
+                        <Insets right="2.0" />
+                     </HBox.margin></Button>
                   <Button mnemonicParsing="false" onAction="#clear" prefHeight="40.0" prefWidth="80.0" styleClass="toolBarButton">
                      <graphic>
                         <ImageView fitHeight="28.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">

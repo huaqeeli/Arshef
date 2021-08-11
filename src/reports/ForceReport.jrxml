@@ -969,7 +969,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" size="11" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{OutareaTrainingOF}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{OutareaTrainingSR}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="439" y="0" width="40" height="30" uuid="808014ca-b073-4b34-9e3f-52c31c575393">

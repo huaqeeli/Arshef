@@ -1,6 +1,9 @@
 package controllers;
 
 import Validation.FormValidation;
+import com.asprise.imaging.core.Imaging;
+import com.asprise.imaging.core.Request;
+import com.asprise.imaging.core.Result;
 import com.itextpdf.text.BadElementException;
 import com.mysql.jdbc.Statement;
 import java.io.File;
@@ -87,7 +90,7 @@ public class DatabaseAccess {
             if (militaryid == null || coursid == null) {
                 FormValidation.showAlert(null, "اختر السجل من الجدول", Alert.AlertType.ERROR);
             } else {
-                ResultSet rs = DatabaseAccess.getData("SELECT COURSIMAGE FROM arshefdata WHERE CIRCULARID = '" + militaryid + "'AND CIRCULARDATE = '" + coursid + "'");
+                ResultSet rs = DatabaseAccess.getData("SELECT COURSIMAGE FROM externalincoming WHERE CIRCULARID = '" + militaryid + "'AND CIRCULARDATE = '" + coursid + "'");
                 if (rs.next()) {
                     ArrayList images = new ArrayList();
                     images.add(rs.getBytes("COURSIMAGE"));
@@ -111,7 +114,7 @@ public class DatabaseAccess {
             if (circularid == null || circulardate == null) {
                 FormValidation.showAlert(null, "اختر السجل من الجدول", Alert.AlertType.ERROR);
             } else {
-                ResultSet rs = DatabaseAccess.getData("SELECT CIRCULARIMAGE FROM arshefdata WHERE CIRCULARID = '" + circularid + "'AND CIRCULARDATE = '" + circulardate + "'");
+                ResultSet rs = DatabaseAccess.getData("SELECT CIRCULARIMAGE FROM externalincoming WHERE CIRCULARID = '" + circularid + "'AND CIRCULARDATE = '" + circulardate + "'");
                 if (rs.next()) {
                     image = rs.getBinaryStream("CIRCULARIMAGE");
                     pdfByte = new byte[image.available()];
@@ -126,6 +129,7 @@ public class DatabaseAccess {
         }
         return pdfByte;
     }
+
     public static byte[] getExportPdfFile(String id, String entrydate) {
         InputStream image = null;
         byte[] pdfByte = null;
@@ -140,6 +144,29 @@ public class DatabaseAccess {
                     image.read(pdfByte);
                 } else {
                     FormValidation.showAlert(null, "لا توجد صورة للشهادة", Alert.AlertType.ERROR);
+                }
+                rs.close();
+            }
+        } catch (IOException | SQLException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
+        return pdfByte;
+    }
+
+    public static byte[] getInternalIncomingPdfFile(String regisid, String year) {
+        InputStream image = null;
+        byte[] pdfByte = null;
+        try {
+            if (regisid == null || year == null) {
+                FormValidation.showAlert(null, "اختر السجل من الجدول", Alert.AlertType.ERROR);
+            } else {
+                ResultSet rs = DatabaseAccess.getData("SELECT IMAGE FROM internalincoming WHERE REGIS_NO = '" + regisid + "'AND RECORD_YEAR = '" + year + "'");
+                if (rs.next()) {
+                    image = rs.getBinaryStream("IMAGE");
+                    pdfByte = new byte[image.available()];
+                    image.read(pdfByte);
+                } else {
+                    FormValidation.showAlert(null, "لا توجد صورة ", Alert.AlertType.ERROR);
                 }
                 rs.close();
             }
@@ -179,6 +206,23 @@ public class DatabaseAccess {
         return lastId;
     }
 
+    public static String getUintName() throws IOException {
+        ResultSet rs = null;
+        String unitName = null;
+        String guiry = "SELECT * FROM uintname";
+        Connection con = DatabaseConniction.dbConnector();
+        try {
+            PreparedStatement psm = con.prepareStatement(guiry);
+            rs = psm.executeQuery();
+            if (rs.next()) {
+                unitName = rs.getString("uintname");
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        }
+        return unitName;
+    }
+
     public static ResultSet select(String tapleName) throws IOException {
         ResultSet rs = null;
         String guiry = "SELECT * FROM " + tapleName;
@@ -202,6 +246,48 @@ public class DatabaseAccess {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
         return rs;
+    }
+
+    public static String getRegistrationNum() throws IOException {
+        ResultSet rs = null;
+        String recordSquinc = null;
+        Connection con = DatabaseConniction.dbConnector();
+        String quiry = "SELECT REGISTRATION_NUM FROM recordesquins ";
+        try {
+            PreparedStatement psm = con.prepareStatement(quiry);
+            rs = psm.executeQuery();
+            if (rs.next()) {
+                recordSquinc = rs.getString("REGISTRATION_NUM");
+            }
+        } catch (SQLException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
+        return recordSquinc;
+    }
+
+    public static void updatRegistrationNum() throws IOException {
+        Connection con = DatabaseConniction.dbConnector();
+        String guiry = "UPDATE recordesquins SET REGISTRATION_NUM = ? WHERE ID = 1";
+        try {
+            PreparedStatement psm = con.prepareStatement(guiry);
+            int newNum = Integer.parseInt(getRegistrationNum()) + 1;
+            psm.setInt(1, newNum);
+            psm.executeUpdate();
+        } catch (SQLException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
+    }
+    public static void updatRegistrationNum(int newid,String newYear) throws IOException {
+        Connection con = DatabaseConniction.dbConnector();
+        String guiry = "UPDATE recordesquins SET REGISTRATION_NUM = ?,SQUINS_YEAR = ? WHERE ID = 1";
+        try {
+            PreparedStatement psm = con.prepareStatement(guiry);
+            psm.setInt(1, newid);
+            psm.setString(2, newYear);
+            psm.executeUpdate();
+        } catch (SQLException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
     }
 
     public static ResultSet getItems(String tapleName) throws IOException {
@@ -242,84 +328,12 @@ public class DatabaseAccess {
         return rs;
     }
 
-    public static ResultSet getCourses(String miliid) throws IOException {
-        ResultSet rs = null;
-        Connection con = DatabaseConniction.dbConnector();
-        String query = "SELECT personaldata.MILITARYID,personaldata.NAME,personaldata.RANK ,personaldata.UNIT,personaldata.PERSONALID,coursesdata.COURSID,"
-                + "coursnames.CORSNAME,coursesdata.COURSNUMBER,coursesdata.COURSPLASE,coursesdata.COURSDURATION,coursesdata.STARTDATE,coursesdata.ENDDATE,coursesdata.COURSESTIMATE FROM personaldata,coursesdata,coursnames "
-                + "WHERE personaldata.MILITARYID = '" + miliid + "' AND personaldata.MILITARYID = coursesdata.MILITARYID AND coursesdata.COURSID = coursnames.COURSID ";
-        try {
-            PreparedStatement psm = con.prepareStatement(query);
-            rs = psm.executeQuery();
-        } catch (SQLException ex) {
-            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
-        }
-        return rs;
-    }
-
-    public static ResultSet getCourses() throws IOException {
-        ResultSet rs = null;
-        Connection con = DatabaseConniction.dbConnector();
-        String query = "SELECT personaldata.MILITARYID,personaldata.NAME,personaldata.RANK ,personaldata.UNIT,personaldata.PERSONALID,coursesdata.COURSID,"
-                + "coursnames.CORSNAME,coursesdata.COURSNUMBER,coursesdata.COURSPLASE,coursesdata.COURSDURATION,coursesdata.STARTDATE,coursesdata.ENDDATE,coursesdata.COURSESTIMATE FROM personaldata,coursesdata,coursnames "
-                + "WHERE personaldata.MILITARYID = coursesdata.MILITARYID AND coursesdata.COURSID = coursnames.COURSID ";
-        try {
-            PreparedStatement psm = con.prepareStatement(query);
-            rs = psm.executeQuery();
-        } catch (SQLException ex) {
-            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
-        }
-        return rs;
-    }
-
     public static ResultSet getIdentiti(String query) throws IOException {
         ResultSet rs = null;
         PreparedStatement psm = null;
         Connection con = DatabaseConniction.dbConnector();
         try {
             psm = con.prepareStatement(query);
-            rs = psm.executeQuery();
-        } catch (SQLException ex) {
-            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
-        }
-        return rs;
-    }
-
-    public static ResultSet getDatabyCoursesId(String coursid) throws IOException {
-        ResultSet rs = null;
-        Connection con = DatabaseConniction.dbConnector();
-        String query = "SELECT personaldata.MILITARYID,personaldata.NAME,personaldata.RANK ,personaldata.UNIT,coursesdata.COURSPLASE FROM personaldata,coursesdata "
-                + "WHERE coursesdata.COURSID = '" + coursid + "' AND personaldata.MILITARYID = coursesdata.MILITARYID  ";
-        try {
-            PreparedStatement psm = con.prepareStatement(query);
-            rs = psm.executeQuery();
-        } catch (SQLException ex) {
-            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
-        }
-        return rs;
-    }
-
-    public static ResultSet getDatabyCoursesPlace(String coursplace) throws IOException {
-        ResultSet rs = null;
-        Connection con = DatabaseConniction.dbConnector();
-        String query = "SELECT personaldata.MILITARYID,personaldata.NAME,personaldata.RANK ,personaldata.UNIT,coursnames.CORSNAME,coursesdata.COURSPLASE FROM personaldata,coursesdata,coursnames "
-                + "WHERE coursesdata.COURSPLASE LIKE '" + "%" + coursplace + "%" + "' AND personaldata.MILITARYID = coursesdata.MILITARYID AND coursesdata.COURSID = coursnames.COURSID";
-        try {
-            PreparedStatement psm = con.prepareStatement(query);
-            rs = psm.executeQuery();
-        } catch (SQLException ex) {
-            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
-        }
-        return rs;
-    }
-
-    public static ResultSet getDatabyCoursesPlaceAndCoursName(String coursplace, String coursid) throws IOException {
-        ResultSet rs = null;
-        Connection con = DatabaseConniction.dbConnector();
-        String query = "SELECT personaldata.MILITARYID,personaldata.NAME,personaldata.RANK ,personaldata.UNIT,coursnames.CORSNAME,coursesdata.COURSPLASE FROM personaldata,coursesdata,coursnames "
-                + "WHERE coursesdata.COURSID = '" + coursid + "' AND coursesdata.COURSPLASE LIKE '" + "%" + coursplace + "%" + "' AND personaldata.MILITARYID = coursesdata.MILITARYID AND coursesdata.COURSID = coursnames.COURSID";
-        try {
-            PreparedStatement psm = con.prepareStatement(query);
             rs = psm.executeQuery();
         } catch (SQLException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
@@ -441,6 +455,7 @@ public class DatabaseAccess {
         }
         return rs;
     }
+
     public static ResultSet getManualSum(String tableName, String condation) {
         ResultSet rs = null;
         PreparedStatement psm = null;
@@ -454,5 +469,46 @@ public class DatabaseAccess {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
         return rs;
+    }
+
+    public static void insertImage(String tapleName,String condition) throws IOException {
+        try {
+            Imaging imaging = new Imaging("C:\\Program Files\\TrainingData", 0);
+            String path = config.getImagePath();
+            Result result = imaging.scan(Request.fromJson(
+                    "{"
+                    + "\"output_settings\" : [ {"
+                    + "  \"type\" : \"save\","
+                    + "  \"format\" : \"pdf\","
+                    + "  \"save_path\" : \"" + path + "\\\\${TMS}${EXT}\""
+                    + "} ]"
+                    + "}"), "select", false, true);
+           
+            if (imaging.equals(Request.I18N_SCAN_UI_CANCEL)) {
+                File pdfFile = result.getPdfFile();
+                FileInputStream fis = new FileInputStream(pdfFile);
+                Connection con = DatabaseConniction.dbConnector();
+                String quiry =  "UPDATE " + tapleName + " SET `IMAGE` =? WHERE " + " " + condition;
+                try {
+                    PreparedStatement psm = con.prepareStatement(quiry);
+                    psm.setBinaryStream(1, fis, (int) (pdfFile.length()));
+                    int t = psm.executeUpdate();
+                    if (t > 0) {
+                    } else {
+                        FormValidation.showAlert(null, "حدث خطاء في عملية الحفظ الرجاء المحاولة مرة اخرى", Alert.AlertType.ERROR);
+                    }
+                    con.close();
+                    psm.close();
+                    fis.close();
+                } catch (SQLException ex) {
+                    FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+                }
+                System.out.println("user cancelled");
+            } else {
+               
+            }
+        } catch (IOException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
     }
 }

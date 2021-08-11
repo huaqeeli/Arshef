@@ -77,6 +77,11 @@
                         <HBox alignment="CENTER" layoutX="225.0" layoutY="10.0" prefHeight="34.0" prefWidth="630.0" HBox.hgrow="ALWAYS">
                            <children>
                               <Button mnemonicParsing="false" onAction="#changePassword" prefHeight="35.0" prefWidth="177.0" styleClass="changePassowrdPuttonStyle" text="تغيير كلمة المرور" />
+                              <Button layoutX="240.0" layoutY="19.0" mnemonicParsing="false" onAction="#lodConfigSettingPage" prefHeight="35.0" prefWidth="200.0" styleClass="changePassowrdPuttonStyle" text="Config Setting">
+                                 <HBox.margin>
+                                    <Insets left="2.0" />
+                                 </HBox.margin>
+                              </Button>
                            </children>
                         </HBox>
                      </children>

@@ -24,7 +24,8 @@
 	<parameter name="uintNum" class="java.lang.String"/>
 	<queryString language="SQL">
 		<![CDATA[SELECT * FROM manualtable,reportimage,signature
-where manualtable.daydate = $P{quaridate}]]>
+where manualtable.daydate = $P{quaridate}
+ORDER  BY manualtable.uintOrder ASC]]>
 	</queryString>
 	<field name="id" class="java.lang.Integer">
 		<property name="com.jaspersoft.studio.field.label" value="id"/>
@@ -34,8 +35,12 @@ where manualtable.daydate = $P{quaridate}]]>
 		<property name="com.jaspersoft.studio.field.label" value="uint"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="manualtable"/>
 	</field>
-	<field name="daydate" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.label" value="daydate"/>
+	<field name="uintOrder" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="uintOrder"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="manualtable"/>
+	</field>
+	<field name="dayDate" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="dayDate"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="manualtable"/>
 	</field>
 	<field name="originalCensusOF" class="java.lang.String">
@@ -62,10 +67,6 @@ where manualtable.daydate = $P{quaridate}]]>
 		<property name="com.jaspersoft.studio.field.label" value="outfieldSR"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="manualtable"/>
 	</field>
-	<field name="COLUMN_10" class="java.lang.Integer">
-		<property name="com.jaspersoft.studio.field.label" value="id"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="reportimage"/>
-	</field>
 	<field name="IMAGE" class="java.awt.Image">
 		<property name="com.jaspersoft.studio.field.label" value="IMAGE"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="reportimage"/>
@@ -78,7 +79,7 @@ where manualtable.daydate = $P{quaridate}]]>
 		<property name="com.jaspersoft.studio.field.label" value="BSMALLHIMAG"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="reportimage"/>
 	</field>
-	<field name="COLUMN_14" class="java.lang.Integer">
+	<field name="COLUMN_15" class="java.lang.Integer">
 		<property name="com.jaspersoft.studio.field.label" value="id"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="signature"/>
 	</field>
@@ -104,6 +105,10 @@ where manualtable.daydate = $P{quaridate}]]>
 	</field>
 	<field name="manegarname" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="manegarname"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="signature"/>
+	</field>
+	<field name="signature" class="java.awt.Image">
+		<property name="com.jaspersoft.studio.field.label" value="signature"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="signature"/>
 	</field>
 	<background>

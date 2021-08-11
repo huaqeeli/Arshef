@@ -137,4 +137,9 @@ public class LoginPageController implements Initializable {
         App.showFxml("/view/ChangePassowrd");
     }
 
+    @FXML
+    private void lodConfigSettingPage(ActionEvent event) {
+         App.showFxml("/view/ConfigSetting");
+    }
+
 }

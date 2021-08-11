@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>Sample way of creating Properties file from Java program</comment>
+<entry key="password">value2</entry>
+<entry key="username">value1</entry>
+</properties>

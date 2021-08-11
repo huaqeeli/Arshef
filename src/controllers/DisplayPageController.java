@@ -3,10 +3,8 @@ package controllers;
 import Validation.FormValidation;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -16,8 +14,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -33,10 +29,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import modeles.DisplayModele;
-import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
-import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
@@ -91,7 +85,7 @@ public class DisplayPageController implements Initializable {
     private ComboBox<String> destination;
     @FXML
     private TextField notes;
-
+Config config = new Config();
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         AppDate.setDateValue(DateDay, DateMonth, DateYear);
@@ -134,58 +128,18 @@ public class DisplayPageController implements Initializable {
 
     @FXML
     private void printBagStatement(ActionEvent event) {
-        try {
-//             String outputFile = "C:\\Users\\ابو ريان\\Documents\\NetBeansProjects\\" + "JasperReportExample.pdf";
-            List<DisplayModele> dataItems = new ArrayList<DisplayModele>();
-
-            ResultSet rs = DatabaseAccess.select("displaydata", "DISPLAYDATE = '" + getSearchDate() + "' and (DISPLAYTYPE = 'عرض الركن' or DISPLAYTYPE = 'توجيه الركن')");
-            int squnce = 1;
-
-            while (rs.next()) {
-                DisplayModele display = new DisplayModele();
-                String squnceText = ArabicSetting.EnglishToarabic(Integer.toString(squnce));
-                display.setSqunces(squnceText);
-                display.setTopic(rs.getString("TOPIC"));
-                display.setNotes(rs.getString("NOTES"));
-                dataItems.add(display);
-                squnce++;
-            }
-            JRBeanCollectionDataSource itemsJarbean = new JRBeanCollectionDataSource(dataItems);
-            Map parameters = new HashMap();
-            parameters.put("CollextionBeanPram", itemsJarbean);
-            InputStream input = new FileInputStream(new File("C:\\Users\\ابو ريان\\Documents\\NetBeansProjects\\Arshef\\src\\reports\\listTesting.jrxml"));
-
-            JasperDesign jasperDesign = JRXmlLoader.load(input);
-
-            /*compiling jrxml with help of JasperReport class*/
-            JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
-
-            /* Using jasperReport object to generate PDF */
-            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, new JREmptyDataSource());
-
-            /*call jasper engine to display report in jasperviewer window*/
-            JasperViewer.viewReport(jasperPrint, false);
-
-            /* outputStream to create PDF */
-//        OutputStream outputStream = new FileOutputStream(new File(outputFile));
-            /* Write content to PDF file */
-//        JasperExportManager.exportReportToPdfStream(jasperPrint, outputStream);
-        } catch (IOException | SQLException | JRException ex) {
-            Logger.getLogger(DisplayPageController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
     }
 
     @FXML
     private void printManagerDisplay(ActionEvent event) throws SQLException {
         try {
-//            String reportSrcFile = "C:\\Program Files\\Arshef\\reports\\ManualReport.jrxml";
-//            String reportSrcFile = "C:\\Users\\ابو ريان\\Documents\\NetBeansProjects\\Arshef\\src\\reports\\mangerDisplay.jrxml";
-             InputStream input = new FileInputStream(new File("C:\\Users\\ابو ريان\\Documents\\NetBeansProjects\\Arshef\\src\\reports\\mangerDisplay.jrxml"));
-            List<DisplayModele> dataItems = new ArrayList<DisplayModele>();
+            InputStream input = new FileInputStream(new File(config.getAppURL() + "\\reports\\mangerDisplay.jrxml"));
 
-            ResultSet rs = DatabaseAccess.select("displaydata", "DISPLAYDATE = '" + getSearchDate() + "' and (DISPLAYTYPE = 'عرض الركن' or DISPLAYTYPE = 'توجيه الركن')");
+            List<DisplayModele> dataItems = new ArrayList<>();
+
+            ResultSet rs = DatabaseAccess.select("displaydata", "DISPLAYDATE = '" + getSearchDate() + "' and (DISPLAYTYPE = 'تاشير الركن' or DISPLAYTYPE = 'توقيع الركن')");
             int squnce = 1;
-
             while (rs.next()) {
                 DisplayModele display = new DisplayModele();
                 String squnceText = ArabicSetting.EnglishToarabic(Integer.toString(squnce));
@@ -195,39 +149,39 @@ public class DisplayPageController implements Initializable {
                 dataItems.add(display);
                 squnce++;
             }
+            rs.close();
+            List<DisplayModele> dataItems1 = new ArrayList<>();
+
+            ResultSet rs1 = DatabaseAccess.select("displaydata", "DISPLAYDATE = '" + getSearchDate() + "' and (DISPLAYTYPE = 'عرض الركن' or DISPLAYTYPE = 'توجيه الركن')");
+            int squnce1 = 1;
+
+            while (rs1.next()) {
+                DisplayModele display1 = new DisplayModele();
+                String squnceText = ArabicSetting.EnglishToarabic(Integer.toString(squnce1));
+                display1.setSqunces(squnceText);
+                display1.setTopic(rs1.getString("TOPIC"));
+                display1.setNotes(rs1.getString("NOTES"));
+                dataItems1.add(display1);
+                squnce1++;
+            }
+            rs1.close();
             JRBeanCollectionDataSource itemsJarbean = new JRBeanCollectionDataSource(dataItems);
+            JRBeanCollectionDataSource itemsJarbean1 = new JRBeanCollectionDataSource(dataItems1);
             Connection con = DatabaseConniction.dbConnector();
             Map parameters = new HashMap();
-           
+
             parameters.put("day", HijriCalendar.getSimpleWeekday());
             parameters.put("date", ArabicSetting.EnglishToarabic(HijriCalendar.getSimpleDate()) + "هـ");
             parameters.put("displayDateprameter", AppDate.getDate(DateDay, DateMonth, DateYear));
             parameters.put("uintNum", ArabicSetting.EnglishToarabic("067"));
-            parameters.put("subReport1", "C:\\Users\\ابو ريان\\Documents\\NetBeansProjects\\Arshef\\src\\reports\\subReport3.jasper");
-            parameters.put("subReport2", "C:\\Users\\ابو ريان\\Documents\\NetBeansProjects\\Arshef\\src\\reports\\subReport2.jasper");
-             parameters.put("repotCollation", itemsJarbean);
+            parameters.put("repotCollation", itemsJarbean);
+            parameters.put("SignatureCollaiction", itemsJarbean1);
+
             JasperDesign jasperDesign = JRXmlLoader.load(input);
             JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
             JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, con);
             JasperViewer.viewReport(jasperPrint, false);
 
-//            
-//
-//            JasperDesign jasperReport = JRXmlLoader.load(reportSrcFile);
-//            Map parameters = new HashMap();
-//            parameters.put("day", HijriCalendar.getSimpleWeekday());
-//            parameters.put("date", ArabicSetting.EnglishToarabic(HijriCalendar.getSimpleDate()) + "هـ");
-//            parameters.put("displayDateprameter", AppDate.getDate(DateDay, DateMonth, DateYear));
-//            parameters.put("uintNum", ArabicSetting.EnglishToarabic("067"));
-//            parameters.put("subReport1", "C:\\Users\\ابو ريان\\Documents\\NetBeansProjects\\Arshef\\src\\reports\\subReport1.jasper");
-//            parameters.put("subReport2", "C:\\Users\\ابو ريان\\Documents\\NetBeansProjects\\Arshef\\src\\reports\\subReport2.jasper");
-////            parameters.put("CollextionBeanPram",itemsJarbean);
-//
-//            JasperReport jrr = JasperCompileManager.compileReport(jasperReport);
-//            JasperPrint print = JasperFillManager.fillReport(jrr, parameters, con);
-//
-////        JasperPrintManager.printReport(print, false);
-//            JasperViewer.viewReport(print, false);
         } catch (JRException | IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }

@@ -1,42 +1,97 @@
 package controllers;
 
-
-import java.io.FileNotFoundException;
+import Validation.FormValidation;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Date;
+import java.io.OutputStream;
 import java.util.Properties;
+import javafx.scene.control.Alert;
 
 public class Config {
 
-    public void getPropValues(String[] data) throws IOException {
-        
+    String userName, password, dbName, hostName, AppURL,imagePath;
+    Properties properties = new Properties();
+    OutputStream output;
+
+    public String getUserName() throws IOException {
+        return userName = readProperties().getProperty("userName");
+    }
+
+    public void setUserName(String userName) {
+       writeToProperties("userName", userName);
+    }
+
+    public String getPassword() throws IOException {
+        return password = readProperties().getProperty("password");
+    }
+
+    public void setPassword(String password) {
+       writeToProperties("password", password);
+    }
+
+    public String getDbName() throws IOException {
+        return dbName = readProperties().getProperty("dbName");
+    }
+
+    public void setDbName(String dbName) {
+        writeToProperties("dbName", dbName);
+    }
+
+    public String getHostName() throws IOException {
+        return hostName = readProperties().getProperty("hostName");
+    }
+
+    public void setHostName(String hostName) {
+        writeToProperties("hostName", hostName);
+    }
+
+    public String getImagePath() throws IOException {
+        return imagePath = readProperties().getProperty("imagePath");
+    }
+
+    public void setImagePath(String imagePath) {
+        writeToProperties("imagePath", imagePath);
+    }
+
+    public String getAppURL() throws IOException {
+        return AppURL= readProperties().getProperty("AppURL");
+    }
+
+    public void setAppURL(String AppURL) {
+       writeToProperties("AppURL", AppURL);
+    }
+
+    
+
+    public void writeToProperties(String name, String value) {
         try {
-            Properties prop = new Properties();
-            String propFileName = "config.properties";
-
-            InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
-
-            if (inputStream != null) {
-                prop.load(inputStream);
-            } else {
-                throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
+            String propertiesFileName = "config.properties";
+            File f = new File(propertiesFileName);
+            InputStream input = new FileInputStream(f);
+            if (input != null) {
+                properties.load(input);
+                properties.setProperty(name, value);
+                output = new FileOutputStream(f);
+                properties.store(output, null);
             }
-
-            Date time = new Date(System.currentTimeMillis());
-
-            // get the property value and print it out
-            String userName = prop.getProperty("userName");
-            String password = prop.getProperty("password");
-            String dbName = prop.getProperty("dbName");
-            String hostName = prop.getProperty("hostName");
-
-            data[0] = userName;
-            data[1] = password;
-            data[2] = dbName;
-            data[3] = hostName;
-        } catch (IOException e) {
-            System.out.println("Exception: " + e);
+        } catch (IOException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
     }
+
+    public Properties readProperties() throws IOException {
+        String propertiesFileName = "config.properties";
+        File f = new File(propertiesFileName);
+        InputStream input = new FileInputStream(f);
+        if (input != null) {
+            properties.load(input);
+        } else {
+            FormValidation.showAlert(null, "property file not found in the classpath", Alert.AlertType.ERROR);
+        }
+        return properties;
+    }
+
 }

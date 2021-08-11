@@ -109,7 +109,7 @@ public class HomePageController implements Initializable {
 
     @FXML
     private void addExportsPage(ActionEvent event) throws IOException {
-        content.setCenter(App.loadFXML("/view/ExportsPage"));
+        content.setCenter(App.loadFXML("/view/ExternalExportsPage"));
     }
 
     @FXML
@@ -118,12 +118,24 @@ public class HomePageController implements Initializable {
     }
 
     @FXML
-    private void secretPage(ActionEvent event) {
+    private void secretPage(ActionEvent event) throws IOException {
+//         content.setCenter(App.loadFXML("/view/secretPage"));
+         content.setCenter(App.loadFXML("/view/AddImagePage"));
     }
 
     @FXML
     private void censusPage(ActionEvent event) throws IOException {
-        content.setCenter(App.loadFXML("/view/censusPage"));
+        content.setCenter(App.loadCensusPage(usertype));
+    }
+
+    @FXML
+    private void InternalIncomingPage(ActionEvent event) throws IOException {//InternalExportsPage
+         content.setCenter(App.loadFXML("/view/InternalIncomingPage"));
+    }
+
+    @FXML
+    private void InternalExportsPage(ActionEvent event) throws IOException {
+         content.setCenter(App.loadFXML("/view/InternalExportsPage"));
     }
 
 }

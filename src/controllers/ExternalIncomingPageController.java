@@ -136,7 +136,7 @@ public class ExternalIncomingPageController implements Initializable {
 
     @FXML
     private void save(ActionEvent event) throws SQLException {
-        String tableName = "arshefdata";
+        String tableName = "externalincoming";
         String fieldName = null;
         arshefyear = AppDate.getYear(getCircularDate());
         String[] data = {getCircularid(), getCircularDate(), getReceiptNumber(), getReceiptNumberDate(), getDestination(), getTopic(), getSaveFile(), getAction(), arshefyear};
@@ -151,8 +151,8 @@ public class ExternalIncomingPageController implements Initializable {
 
         boolean circularidState = FormValidation.textFieldNotEmpty(circularid, "الرجاء ادخال رقم المعاملة");
         boolean circularidTypeNumber = FormValidation.textFieldTypeNumber(circularid, "يقبل ارقام فقط");
-        boolean circularidSNotexisting = FormValidation.ifexisting("arshefdata", "`CIRCULARID`,`ARSHEFYEAR`", "CIRCULARID ='" + getCircularid() + "' AND ARSHEFYEAR='" + arshefyear + "'", "تم ادخال رقم المعاملة مسبقا");
-        boolean receiptNumberNotexisting = FormValidation.ifexisting("arshefdata", "`RECEIPTNUMBER`,`ARSHEFYEAR`", "RECEIPTNUMBER ='" + getReceiptNumber() + "' AND ARSHEFYEAR='" + arshefyear + "'", "تم ادخال رقم الوارد  مسبقا");
+        boolean circularidSNotexisting = FormValidation.ifexisting("externalincoming", "`CIRCULARID`,`ARSHEFYEAR`", "CIRCULARID ='" + getCircularid() + "' AND ARSHEFYEAR='" + arshefyear + "'", "تم ادخال رقم المعاملة مسبقا");
+        boolean receiptNumberNotexisting = FormValidation.ifexisting("externalincoming", "`RECEIPTNUMBER`,`ARSHEFYEAR`", "RECEIPTNUMBER ='" + getReceiptNumber() + "' AND ARSHEFYEAR='" + arshefyear + "'", "تم ادخال رقم الوارد  مسبقا");
         boolean receiptNumberState = FormValidation.textFieldNotEmpty(receiptNumber, "الرجاء ادخال رقم الوارد");
         boolean receiptNumberTypeNumber = FormValidation.textFieldTypeNumber(receiptNumber, "يقبل ارقام فقط");
         boolean destinationState = FormValidation.comboBoxNotEmpty(destination, "الرجاء ادخال جهة المعاملة");
@@ -172,7 +172,7 @@ public class ExternalIncomingPageController implements Initializable {
 
     @FXML
     private void edit(ActionEvent event) throws SQLException {
-        String tableName = "arshefdata";
+        String tableName = "externalincoming";
         String fieldName = null;
         arshefyear = AppDate.getYear(getCircularDate());
         String[] data = {getCircularid(), getCircularDate(), getReceiptNumber(), getReceiptNumberDate(), getDestination(), getTopic(), getSaveFile(), getAction()};
@@ -205,7 +205,7 @@ public class ExternalIncomingPageController implements Initializable {
     private void delete(ActionEvent event) {
         try {
             arshefyear = AppDate.getYear(getCircularDate());
-            DatabaseAccess.delete("arshefdata", "CIRCULARID = '" + circularID + "' AND ARSHEFYEAR = '" + arshefyear + "' ");
+            DatabaseAccess.delete("externalincoming", "CIRCULARID = '" + circularID + "' AND ARSHEFYEAR = '" + arshefyear + "' ");
             refreshArchefTableView();
             clear(event);
         } catch (IOException ex) {
@@ -343,7 +343,7 @@ public class ExternalIncomingPageController implements Initializable {
     private boolean chakimage() {
         boolean stat = false;
         try {
-            ResultSet rs = DatabaseAccess.getData("SELECT CIRCULARIMAGE FROM arshefdata WHERE CIRCULARIMAGE IS NULL");
+            ResultSet rs = DatabaseAccess.getData("SELECT CIRCULARIMAGE FROM externalincoming WHERE CIRCULARIMAGE IS NULL");
             stat = rs.next();
         } catch (IOException | SQLException ex) {
             Logger.getLogger(ExternalIncomingPageController.class.getName()).log(Level.SEVERE, null, ex);
@@ -479,7 +479,7 @@ public class ExternalIncomingPageController implements Initializable {
     private void refreshArchefTableView() {
         try {
             Archeflist.clear();
-            archefTableView(DatabaseAccess.getData("SELECT * FROM arshefdata ORDER BY ID DESC"));
+            archefTableView(DatabaseAccess.getData("SELECT * FROM externalincoming ORDER BY ID DESC"));
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
@@ -524,7 +524,7 @@ public class ExternalIncomingPageController implements Initializable {
     public ResultSet getDataBycircularid() {
         ResultSet rs = null;
         try {
-            rs = DatabaseAccess.select("arshefdata", "CIRCULARID = '" + getSearchText() + "' AND ARSHEFYEAR = '" + getYear() + "' ");
+            rs = DatabaseAccess.select("externalincoming", "CIRCULARID = '" + getSearchText() + "' AND ARSHEFYEAR = '" + getYear() + "' ");
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
@@ -534,7 +534,7 @@ public class ExternalIncomingPageController implements Initializable {
     public ResultSet getDataByReceiptNumber() {
         ResultSet rs = null;
         try {
-            rs = DatabaseAccess.select("arshefdata", "RECEIPTNUMBER = '" + getSearchText() + "' AND ARSHEFYEAR = '" + getYear() + "' ");
+            rs = DatabaseAccess.select("externalincoming", "RECEIPTNUMBER = '" + getSearchText() + "' AND ARSHEFYEAR = '" + getYear() + "' ");
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
@@ -544,7 +544,7 @@ public class ExternalIncomingPageController implements Initializable {
     public ResultSet getDataByTopic() {
         ResultSet rs = null;
         try {
-            rs = DatabaseAccess.selectQuiry("SELECT * FROM arshefdata WHERE TOPIC LIKE '" + "%" + getSearchText() + "%" + "' AND ARSHEFYEAR = '" + getYear() + "' ");
+            rs = DatabaseAccess.selectQuiry("SELECT * FROM externalincoming WHERE TOPIC LIKE '" + "%" + getSearchText() + "%" + "' AND ARSHEFYEAR = '" + getYear() + "' ");
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
@@ -554,7 +554,7 @@ public class ExternalIncomingPageController implements Initializable {
     public ResultSet getDataByDestination() {
         ResultSet rs = null;
         try {
-            rs = DatabaseAccess.selectQuiry("SELECT * FROM arshefdata WHERE DESTINATION LIKE '" + "%" + getSearchText() + "%" + "' AND ARSHEFYEAR = '" + getYear() + "' ");
+            rs = DatabaseAccess.selectQuiry("SELECT * FROM externalincoming WHERE DESTINATION LIKE '" + "%" + getSearchText() + "%" + "' AND ARSHEFYEAR = '" + getYear() + "' ");
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }

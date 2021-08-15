@@ -15,6 +15,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javax.swing.JOptionPane;
@@ -175,6 +177,28 @@ public class DatabaseAccess {
         }
         return pdfByte;
     }
+    public static byte[] getInternalExportPdfFile(String regisid, String year) {
+        InputStream image = null;
+        byte[] pdfByte = null;
+        try {
+            if (regisid == null || year == null) {
+                FormValidation.showAlert(null, "اختر السجل من الجدول", Alert.AlertType.ERROR);
+            } else {
+                ResultSet rs = DatabaseAccess.getData("SELECT IMAGE FROM internalexports WHERE REGISNO = '" + regisid + "'AND RECORDYEAR = '" + year + "'");
+                if (rs.next()) {
+                    image = rs.getBinaryStream("IMAGE");
+                    pdfByte = new byte[image.available()];
+                    image.read(pdfByte);
+                } else {
+                    FormValidation.showAlert(null, "لا توجد صورة ", Alert.AlertType.ERROR);
+                }
+                rs.close();
+            }
+        } catch (IOException | SQLException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
+        return pdfByte;
+    }
 
     public static int insert(String tapleName, String fildName, String valueNamber, File imagefile) throws IOException {
         int lastId = 0;
@@ -277,7 +301,8 @@ public class DatabaseAccess {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
     }
-    public static void updatRegistrationNum(int newid,String newYear) throws IOException {
+
+    public static void updatRegistrationNum(int newid, String newYear) throws IOException {
         Connection con = DatabaseConniction.dbConnector();
         String guiry = "UPDATE recordesquins SET REGISTRATION_NUM = ?,SQUINS_YEAR = ? WHERE ID = 1";
         try {
@@ -471,9 +496,9 @@ public class DatabaseAccess {
         return rs;
     }
 
-    public static void insertImage(String tapleName,String condition) throws IOException {
+    public static void insertImage(String tapleName, String condition) throws IOException {
         try {
-            Imaging imaging = new Imaging("C:\\Program Files\\TrainingData", 0);
+            Imaging imaging = new Imaging("arshef", 0);
             String path = config.getImagePath();
             Result result = imaging.scan(Request.fromJson(
                     "{"
@@ -482,31 +507,27 @@ public class DatabaseAccess {
                     + "  \"format\" : \"pdf\","
                     + "  \"save_path\" : \"" + path + "\\\\${TMS}${EXT}\""
                     + "} ]"
-                    + "}"), "select", false, true);
-           
-            if (imaging.equals(Request.I18N_SCAN_UI_CANCEL)) {
-                File pdfFile = result.getPdfFile();
-                FileInputStream fis = new FileInputStream(pdfFile);
-                Connection con = DatabaseConniction.dbConnector();
-                String quiry =  "UPDATE " + tapleName + " SET `IMAGE` =? WHERE " + " " + condition;
-                try {
-                    PreparedStatement psm = con.prepareStatement(quiry);
-                    psm.setBinaryStream(1, fis, (int) (pdfFile.length()));
-                    int t = psm.executeUpdate();
-                    if (t > 0) {
-                    } else {
-                        FormValidation.showAlert(null, "حدث خطاء في عملية الحفظ الرجاء المحاولة مرة اخرى", Alert.AlertType.ERROR);
-                    }
-                    con.close();
-                    psm.close();
-                    fis.close();
-                } catch (SQLException ex) {
-                    FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+                    + "}"), "select", false, false);
+
+            File pdfFile = result.getPdfFile();
+            FileInputStream fis = new FileInputStream(pdfFile);
+            Connection con = DatabaseConniction.dbConnector();
+            String quiry = "UPDATE " + tapleName + " SET `IMAGE` =? WHERE " + " " + condition;
+            try {
+                PreparedStatement psm = con.prepareStatement(quiry);
+                psm.setBinaryStream(1, fis, (int) (pdfFile.length()));
+                int t = psm.executeUpdate();
+                if (t > 0) {
+                } else {
+                    FormValidation.showAlert(null, "حدث خطاء في عملية الحفظ الرجاء المحاولة مرة اخرى", Alert.AlertType.ERROR);
                 }
-                System.out.println("user cancelled");
-            } else {
-               
+                con.close();
+                psm.close();
+                fis.close();
+            } catch (SQLException ex) {
+                FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
             }
+            
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }

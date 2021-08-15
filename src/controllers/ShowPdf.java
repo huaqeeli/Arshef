@@ -14,11 +14,10 @@ import java.io.IOException;
 import javafx.scene.control.Alert;
 
 public class ShowPdf {
-
+ static Config config = new Config();
     public static void writePdf(byte[] pdfByte) {
         try {
-//            File f = new File("C:\\Program Files\\Arshef\\pdf");
-            File f = new File("C:\\Users\\ابو ريان\\Documents\\NetBeansProjects\\Arshef\\src\\pdfFiles");
+            File f = new File(config.getAppURL()+"\\pdfFiles");
             f.mkdir();
             String path = f.getPath() + "\\showPdf.pdf";
             FileOutputStream fout = new FileOutputStream(path);
@@ -42,7 +41,7 @@ public class ShowPdf {
         try {
             if (img != null) {
                 Document document = new Document(img);
-                File f = new File("C:\\Program Files\\Arshef\\pdf");
+                File f = new File(config.getAppURL()+"\\pdfFiles");
                 f.mkdir();
                 String path = f.getPath() + "\\showImage.pdf";
                 PdfWriter.getInstance(document, new FileOutputStream(path));
@@ -63,6 +62,8 @@ public class ShowPdf {
             }
         } catch (FileNotFoundException | DocumentException ex) {
             FormValidation.showAlert("", ex.toString(), Alert.AlertType.ERROR);
-        }
+        } catch (IOException ex) {
+          FormValidation.showAlert("", ex.toString(), Alert.AlertType.ERROR);
+     }
     }
 }

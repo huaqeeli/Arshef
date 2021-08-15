@@ -37,6 +37,7 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperPrintManager;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
@@ -91,6 +92,7 @@ public class InternalExportsPageController implements Initializable {
     private String registrationId = null;
     ObservableList<String> destinationlist = FXCollections.observableArrayList();
     ObservableList<InternalExportsModel> exportsList = FXCollections.observableArrayList();
+    Config config = new Config();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -151,88 +153,88 @@ public class InternalExportsPageController implements Initializable {
                 = (final TableColumn<InternalExportsModel, String> param) -> {
                     final TableCell<InternalExportsModel, String> cell = new TableCell<InternalExportsModel, String>() {
 
-                        final Button btn = new Button();
+                final Button btn = new Button();
 
-                        @Override
-                        public void updateItem(String item, boolean empty) {
-                            super.updateItem(item, empty);
-                            if (empty) {
-                                setGraphic(null);
-                                setText(null);
-                            } else {
-                                btn.setOnAction(event -> {
-                                    try {
-                                        if (registrationId == null) {
-                                            FormValidation.showAlert(null, "اختر السجل من الجدول", Alert.AlertType.ERROR);
-                                        } else {
-                                            pdfimage = DatabaseAccess.getInternalIncomingPdfFile(registrationId, recordYear);
-                                            ShowPdf.writePdf(pdfimage);
-                                            pdfimage = null;
-                                            registrationId = null;
-                                            recordYear = null;
-                                        }
-                                    } catch (Exception ex) {
-                                        FormValidation.showAlert(null, "لا توجد صورة", Alert.AlertType.ERROR);
-                                    }
-                                });
-                                btn.setStyle("-fx-font-family: 'URW DIN Arabic';"
-                                        + "    -fx-font-size: 10px;"
-                                        + "    -fx-background-color: #FFFFFF;"
-                                        + "    -fx-background-radius: 0;"
-                                        + "    -fx-text-fill: #FFFFFF;"
-                                        + "    -fx-effect: dropshadow(three-pass-box,#3C3B3B, 20, 0, 5, 5); ");
-                                Image image = new Image("/images/newPdf.png");
-                                ImageView view = new ImageView(image);
-                                btn.setGraphic(view);
-                                setGraphic(btn);
-                                setText(null);
+                @Override
+                public void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty) {
+                        setGraphic(null);
+                        setText(null);
+                    } else {
+                        btn.setOnAction(event -> {
+                            try {
+                                if (registrationId == null) {
+                                    FormValidation.showAlert(null, "اختر السجل من الجدول", Alert.AlertType.ERROR);
+                                } else {
+                                    pdfimage = DatabaseAccess.getInternalExportPdfFile(registrationId, recordYear);
+                                    ShowPdf.writePdf(pdfimage);
+                                    pdfimage = null;
+                                    registrationId = null;
+                                    recordYear = null;
+                                }
+                            } catch (Exception ex) {
+                                FormValidation.showAlert(null, "لا توجد صورة", Alert.AlertType.ERROR);
                             }
+                        });
+                        btn.setStyle("-fx-font-family: 'URW DIN Arabic';"
+                                + "    -fx-font-size: 10px;"
+                                + "    -fx-background-color: #FFFFFF;"
+                                + "    -fx-background-radius: 0;"
+                                + "    -fx-text-fill: #FFFFFF;"
+                                + "    -fx-effect: dropshadow(three-pass-box,#3C3B3B, 20, 0, 5, 5); ");
+                        Image image = new Image("/images/newPdf.png");
+                        ImageView view = new ImageView(image);
+                        btn.setGraphic(view);
+                        setGraphic(btn);
+                        setText(null);
+                    }
 
-                        }
-                    };
+                }
+            };
                     return cell;
                 };
         Callback<TableColumn<InternalExportsModel, String>, TableCell<InternalExportsModel, String>> cellFactory1
                 = (final TableColumn<InternalExportsModel, String> param) -> {
                     final TableCell<InternalExportsModel, String> cell = new TableCell<InternalExportsModel, String>() {
 
-                        final Button btn = new Button();
+                final Button btn = new Button();
 
-                        @Override
-                        public void updateItem(String item, boolean empty) {
-                            super.updateItem(item, empty);
-                            if (empty) {
-                                setGraphic(null);
-                                setText(null);
-                            } else {
-                                btn.setOnAction(event -> {
-                                    try {
-                                        if (registrationId == null) {
-                                            FormValidation.showAlert(null, "اختر السجل من الجدول", Alert.AlertType.ERROR);
-                                        } else {
-                                            DatabaseAccess.insertImage("internalexports", " REGISNO ='" + registrationId + "' AND RECORDYEAR ='" + recordYear + "'");
-                                            registrationId = null;
-                                            recordYear = null;
-                                        }
-                                    } catch (Exception ex) {
-                                        FormValidation.showAlert(null, "لم يتم المسح", Alert.AlertType.ERROR);
-                                    }
-                                });
-                                btn.setStyle("-fx-font-family: 'URW DIN Arabic';"
-                                        + "    -fx-font-size: 10px;"
-                                        + "    -fx-background-color: #1E3606;"
-                                        + "    -fx-background-radius: 0;"
-                                        + "    -fx-text-fill: #FFFFFF;"
-                                        + "    -fx-effect: dropshadow(three-pass-box,#3C3B3B, 20, 0, 5, 5); ");
-                                Image image = new Image("/images/scaner.png");
-                                ImageView view = new ImageView(image);
-                                btn.setGraphic(view);
-                                setGraphic(btn);
-                                setText(null);
+                @Override
+                public void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty) {
+                        setGraphic(null);
+                        setText(null);
+                    } else {
+                        btn.setOnAction(event -> {
+                            try {
+                                if (registrationId == null) {
+                                    FormValidation.showAlert(null, "اختر السجل من الجدول", Alert.AlertType.ERROR);
+                                } else {
+                                    DatabaseAccess.insertImage("internalexports", " REGISNO ='" + registrationId + "' AND RECORDYEAR ='" + recordYear + "'");
+                                    registrationId = null;
+                                    recordYear = null;
+                                }
+                            } catch (Exception ex) {
+                                FormValidation.showAlert(null, "لم يتم المسح", Alert.AlertType.ERROR);
                             }
+                        });
+                        btn.setStyle("-fx-font-family: 'URW DIN Arabic';"
+                                + "    -fx-font-size: 10px;"
+                                + "    -fx-background-color: #1E3606;"
+                                + "    -fx-background-radius: 0;"
+                                + "    -fx-text-fill: #FFFFFF;"
+                                + "    -fx-effect: dropshadow(three-pass-box,#3C3B3B, 20, 0, 5, 5); ");
+                        Image image = new Image("/images/scaner.png");
+                        ImageView view = new ImageView(image);
+                        btn.setGraphic(view);
+                        setGraphic(btn);
+                        setText(null);
+                    }
 
-                        }
-                    };
+                }
+            };
                     return cell;
                 };
 
@@ -256,7 +258,7 @@ public class InternalExportsPageController implements Initializable {
         String tableName = "internalexports";
         recordYear = Integer.toString(HijriCalendar.getSimpleYear());
         String fieldName = null;
-        String[] data = {getRegistrationId(), getExportsDate(), getDestination(), getTopic(), getSaveFaile(), getNotes(), recordYear};
+        String[] data = {DatabaseAccess.getRegistrationNum(), getExportsDate(), getDestination(), getTopic(), getSaveFaile(), getNotes(), recordYear};
         String valuenumbers = null;
         if (imagefile != null) {
             fieldName = "`REGISNO`,`EXPORTDATE`,`DESTINATION`,`TOPIC`,`SAVEFILE`,`NOTES`,`RECORDYEAR`,`IMAGE`";
@@ -272,7 +274,7 @@ public class InternalExportsPageController implements Initializable {
         if (topicState && destinationState) {
             try {
                 DatabaseAccess.insert(tableName, fieldName, valuenumbers, data, imagefile);
-                registrationId = getRegistrationId();
+                registrationId =DatabaseAccess.getRegistrationNum();
                 DatabaseAccess.updatRegistrationNum();
                 refreshRecipienTableView();
                 clear(event);
@@ -311,7 +313,7 @@ public class InternalExportsPageController implements Initializable {
         try {
             if (registrationId != null) {
                 Connection con = DatabaseConniction.dbConnector();
-                JasperDesign recipientReport = JRXmlLoader.load("C:\\Users\\ابو ريان\\Documents\\NetBeansProjects\\Arshef\\src\\reports\\ExportingBarcod.jrxml");
+                JasperDesign recipientReport = JRXmlLoader.load(config.getAppURL() + "\\reports\\ExportingBarcod.jrxml");
                 ResultSet rs = DatabaseAccess.select("internalexports", "REGISNO = '" + registrationId + "'");
                 String regisNo = null;
                 String recipientDate = null;
@@ -324,7 +326,7 @@ public class InternalExportsPageController implements Initializable {
                     recipientDate = ArabicSetting.EnglishToarabic(rs.getString("EXPORTDATE")) + "هـ";
                     circularDir = rs.getString("DESTINATION");
                     quRegisNo = rs.getInt("REGISNO");
-                    saveFile = rs.getString("SAVEFILE");
+                    saveFile =  ArabicSetting.EnglishToarabic(rs.getString("SAVEFILE"));
                     unitName = DatabaseAccess.getUintName();
                 }
                 Map barrcod = new HashMap();
@@ -336,8 +338,8 @@ public class InternalExportsPageController implements Initializable {
                 barrcod.put("unitName", unitName);
                 JasperReport jr = JasperCompileManager.compileReport(recipientReport);
                 JasperPrint jp = JasperFillManager.fillReport(jr, barrcod, con);
-//            JasperPrintManager.printReport(jp, false);
-                JasperViewer.viewReport(jp, false);
+                JasperPrintManager.printReport(jp, false);
+//                JasperViewer.viewReport(jp, false);
             } else {
                 showAlert("", "اختر السجل من الجدول");
             }

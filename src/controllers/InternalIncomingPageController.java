@@ -37,13 +37,14 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperPrintManager;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import net.sf.jasperreports.view.JasperViewer;
 
 public class InternalIncomingPageController implements Initializable {
-    
+
     @FXML
     private TableColumn<?, ?> regisNO_col;
     @FXML
@@ -101,7 +102,8 @@ public class InternalIncomingPageController implements Initializable {
     private String registrationId = null;
     ObservableList<String> destinationlist = FXCollections.observableArrayList();
     ObservableList<InternalIncomingModel> recipientList = FXCollections.observableArrayList();
-    
+    Config config = new Config();
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         refreshRecipienTableView();
@@ -114,7 +116,7 @@ public class InternalIncomingPageController implements Initializable {
         getTableRowByInterKey(recipientTableView);
         destination.setItems(filleDestination(destinationlist));
     }
-    
+
     private ObservableList filleDestination(ObservableList list) {
         try {
             ResultSet rs = DatabaseAccess.select("placenames", "UINTTYPE='داخلي'");
@@ -131,12 +133,12 @@ public class InternalIncomingPageController implements Initializable {
         }
         return list;
     }
-    
+
     private void refreshRecipienTableView() {
         recipientList.clear();
         recipienTableView();
     }
-    
+
     private void recipienTableView() {
         try {
             ResultSet rs = DatabaseAccess.select("internalincoming", "RECORD_YEAR ='" + HijriCalendar.getSimpleYear() + "' ORDER BY REGIS_NO DESC");
@@ -163,102 +165,102 @@ public class InternalIncomingPageController implements Initializable {
         circularDir_col.setCellValueFactory(new PropertyValueFactory<>("circularDir"));
         topic_col.setCellValueFactory(new PropertyValueFactory<>("topic"));
         notes_col.setCellValueFactory(new PropertyValueFactory<>("notes"));
-        
+
         Callback<TableColumn<InternalIncomingModel, String>, TableCell<InternalIncomingModel, String>> cellFactory
                 = (final TableColumn<InternalIncomingModel, String> param) -> {
                     final TableCell<InternalIncomingModel, String> cell = new TableCell<InternalIncomingModel, String>() {
-                        
-                        final Button btn = new Button();
-                        
-                        @Override
-                        public void updateItem(String item, boolean empty) {
-                            super.updateItem(item, empty);
-                            if (empty) {
-                                setGraphic(null);
-                                setText(null);
-                            } else {
-                                btn.setOnAction(event -> {
-                                    try {
-                                        if (registrationId == null) {
-                                            FormValidation.showAlert(null, "اختر السجل من الجدول", Alert.AlertType.ERROR);
-                                        } else {
-                                            pdfimage = DatabaseAccess.getInternalIncomingPdfFile(registrationId, recordYear);
-                                            ShowPdf.writePdf(pdfimage);
-                                            pdfimage = null;
-                                            registrationId = null;
-                                            recordYear = null;
-                                            recipientTableView.setStyle("-fx-background-color: #FFFFFF");
-                                        }
-                                    } catch (Exception ex) {
-                                        FormValidation.showAlert(null, "لا توجد صورة", Alert.AlertType.ERROR);
-                                    }
-                                });
-                                btn.setStyle("-fx-font-family: 'URW DIN Arabic';"
-                                        + "    -fx-font-size: 10px;"
-                                        + "    -fx-background-color: #FFFFFF;"
-                                        + "    -fx-background-radius: 0;"
-                                        + "    -fx-text-fill: #FFFFFF;"
-                                        + "    -fx-effect: dropshadow(three-pass-box,#3C3B3B, 20, 0, 5, 5); ");
-                                Image image = new Image("/images/newPdf.png");
-                                ImageView view = new ImageView(image);
-                                btn.setGraphic(view);
-                                setGraphic(btn);
-                                setText(null);
+
+                final Button btn = new Button();
+
+                @Override
+                public void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty) {
+                        setGraphic(null);
+                        setText(null);
+                    } else {
+                        btn.setOnAction(event -> {
+                            try {
+                                if (registrationId == null) {
+                                    FormValidation.showAlert(null, "اختر السجل من الجدول", Alert.AlertType.ERROR);
+                                } else {
+                                    pdfimage = DatabaseAccess.getInternalIncomingPdfFile(registrationId, recordYear);
+                                    ShowPdf.writePdf(pdfimage);
+                                    pdfimage = null;
+                                    registrationId = null;
+                                    recordYear = null;
+                                    recipientTableView.setStyle("-fx-background-color: #FFFFFF");
+                                }
+                            } catch (Exception ex) {
+                                FormValidation.showAlert(null, "لا توجد صورة", Alert.AlertType.ERROR);
                             }
-                            
-                        }
-                    };
+                        });
+                        btn.setStyle("-fx-font-family: 'URW DIN Arabic';"
+                                + "    -fx-font-size: 10px;"
+                                + "    -fx-background-color: #FFFFFF;"
+                                + "    -fx-background-radius: 0;"
+                                + "    -fx-text-fill: #FFFFFF;"
+                                + "    -fx-effect: dropshadow(three-pass-box,#3C3B3B, 20, 0, 5, 5); ");
+                        Image image = new Image("/images/newPdf.png");
+                        ImageView view = new ImageView(image);
+                        btn.setGraphic(view);
+                        setGraphic(btn);
+                        setText(null);
+                    }
+
+                }
+            };
                     return cell;
                 };
-        
+
         Callback<TableColumn<InternalIncomingModel, String>, TableCell<InternalIncomingModel, String>> cellFactory1
                 = (final TableColumn<InternalIncomingModel, String> param) -> {
                     final TableCell<InternalIncomingModel, String> cell = new TableCell<InternalIncomingModel, String>() {
-                        
-                        final Button btn = new Button();
-                        
-                        @Override
-                        public void updateItem(String item, boolean empty) {
-                            super.updateItem(item, empty);
-                            if (empty) {
-                                setGraphic(null);
-                                setText(null);
-                            } else {
-                                btn.setOnAction(event -> {
-                                    try {
-                                        if (registrationId == null) {
-                                            FormValidation.showAlert(null, "اختر السجل من الجدول", Alert.AlertType.ERROR);
-                                        } else {
-                                            DatabaseAccess.insertImage("InternalExportsModel, String"," `REGIS_NO` ='"+registrationId+"' AND RECORD_YEAR ='"+recordYear+"'");
-                                            registrationId = null;
-                                            recordYear = null;
-                                        }
-                                    } catch (Exception ex) {
-                                        FormValidation.showAlert(null, "لم يتم المسح", Alert.AlertType.ERROR);
-                                    }
-                                });
-                                btn.setStyle("-fx-font-family: 'URW DIN Arabic';"
-                                        + "    -fx-font-size: 10px;"
-                                        + "    -fx-background-color: #1E3606;"
-                                        + "    -fx-background-radius: 0;"
-                                        + "    -fx-text-fill: #FFFFFF;"
-                                        + "    -fx-effect: dropshadow(three-pass-box,#3C3B3B, 20, 0, 5, 5); ");
-                                Image image = new Image("/images/scaner.png");
-                                ImageView view = new ImageView(image);
-                                btn.setGraphic(view);
-                                setGraphic(btn);
-                                setText(null);
+
+                final Button btn = new Button();
+
+                @Override
+                public void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty) {
+                        setGraphic(null);
+                        setText(null);
+                    } else {
+                        btn.setOnAction(event -> {
+                            try {
+                                if (registrationId == null) {
+                                    FormValidation.showAlert(null, "اختر السجل من الجدول", Alert.AlertType.ERROR);
+                                } else {
+                                    DatabaseAccess.insertImage("internalincoming", " `REGIS_NO` ='" + registrationId + "' AND RECORD_YEAR ='" + recordYear + "'");
+                                    registrationId = null;
+                                    recordYear = null;
+                                }
+                            } catch (Exception ex) {
+                                FormValidation.showAlert(null, "لم يتم المسح", Alert.AlertType.ERROR);
                             }
-                            
-                        }
-                    };
+                        });
+                        btn.setStyle("-fx-font-family: 'URW DIN Arabic';"
+                                + "    -fx-font-size: 10px;"
+                                + "    -fx-background-color: #1E3606;"
+                                + "    -fx-background-radius: 0;"
+                                + "    -fx-text-fill: #FFFFFF;"
+                                + "    -fx-effect: dropshadow(three-pass-box,#3C3B3B, 20, 0, 5, 5); ");
+                        Image image = new Image("/images/scaner.png");
+                        ImageView view = new ImageView(image);
+                        btn.setGraphic(view);
+                        setGraphic(btn);
+                        setText(null);
+                    }
+
+                }
+            };
                     return cell;
                 };
         image_col.setCellFactory(cellFactory);
         addImage_col.setCellFactory(cellFactory1);
         recipientTableView.setItems(recipientList);
     }
-    
+
     @FXML
     private File getImageUrle(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
@@ -268,7 +270,7 @@ public class InternalIncomingPageController implements Initializable {
         setImageUrl(imagefile.getPath());
         return imagefile;
     }
-    
+
     @FXML
     private void insertData(ActionEvent event) throws IOException {
         String tableName = "internalincoming";
@@ -298,7 +300,7 @@ public class InternalIncomingPageController implements Initializable {
             }
         }
     }
-    
+
     @FXML
     private void updateData(ActionEvent event) throws IOException {
         String tableName = "internalincoming";
@@ -311,7 +313,7 @@ public class InternalIncomingPageController implements Initializable {
         }
         boolean circularNumberState = FormValidation.textFieldNotEmpty(circularNumber, "الرجاء ادخال رقم المعاملة");
         boolean topicState = FormValidation.textFieldNotEmpty(topic, "الرجاء ادخال جهة الوارد");
-        
+
         if (circularNumberState && topicState) {
             try {
                 DatabaseAccess.updat(tableName, fieldName, data, "REGIS_NO = '" + registrationId + "'AND RECORD_YEAR = '" + recordYear + "'", imagefile);
@@ -322,13 +324,13 @@ public class InternalIncomingPageController implements Initializable {
             }
         }
     }
-    
+
     @FXML
     private void printBarcode(ActionEvent event) throws JRException {
         try {
             if (registrationId != null) {
                 Connection con = DatabaseConniction.dbConnector();
-                JasperDesign recipientReport = JRXmlLoader.load("C:\\Users\\ابو ريان\\Documents\\NetBeansProjects\\Arshef\\src\\reports\\RecipientBarcod.jrxml");
+                JasperDesign recipientReport = JRXmlLoader.load(config.getAppURL() + "\\reports\\RecipientBarcod.jrxml");
                 ResultSet rs = DatabaseAccess.select("internalincoming", "REGIS_NO = '" + registrationId + "'");
                 String regisNo = null;
                 String recipientDate = null;
@@ -340,7 +342,7 @@ public class InternalIncomingPageController implements Initializable {
                     regisNo = ArabicSetting.EnglishToarabic(Integer.toString(rs.getInt("REGIS_NO")));
                     recipientDate = ArabicSetting.EnglishToarabic(rs.getString("RECIPIENT_DATE")) + "هـ";
                     circularDir = rs.getString("CIRCULAR_DIR");
-                    saveFile = rs.getString("SAVE_FILE");
+                    saveFile = ArabicSetting.EnglishToarabic(rs.getString("SAVE_FILE"));
                     quRegisNo = rs.getInt("REGIS_NO");
                     unitName = DatabaseAccess.getUintName();
                 }
@@ -353,17 +355,17 @@ public class InternalIncomingPageController implements Initializable {
                 barrcod.put("savefile", saveFile);
                 JasperReport jr = JasperCompileManager.compileReport(recipientReport);
                 JasperPrint jp = JasperFillManager.fillReport(jr, barrcod, con);
-//            JasperPrintManager.printReport(jp, false);
-                JasperViewer.viewReport(jp, false);
+                JasperPrintManager.printReport(jp, false);
+//                JasperViewer.viewReport(jp, false);
             } else {
                 showAlert("", "اختر السجل من الجدول");
             }
-            
+
         } catch (IOException | SQLException | JRException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
     }
-    
+
     @FXML
     private void addNames(ActionEvent event) {
         if (registrationId != null) {
@@ -372,7 +374,7 @@ public class InternalIncomingPageController implements Initializable {
             showAlert("", "اختر السجل من الجدول");
         }
     }
-    
+
     public void getTableRow(TableView table) {
         table.setOnMouseClicked(new EventHandler() {
             @Override
@@ -402,7 +404,7 @@ public class InternalIncomingPageController implements Initializable {
             }
         });
     }
-    
+
     private void getTableRowByInterKey(TableView table) {
         table.setOnKeyPressed(new EventHandler() {
             @Override
@@ -432,11 +434,11 @@ public class InternalIncomingPageController implements Initializable {
             }
         });
     }
-    
+
     @FXML
     private void searchData(ActionEvent event) {
     }
-    
+
     @FXML
     private void clear(ActionEvent event) {
         setCircularNumber(null);
@@ -446,16 +448,16 @@ public class InternalIncomingPageController implements Initializable {
         setImageUrl(null);
         setSaveFaile(null);
     }
-    
+
     @FXML
     private void addtoLeaderDisplay(ActionEvent event) {
         String tableName = "displaydata";
         String[] data = {HijriCalendar.getSimpleDate(), "عرض القائد", topic.getText(), destination.getValue()};
         String fieldName = "`DISPLAYDATE`,`DISPLAYTYPE`,`TOPIC`,`DESTINATION`";
         String valuenumbers = "?,?,?,?";
-        
+
         boolean idState = FormValidation.notNull(registrationId, "الرجاءاختر السجل من الجدول");
-        
+
         if (idState) {
             try {
                 DatabaseAccess.insert(tableName, fieldName, valuenumbers, data);
@@ -466,16 +468,16 @@ public class InternalIncomingPageController implements Initializable {
             }
         }
     }
-    
+
     @FXML
     private void addtoLeaderSignature(ActionEvent event) {
         String tableName = "displaydata";
         String[] data = {HijriCalendar.getSimpleDate(), "توقيع القائد", topic.getText(), destination.getValue()};
         String fieldName = "`DISPLAYDATE`,`DISPLAYTYPE`,`TOPIC`,`DESTINATION`";
         String valuenumbers = "?,?,?,?";
-        
+
         boolean idState = FormValidation.notNull(registrationId, "الرجاءاختر السجل من الجدول");
-        
+
         if (idState) {
             try {
                 DatabaseAccess.insert(tableName, fieldName, valuenumbers, data);
@@ -486,16 +488,16 @@ public class InternalIncomingPageController implements Initializable {
             }
         }
     }
-    
+
     @FXML
     private void addtoManagerSignature(ActionEvent event) {
         String tableName = "displaydata";
         String[] data = {HijriCalendar.getSimpleDate(), "توقيع الركن", topic.getText(), destination.getValue()};
         String fieldName = "`DISPLAYDATE`,`DISPLAYTYPE`,`TOPIC`,`DESTINATION`";
         String valuenumbers = "?,?,?,?";
-        
+
         boolean idState = FormValidation.notNull(registrationId, "الرجاءاختر السجل من الجدول");
-        
+
         if (idState) {
             try {
                 DatabaseAccess.insert(tableName, fieldName, valuenumbers, data);
@@ -506,16 +508,16 @@ public class InternalIncomingPageController implements Initializable {
             }
         }
     }
-    
+
     @FXML
     private void addtoManagerDisplay(ActionEvent event) {
         String tableName = "displaydata";
         String[] data = {HijriCalendar.getSimpleDate(), "عرض الركن", topic.getText(), destination.getValue()};
         String fieldName = "`DISPLAYDATE`,`DISPLAYTYPE`,`TOPIC`,`DESTINATION`";
         String valuenumbers = "?,?,?,?";
-        
+
         boolean idState = FormValidation.notNull(registrationId, "الرجاءاختر السجل من الجدول");
-        
+
         if (idState) {
             try {
                 DatabaseAccess.insert(tableName, fieldName, valuenumbers, data);
@@ -526,16 +528,16 @@ public class InternalIncomingPageController implements Initializable {
             }
         }
     }
-    
+
     @FXML
     private void addtoManagerSmallSignature(ActionEvent event) {
         String tableName = "displaydata";
         String[] data = {HijriCalendar.getSimpleDate(), "تاشير الركن", topic.getText(), destination.getValue()};
         String fieldName = "`DISPLAYDATE`,`DISPLAYTYPE`,`TOPIC`,`DESTINATION`";
         String valuenumbers = "?,?,?,?";
-        
+
         boolean idState = FormValidation.notNull(registrationId, "الرجاءاختر السجل من الجدول");
-        
+
         if (idState) {
             try {
                 DatabaseAccess.insert(tableName, fieldName, valuenumbers, data);
@@ -546,16 +548,16 @@ public class InternalIncomingPageController implements Initializable {
             }
         }
     }
-    
+
     @FXML
     private void addtoManagerOrders(ActionEvent event) {
         String tableName = "displaydata";
         String[] data = {HijriCalendar.getSimpleDate(), "توجيه الركن", topic.getText(), destination.getValue()};
         String fieldName = "`DISPLAYDATE`,`DISPLAYTYPE`,`TOPIC`,`DESTINATION`";
         String valuenumbers = "?,?,?,?";
-        
+
         boolean idState = FormValidation.notNull(registrationId, "الرجاءاختر السجل من الجدول");
-        
+
         if (idState) {
             try {
                 DatabaseAccess.insert(tableName, fieldName, valuenumbers, data);
@@ -566,77 +568,77 @@ public class InternalIncomingPageController implements Initializable {
             }
         }
     }
-    
+
     public String getCircularNumber() {
         return circularNumber.getText();
     }
-    
+
     public void setCircularNumber(String circularNumber) {
         this.circularNumber.setText(circularNumber);
     }
-    
+
     public String getTopic() {
         return topic.getText();
     }
-    
+
     public void setTopic(String topic) {
         this.topic.setText(topic);
     }
-    
+
     public String getSaveFaile() {
         return saveFaile.getText();
     }
-    
+
     public void setSaveFaile(String saveFaile) {
         this.saveFaile.setText(saveFaile);
     }
-    
+
     public String getDestination() {
         return destination.getValue();
     }
-    
+
     public void setDestination(String destination) {
         this.destination.setValue(destination);
     }
-    
+
     public String getCircularDate() {
         return AppDate.getDate(circularDateday, circularDatemonth, circularDateyear);
     }
-    
+
     public void setCircularDate(String date) {
         AppDate.setSeparateDate(circularDateday, circularDatemonth, circularDateyear, date);
     }
-    
+
     public String getIncomingDate() {
         return AppDate.getDate(incomingDay, incomingMonth, incomingYear);
     }
-    
+
     public void setIncomingDate(String date) {
         AppDate.setSeparateDate(incomingDay, incomingMonth, incomingYear, date);
     }
-    
+
     public String getSearchText() {
         return searchText.getText();
     }
-    
+
     public void setSearchText(String searchText) {
         this.searchText.setText(searchText);
     }
-    
+
     public String getNotes() {
         return notes.getText();
     }
-    
+
     public void setNotes(String notes) {
         this.notes.setText(notes);
     }
-    
+
     public String getImageUrl() {
         return imageUrl.getText();
     }
-    
+
     public void setImageUrl(String imageUrl) {
         this.imageUrl.setText(imageUrl);
     }
-    
+
 }

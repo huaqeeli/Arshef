@@ -70,9 +70,9 @@ public class Config {
         try {
             String propertiesFileName = "config.properties";
             File f = new File(propertiesFileName);
-            InputStream input = new FileInputStream(f);
-            if (input != null) {
-                properties.load(input);
+            InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propertiesFileName);
+            if (inputStream != null) {
+                properties.load(inputStream);
                 properties.setProperty(name, value);
                 output = new FileOutputStream(f);
                 properties.store(output, null);
@@ -84,10 +84,9 @@ public class Config {
 
     public Properties readProperties() throws IOException {
         String propertiesFileName = "config.properties";
-        File f = new File(propertiesFileName);
-        InputStream input = new FileInputStream(f);
-        if (input != null) {
-            properties.load(input);
+        InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propertiesFileName);
+        if (inputStream != null) {
+            properties.load(inputStream);
         } else {
             FormValidation.showAlert(null, "property file not found in the classpath", Alert.AlertType.ERROR);
         }

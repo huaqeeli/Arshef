@@ -101,6 +101,8 @@ public class ExternalIncomingPageController implements Initializable {
     private Button searchButton1;
     @FXML
     private TextField action;
+    @FXML
+    private TableColumn<ArchefModel, String> addImage_col;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -142,7 +144,7 @@ public class ExternalIncomingPageController implements Initializable {
         String[] data = {getCircularid(), getCircularDate(), getReceiptNumber(), getReceiptNumberDate(), getDestination(), getTopic(), getSaveFile(), getAction(), arshefyear};
         String valuenumbers = null;
         if (imagefile != null) {
-            fieldName = "`CIRCULARID`,`CIRCULARDATE`,`RECEIPTNUMBER`,`RECEIPTDATE`,`DESTINATION`,`TOPIC`,`SAVEFILE`,`ACTION`,`ARSHEFYEAR`,`CIRCULARIMAGE`";
+            fieldName = "`CIRCULARID`,`CIRCULARDATE`,`RECEIPTNUMBER`,`RECEIPTDATE`,`DESTINATION`,`TOPIC`,`SAVEFILE`,`ACTION`,`ARSHEFYEAR`,`IMAGE`";
             valuenumbers = "?,?,?,?,?,?,?,?,?,?";
         } else {
             fieldName = "`CIRCULARID`,`CIRCULARDATE`,`RECEIPTNUMBER`,`RECEIPTDATE`,`DESTINATION`,`TOPIC`,`SAVEFILE`,`ACTION`,`ARSHEFYEAR`";
@@ -177,7 +179,7 @@ public class ExternalIncomingPageController implements Initializable {
         arshefyear = AppDate.getYear(getCircularDate());
         String[] data = {getCircularid(), getCircularDate(), getReceiptNumber(), getReceiptNumberDate(), getDestination(), getTopic(), getSaveFile(), getAction()};
         if (imagefile != null) {
-            fieldName = "`CIRCULARID`=?,`CIRCULARDATE`=?,`RECEIPTNUMBER`=?,`RECEIPTDATE`=?,`DESTINATION`=?,`TOPIC`=?,`SAVEFILE`=?,`ACTION`=?,`CIRCULARIMAGE`=?";
+            fieldName = "`CIRCULARID`=?,`CIRCULARDATE`=?,`RECEIPTNUMBER`=?,`RECEIPTDATE`=?,`DESTINATION`=?,`TOPIC`=?,`SAVEFILE`=?,`ACTION`=?,`IMAGE`=?";
         } else {
             fieldName = "`CIRCULARID`=?,`CIRCULARDATE`=?,`RECEIPTNUMBER`=?,`RECEIPTDATE`=?,`DESTINATION`=?,`TOPIC`=?,`SAVEFILE`=?,`ACTION`=?";
         }
@@ -343,7 +345,7 @@ public class ExternalIncomingPageController implements Initializable {
     private boolean chakimage() {
         boolean stat = false;
         try {
-            ResultSet rs = DatabaseAccess.getData("SELECT CIRCULARIMAGE FROM externalincoming WHERE CIRCULARIMAGE IS NULL");
+            ResultSet rs = DatabaseAccess.getData("SELECT IMAGE FROM externalincoming WHERE IMAGE IS NULL");
             stat = rs.next();
         } catch (IOException | SQLException ex) {
             Logger.getLogger(ExternalIncomingPageController.class.getName()).log(Level.SEVERE, null, ex);
@@ -427,8 +429,52 @@ public class ExternalIncomingPageController implements Initializable {
                     };
                     return cell;
                 };
+        Callback<TableColumn<ArchefModel, String>, TableCell<ArchefModel, String>> cellFactory1
+                = (final TableColumn<ArchefModel, String> param) -> {
+                    final TableCell<ArchefModel, String> cell = new TableCell<ArchefModel, String>() {
+
+                        final Button btn = new Button();
+
+                        @Override
+                        public void updateItem(String item, boolean empty) {
+                            super.updateItem(item, empty);
+                            if (empty) {
+                                setGraphic(null);
+                                setText(null);
+                            } else {
+                                btn.setOnAction(event -> {
+                                    try {
+                                        if (circularID == null) {
+                                            FormValidation.showAlert(null, "اختر السجل من الجدول", Alert.AlertType.ERROR);
+                                        } else {
+                                            DatabaseAccess.insertImage("internalincoming", " `CIRCULARID` ='" + circularID + "' AND CIRCULARDATE ='" + circularDate + "'");
+                                            circularID = null;
+                                            circularDate = null;
+                                        }
+                                    } catch (Exception ex) {
+                                        FormValidation.showAlert(null, "لا توجد صورة", Alert.AlertType.ERROR);
+                                    }
+                                });
+                                btn.setStyle("-fx-font-family: 'URW DIN Arabic';"
+                                + "    -fx-font-size: 10px;"
+                                + "    -fx-background-color: #1E3606;"
+                                + "    -fx-background-radius: 0;"
+                                + "    -fx-text-fill: #FFFFFF;"
+                                + "    -fx-effect: dropshadow(three-pass-box,#3C3B3B, 20, 0, 5, 5); ");
+                        Image image = new Image("/images/scaner.png");
+                                ImageView view = new ImageView(image);
+                                btn.setGraphic(view);
+                                setGraphic(btn);
+                                setText(null);
+                            }
+
+                        }
+                    };
+                    return cell;
+                };
 
         circularImage_col.setCellFactory(cellFactory);
+        addImage_col.setCellFactory(cellFactory);
 
         archefTable.setItems(Archeflist);
     }

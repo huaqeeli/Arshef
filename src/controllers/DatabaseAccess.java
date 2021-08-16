@@ -116,9 +116,9 @@ public class DatabaseAccess {
             if (circularid == null || circulardate == null) {
                 FormValidation.showAlert(null, "اختر السجل من الجدول", Alert.AlertType.ERROR);
             } else {
-                ResultSet rs = DatabaseAccess.getData("SELECT CIRCULARIMAGE FROM externalincoming WHERE CIRCULARID = '" + circularid + "'AND CIRCULARDATE = '" + circulardate + "'");
+                ResultSet rs = DatabaseAccess.getData("SELECT IMAGE FROM externalincoming WHERE CIRCULARID = '" + circularid + "'AND CIRCULARDATE = '" + circulardate + "'");
                 if (rs.next()) {
-                    image = rs.getBinaryStream("CIRCULARIMAGE");
+                    image = rs.getBinaryStream("IMAGE");
                     pdfByte = new byte[image.available()];
                     image.read(pdfByte);
                 } else {
@@ -139,9 +139,9 @@ public class DatabaseAccess {
             if (id == null || entrydate == null) {
                 FormValidation.showAlert(null, "اختر السجل من الجدول", Alert.AlertType.ERROR);
             } else {
-                ResultSet rs = DatabaseAccess.getData("SELECT EXPORTSIMAGE FROM exportsdata WHERE ID = '" + id + "'AND ENTRYDATE = '" + entrydate + "'");
+                ResultSet rs = DatabaseAccess.getData("SELECT IMAGE FROM exportsdata WHERE ID = '" + id + "'AND ENTRYDATE = '" + entrydate + "'");
                 if (rs.next()) {
-                    image = rs.getBinaryStream("EXPORTSIMAGE");
+                    image = rs.getBinaryStream("IMAGE");
                     pdfByte = new byte[image.available()];
                     image.read(pdfByte);
                 } else {

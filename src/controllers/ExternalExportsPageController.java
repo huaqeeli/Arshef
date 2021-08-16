@@ -106,6 +106,8 @@ public class ExternalExportsPageController implements Initializable {
     private ComboBox<?> searchDateMonth;
     @FXML
     private ComboBox<?> searchDateYear;
+    @FXML
+    private TableColumn<ExportsModel, String> addImage_col;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -166,11 +168,11 @@ public class ExternalExportsPageController implements Initializable {
         String[] data = {getTopic(), getDestination(), getExportNum(), getExportDate(), getNotes(), getSaveFile(), getInternalincomingnum(), getEntryDate(), recordYear};
         String valuenumbers = null;
         if (imagefile != null) {
-            fieldName = "`TOPIC`,`DESTINATION`,`EXPORTNUM`,`EXPORTDATE`,`NOTES`,`SAVEFILE`,`INTERNALINCOMINGNUM`,`ENTRYDATE`,`RECORDYEAR`,`EXPORTSIMAGE`";
-            valuenumbers = "?,?,?,?,?,?,?,?,?";
+            fieldName = "`TOPIC`,`DESTINATION`,`EXPORTNUM`,`EXPORTDATE`,`NOTES`,`SAVEFILE`,`INTERNALINCOMINGNUM`,`ENTRYDATE`,`RECORDYEAR`,`IMAGE`";
+            valuenumbers = "?,?,?,?,?,?,?,?,?,?";
         } else {
             fieldName = "`TOPIC`,`DESTINATION`,`EXPORTNUM`,`EXPORTDATE`,`NOTES`,`SAVEFILE`,`INTERNALINCOMINGNUM`,`ENTRYDATE`,`RECORDYEAR`";
-            valuenumbers = "?,?,?,?,?,?,?,?";
+            valuenumbers = "?,?,?,?,?,?,?,?,?";
         }
 
         boolean destinationState = FormValidation.comboBoxNotEmpty(destination, "الرجاء ادخال جهة المعاملة");
@@ -194,7 +196,7 @@ public class ExternalExportsPageController implements Initializable {
         String fieldName = null;
         String[] data = {getTopic(), getDestination(), getExportNum(), getExportDate(), getNotes(), getSaveFile(), getInternalincomingnum()};
         if (imagefile != null) {
-            fieldName = "`TOPIC`=?,`DESTINATION`=?,`EXPORTNUM`=?,`EXPORTDATE`=?,`NOTES`=?,`SAVEFILE`=?,`INTERNALINCOMINGNUM`=?,`EXPORTSIMAGE`=?";
+            fieldName = "`TOPIC`=?,`DESTINATION`=?,`EXPORTNUM`=?,`EXPORTDATE`=?,`NOTES`=?,`SAVEFILE`=?,`INTERNALINCOMINGNUM`=?,`IMAGE`=?";
         } else {
             fieldName = "`TOPIC`=?,`DESTINATION`=?,`EXPORTNUM`=?,`EXPORTDATE`=?,`NOTES`=?,`SAVEFILE`=?,`INTERNALINCOMINGNUM`=?";
         }
@@ -547,8 +549,52 @@ public class ExternalExportsPageController implements Initializable {
                     };
                     return cell;
                 };
+        Callback<TableColumn<ExportsModel, String>, TableCell<ExportsModel, String>> cellFactory1
+                = (final TableColumn<ExportsModel, String> param) -> {
+                    final TableCell<ExportsModel, String> cell = new TableCell<ExportsModel, String>() {
+
+                        final Button btn = new Button();
+
+                        @Override
+                        public void updateItem(String item, boolean empty) {
+                            super.updateItem(item, empty);
+                            if (empty) {
+                                setGraphic(null);
+                                setText(null);
+                            } else {
+                                btn.setOnAction(event -> {
+                                    try {
+                                        if (id == null) {
+                                            FormValidation.showAlert(null, "اختر السجل من الجدول", Alert.AlertType.ERROR);
+                                        } else {
+                                           DatabaseAccess.insertImage("exportsdata", " `ID` ='" + id + "' AND ENTRYDATE ='" + enteryDate + "'");
+                                            id = null;
+                                            enteryDate = null;
+                                        }
+                                    } catch (Exception ex) {
+                                        FormValidation.showAlert(null, "لا توجد صورة", Alert.AlertType.ERROR);
+                                    }
+                                });
+                                btn.setStyle("-fx-font-family: 'URW DIN Arabic';"
+                                + "    -fx-font-size: 10px;"
+                                + "    -fx-background-color: #1E3606;"
+                                + "    -fx-background-radius: 0;"
+                                + "    -fx-text-fill: #FFFFFF;"
+                                + "    -fx-effect: dropshadow(three-pass-box,#3C3B3B, 20, 0, 5, 5); ");
+                        Image image = new Image("/images/scaner.png");
+                                ImageView view = new ImageView(image);
+                                btn.setGraphic(view);
+                                setGraphic(btn);
+                                setText(null);
+                            }
+
+                        }
+                    };
+                    return cell;
+                };
 
         exportsImage_col.setCellFactory(cellFactory);
+        addImage_col.setCellFactory(cellFactory1);
 
         exportsTable.setItems(Exportslist);
     }

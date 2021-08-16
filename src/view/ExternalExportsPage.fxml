@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" prefHeight="800.0" prefWidth="1200.0" style="-fx-border-color: #9A9A9A; -fx-border-width: 0 5 0 0;" stylesheets="@../css/appStyle.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ExternalExportsPageController">
+<AnchorPane id="AnchorPane" prefHeight="800.0" prefWidth="1200.0" style="-fx-border-color: #9A9A9A; -fx-border-width: 0 5 0 0;" stylesheets="@../css/appStyle.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ExternalExportsPageController">
    <children>
       <HBox alignment="CENTER_RIGHT" prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #1E3606;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -212,6 +212,7 @@
                   <TableColumn fx:id="exportNum_col" minWidth="80.0" prefWidth="75.0" text="رقم الصادر" />
                   <TableColumn fx:id="exportDate_col" minWidth="80.0" prefWidth="75.0" text="تاريخ الصادر" />
                   <TableColumn fx:id="notes_col" minWidth="150.0" prefWidth="75.0" text="ملاحظات" />
+                  <TableColumn fx:id="addImage_col" minWidth="80.0" prefWidth="75.0" text="اضافة الصور" />
                   <TableColumn fx:id="exportsImage_col" minWidth="80.0" prefWidth="75.0" text="صورة المعاملة" />
                </columns>
                <VBox.margin>

@@ -118,6 +118,7 @@ public class ExternalExportsPageController implements Initializable {
          AppDate.setDateValue(searchDateDay, searchDateMonth, searchDateYear);
         AppDate.setCurrentDate(searchDateDay, searchDateMonth, searchDateYear);
         AppDate.setYearValue(year);
+        AppDate.setCurrentYear(year);
         clearListCombobox();
         refreshListCombobox();
         refreshExportTableView();
@@ -207,7 +208,7 @@ public class ExternalExportsPageController implements Initializable {
 
         if (destinationState && topicState && saveFileState) {
             try {
-                DatabaseAccess.updat(tableName, fieldName, data, "ID = '" + id + "'AND RECORDYEAR = '" + recordYear + "'", imagefile);
+                DatabaseAccess.updat(tableName, fieldName, data, "ID = '" + id + "'AND ENTRYDATE = '" + enteryDate + "'", imagefile);
                 refreshExportTableView();
                 clear(event);
             } catch (IOException ex) {
@@ -219,7 +220,7 @@ public class ExternalExportsPageController implements Initializable {
     @FXML
     private void delete(ActionEvent event) {
         try {
-            DatabaseAccess.delete("exportsdata", "ID = '" + id + "'AND RECORDYEAR = '" + recordYear + "'");
+            DatabaseAccess.delete("exportsdata", "ID = '" + id + "'AND ENTRYDATE = '" + enteryDate + "'");
             refreshExportTableView();
             clear(event);
         } catch (IOException ex) {

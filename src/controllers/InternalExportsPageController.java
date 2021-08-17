@@ -41,14 +41,13 @@ import net.sf.jasperreports.engine.JasperPrintManager;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
-import net.sf.jasperreports.view.JasperViewer;
 
 public class InternalExportsPageController implements Initializable {
 
     @FXML
-    private ComboBox<?> searchType;
+    private ComboBox<String> searchType;
     @FXML
-    private ComboBox<?> year;
+    private ComboBox<String> year;
     @FXML
     private TextField searchText;
     @FXML
@@ -92,16 +91,28 @@ public class InternalExportsPageController implements Initializable {
     private String registrationId = null;
     ObservableList<String> destinationlist = FXCollections.observableArrayList();
     ObservableList<InternalExportsModel> exportsList = FXCollections.observableArrayList();
+    ObservableList<String> searchTypelist = FXCollections.observableArrayList("البحث برقم الصادر", "البحث بتاريخ الصادر", "البحث بالموضوع", "البحث بجهة الصادر", "عرض الكل");
     Config config = new Config();
+    @FXML
+    private ComboBox<?> searchDateDay;
+    @FXML
+    private ComboBox<?> searchDateMonth;
+    @FXML
+    private ComboBox<?> searchDateYear;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         refreshRecipienTableView();
         AppDate.setDateValue(exportsDay, exportsMonth, exportsYear);
         AppDate.setCurrentDate(exportsDay, exportsMonth, exportsYear);
+        AppDate.setDateValue(searchDateDay, searchDateMonth, searchDateYear);
+        AppDate.setCurrentDate(searchDateDay, searchDateMonth, searchDateYear);
+        FillComboBox.fillComboBox(searchTypelist, searchType);
         getTableRow(exportsTable);
         getTableRowByInterKey(exportsTable);
         destination.setItems(filleDestination(destinationlist));
+        AppDate.setYearValue(year);
+        AppDate.setCurrentYear(year);
     }
 
     private ObservableList filleDestination(ObservableList list) {
@@ -122,13 +133,16 @@ public class InternalExportsPageController implements Initializable {
     }
 
     private void refreshRecipienTableView() {
-        exportsList.clear();
-        recipienTableView();
+        try {
+            exportsList.clear();
+            exportsTableView(DatabaseAccess.select("internalexports", "RECORDYEAR ='" + HijriCalendar.getSimpleYear() + "' ORDER BY REGISNO DESC"));
+        } catch (IOException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
     }
 
-    private void recipienTableView() {
+    private void exportsTableView(ResultSet rs) {
         try {
-            ResultSet rs = DatabaseAccess.select("internalexports", "RECORDYEAR ='" + HijriCalendar.getSimpleYear() + "' ORDER BY REGISNO DESC");
             while (rs.next()) {
                 exportsList.add(new InternalExportsModel(
                         rs.getString("REGISNO"),
@@ -140,7 +154,7 @@ public class InternalExportsPageController implements Initializable {
                 ));
             }
             rs.close();
-        } catch (SQLException | IOException ex) {
+        } catch (SQLException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
         regisNO_col.setCellValueFactory(new PropertyValueFactory<>("regisNO"));
@@ -274,7 +288,7 @@ public class InternalExportsPageController implements Initializable {
         if (topicState && destinationState) {
             try {
                 DatabaseAccess.insert(tableName, fieldName, valuenumbers, data, imagefile);
-                registrationId =DatabaseAccess.getRegistrationNum();
+                registrationId = DatabaseAccess.getRegistrationNum();
                 DatabaseAccess.updatRegistrationNum();
                 refreshRecipienTableView();
                 clear(event);
@@ -326,7 +340,7 @@ public class InternalExportsPageController implements Initializable {
                     recipientDate = ArabicSetting.EnglishToarabic(rs.getString("EXPORTDATE")) + "هـ";
                     circularDir = rs.getString("DESTINATION");
                     quRegisNo = rs.getInt("REGISNO");
-                    saveFile =  ArabicSetting.EnglishToarabic(rs.getString("SAVEFILE"));
+                    saveFile = ArabicSetting.EnglishToarabic(rs.getString("SAVEFILE"));
                     unitName = DatabaseAccess.getUintName();
                 }
                 Map barrcod = new HashMap();
@@ -412,11 +426,6 @@ public class InternalExportsPageController implements Initializable {
                 }
             }
         });
-    }
-
-    @FXML
-    private void searchData(ActionEvent event) {
-
     }
 
     @FXML
@@ -626,6 +635,30 @@ public class InternalExportsPageController implements Initializable {
         this.registrationId = registrationId;
     }
 
+    public String getSearchType() {
+        return searchType.getValue();
+    }
+
+    public void setSearchType(String searchType) {
+        this.searchType.setValue(searchType);
+    }
+
+    public String getYear() {
+        return year.getValue();
+    }
+
+    public void setYear(String year) {
+        this.year.setValue(year);
+    }
+
+    public String getSearchDate() {
+        return AppDate.getDate(searchDateDay, searchDateMonth, searchDateYear);
+    }
+
+    public void setSearchDate(String date) {
+        AppDate.setSeparateDate(searchDateDay, searchDateMonth, searchDateYear, date);
+    }
+
     @FXML
     private void getIncomingData(ActionEvent event) {
         try {
@@ -638,6 +671,98 @@ public class InternalExportsPageController implements Initializable {
             rs.close();
         } catch (IOException | SQLException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
+    }
+
+    @FXML
+    private void searchData(ActionEvent event) {
+        String searchValue = getSearchType();
+        switch (searchValue) {
+            case "عرض الكل":
+                exportsList.clear();
+                exportsTableView(getAllData());
+                break;
+            case "البحث بجهة الصادر":
+                exportsList.clear();
+                exportsTableView(getDataByDestination());
+                break;
+            case "البحث بالموضوع":
+                exportsList.clear();
+                exportsTableView(getDataByTopic());
+                break;
+            case "البحث بتاريخ الصادر":
+                exportsList.clear();
+                exportsTableView(getDataByExportDate());
+                break;
+            case "البحث برقم الصادر":
+                exportsList.clear();
+                exportsTableView(getDataByExportNumber());
+                break;
+        }
+    }
+
+    public ResultSet getAllData() {
+        ResultSet rs = null;
+        try {
+            rs = DatabaseAccess.select("internalexports", "RECORDYEAR = '" + getYear() + "' ");
+        } catch (IOException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
+        return rs;
+    }
+
+    public ResultSet getDataByDestination() {
+        ResultSet rs = null;
+        try {
+            rs = DatabaseAccess.selectQuiry("SELECT * FROM internalexports WHERE DESTINATION LIKE '" + "%" + getSearchText() + "%" + "' AND RECORDYEAR = '" + getYear() + "' ");
+        } catch (IOException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
+        return rs;
+    }
+
+    public ResultSet getDataByTopic() {
+        ResultSet rs = null;
+        try {
+            rs = DatabaseAccess.selectQuiry("SELECT * FROM internalexports WHERE TOPIC LIKE '" + "%" + getSearchText() + "%" + "' AND RECORDYEAR = '" + getYear() + "' ");
+        } catch (IOException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
+        return rs;
+    }
+
+    public ResultSet getDataByExportDate() {
+        ResultSet rs = null;
+        try {
+            rs = DatabaseAccess.select("internalexports", "EXPORTDATE = '" + getSearchDate() + "'");
+        } catch (IOException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
+        return rs;
+    }
+
+    public ResultSet getDataByExportNumber() {
+        ResultSet rs = null;
+        try {
+            rs = DatabaseAccess.select("internalexports", "REGISNO = '" + getSearchText() + "'");
+        } catch (IOException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
+        return rs;
+    }
+
+    @FXML
+    private void enableSearchDate(ActionEvent event) {
+        if ("البحث بتاريخ الصادر".equals(getSearchType())) {
+            searchDateDay.setDisable(false);
+            searchDateMonth.setDisable(false);
+            searchDateYear.setDisable(false);
+            year.setDisable(true);
+        } else {
+            searchDateDay.setDisable(true);
+            searchDateMonth.setDisable(true);
+            searchDateYear.setDisable(true);
+            year.setDisable(false);
         }
     }
 

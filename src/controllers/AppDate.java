@@ -36,6 +36,9 @@ public class AppDate {
         }
     }
 
+    public static void setCurrentYear(ComboBox year) {
+        year.setValue(HijriCalendar.getSimpleYear());
+    }
     public static void setCurrentDate(ComboBox day, ComboBox month, ComboBox year) {
         if (HijriCalendar.getSimpleDay() < 10) {
             day.setValue("0" + HijriCalendar.getSimpleDay());

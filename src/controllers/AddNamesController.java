@@ -40,6 +40,7 @@ public class AddNamesController implements Initializable, InitializClass {
     private TableColumn<?, ?> name_col;
     String circularID = null;
     String year = null;
+    String type = null;
     ObservableList<AddNamesModel> addnamesList = FXCollections.observableArrayList();
 
     @Override
@@ -56,9 +57,9 @@ public class AddNamesController implements Initializable, InitializClass {
     @Override
     public void save(ActionEvent event) {
         String tableName = "circularnames";
-        String[] data = {getCircularID(), getMilataryId(), year};
-        String fieldName = "`CIRCULARID`,`MILITARYID`,`YEAR`";
-        String valuenumbers = "?,?,?";
+        String[] data = {getCircularID(), getMilataryId(), year,"external"};
+        String fieldName = "`CIRCULARID`,`MILITARYID`,`YEAR`,`type`";
+        String valuenumbers = "?,?,?,?";
 
         boolean uintExusting = FormValidation.ifexisting("circularnames", "MILITARYID", "CIRCULARID = '" + circularID + "'AND MILITARYID = '" + getMilataryId() + "'AND YEAR = '" + year + "'", "تم حفظ الاسم لنقس المعاملةرقم " + "" + getCircularID());
         boolean militrayidExusting = FormValidation.ifNotexisting("personaldata", "MILITARYID", " MILITARYID = '" + getMilataryId() + "'", "لا توجد بيانات بالرقم العسكري (" + "" + getMilataryId() + ") الرجاء اضافة بياناته في التشكيل");
@@ -99,7 +100,7 @@ public class AddNamesController implements Initializable, InitializClass {
     public void tableView() {
         try {
             ResultSet rs = DatabaseAccess.getData("SELECT circularnames.YEAR,circularnames.MILITARYID,personaldata.NAME,personaldata.MILITARYID,personaldata.RANK FROM circularnames,personaldata "
-                    + "WHERE circularnames.MILITARYID = personaldata.MILITARYID AND CIRCULARID = '" + circularID + "'AND YEAR = '" + year + "' ");
+                    + "WHERE circularnames.MILITARYID = personaldata.MILITARYID AND CIRCULARID = '" + circularID + "'AND YEAR = '" + year + "'AND type = '"+type+"' ");
             int squence = 0;
             while (rs.next()) {
                 squence++;
@@ -172,9 +173,10 @@ public class AddNamesController implements Initializable, InitializClass {
         this.circularID = circularID;
     }
 
-    public void setPassingData(String circularID, String year) {
+    public void setPassingData(String circularID, String year,String type) {
         this.circularID = circularID;
         this.year = year;
+        this.type = type;
         refreshTableView();
         getTableRow(namesTable);
         getTableRowByInterKey(namesTable);

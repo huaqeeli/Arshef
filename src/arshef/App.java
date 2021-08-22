@@ -106,14 +106,14 @@ public class App extends Application {
         return root;
     }
 
-    public static Parent lodAddNmaesPage(String circularID, String year) {
+    public static Parent lodAddNmaesPage(String circularID, String year,String type) {
         Parent root = null;
         try {
             FXMLLoader fxmlLoader = loadFX("/view/AddNames");
             root = fxmlLoader.load();
             AddNamesController controller = new AddNamesController();
             controller = (AddNamesController) fxmlLoader.getController();
-            controller.setPassingData(circularID, year);
+            controller.setPassingData(circularID, year,type);
             Scene scene = new Scene(root);
             Stage stage = new Stage();
             scene.setFill(Color.TRANSPARENT);

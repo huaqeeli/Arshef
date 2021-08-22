@@ -85,7 +85,8 @@ public class DisplayPageController implements Initializable {
     private ComboBox<String> destination;
     @FXML
     private TextField notes;
-Config config = new Config();
+    Config config = new Config();
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         AppDate.setDateValue(DateDay, DateMonth, DateYear);
@@ -127,8 +128,62 @@ Config config = new Config();
     }
 
     @FXML
-    private void printBagStatement(ActionEvent event) {
-        
+    private void printBagStatement(ActionEvent event) throws SQLException {
+        try {
+            InputStream input = new FileInputStream(new File(config.getAppURL() + "\\reports\\‏ComanderDisplay.jrxml"));
+
+            List<DisplayModele> dataItems = new ArrayList<>();
+
+            ResultSet rs = DatabaseAccess.select("displaydata", "DISPLAYDATE = '" + getSearchDate() + "' and (DISPLAYTYPE = 'توقيع القائد')");
+//            ResultSet rs = DatabaseAccess.getData("SELECT circularnames.YEAR,circularnames.MILITARYID,personaldata.NAME,personaldata.MILITARYID,personaldata.RANK "
+//                    + "FROM circularnames,personaldata,displaydata "
+//                    + "WHERE circularnames.MILITARYID = personaldata.MILITARYID AND CIRCULARID = '" + circularID + "'AND YEAR = '" + year + "'AND type = '" + type + "' ");
+            int squnce = 1;
+            while (rs.next()) {
+                DisplayModele display = new DisplayModele();
+                String squnceText = ArabicSetting.EnglishToarabic(Integer.toString(squnce));
+                display.setSqunces(squnceText);
+                display.setTopic(rs.getString("TOPIC"));
+                display.setNotes(rs.getString("NOTES"));
+                dataItems.add(display);
+                squnce++;
+            }
+            rs.close();
+            List<DisplayModele> dataItems1 = new ArrayList<>();
+
+            ResultSet rs1 = DatabaseAccess.select("displaydata", "DISPLAYDATE = '" + getSearchDate() + "' and (DISPLAYTYPE = 'عرض القائد')");
+            int squnce1 = 1;
+
+            while (rs1.next()) {
+                DisplayModele display1 = new DisplayModele();
+                String squnceText = ArabicSetting.EnglishToarabic(Integer.toString(squnce1));
+                display1.setSqunces(squnceText);
+                display1.setTopic(rs1.getString("TOPIC"));
+                display1.setNotes(rs1.getString("NOTES"));
+                dataItems1.add(display1);
+                squnce1++;
+            }
+            rs1.close();
+            JRBeanCollectionDataSource itemsJarbean = new JRBeanCollectionDataSource(dataItems);
+            JRBeanCollectionDataSource itemsJarbean1 = new JRBeanCollectionDataSource(dataItems1);
+            Connection con = DatabaseConniction.dbConnector();
+            Map parameters = new HashMap();
+
+            parameters.put("day", HijriCalendar.getSimpleWeekday());
+            parameters.put("date", ArabicSetting.EnglishToarabic(HijriCalendar.getSimpleDate()) + "هـ");
+            parameters.put("displayDateprameter", AppDate.getDate(DateDay, DateMonth, DateYear));
+            parameters.put("uintNum", ArabicSetting.EnglishToarabic("067"));
+            parameters.put("repotCollation", itemsJarbean);
+            parameters.put("SignatureCollaiction", itemsJarbean1);
+
+            JasperDesign jasperDesign = JRXmlLoader.load(input);
+            JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, con);
+            JasperViewer.viewReport(jasperPrint, false);
+
+        } catch (JRException | IOException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
     }
 
     @FXML

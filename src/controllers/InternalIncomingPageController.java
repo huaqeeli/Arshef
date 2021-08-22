@@ -41,7 +41,6 @@ import net.sf.jasperreports.engine.JasperPrintManager;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
-import net.sf.jasperreports.view.JasperViewer;
 
 public class InternalIncomingPageController implements Initializable {
 
@@ -86,9 +85,9 @@ public class InternalIncomingPageController implements Initializable {
     @FXML
     private ComboBox<String> circularDateyear;
     @FXML
-    private ComboBox<?> searchType;
+    private ComboBox<String> searchType;
     @FXML
-    private ComboBox<?> year;
+    private ComboBox<String> year;
     @FXML
     private TextField searchText;
     @FXML
@@ -102,19 +101,30 @@ public class InternalIncomingPageController implements Initializable {
     private String registrationId = null;
     ObservableList<String> destinationlist = FXCollections.observableArrayList();
     ObservableList<InternalIncomingModel> recipientList = FXCollections.observableArrayList();
+    ObservableList<String> searchTypelist = FXCollections.observableArrayList("البحث برقم الوارد", "البحث بتاريخ الوارد", "البحث بالموضوع", "البحث بجهة الوارد", "عرض الكل");
     Config config = new Config();
+    @FXML
+    private ComboBox<?> searchDateDay;
+    @FXML
+    private ComboBox<?> searchDateMonth;
+    @FXML
+    private ComboBox<?> searchDateYear;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         refreshRecipienTableView();
-//        refreshListCombobox(filleDirection(dirComboBoxlist));
         AppDate.setDateValue(incomingDay, incomingMonth, incomingYear);
         AppDate.setCurrentDate(incomingDay, incomingMonth, incomingYear);
         AppDate.setDateValue(circularDateday, circularDatemonth, circularDateyear);
         AppDate.setCurrentDate(circularDateday, circularDatemonth, circularDateyear);
+         AppDate.setDateValue(searchDateDay, searchDateMonth, searchDateYear);
+        AppDate.setCurrentDate(searchDateDay, searchDateMonth, searchDateYear);
+        FillComboBox.fillComboBox(searchTypelist, searchType);
         getTableRow(recipientTableView);
         getTableRowByInterKey(recipientTableView);
         destination.setItems(filleDestination(destinationlist));
+        AppDate.setYearValue(year);
+        AppDate.setCurrentYear(year);
     }
 
     private ObservableList filleDestination(ObservableList list) {
@@ -135,13 +145,17 @@ public class InternalIncomingPageController implements Initializable {
     }
 
     private void refreshRecipienTableView() {
-        recipientList.clear();
-        recipienTableView();
+        try {
+            recipientList.clear();
+            incomingTableView(DatabaseAccess.select("internalincoming", "RECORD_YEAR ='" + HijriCalendar.getSimpleYear() + "' ORDER BY REGIS_NO DESC"));
+        } catch (IOException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
     }
 
-    private void recipienTableView() {
+    private void incomingTableView(ResultSet rs) {
         try {
-            ResultSet rs = DatabaseAccess.select("internalincoming", "RECORD_YEAR ='" + HijriCalendar.getSimpleYear() + "' ORDER BY REGIS_NO DESC");
+
             while (rs.next()) {
                 recipientList.add(new InternalIncomingModel(
                         rs.getString("REGIS_NO"),
@@ -155,7 +169,7 @@ public class InternalIncomingPageController implements Initializable {
                 ));
             }
             rs.close();
-        } catch (SQLException | IOException ex) {
+        } catch (SQLException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
         regisNO_col.setCellValueFactory(new PropertyValueFactory<>("regisNo"));
@@ -369,7 +383,7 @@ public class InternalIncomingPageController implements Initializable {
     @FXML
     private void addNames(ActionEvent event) {
         if (registrationId != null) {
-            App.lodAddNmaesPage(registrationId, AppDate.getYear(getIncomingDate()));
+            App.lodAddNmaesPage(registrationId, AppDate.getYear(getIncomingDate()),"internal");
         } else {
             showAlert("", "اختر السجل من الجدول");
         }
@@ -433,10 +447,6 @@ public class InternalIncomingPageController implements Initializable {
                 }
             }
         });
-    }
-
-    @FXML
-    private void searchData(ActionEvent event) {
     }
 
     @FXML
@@ -641,4 +651,119 @@ public class InternalIncomingPageController implements Initializable {
         this.imageUrl.setText(imageUrl);
     }
 
+    public String getSearchType() {
+        return searchType.getValue();
+    }
+
+    public void setSearchType(String searchType) {
+        this.searchType.setValue(searchType);
+    }
+
+    public String getYear() {
+        return year.getValue();
+    }
+
+    public void setYear(String year) {
+        this.year.setValue(year);
+    }
+
+    public String getSearchDate() {
+        return AppDate.getDate(searchDateDay, searchDateMonth, searchDateYear);
+    }
+
+    public void setSearchDate(String date) {
+        AppDate.setSeparateDate(searchDateDay, searchDateMonth, searchDateYear, date);
+    }
+
+    @FXML
+    private void searchData(ActionEvent event) {
+        String searchValue = getSearchType();
+        switch (searchValue) {
+            case "عرض الكل":
+                recipientList.clear();
+                incomingTableView(getAllData());
+                break;
+            case "البحث بجهة الوارد":
+                recipientList.clear();
+                incomingTableView(getDataByDestination());
+                break;
+            case "البحث بالموضوع":
+                recipientList.clear();
+                incomingTableView(getDataByTopic());
+                break;
+            case "البحث بتاريخ الوارد":
+                recipientList.clear();
+                incomingTableView(getDataByIncomingDate());
+                break;
+            case "البحث برقم الوارد":
+                recipientList.clear();
+                incomingTableView(getDataByRegistrationNum());
+                break;
+        }
+    }
+
+    public ResultSet getAllData() {
+        ResultSet rs = null;
+        try {
+            rs = DatabaseAccess.select("internalincoming", "RECORD_YEAR = '" + getYear() + "' ");
+        } catch (IOException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
+        return rs;
+    }
+
+    public ResultSet getDataByDestination() {
+        ResultSet rs = null;
+        try {
+            rs = DatabaseAccess.selectQuiry("SELECT * FROM internalincoming WHERE CIRCULAR_DIR LIKE '" + "%" + getSearchText() + "%" + "' AND RECORD_YEAR = '" + getYear() + "' ");
+        } catch (IOException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
+        return rs;
+    }
+
+    public ResultSet getDataByTopic() {
+        ResultSet rs = null;
+        try {
+            rs = DatabaseAccess.selectQuiry("SELECT * FROM internalincoming WHERE TOPIC LIKE '" + "%" + getSearchText() + "%" + "' AND RECORD_YEAR = '" + getYear() + "' ");
+        } catch (IOException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
+        return rs;
+    }
+
+    public ResultSet getDataByIncomingDate() {
+        ResultSet rs = null;
+        try {
+            rs = DatabaseAccess.select("internalincoming", "RECIPIENT_DATE = '" + getSearchDate() + "'");
+        } catch (IOException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
+        return rs;
+    }
+
+    public ResultSet getDataByRegistrationNum() {
+        ResultSet rs = null;
+        try {
+            rs = DatabaseAccess.select("internalincoming", "REGIS_NO = '" + getSearchText() + "'");
+        } catch (IOException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
+        return rs;
+    }
+
+    @FXML
+    private void enableSearchDate(ActionEvent event) {
+        if ("البحث بتاريخ الوارد".equals(getSearchType())) {
+            searchDateDay.setDisable(false);
+            searchDateMonth.setDisable(false);
+            searchDateYear.setDisable(false);
+            year.setDisable(true);
+        } else {
+            searchDateDay.setDisable(true);
+            searchDateMonth.setDisable(true);
+            searchDateYear.setDisable(true);
+            year.setDisable(false);
+        }
+    }
 }

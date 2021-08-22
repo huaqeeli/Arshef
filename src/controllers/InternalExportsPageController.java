@@ -306,14 +306,14 @@ public class InternalExportsPageController implements Initializable {
         if (imagefile != null) {
             fieldName = "`EXPORTDATE`=?,`DESTINATION`=?,`TOPIC`=?,`SAVEFILE`=?,`NOTES`=?,`IMAGE`=?";
         } else {
-            fieldName = "`EXPORTDATE`=?,`DESTINATION`=?,`TOPIC`=?,`SAVEFILE`=?,`NOTES`=?,";
+            fieldName = "`EXPORTDATE`=?,`DESTINATION`=?,`TOPIC`=?,`SAVEFILE`=?,`NOTES`=?";
         }
 
         boolean topicState = FormValidation.textFieldNotEmpty(topic, "الرجاء ادخال جهة الموضوع");
 
         if (topicState) {
             try {
-                DatabaseAccess.updat(tableName, fieldName, data, "REGISNO = '" + registrationId + "'AND RECORDYEAR = '" + recordYear + "'", imagefile);
+                DatabaseAccess.updat(tableName, fieldName, data, "`REGISNO` = '" + registrationId + "' AND `RECORDYEAR` = '" + recordYear + "'", imagefile);
                 refreshRecipienTableView();
                 clear(event);
             } catch (IOException ex) {
@@ -366,7 +366,7 @@ public class InternalExportsPageController implements Initializable {
     @FXML
     private void addNames(ActionEvent event) {
         if (registrationId != null) {
-            App.lodAddNmaesPage(registrationId, AppDate.getYear(getExportsDate()));
+            App.lodAddNmaesPage(registrationId, AppDate.getYear(getExportsDate()),"internal");
         } else {
             showAlert("", "اختر السجل من الجدول");
         }

@@ -388,93 +388,93 @@ public class ExternalIncomingPageController implements Initializable {
                 = (final TableColumn<ArchefModel, String> param) -> {
                     final TableCell<ArchefModel, String> cell = new TableCell<ArchefModel, String>() {
 
-                        final Button btn = new Button();
+                final Button btn = new Button();
 
-                        @Override
-                        public void updateItem(String item, boolean empty) {
-                            super.updateItem(item, empty);
-                            if (empty) {
-                                setGraphic(null);
-                                setText(null);
-                            } else {
-                                btn.setOnAction(event -> {
-                                    try {
-                                        if (circularID == null) {
-                                            FormValidation.showAlert(null, "اختر السجل من الجدول", Alert.AlertType.ERROR);
-                                        } else {
-                                            pdfimage = DatabaseAccess.getPdfFile(circularID, circularDate);
-                                            ShowPdf.writePdf(pdfimage);
-                                            pdfimage = null;
-                                            circularID = null;
-                                            circularDate = null;
-                                        }
-                                    } catch (Exception ex) {
-                                        FormValidation.showAlert(null, "لا توجد صورة", Alert.AlertType.ERROR);
-                                    }
-                                });
-                                btn.setStyle("-fx-font-family: 'URW DIN Arabic';"
-                                        + "    -fx-font-size: 10px;"
-                                        + "    -fx-background-color: #FFFFFF;"
-                                        + "    -fx-background-radius: 0;"
-                                        + "    -fx-text-fill: #FFFFFF;"
-                                        + "    -fx-effect: dropshadow(three-pass-box,#3C3B3B, 20, 0, 5, 5); ");
-                                Image image = new Image("/images/newPdf.png");
-                                ImageView view = new ImageView(image);
-                                btn.setGraphic(view);
-                                setGraphic(btn);
-                                setText(null);
+                @Override
+                public void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty) {
+                        setGraphic(null);
+                        setText(null);
+                    } else {
+                        btn.setOnAction(event -> {
+                            try {
+                                if (circularID == null) {
+                                    FormValidation.showAlert(null, "اختر السجل من الجدول", Alert.AlertType.ERROR);
+                                } else {
+                                    pdfimage = DatabaseAccess.getPdfFile(circularID, circularDate);
+                                    ShowPdf.writePdf(pdfimage);
+                                    pdfimage = null;
+                                    circularID = null;
+                                    circularDate = null;
+                                }
+                            } catch (Exception ex) {
+                                FormValidation.showAlert(null, "لا توجد صورة", Alert.AlertType.ERROR);
                             }
+                        });
+                        btn.setStyle("-fx-font-family: 'URW DIN Arabic';"
+                                + "    -fx-font-size: 10px;"
+                                + "    -fx-background-color: #FFFFFF;"
+                                + "    -fx-background-radius: 0;"
+                                + "    -fx-text-fill: #FFFFFF;"
+                                + "    -fx-effect: dropshadow(three-pass-box,#3C3B3B, 20, 0, 5, 5); ");
+                        Image image = new Image("/images/newPdf.png");
+                        ImageView view = new ImageView(image);
+                        btn.setGraphic(view);
+                        setGraphic(btn);
+                        setText(null);
+                    }
 
-                        }
-                    };
+                }
+            };
                     return cell;
                 };
         Callback<TableColumn<ArchefModel, String>, TableCell<ArchefModel, String>> cellFactory1
                 = (final TableColumn<ArchefModel, String> param) -> {
                     final TableCell<ArchefModel, String> cell = new TableCell<ArchefModel, String>() {
 
-                        final Button btn = new Button();
+                final Button btn = new Button();
 
-                        @Override
-                        public void updateItem(String item, boolean empty) {
-                            super.updateItem(item, empty);
-                            if (empty) {
-                                setGraphic(null);
-                                setText(null);
-                            } else {
-                                btn.setOnAction(event -> {
-                                    try {
-                                        if (circularID == null) {
-                                            FormValidation.showAlert(null, "اختر السجل من الجدول", Alert.AlertType.ERROR);
-                                        } else {
-                                            DatabaseAccess.insertImage("internalincoming", " `CIRCULARID` ='" + circularID + "' AND CIRCULARDATE ='" + circularDate + "'");
-                                            circularID = null;
-                                            circularDate = null;
-                                        }
-                                    } catch (Exception ex) {
-                                        FormValidation.showAlert(null, "لا توجد صورة", Alert.AlertType.ERROR);
-                                    }
-                                });
-                                btn.setStyle("-fx-font-family: 'URW DIN Arabic';"
+                @Override
+                public void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty) {
+                        setGraphic(null);
+                        setText(null);
+                    } else {
+                        btn.setOnAction(event -> {
+                            try {
+                                if (circularID == null) {
+                                    FormValidation.showAlert(null, "اختر السجل من الجدول", Alert.AlertType.ERROR);
+                                } else {
+                                    DatabaseAccess.insertImage("externalincoming", " `CIRCULARID` ='" + circularID + "' AND CIRCULARDATE ='" + circularDate + "'");
+                                    circularID = null;
+                                    circularDate = null;
+                                }
+                            } catch (Exception ex) {
+                                FormValidation.showAlert(null, "لا توجد صورة", Alert.AlertType.ERROR);
+                            }
+                        });
+                        btn.setStyle("-fx-font-family: 'URW DIN Arabic';"
                                 + "    -fx-font-size: 10px;"
                                 + "    -fx-background-color: #1E3606;"
                                 + "    -fx-background-radius: 0;"
                                 + "    -fx-text-fill: #FFFFFF;"
                                 + "    -fx-effect: dropshadow(three-pass-box,#3C3B3B, 20, 0, 5, 5); ");
                         Image image = new Image("/images/scaner.png");
-                                ImageView view = new ImageView(image);
-                                btn.setGraphic(view);
-                                setGraphic(btn);
-                                setText(null);
-                            }
+                        ImageView view = new ImageView(image);
+                        btn.setGraphic(view);
+                        setGraphic(btn);
+                        setText(null);
+                    }
 
-                        }
-                    };
+                }
+            };
                     return cell;
                 };
 
         circularImage_col.setCellFactory(cellFactory);
-        addImage_col.setCellFactory(cellFactory);
+        addImage_col.setCellFactory(cellFactory1);
 
         archefTable.setItems(Archeflist);
     }
@@ -666,7 +666,7 @@ public class ExternalIncomingPageController implements Initializable {
             }
         }
     }
-   
+
     @FXML
     private void addtoManagerDisplay(ActionEvent event) {
         String tableName = "displaydata";
@@ -687,9 +687,9 @@ public class ExternalIncomingPageController implements Initializable {
         }
     }
 
-   @FXML
+    @FXML
     private void addtoManagerSmallSignature(ActionEvent event) {
-       String tableName = "displaydata";
+        String tableName = "displaydata";
         String[] data = {HijriCalendar.getSimpleDate(), "تاشير الركن", topic.getText(), destination.getValue()};
         String fieldName = "`DISPLAYDATE`,`DISPLAYTYPE`,`TOPIC`,`DESTINATION`";
         String valuenumbers = "?,?,?,?";
@@ -709,7 +709,7 @@ public class ExternalIncomingPageController implements Initializable {
 
     @FXML
     private void addtoManagerOrders(ActionEvent event) {
-         String tableName = "displaydata";
+        String tableName = "displaydata";
         String[] data = {HijriCalendar.getSimpleDate(), "توجيه الركن", topic.getText(), destination.getValue()};
         String fieldName = "`DISPLAYDATE`,`DISPLAYTYPE`,`TOPIC`,`DESTINATION`";
         String valuenumbers = "?,?,?,?";
@@ -725,6 +725,10 @@ public class ExternalIncomingPageController implements Initializable {
                 FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
             }
         }
+    }
+
+    @FXML
+    private void addNames(ActionEvent event) {
     }
 
 }

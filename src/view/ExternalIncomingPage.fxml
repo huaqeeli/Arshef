@@ -139,6 +139,11 @@
                         <Insets right="2.0" />
                      </HBox.margin>
                   </Button>
+                  <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#addNames" prefHeight="40.0" prefWidth="300.0" styleClass="toolBarButton" text="الاسماء">
+                     <HBox.margin>
+                        <Insets right="2.0" />
+                     </HBox.margin>
+                  </Button>
                   <Button mnemonicParsing="false" onAction="#clear" prefHeight="40.0" prefWidth="80.0" styleClass="toolBarButton">
                      <graphic>
                         <ImageView fitHeight="28.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">

@@ -1,6 +1,8 @@
 package controllers;
 
 import Validation.FormValidation;
+import static Validation.FormValidation.showAlert;
+import arshef.App;
 
 import java.io.File;
 import java.io.IOException;
@@ -729,6 +731,11 @@ public class ExternalIncomingPageController implements Initializable {
 
     @FXML
     private void addNames(ActionEvent event) {
+         if (circularID != null) {
+            App.lodAddNmaesPage(circularID, AppDate.getYear(getCircularDate()),"external");
+        } else {
+            showAlert("", "اختر السجل من الجدول");
+        }
     }
 
 }

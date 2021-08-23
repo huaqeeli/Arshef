@@ -57,11 +57,11 @@ public class AddNamesController implements Initializable, InitializClass {
     @Override
     public void save(ActionEvent event) {
         String tableName = "circularnames";
-        String[] data = {getCircularID(), getMilataryId(), year,"external"};
+        String[] data = {getCircularID(), getMilataryId(), year,type};
         String fieldName = "`CIRCULARID`,`MILITARYID`,`YEAR`,`type`";
         String valuenumbers = "?,?,?,?";
 
-        boolean uintExusting = FormValidation.ifexisting("circularnames", "MILITARYID", "CIRCULARID = '" + circularID + "'AND MILITARYID = '" + getMilataryId() + "'AND YEAR = '" + year + "'", "تم حفظ الاسم لنقس المعاملةرقم " + "" + getCircularID());
+        boolean uintExusting = FormValidation.ifexisting("circularnames", "MILITARYID", "CIRCULARID = '" + circularID + "'AND MILITARYID = '" + getMilataryId() + "'AND YEAR = '" + year + "'AND type = '"+type+"'", "تم حفظ الاسم لنقس المعاملةرقم " + "" + getCircularID());
         boolean militrayidExusting = FormValidation.ifNotexisting("personaldata", "MILITARYID", " MILITARYID = '" + getMilataryId() + "'", "لا توجد بيانات بالرقم العسكري (" + "" + getMilataryId() + ") الرجاء اضافة بياناته في التشكيل");
         boolean OFcensusState = FormValidation.textFieldNotEmpty(milataryId, "الرجاء ادخل الرقم العسكري");
 

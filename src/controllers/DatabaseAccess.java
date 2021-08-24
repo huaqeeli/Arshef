@@ -368,9 +368,10 @@ public class DatabaseAccess {
 
     public static void updat(String tapleName, String fildNameAndValue, String[] data, String condition) throws IOException {
         Connection con = DatabaseConniction.dbConnector();
-        String guiry = "UPDATE " + tapleName + " SET " + fildNameAndValue + "WHERE" + " " + condition;
+        String guiry = "UPDATE " + tapleName + " SET " + fildNameAndValue + " " + "WHERE" + " " + condition;
         try {
             PreparedStatement psm = con.prepareStatement(guiry);
+            System.out.println(guiry);
             int e = data.length;
             for (int i = 1; i <= e; i++) {
                 psm.setString(i, data[i - 1]);

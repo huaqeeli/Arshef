@@ -118,7 +118,8 @@ public class ExternalExportsPageController implements Initializable {
          AppDate.setDateValue(searchDateDay, searchDateMonth, searchDateYear);
         AppDate.setCurrentDate(searchDateDay, searchDateMonth, searchDateYear);
         AppDate.setYearValue(year);
-        AppDate.setCurrentYear(year);
+//        AppDate.setCurrentYear(year);
+        year.setValue(Integer.toString(HijriCalendar.getSimpleYear()));
         clearListCombobox();
         refreshListCombobox();
         refreshExportTableView();

@@ -2,7 +2,7 @@ package modeles;
 
 public class DisplayModele {
 
-    String displayid, displayDate, destination, topic, displayType, notes,squnces;
+    String displayid, displayDate, destination, topic, displayType, notes, squnces, name;
     int squence;
 
     public DisplayModele(String displayid, String displayDate, String destination, String topic, String displayType, String notes, int squence) {
@@ -15,12 +15,32 @@ public class DisplayModele {
         this.squence = squence;
     }
 
+    public DisplayModele(String displayid, String displayDate, String destination, String topic, String displayType, String notes, String squnces, String name, int squence) {
+        this.displayid = displayid;
+        this.displayDate = displayDate;
+        this.destination = destination;
+        this.topic = topic;
+        this.displayType = displayType;
+        this.notes = notes;
+        this.squnces = squnces;
+        this.name = name;
+        this.squence = squence;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public DisplayModele(String topic, String notes, String squnces) {
         this.topic = topic;
         this.notes = notes;
         this.squnces = squnces;
     }
-    
+
     public DisplayModele() {
     }
 
@@ -92,8 +112,5 @@ public class DisplayModele {
     public String toString() {
         return "DisplayModele{" + "displayid=" + displayid + ", displayDate=" + displayDate + ", destination=" + destination + ", topic=" + topic + ", displayType=" + displayType + ", notes=" + notes + ", squnces=" + squnces + ", squence=" + squence + '}';
     }
-
-
-   
 
 }

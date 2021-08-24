@@ -134,16 +134,18 @@ public class DisplayPageController implements Initializable {
 
             List<DisplayModele> dataItems = new ArrayList<>();
 
-            ResultSet rs = DatabaseAccess.select("displaydata", "DISPLAYDATE = '" + getSearchDate() + "' and (DISPLAYTYPE = 'توقيع القائد')");
-//            ResultSet rs = DatabaseAccess.getData("SELECT circularnames.YEAR,circularnames.MILITARYID,personaldata.NAME,personaldata.MILITARYID,personaldata.RANK "
-//                    + "FROM circularnames,personaldata,displaydata "
-//                    + "WHERE circularnames.MILITARYID = personaldata.MILITARYID AND CIRCULARID = '" + circularID + "'AND YEAR = '" + year + "'AND type = '" + type + "' ");
+//            ResultSet rs = DatabaseAccess.select("displaydata", "DISPLAYDATE = '" + getSearchDate() + "' and (DISPLAYTYPE = 'توقيع القائد')");
+            ResultSet rs = DatabaseAccess.getData("SELECT displaydata.TOPIC,displaydata.NOTES,displaydata.DESTINATION ,circularnames.MILITARYID,personaldata.NAME,personaldata.MILITARYID,personaldata.RANK "
+                    + "FROM circularnames,personaldata,displaydata "
+                    + "WHERE displaydata.ID = circularnames.CIRCULARID AND circularnames.MILITARYID =personaldata.MILITARYID AND DISPLAYTYPE = 'توقيع القائد'");
             int squnce = 1;
             while (rs.next()) {
                 DisplayModele display = new DisplayModele();
                 String squnceText = ArabicSetting.EnglishToarabic(Integer.toString(squnce));
                 display.setSqunces(squnceText);
                 display.setTopic(rs.getString("TOPIC"));
+                display.setDestination(rs.getString("DESTINATION"));
+                display.setName(rs.getString("RANK") + "/" + rs.getString("NAME"));
                 display.setNotes(rs.getString("NOTES"));
                 dataItems.add(display);
                 squnce++;
@@ -151,7 +153,7 @@ public class DisplayPageController implements Initializable {
             rs.close();
             List<DisplayModele> dataItems1 = new ArrayList<>();
 
-            ResultSet rs1 = DatabaseAccess.select("displaydata", "DISPLAYDATE = '" + getSearchDate() + "' and (DISPLAYTYPE = 'عرض القائد')");
+            ResultSet rs1 = DatabaseAccess.select("displaydata", "DISPLAYDATE = '" + getSearchDate() + "' and DISPLAYTYPE = 'عرض القائد'");
             int squnce1 = 1;
 
             while (rs1.next()) {
@@ -173,8 +175,8 @@ public class DisplayPageController implements Initializable {
             parameters.put("date", ArabicSetting.EnglishToarabic(HijriCalendar.getSimpleDate()) + "هـ");
             parameters.put("displayDateprameter", AppDate.getDate(DateDay, DateMonth, DateYear));
             parameters.put("uintNum", ArabicSetting.EnglishToarabic("067"));
-            parameters.put("repotCollation", itemsJarbean);
-            parameters.put("SignatureCollaiction", itemsJarbean1);
+            parameters.put("repotCollation", itemsJarbean1);
+            parameters.put("SignatureCollaiction", itemsJarbean);
 
             JasperDesign jasperDesign = JRXmlLoader.load(input);
             JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);

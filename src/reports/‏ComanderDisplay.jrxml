@@ -153,7 +153,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" size="14" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA["بيان المعاملات ليوم ("+$P{day}+") الموافق ("+$P{date}+")"]]></textFieldExpression>
+				<textFieldExpression><![CDATA["بيان معاملات العمليات ليوم ("+$P{day}+") الموافق ("+$P{date}+")"]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement mode="Opaque" x="1" y="28" width="555" height="22" backcolor="#8CACC8" uuid="17d7a4b1-a32f-4580-9247-0a41ed5a0412">

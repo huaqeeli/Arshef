@@ -131,7 +131,7 @@
     -fx-text-fill: #FFFFFF;
 }
 .appTable {
-   
+
     -fx-table-header-border-color: transparent;
     -fx-table-cell-border-color: -fx-box-border;
     -fx-background-color: #BEC2C3;
@@ -144,7 +144,7 @@
     -fx-border-width: 1;
     -fx-background-color: transparent;
     -fx-background-color: #596367;
-    
+
     /*-fx-background-radius: 15 15 0 0;*/
     /*-fx-border-color:#FFFFFF;#596367*/
 }
@@ -351,7 +351,7 @@
     -fx-font-size:15px;
     -fx-text-fill: #121E29;
     -fx-background-color: #FFFFFF;
-     -fx-background-radius: 50;
+    -fx-background-radius: 50;
     -fx-border-color: #000;
     -fx-border-insets: 0;
     -fx-border-width: 0 0 0 0;
@@ -417,4 +417,47 @@
     -fx-border-radius: 0 50 50 0 ;
     -fx-border-style: solid;
     -fx-effect: dropshadow(three-pass-box,#3C3B3B, 20, 0, 5, 5); 
+}
+.itemLable {
+    -fx-font-family: "URW DIN Arabic"; 
+    -fx-font-size: 13px;
+}
+.squnseLable {
+    -fx-font-family: "URW DIN Arabic"; 
+    -fx-font-size: 13px;
+    -fx-text-fill: #FFFFFF;
+    -fx-background-color:  #1E3606;
+}
+.itemBackground{
+    -fx-background-image: url(../images/showimage.png); 
+}
+.actionButton{
+    -fx-border-radius: 50;
+    -fx-background-radius: 50;
+    -fx-background-color: #1E3606;
+}
+.shdow{
+    -fx-effect: dropshadow(three-pass-box,#3C3B3B, 20, 0, 5, 5); 
+}
+.headerPanl{
+    -fx-background-color: #1E3606;
+}
+.tableHeder{
+    -fx-font-family: "URW DIN Arabic";
+    -fx-font-size: 15px;
+    -fx-text-fill: #FFFFFF;
+}
+.tableHeder:hover{
+
+}
+.itemPanl{
+
+}
+.itemPanl:hover{
+    /*    -fx-background-color: #E6E8E3;*/
+    -fx-background-color: #F68A1F;
+    -fx-text-fill: #FFFFFF;
+}
+.itemPanl:selected{
+    -fx-background-color: #1E3606;
 }

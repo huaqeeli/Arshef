@@ -177,6 +177,28 @@ public class DatabaseAccess {
         }
         return pdfByte;
     }
+    public static byte[] getSecretPdfFile(String regisid, String year) {
+        InputStream image = null;
+        byte[] pdfByte = null;
+        try {
+            if (regisid == null || year == null) {
+                FormValidation.showAlert(null, "اختر السجل من الجدول", Alert.AlertType.ERROR);
+            } else {
+                ResultSet rs = DatabaseAccess.getData("SELECT IMAGE FROM secretdata WHERE CIRCULARID = '" + regisid + "'AND RECORDYEAR = '" + year + "'");
+                if (rs.next()) {
+                    image = rs.getBinaryStream("IMAGE");
+                    pdfByte = new byte[image.available()];
+                    image.read(pdfByte);
+                } else {
+                    FormValidation.showAlert(null, "لا توجد صورة ", Alert.AlertType.ERROR);
+                }
+                rs.close();
+            }
+        } catch (IOException | SQLException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
+        return pdfByte;
+    }
     public static byte[] getInternalExportPdfFile(String regisid, String year) {
         InputStream image = null;
         byte[] pdfByte = null;
@@ -184,7 +206,7 @@ public class DatabaseAccess {
             if (regisid == null || year == null) {
                 FormValidation.showAlert(null, "اختر السجل من الجدول", Alert.AlertType.ERROR);
             } else {
-                ResultSet rs = DatabaseAccess.getData("SELECT IMAGE FROM internalexports WHERE REGISNO = '" + regisid + "'AND RECORDYEAR = '" + year + "'");
+                ResultSet rs = DatabaseAccess.getData("SELECT IMAGE FROM internalincoming WHERE REGIS_NO = '" + regisid + "'AND RECORD_YEAR = '" + year + "'");
                 if (rs.next()) {
                     image = rs.getBinaryStream("IMAGE");
                     pdfByte = new byte[image.available()];

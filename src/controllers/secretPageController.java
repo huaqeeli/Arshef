@@ -10,6 +10,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -52,15 +54,42 @@ public class secretPageController implements Initializable {
     private TextField imageUrl;
     @FXML
     private TextField note;
-
-    private final List<SecretModel> secretObject = new ArrayList<>();
-    private MyListener myListener;
     @FXML
-    private VBox vbox;
+    public VBox vbox;
+
+    ObservableList<String> placeComboBoxlist = FXCollections.observableArrayList();
+    public final List<SecretModel> secretObject = new ArrayList<>();
+    private MyListener myListener;
+
     String recordYear = null;
     File imagefile = null;
     Stage stage = new Stage();
     byte[] pdfimage = null;
+
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        refreshdata();
+        AppDate.setDateValue(circularDateDay, circularDateMonth, circularDateYear);
+        AppDate.setCurrentDate(circularDateDay, circularDateMonth, circularDateYear);
+        destination.setItems(filleCoursPlace(placeComboBoxlist));
+    }
+
+    private ObservableList filleCoursPlace(ObservableList list) {
+        try {
+            ResultSet rs = DatabaseAccess.select("placenames", "UINTTYPE='خارجي'");
+            try {
+                while (rs.next()) {
+                    list.add(rs.getString("PLACENAME"));
+                }
+                rs.close();
+            } catch (SQLException ex) {
+                FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+            }
+        } catch (IOException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
+        return list;
+    }
 
     private List<SecretModel> getData() {
         List<SecretModel> secretModels = new ArrayList<>();
@@ -73,11 +102,12 @@ public class secretPageController implements Initializable {
                 secretModel = new SecretModel();
                 secretModel.setSqunse(squence);
                 secretModel.setCircularid(rs.getString("CIRCULARID"));
-                secretModel.setCirculardete(rs.getString("CIRCULARDATE"));
+                secretModel.setCirculardate(rs.getString("CIRCULARDATE"));
                 secretModel.setDestination(rs.getString("DESTINATION"));
                 secretModel.setTopic(rs.getString("TOPIC"));
                 secretModel.setSaveFile(rs.getString("SAVEFILE"));
                 secretModel.setNote(rs.getString("NOTE"));
+                secretModel.setRecordYear(setYear(rs.getString("CIRCULARDATE")));
                 secretModels.add(secretModel);
             }
         } catch (IOException | SQLException ex) {
@@ -88,7 +118,7 @@ public class secretPageController implements Initializable {
 
     private void setChosendata(SecretModel secretModel) {
         circularid.setText(secretModel.getCircularid());
-        AppDate.setSeparateDate(circularDateDay, circularDateMonth, circularDateYear, secretModel.getCirculardete());
+        AppDate.setSeparateDate(circularDateDay, circularDateMonth, circularDateYear, secretModel.getCirculardate());
         destination.setValue(secretModel.getDestination());
         topic.setText(secretModel.getTopic());
         saveFile.setText(secretModel.getSaveFile());
@@ -105,7 +135,7 @@ public class secretPageController implements Initializable {
         return imagefile;
     }
 
-    private void refreshdata() {
+    public void refreshdata() {
         secretObject.clear();
         vbox.getChildren().clear();
         viewdata();
@@ -119,6 +149,7 @@ public class secretPageController implements Initializable {
                 @Override
                 public void onClickListener(SecretModel secretModel) {
                     setChosendata(secretModel);
+
                 }
             };
         }
@@ -132,8 +163,8 @@ public class secretPageController implements Initializable {
                 secretPageItemController.setData(secretObject1, myListener);
                 vbox.getChildren().add(pane);
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
     }
 
@@ -145,9 +176,8 @@ public class secretPageController implements Initializable {
         AppDate.setSeparateDate(circularDateDay, circularDateMonth, circularDateYear, circularDate);
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        refreshdata();
+    public String setYear(String date) {
+        return AppDate.getYear(date);
     }
 
     @FXML
@@ -173,9 +203,10 @@ public class secretPageController implements Initializable {
         boolean destinationState = FormValidation.comboBoxNotEmpty(destination, "الرجاء ادخال جهة المعاملة");
         boolean topicState = FormValidation.textFieldNotEmpty(topic, "الرجاء ادخال الموضوع");
         boolean circularidState = FormValidation.textFieldNotEmpty(circularid, "الرجاء ادخال رقم المعاملة");
+        boolean circularidEexisting = FormValidation.ifexisting("secretdata", "CIRCULARID", "CIRCULARID = '" + circularid.getText() + "'AND RECORDYEAR = '" + recordYear + "'", "تم حفظ المعاملة مسبقا");
         boolean saveFileState = FormValidation.textFieldNotEmpty(saveFile, "الرجاء ادخال ملف الحفظ");
 
-        if (destinationState && topicState && saveFileState && circularidState) {
+        if (destinationState && topicState && saveFileState && circularidState && circularidEexisting) {
             try {
                 DatabaseAccess.insert(tableName, fieldName, valuenumbers, data, imagefile);
                 refreshdata();
@@ -188,10 +219,30 @@ public class secretPageController implements Initializable {
 
     @FXML
     private void edit(ActionEvent event) {
-    }
+        String tableName = "secretdata";
+        String fieldName = null;
+        recordYear = Integer.toString(HijriCalendar.getSimpleYear());
+        String[] data = {circularid.getText(), getCircularDate(), destination.getValue(), topic.getText(), saveFile.getText(), note.getText(), recordYear};
+        if (imagefile != null) {
+            fieldName = "`CIRCULARID`=?,`CIRCULARDATE`=?,`DESTINATION`=?,`TOPIC`=?,`SAVEFILE`=?,`NOTE`=?,`RECORDYEAR`=?,`IMAGE`=?";
+        } else {
+            fieldName = "`CIRCULARID`=?,`CIRCULARDATE`=?,`DESTINATION`=?,`TOPIC`=?,`SAVEFILE`=?,`NOTE`=?,`RECORDYEAR`=?";
+        }
 
-    @FXML
-    private void delete(ActionEvent event) {
+        boolean destinationState = FormValidation.comboBoxNotEmpty(destination, "الرجاء ادخال جهة المعاملة");
+        boolean topicState = FormValidation.textFieldNotEmpty(topic, "الرجاء ادخال الموضوع");
+        boolean circularidState = FormValidation.textFieldNotEmpty(circularid, "الرجاء ادخال رقم المعاملة"); 
+        boolean saveFileState = FormValidation.textFieldNotEmpty(saveFile, "الرجاء ادخال ملف الحفظ");
+
+        if (destinationState && topicState && saveFileState && circularidState ) {
+            try {
+                DatabaseAccess.updat(tableName, fieldName, data,"CIRCULARID = '" + circularid.getText() + "'AND RECORDYEAR = '" + recordYear + "'", imagefile);
+                refreshdata();
+                clear(event);
+            } catch (IOException ex) {
+                FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+            }
+        }
     }
 
     @FXML
@@ -202,10 +253,7 @@ public class secretPageController implements Initializable {
         topic.setText(null);
         saveFile.setText(null);
         note.setText(null);
-    }
-
-    @FXML
-    private void addNames(ActionEvent event) {
+        refreshdata();
     }
 
 }

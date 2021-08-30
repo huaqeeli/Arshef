@@ -1,13 +1,21 @@
 package controllers;
 
+import Validation.FormValidation;
+import arshef.App;
 import com.huaqeeli.arshef.MyListener;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import modeles.SecretModel;
 
 public class SecretPageItemController implements Initializable {
@@ -29,6 +37,19 @@ public class SecretPageItemController implements Initializable {
 
     private SecretModel secretModel;
     private MyListener mylistener;
+    @FXML
+    private HBox content;
+    @FXML
+    private Label circulardete1;
+    @FXML
+    private Label destination1;
+    @FXML
+    private Label topic1;
+    @FXML
+    private Label topic11;
+    @FXML
+    private Label saveFile1;
+    private String recordYear = null;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -45,28 +66,41 @@ public class SecretPageItemController implements Initializable {
         this.mylistener = mylistener;
         squnse.setText(Integer.toString(secretModel.getSqunse()));
         circularid.setText(secretModel.getCircularid());
-        circulardete.setText(secretModel.getCirculardete());
+        circulardete.setText(secretModel.getCirculardate());
         destination.setText(secretModel.getDestination());
         topic.setText(secretModel.getTopic());
         saveFile.setText(secretModel.getSaveFile());
         note.setText(secretModel.getNote());
+        recordYear = secretModel.getRecordYear();
     }
 
     @FXML
     private void scanImage(ActionEvent event) {
-        System.out.println(circularid.getText());
+        try {
+            DatabaseAccess.insertImage("secretdata", " `CIRCULARID` ='" + circularid.getText() + "' AND RECORDYEAR ='" + recordYear + "'");
+        } catch (IOException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
     }
 
     @FXML
     private void addNames(ActionEvent event) {
+        App.lodAddNmaesPage(circularid.getText(), recordYear, "secret");
     }
 
     @FXML
     private void showImage(ActionEvent event) {
+        byte[] pdfimage = DatabaseAccess.getSecretPdfFile(circularid.getText(), recordYear);
+        ShowPdf.writePdf(pdfimage);
     }
 
     @FXML
     private void delete(ActionEvent event) {
+        try {
+            DatabaseAccess.delete("secretdata", " `CIRCULARID` ='" + circularid.getText() + "' AND RECORDYEAR ='" + recordYear + "'");
+        } catch (IOException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
     }
 
 }

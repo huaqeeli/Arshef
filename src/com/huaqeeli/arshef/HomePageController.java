@@ -119,8 +119,7 @@ public class HomePageController implements Initializable {
 
     @FXML
     private void secretPage(ActionEvent event) throws IOException {
-//         content.setCenter(App.loadFXML("/view/secretPage"));
-         content.setCenter(App.loadFXML("/view/AddImagePage"));
+         content.setCenter(App.loadFXML("/view/secretPage"));
     }
 
     @FXML

@@ -1,5 +1,6 @@
 package controllers;
 
+import Serveces.InternalExportsPageListener;
 import Validation.FormValidation;
 import static Validation.FormValidation.showAlert;
 import arshef.App;
@@ -9,29 +10,25 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 import modeles.InternalExportsModel;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
@@ -68,22 +65,7 @@ public class InternalExportsPageController implements Initializable {
     private ComboBox<?> exportsYear;
     @FXML
     private TextField incomingNum;
-    @FXML
-    private TableView<InternalExportsModel> exportsTable;
-    @FXML
-    private TableColumn<?, ?> exportsDate_col;
-    @FXML
-    private TableColumn<?, ?> exportsDir_col;
-    @FXML
-    private TableColumn<?, ?> regisNO_col;
-    @FXML
-    private TableColumn<?, ?> topic_col;
-    @FXML
-    private TableColumn<?, ?> notes_col;
-    @FXML
-    private TableColumn<InternalExportsModel, String> image_col;
-    @FXML
-    private TableColumn<InternalExportsModel, String> addImage_col;
+
     File imagefile = null;
     Stage stage = new Stage();
     byte[] pdfimage = null;
@@ -99,17 +81,19 @@ public class InternalExportsPageController implements Initializable {
     private ComboBox<?> searchDateMonth;
     @FXML
     private ComboBox<?> searchDateYear;
+    public final List<InternalExportsModel> internalExportsObject = new ArrayList<>();
+    private InternalExportsPageListener mylistener;
+    @FXML
+    private VBox vbox;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        refreshRecipienTableView();
+        refreshData();
         AppDate.setDateValue(exportsDay, exportsMonth, exportsYear);
         AppDate.setCurrentDate(exportsDay, exportsMonth, exportsYear);
         AppDate.setDateValue(searchDateDay, searchDateMonth, searchDateYear);
         AppDate.setCurrentDate(searchDateDay, searchDateMonth, searchDateYear);
         FillComboBox.fillComboBox(searchTypelist, searchType);
-        getTableRow(exportsTable);
-        getTableRowByInterKey(exportsTable);
         destination.setItems(filleDestination(destinationlist));
         AppDate.setYearValue(year);
         AppDate.setCurrentYear(year);
@@ -132,129 +116,75 @@ public class InternalExportsPageController implements Initializable {
         return list;
     }
 
-    private void refreshRecipienTableView() {
+    private void refreshData() {
         try {
-            exportsList.clear();
-            exportsTableView(DatabaseAccess.select("internalexports", "RECORDYEAR ='" + HijriCalendar.getSimpleYear() + "' ORDER BY REGISNO DESC"));
+            internalExportsObject.clear();
+            vbox.getChildren().clear();
+            viewdata(DatabaseAccess.getData("SELECT REGISNO,EXPORTDATE,DESTINATION,TOPIC,SAVEFILE,NOTES FROM internalexports WHERE RECORDYEAR ='" + HijriCalendar.getSimpleYear() + "' ORDER BY REGISNO DESC"));
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
     }
 
-    private void exportsTableView(ResultSet rs) {
+    private List<InternalExportsModel> getData(ResultSet rs) {
+        List<InternalExportsModel> internalExportsModels = new ArrayList<>();
+        InternalExportsModel internalExportsModel;
         try {
             while (rs.next()) {
-                exportsList.add(new InternalExportsModel(
-                        rs.getString("REGISNO"),
-                        rs.getString("EXPORTDATE"),
-                        rs.getString("DESTINATION"),
-                        rs.getString("TOPIC"),
-                        rs.getString("SAVEFILE"),
-                        rs.getString("NOTES")
-                ));
+
+                internalExportsModel = new InternalExportsModel();
+                internalExportsModel.setRegisNO(rs.getString("REGISNO"));
+                internalExportsModel.setExportsDate(rs.getString("EXPORTDATE"));
+                internalExportsModel.setDestination(rs.getString("DESTINATION"));
+                internalExportsModel.setTopic(rs.getString("TOPIC"));
+                internalExportsModel.setSaveFile(rs.getString("SAVEFILE"));
+                internalExportsModel.setNotes(rs.getString("NOTES"));
+                internalExportsModel.setRecordYear(AppDate.getYear(rs.getString("EXPORTDATE")));
+                internalExportsModels.add(internalExportsModel);
             }
             rs.close();
         } catch (SQLException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
-        regisNO_col.setCellValueFactory(new PropertyValueFactory<>("regisNO"));
-        exportsDate_col.setCellValueFactory(new PropertyValueFactory<>("exportsDate"));
-        exportsDir_col.setCellValueFactory(new PropertyValueFactory<>("destination"));
-        topic_col.setCellValueFactory(new PropertyValueFactory<>("topic"));
-        notes_col.setCellValueFactory(new PropertyValueFactory<>("notes"));
+        return internalExportsModels;
 
-        Callback<TableColumn<InternalExportsModel, String>, TableCell<InternalExportsModel, String>> cellFactory
-                = (final TableColumn<InternalExportsModel, String> param) -> {
-                    final TableCell<InternalExportsModel, String> cell = new TableCell<InternalExportsModel, String>() {
+    }
 
-                final Button btn = new Button();
+    private void setChosendata(InternalExportsModel internalExportsModel) {
+        setRegistrationId(internalExportsModel.getRegisNO());
+        setExportsDate(internalExportsModel.getExportsDate());
+        setDestination(internalExportsModel.getDestination());
+        setTopic(internalExportsModel.getTopic());
+        setSaveFaile(internalExportsModel.getSaveFile());
+        setNotes(internalExportsModel.getNotes());
+        registrationId = internalExportsModel.getRegisNO();
+        recordYear = AppDate.getYear(internalExportsModel.getExportsDate());
+    }
 
+    private void viewdata(ResultSet rs) {
+        internalExportsObject.addAll(getData(rs));
+        if (internalExportsObject.size() > 0) {
+            setChosendata(internalExportsObject.get(0));
+            mylistener = new InternalExportsPageListener() {
                 @Override
-                public void updateItem(String item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (empty) {
-                        setGraphic(null);
-                        setText(null);
-                    } else {
-                        btn.setOnAction(event -> {
-                            try {
-                                if (registrationId == null) {
-                                    FormValidation.showAlert(null, "اختر السجل من الجدول", Alert.AlertType.ERROR);
-                                } else {
-                                    pdfimage = DatabaseAccess.getInternalExportPdfFile(registrationId, recordYear);
-                                    ShowPdf.writePdf(pdfimage);
-                                    pdfimage = null;
-                                    registrationId = null;
-                                    recordYear = null;
-                                }
-                            } catch (Exception ex) {
-                                FormValidation.showAlert(null, "لا توجد صورة", Alert.AlertType.ERROR);
-                            }
-                        });
-                        btn.setStyle("-fx-font-family: 'URW DIN Arabic';"
-                                + "    -fx-font-size: 10px;"
-                                + "    -fx-background-color: #FFFFFF;"
-                                + "    -fx-background-radius: 0;"
-                                + "    -fx-text-fill: #FFFFFF;"
-                                + "    -fx-effect: dropshadow(three-pass-box,#3C3B3B, 20, 0, 5, 5); ");
-                        Image image = new Image("/images/newPdf.png");
-                        ImageView view = new ImageView(image);
-                        btn.setGraphic(view);
-                        setGraphic(btn);
-                        setText(null);
-                    }
-
+                public void onClickListener(InternalExportsModel internalExportsModel) {
+                    setChosendata(internalExportsModel);
                 }
             };
-                    return cell;
-                };
-        Callback<TableColumn<InternalExportsModel, String>, TableCell<InternalExportsModel, String>> cellFactory1
-                = (final TableColumn<InternalExportsModel, String> param) -> {
-                    final TableCell<InternalExportsModel, String> cell = new TableCell<InternalExportsModel, String>() {
+        }
 
-                final Button btn = new Button();
-
-                @Override
-                public void updateItem(String item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (empty) {
-                        setGraphic(null);
-                        setText(null);
-                    } else {
-                        btn.setOnAction(event -> {
-                            try {
-                                if (registrationId == null) {
-                                    FormValidation.showAlert(null, "اختر السجل من الجدول", Alert.AlertType.ERROR);
-                                } else {
-                                    DatabaseAccess.insertImage("internalexports", " REGISNO ='" + registrationId + "' AND RECORDYEAR ='" + recordYear + "'");
-                                    registrationId = null;
-                                    recordYear = null;
-                                }
-                            } catch (Exception ex) {
-                                FormValidation.showAlert(null, "لم يتم المسح", Alert.AlertType.ERROR);
-                            }
-                        });
-                        btn.setStyle("-fx-font-family: 'URW DIN Arabic';"
-                                + "    -fx-font-size: 10px;"
-                                + "    -fx-background-color: #1E3606;"
-                                + "    -fx-background-radius: 0;"
-                                + "    -fx-text-fill: #FFFFFF;"
-                                + "    -fx-effect: dropshadow(three-pass-box,#3C3B3B, 20, 0, 5, 5); ");
-                        Image image = new Image("/images/scaner.png");
-                        ImageView view = new ImageView(image);
-                        btn.setGraphic(view);
-                        setGraphic(btn);
-                        setText(null);
-                    }
-
-                }
-            };
-                    return cell;
-                };
-
-        addImage_col.setCellFactory(cellFactory1);
-        image_col.setCellFactory(cellFactory);
-        exportsTable.setItems(exportsList);
+        try {
+            for (InternalExportsModel InternalExportsModel : internalExportsObject) {
+                FXMLLoader fxmlLoader = new FXMLLoader();
+                fxmlLoader.setLocation(getClass().getResource("/view/InternalExportsItem.fxml"));
+                AnchorPane pane = fxmlLoader.load();
+                InternalExportsItemController internalExportsItemController = fxmlLoader.getController();
+                internalExportsItemController.setData(InternalExportsModel, mylistener);
+                vbox.getChildren().add(pane);
+            }
+        } catch (IOException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
     }
 
     @FXML
@@ -290,7 +220,7 @@ public class InternalExportsPageController implements Initializable {
                 DatabaseAccess.insert(tableName, fieldName, valuenumbers, data, imagefile);
                 registrationId = DatabaseAccess.getRegistrationNum();
                 DatabaseAccess.updatRegistrationNum();
-                refreshRecipienTableView();
+                refreshData();
                 clear(event);
             } catch (IOException ex) {
                 FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
@@ -314,7 +244,7 @@ public class InternalExportsPageController implements Initializable {
         if (topicState) {
             try {
                 DatabaseAccess.updat(tableName, fieldName, data, "`REGISNO` = '" + registrationId + "' AND `RECORDYEAR` = '" + recordYear + "'", imagefile);
-                refreshRecipienTableView();
+                refreshData();
                 clear(event);
             } catch (IOException ex) {
                 FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
@@ -322,7 +252,6 @@ public class InternalExportsPageController implements Initializable {
         }
     }
 
-    @FXML
     private void printBarcode(ActionEvent event) throws JRException {
         try {
             if (registrationId != null) {
@@ -363,69 +292,12 @@ public class InternalExportsPageController implements Initializable {
         }
     }
 
-    @FXML
     private void addNames(ActionEvent event) {
         if (registrationId != null) {
-            App.lodAddNmaesPage(registrationId, AppDate.getYear(getExportsDate()),"internal");
+            App.lodAddNmaesPage(registrationId, AppDate.getYear(getExportsDate()), "internal");
         } else {
             showAlert("", "اختر السجل من الجدول");
         }
-    }
-
-    public void getTableRow(TableView table) {
-        table.setOnMouseClicked(new EventHandler() {
-            @Override
-            public void handle(Event event) {
-                ObservableList<InternalExportsModel> list = FXCollections.observableArrayList();
-                list = table.getSelectionModel().getSelectedItems();
-                if (list.isEmpty()) {
-                    FormValidation.showAlert("", "لاتوجد بيانات");
-                } else {
-                    try {
-                        ResultSet rs = DatabaseAccess.select("internalexports", "REGISNO = '" + list.get(0).getRegisNO() + "'");
-                        setExportsDate(list.get(0).getExportsDate());
-                        setDestination(list.get(0).getDestination());
-                        setTopic(list.get(0).getTopic());
-                        if (rs.next()) {
-                            setSaveFaile(rs.getString("SAVEFILE"));
-                            setNotes(rs.getString("NOTES"));
-                            recordYear = rs.getString("RECORDYEAR");
-                        }
-                        registrationId = list.get(0).getRegisNO();
-                    } catch (IOException | SQLException ex) {
-                        FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
-                    }
-                }
-            }
-        });
-    }
-
-    private void getTableRowByInterKey(TableView table) {
-        table.setOnKeyPressed(new EventHandler() {
-            @Override
-            public void handle(Event event) {
-                ObservableList<InternalExportsModel> list = FXCollections.observableArrayList();
-                list = table.getSelectionModel().getSelectedItems();
-                if (list.isEmpty()) {
-                    FormValidation.showAlert("", "لاتوجد بيانات");
-                } else {
-                    try {
-                        ResultSet rs = DatabaseAccess.select("internalexports", "REGISNO = '" + list.get(0).getRegisNO() + "'");
-                        setExportsDate(list.get(0).getExportsDate());
-                        setDestination(list.get(0).getDestination());
-                        setTopic(list.get(0).getTopic());
-                        if (rs.next()) {
-                            setSaveFaile(rs.getString("SAVEFILE"));
-                            setNotes(rs.getString("NOTES"));
-                            recordYear = rs.getString("RECORDYEAR");
-                        }
-                        registrationId = list.get(0).getRegisNO();
-                    } catch (IOException | SQLException ex) {
-                        FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
-                    }
-                }
-            }
-        });
     }
 
     @FXML
@@ -436,6 +308,7 @@ public class InternalExportsPageController implements Initializable {
         setNotes(null);
         setImageUrl(null);
         setSaveFaile(null);
+        refreshData();
     }
 
     @FXML
@@ -679,24 +552,29 @@ public class InternalExportsPageController implements Initializable {
         String searchValue = getSearchType();
         switch (searchValue) {
             case "عرض الكل":
-                exportsList.clear();
-                exportsTableView(getAllData());
+                internalExportsObject.clear();
+                vbox.getChildren().clear();
+                viewdata(getAllData());
                 break;
             case "البحث بجهة الصادر":
-                exportsList.clear();
-                exportsTableView(getDataByDestination());
+                internalExportsObject.clear();
+                vbox.getChildren().clear();
+                viewdata(getDataByDestination());
                 break;
             case "البحث بالموضوع":
-                exportsList.clear();
-                exportsTableView(getDataByTopic());
+                internalExportsObject.clear();
+                vbox.getChildren().clear();
+                viewdata(getDataByTopic());
                 break;
             case "البحث بتاريخ الصادر":
-                exportsList.clear();
-                exportsTableView(getDataByExportDate());
+                internalExportsObject.clear();
+                vbox.getChildren().clear();
+                viewdata(getDataByExportDate());
                 break;
             case "البحث برقم الصادر":
-                exportsList.clear();
-                exportsTableView(getDataByExportNumber());
+                internalExportsObject.clear();
+                vbox.getChildren().clear();
+                viewdata(getDataByExportNumber());
                 break;
         }
     }
@@ -764,6 +642,10 @@ public class InternalExportsPageController implements Initializable {
             searchDateYear.setDisable(true);
             year.setDisable(false);
         }
+    }
+
+    @FXML
+    private void getIncomingData(KeyEvent event) {
     }
 
 }

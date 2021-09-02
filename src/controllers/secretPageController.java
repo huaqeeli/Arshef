@@ -1,7 +1,6 @@
 package controllers;
 
 import Validation.FormValidation;
-import com.huaqeeli.arshef.MyListener;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -24,7 +23,11 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import modeles.InternalIncomingModel;
 import modeles.SecretModel;
+import Serveces.SecretPageListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class secretPageController implements Initializable {
 
@@ -59,7 +62,7 @@ public class secretPageController implements Initializable {
 
     ObservableList<String> placeComboBoxlist = FXCollections.observableArrayList();
     public final List<SecretModel> secretObject = new ArrayList<>();
-    private MyListener myListener;
+    private SecretPageListener myListener;
 
     String recordYear = null;
     File imagefile = null;
@@ -91,11 +94,11 @@ public class secretPageController implements Initializable {
         return list;
     }
 
-    private List<SecretModel> getData() {
+    private List<SecretModel> getData(ResultSet rs) {
         List<SecretModel> secretModels = new ArrayList<>();
         SecretModel secretModel;
         try {
-            ResultSet rs = DatabaseAccess.getData("SELECT * FROM secretdata ORDER BY ID DESC");
+//            ResultSet rs = DatabaseAccess.getData("SELECT * FROM secretdata ORDER BY ID DESC");
             int squence = 0;
             while (rs.next()) {
                 squence++;
@@ -110,7 +113,7 @@ public class secretPageController implements Initializable {
                 secretModel.setRecordYear(setYear(rs.getString("CIRCULARDATE")));
                 secretModels.add(secretModel);
             }
-        } catch (IOException | SQLException ex) {
+        } catch (SQLException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
         return secretModels;
@@ -136,21 +139,25 @@ public class secretPageController implements Initializable {
     }
 
     public void refreshdata() {
-        secretObject.clear();
-        vbox.getChildren().clear();
-        viewdata();
+        try {
+            secretObject.clear();
+            vbox.getChildren().clear();
+            viewdata(DatabaseAccess.getData("SELECT * FROM secretdata ORDER BY ID DESC"));
+        } catch (IOException ex) {
+            Logger.getLogger(secretPageController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
-    private void viewdata() {
-        secretObject.addAll(getData());
+    private void viewdata(ResultSet rs) {
+        secretObject.addAll(getData(rs));
         if (secretObject.size() > 0) {
             setChosendata(secretObject.get(0));
-            myListener = new MyListener() {
+            myListener = new SecretPageListener() {
                 @Override
                 public void onClickListener(SecretModel secretModel) {
                     setChosendata(secretModel);
-
                 }
+
             };
         }
 

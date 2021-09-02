@@ -2,7 +2,6 @@ package controllers;
 
 import Validation.FormValidation;
 import arshef.App;
-import com.huaqeeli.arshef.MyListener;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -17,6 +16,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import modeles.SecretModel;
+import Serveces.SecretPageListener;
 
 public class SecretPageItemController implements Initializable {
 
@@ -36,7 +36,7 @@ public class SecretPageItemController implements Initializable {
     private Label note;
 
     private SecretModel secretModel;
-    private MyListener mylistener;
+    private SecretPageListener mylistener;
     @FXML
     private HBox content;
     @FXML
@@ -61,7 +61,7 @@ public class SecretPageItemController implements Initializable {
         mylistener.onClickListener(secretModel);
     }
 
-    public void setData(SecretModel secretModel, MyListener mylistener) {
+    public void setData(SecretModel secretModel, SecretPageListener mylistener) {
         this.secretModel = secretModel;
         this.mylistener = mylistener;
         squnse.setText(Integer.toString(secretModel.getSqunse()));

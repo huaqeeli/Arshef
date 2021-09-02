@@ -2,9 +2,9 @@ package modeles;
 
 public class InternalIncomingModel {
 
-    String regisNo, recipientDate, circularNo, circularDate, circularDir, topic, saveFile, notes;
+    String regisNo, recipientDate, circularNo, circularDate, circularDir, topic, saveFile, notes,recordYear;
 
-    public InternalIncomingModel(String regisNo, String recipientDate, String circularNo, String circularDate, String circularDir, String topic, String saveFile, String notes) {
+    public InternalIncomingModel(String regisNo, String recipientDate, String circularNo, String circularDate, String circularDir, String topic, String saveFile, String notes, String recordYear) {
         this.regisNo = regisNo;
         this.recipientDate = recipientDate;
         this.circularNo = circularNo;
@@ -13,7 +13,21 @@ public class InternalIncomingModel {
         this.topic = topic;
         this.saveFile = saveFile;
         this.notes = notes;
+        this.recordYear = recordYear;
     }
+
+    public InternalIncomingModel() {
+    }
+
+    public String getRecordYear() {
+        return recordYear;
+    }
+
+    public void setRecordYear(String recordYear) {
+        this.recordYear = recordYear;
+    }
+
+   
 
     public String getNotes() {
         return notes;

@@ -421,12 +421,14 @@
 .itemLable {
     -fx-font-family: "URW DIN Arabic"; 
     -fx-font-size: 13px;
+    -fx-border-color: #D5D8D8;
+    -fx-border-width: 0 2 0 0 ;
 }
 .squnseLable {
     -fx-font-family: "URW DIN Arabic"; 
     -fx-font-size: 13px;
     -fx-text-fill: #FFFFFF;
-    -fx-background-color:  #1E3606;
+    -fx-background-color:  #596367;
 }
 .itemBackground{
     -fx-background-image: url(../images/showimage.png); 
@@ -440,18 +442,21 @@
     -fx-effect: dropshadow(three-pass-box,#3C3B3B, 20, 0, 5, 5); 
 }
 .headerPanl{
-    -fx-background-color: #1E3606;
+    -fx-background-color: #596367;
 }
 .tableHeder{
     -fx-font-family: "URW DIN Arabic";
     -fx-font-size: 15px;
     -fx-text-fill: #FFFFFF;
+    -fx-border-color: #747D80;
+    -fx-border-width: 0 2 0 0 ;
 }
 .tableHeder:hover{
 
 }
 .itemPanl{
-
+    -fx-border-color:  #B4BCAC;
+    -fx-border-width: 0 0 5 0 ;
 }
 .itemPanl:hover{
     /*    -fx-background-color: #E6E8E3;*/

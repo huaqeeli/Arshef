@@ -15,8 +15,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javax.swing.JOptionPane;
@@ -206,7 +204,7 @@ public class DatabaseAccess {
             if (regisid == null || year == null) {
                 FormValidation.showAlert(null, "اختر السجل من الجدول", Alert.AlertType.ERROR);
             } else {
-                ResultSet rs = DatabaseAccess.getData("SELECT IMAGE FROM internalincoming WHERE REGIS_NO = '" + regisid + "'AND RECORD_YEAR = '" + year + "'");
+                ResultSet rs = DatabaseAccess.getData("SELECT IMAGE FROM internalexports WHERE REGISNO = '" + regisid + "'AND RECORDYEAR = '" + year + "'");
                 if (rs.next()) {
                     image = rs.getBinaryStream("IMAGE");
                     pdfByte = new byte[image.available()];
@@ -217,7 +215,7 @@ public class DatabaseAccess {
                 rs.close();
             }
         } catch (IOException | SQLException ex) {
-            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+            FormValidation.showAlert(null, "لا توجد صورة ", Alert.AlertType.ERROR);
         }
         return pdfByte;
     }
@@ -285,6 +283,7 @@ public class DatabaseAccess {
     public static ResultSet getData(String quiry) throws IOException {
         ResultSet rs = null;
         Connection con = DatabaseConniction.dbConnector();
+      
         try {
             PreparedStatement psm = con.prepareStatement(quiry);
             rs = psm.executeQuery();

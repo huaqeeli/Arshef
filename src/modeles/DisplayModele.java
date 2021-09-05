@@ -3,7 +3,7 @@ package modeles;
 public class DisplayModele {
 
     String displayid, displayDate, destination, topic, displayType, notes, squnces, name;
-    int squence;
+    int tablesquence;
 
     public DisplayModele(String displayid, String displayDate, String destination, String topic, String displayType, String notes, int squence) {
         this.displayid = displayid;
@@ -12,7 +12,7 @@ public class DisplayModele {
         this.topic = topic;
         this.displayType = displayType;
         this.notes = notes;
-        this.squence = squence;
+        this.tablesquence = squence;
     }
 
     public DisplayModele(String displayid, String displayDate, String destination, String topic, String displayType, String notes, String squnces, String name, int squence) {
@@ -24,7 +24,7 @@ public class DisplayModele {
         this.notes = notes;
         this.squnces = squnces;
         this.name = name;
-        this.squence = squence;
+        this.tablesquence = squence;
     }
 
     public String getName() {
@@ -101,16 +101,16 @@ public class DisplayModele {
     }
 
     public int getSquence() {
-        return squence;
+        return tablesquence;
     }
 
     public void setSquence(int squence) {
-        this.squence = squence;
+        this.tablesquence = squence;
     }
 
     @Override
     public String toString() {
-        return "DisplayModele{" + "displayid=" + displayid + ", displayDate=" + displayDate + ", destination=" + destination + ", topic=" + topic + ", displayType=" + displayType + ", notes=" + notes + ", squnces=" + squnces + ", squence=" + squence + '}';
+        return "DisplayModele{" + "displayid=" + displayid + ", displayDate=" + displayDate + ", destination=" + destination + ", topic=" + topic + ", displayType=" + displayType + ", notes=" + notes + ", squnces=" + squnces + ", squence=" + tablesquence + '}';
     }
 
 }

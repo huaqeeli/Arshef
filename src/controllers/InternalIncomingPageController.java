@@ -94,7 +94,7 @@ public class InternalIncomingPageController implements Initializable {
     private ComboBox<?> searchDateYear;
     @FXML
     private VBox vbox;
-
+    ActionEvent event;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         refreshdata();
@@ -105,10 +105,10 @@ public class InternalIncomingPageController implements Initializable {
         AppDate.setDateValue(searchDateDay, searchDateMonth, searchDateYear);
         AppDate.setCurrentDate(searchDateDay, searchDateMonth, searchDateYear);
         FillComboBox.fillComboBox(searchTypelist, searchType);
-       
         destination.setItems(filleDestination(destinationlist));
         AppDate.setYearValue(year);
         AppDate.setCurrentYear(year);
+        clear(event);
     }
 
     private ObservableList filleDestination(ObservableList list) {
@@ -273,7 +273,6 @@ public class InternalIncomingPageController implements Initializable {
         setNotes(null);
         setImageUrl(null);
         setSaveFaile(null);
-        refreshdata();
     }
 
     @FXML

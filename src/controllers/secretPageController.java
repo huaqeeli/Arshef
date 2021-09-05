@@ -23,7 +23,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import modeles.InternalIncomingModel;
 import modeles.SecretModel;
 import Serveces.SecretPageListener;
 import java.util.logging.Level;

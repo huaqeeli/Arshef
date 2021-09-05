@@ -55,7 +55,7 @@
                   </Button>
                </children>
             </HBox>
-            <HBox alignment="CENTER" layoutX="10.0" layoutY="10.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="1065.0">
+            <HBox alignment="CENTER" layoutX="10.0" layoutY="10.0" maxHeight="45.0" minHeight="45.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="45.0" prefWidth="1065.0">
                <children>
                   <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="190.0" styleClass="toolBarButton" text="تاريخ الوارد " />
                   <HBox alignment="CENTER" prefHeight="40.0" prefWidth="300.0" HBox.hgrow="ALWAYS">
@@ -72,7 +72,7 @@
                   <Insets bottom="2.0" left="5.0" right="5.0" top="5.0" />
                </VBox.margin>
             </HBox>
-            <HBox alignment="CENTER" layoutX="10.0" layoutY="10.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="1065.0">
+            <HBox alignment="CENTER" layoutX="10.0" layoutY="10.0" maxHeight="45.0" minHeight="45.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="45.0" prefWidth="1065.0">
                <children>
                   <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="190.0" styleClass="toolBarButton" text="تاريخ المعاملة " />
                   <HBox alignment="CENTER" prefHeight="40.0" prefWidth="300.0" HBox.hgrow="ALWAYS">
@@ -93,7 +93,7 @@
                   <Insets bottom="2.0" left="5.0" right="5.0" />
                </VBox.margin>
             </HBox>
-            <HBox alignment="CENTER" layoutX="10.0" layoutY="60.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="1065.0">
+            <HBox alignment="CENTER" layoutX="10.0" layoutY="60.0" maxHeight="45.0" minHeight="45.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="45.0" prefWidth="1065.0">
                <children>
                   <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="190.0" styleClass="toolBarButton" text="موضوع المعاملة " />
                   <TextField fx:id="topic" alignment="CENTER" maxWidth="1.7976931348623157E308" nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="300.0" styleClass="appText" HBox.hgrow="ALWAYS" />
@@ -104,7 +104,7 @@
                   <Insets bottom="2.0" left="5.0" right="5.0" />
                </VBox.margin>
             </HBox>
-            <HBox alignment="CENTER" layoutX="15.0" layoutY="142.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="1065.0">
+            <HBox alignment="CENTER" layoutX="15.0" layoutY="142.0" maxHeight="45.0" minHeight="45.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="45.0" prefWidth="1065.0">
                <children>
                   <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="190.0" styleClass="toolBarButton" text="ملاحظات" />
                   <TextField fx:id="notes" alignment="CENTER" maxWidth="1.7976931348623157E308" nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="300.0" styleClass="appText" HBox.hgrow="ALWAYS" />
@@ -120,7 +120,7 @@
                   <Insets bottom="2.0" left="5.0" right="5.0" />
                </VBox.margin>
             </HBox>
-            <HBox alignment="CENTER_RIGHT" nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="1065.0">
+            <HBox alignment="CENTER_RIGHT" maxHeight="45.0" minHeight="45.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="45.0" prefWidth="1065.0">
                <children>
                   <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#insertData" prefHeight="40.0" prefWidth="300.0" styleClass="toolBarButton" text="حفظ" HBox.hgrow="ALWAYS">
                      <HBox.margin>

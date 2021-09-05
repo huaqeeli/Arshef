@@ -2,7 +2,7 @@ package modeles;
 
 public class ArchefModel {
 
-    String circularid, circularDate, receiptNumber, receiptDate, topic, destination, saveFile, action;
+    String circularid, circularDate, receiptNumber, receiptDate, topic, destination, saveFile, action,recordYear;
     int squnce;
 
     public ArchefModel(String circularid, String circularDate, String receiptNumber, String receiptDate, String topic, String destination, String saveFile, String action, int squnce) {
@@ -15,6 +15,29 @@ public class ArchefModel {
         this.saveFile = saveFile;
         this.action = action;
         this.squnce = squnce;
+    }
+
+    public ArchefModel() {
+    }
+
+    public ArchefModel(String circularid, String circularDate, String receiptNumber, String receiptDate, String topic, String destination, String saveFile, String action, String recordYear) {
+        this.circularid = circularid;
+        this.circularDate = circularDate;
+        this.receiptNumber = receiptNumber;
+        this.receiptDate = receiptDate;
+        this.topic = topic;
+        this.destination = destination;
+        this.saveFile = saveFile;
+        this.action = action;
+        this.recordYear = recordYear;
+    }
+
+    public String getRecordYear() {
+        return recordYear;
+    }
+
+    public void setRecordYear(String recordYear) {
+        this.recordYear = recordYear;
     }
 
     public String getAction() {

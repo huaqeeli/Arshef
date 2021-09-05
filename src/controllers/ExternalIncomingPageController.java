@@ -1,46 +1,42 @@
 package controllers;
 
+import Serveces.ExternalIncomingPageListener;
 import Validation.FormValidation;
-import static Validation.FormValidation.showAlert;
-import arshef.App;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 import modeles.ArchefModel;
 
 public class ExternalIncomingPageController implements Initializable {
-
+    
     ObservableList<ArchefModel> Archeflist = FXCollections.observableArrayList();
     ObservableList<String> coursComboBoxlist = FXCollections.observableArrayList();
     ObservableList<String> placeComboBoxlist = FXCollections.observableArrayList();
     ObservableList<String> searchTypelist = FXCollections.observableArrayList("البحث برقم المعاملة", "البحث برقم الوارد", "البحث بالموضوع", "البحث بجهة المعاملة");
-
+    
     @FXML
     private TextField imageUrl;
     String circularID = null;
@@ -49,28 +45,7 @@ public class ExternalIncomingPageController implements Initializable {
     Stage stage = new Stage();
     byte[] pdfimage = null;
     String arshefyear = null;
-    @FXML
-    private TableView<ArchefModel> archefTable;
-    @FXML
-    private TableColumn<?, ?> circularid_col;
-    @FXML
-    private TableColumn<?, ?> circularDate_col;
-    @FXML
-    private TableColumn<?, ?> receiptNumber_col;
-    @FXML
-    private TableColumn<?, ?> receiptDate_col;
-    @FXML
-    private TableColumn<?, ?> topic_col;
-    @FXML
-    private TableColumn<?, ?> destination_col;
-    @FXML
-    private TableColumn<?, ?> saveFile_col;
-    @FXML
-    private TableColumn<?, ?> action_col;
-    @FXML
-    private TableColumn<ArchefModel, String> circularImage_col;
-    @FXML
-    private TableColumn<?, ?> squence_col;
+    
     @FXML
     private TextField searchText;
     @FXML
@@ -103,14 +78,16 @@ public class ExternalIncomingPageController implements Initializable {
     private Button searchButton1;
     @FXML
     private TextField action;
-    @FXML
     private TableColumn<ArchefModel, String> addImage_col;
+    @FXML
+    private VBox vbox;
+    List<ArchefModel> archefModelObject = new ArrayList<>();
+    private ExternalIncomingPageListener mylistener;
+    ActionEvent event;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        refreshArchefTableView();
-        getTableRow(archefTable);
-        getTableRowByInterKey(archefTable);
+        refreshData();
         FillComboBox.fillComboBox(searchTypelist, searchType);
         AppDate.setDateValue(circularDateDay, circularDateMonth, circularDateYear);
         AppDate.setDateValue(receiptNumberDateDay, receiptNumberDateMonth, receiptNumberDateYear);
@@ -119,8 +96,9 @@ public class ExternalIncomingPageController implements Initializable {
         AppDate.setYearValue(year);
         year.setValue(Integer.toString(HijriCalendar.getSimpleYear()));
         destination.setItems(filleCoursPlace(placeComboBoxlist));
+        clear(event);
     }
-
+    
     private ObservableList filleCoursPlace(ObservableList list) {
         try {
             ResultSet rs = DatabaseAccess.select("placenames", "UINTTYPE='خارجي'");
@@ -137,7 +115,7 @@ public class ExternalIncomingPageController implements Initializable {
         }
         return list;
     }
-
+    
     @FXML
     private void save(ActionEvent event) throws SQLException {
         String tableName = "externalincoming";
@@ -152,7 +130,7 @@ public class ExternalIncomingPageController implements Initializable {
             fieldName = "`CIRCULARID`,`CIRCULARDATE`,`RECEIPTNUMBER`,`RECEIPTDATE`,`DESTINATION`,`TOPIC`,`SAVEFILE`,`ACTION`,`ARSHEFYEAR`";
             valuenumbers = "?,?,?,?,?,?,?,?,?";
         }
-
+        
         boolean circularidState = FormValidation.textFieldNotEmpty(circularid, "الرجاء ادخال رقم المعاملة");
         boolean circularidTypeNumber = FormValidation.textFieldTypeNumber(circularid, "يقبل ارقام فقط");
         boolean circularidSNotexisting = FormValidation.ifexisting("externalincoming", "`CIRCULARID`,`ARSHEFYEAR`", "CIRCULARID ='" + getCircularid() + "' AND ARSHEFYEAR='" + arshefyear + "'", "تم ادخال رقم المعاملة مسبقا");
@@ -162,18 +140,18 @@ public class ExternalIncomingPageController implements Initializable {
         boolean destinationState = FormValidation.comboBoxNotEmpty(destination, "الرجاء ادخال جهة المعاملة");
         boolean topicState = FormValidation.textFieldNotEmpty(topic, "الرجاء ادخال الموضوع");
         boolean saveFileState = FormValidation.textFieldNotEmpty(saveFile, "الرجاء ادخال ملف الحفظ");
-
+        
         if (circularidState && circularidSNotexisting && receiptNumberNotexisting && receiptNumberState && destinationState && topicState && saveFileState && circularidTypeNumber && receiptNumberTypeNumber) {
             try {
                 DatabaseAccess.insert(tableName, fieldName, valuenumbers, data, imagefile);
-                refreshArchefTableView();
+                refreshData();
                 clear(event);
             } catch (IOException ex) {
                 FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
             }
         }
     }
-
+    
     @FXML
     private void edit(ActionEvent event) throws SQLException {
         String tableName = "externalincoming";
@@ -185,7 +163,7 @@ public class ExternalIncomingPageController implements Initializable {
         } else {
             fieldName = "`CIRCULARID`=?,`CIRCULARDATE`=?,`RECEIPTNUMBER`=?,`RECEIPTDATE`=?,`DESTINATION`=?,`TOPIC`=?,`SAVEFILE`=?,`ACTION`=?";
         }
-
+        
         boolean circularidState = FormValidation.textFieldNotEmpty(circularid, "الرجاء ادخال رقم المعاملة");
         boolean circularidTypeNumber = FormValidation.textFieldTypeNumber(circularid, "الرجاء ادخال رقم المعاملة");
         boolean receiptNumberState = FormValidation.textFieldNotEmpty(receiptNumber, "الرجاء ادخال رقم الوارد");
@@ -193,142 +171,142 @@ public class ExternalIncomingPageController implements Initializable {
         boolean destinationState = FormValidation.comboBoxNotEmpty(destination, "الرجاء ادخال جهة المعاملة");
         boolean topicState = FormValidation.textFieldNotEmpty(topic, "الرجاء ادخال الموضوع");
         boolean saveFileState = FormValidation.textFieldNotEmpty(saveFile, "الرجاء ادخال ملف الحفظ");
-
+        
         if (circularidState && receiptNumberState && destinationState && topicState && saveFileState && circularidTypeNumber && receiptNumberTypeNumber) {
             try {
                 DatabaseAccess.updat(tableName, fieldName, data, "CIRCULARID = '" + circularID + "' AND ARSHEFYEAR = '" + arshefyear + "' ", imagefile);
-                refreshArchefTableView();
+                refreshData();
                 clear(event);
             } catch (IOException ex) {
                 FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
             }
         }
     }
-
+    
     @FXML
     private void delete(ActionEvent event) {
         try {
             arshefyear = AppDate.getYear(getCircularDate());
             DatabaseAccess.delete("externalincoming", "CIRCULARID = '" + circularID + "' AND ARSHEFYEAR = '" + arshefyear + "' ");
-            refreshArchefTableView();
+            refreshData();
             clear(event);
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
     }
-
+    
     public String getImageUrl() {
         return imageUrl.getText();
     }
-
+    
     public void setImageUrl(String imageUrl) {
         this.imageUrl.setText(imageUrl);
     }
-
+    
     public String getSearchText() {
         return searchText.getText();
     }
-
+    
     public void setSearchText(String searchText) {
         this.searchText.setText(searchText);
     }
-
+    
     public String getSearchType() {
         return searchType.getValue();
     }
-
+    
     public void setSearchType(String searchType) {
         this.searchType.setValue(searchType);
     }
-
+    
     public String getYear() {
         return year.getValue();
     }
-
+    
     public void setYear(String year) {
         this.year.setValue(year);
     }
-
+    
     public String getAction() {
         return action.getText();
     }
-
+    
     public void setAction(String action) {
         this.action.setText(action);
     }
-
+    
     public String getCircularid() {
         return circularid.getText();
     }
-
+    
     public void setCircularid(String circularid) {
         this.circularid.setText(circularid);
     }
-
+    
     public String getReceiptNumber() {
         return receiptNumber.getText();
     }
-
+    
     public void setReceiptNumber(String receiptNumber) {
         this.receiptNumber.setText(receiptNumber);
     }
-
+    
     public String getDestination() {
         return destination.getValue();
     }
-
+    
     public void setDestination(String destination) {
         this.destination.setValue(destination);
     }
-
+    
     public String getTopic() {
         return topic.getText();
     }
-
+    
     public void setTopic(String topic) {
         this.topic.setText(topic);
     }
-
+    
     public String getSaveFile() {
         return saveFile.getText();
     }
-
+    
     public void setSaveFile(String saveFile) {
         this.saveFile.setText(saveFile);
     }
-
+    
     public String getCircularDate() {
         return AppDate.getDate(circularDateDay, circularDateMonth, circularDateYear);
     }
-
+    
     public void setCircularDate() {
         AppDate.setCurrentDate(circularDateDay, circularDateMonth, circularDateYear);
     }
-
+    
     public void setCircularDate(String date) {
         AppDate.setSeparateDate(circularDateDay, circularDateMonth, circularDateYear, date);
     }
-
+    
     public String getReceiptNumberDate() {
         return AppDate.getDate(receiptNumberDateDay, receiptNumberDateMonth, receiptNumberDateYear);
     }
-
+    
     public void setReceiptNumberDate() {
         AppDate.setCurrentDate(receiptNumberDateDay, receiptNumberDateMonth, receiptNumberDateYear);
     }
-
+    
     public void setReceiptNumberDate(String date) {
         AppDate.setSeparateDate(receiptNumberDateDay, receiptNumberDateMonth, receiptNumberDateYear, date);
     }
-
+    
     public String getCircularDateYear() {
-        return circularDateYear.getValue().toString();
+        return circularDateYear.getValue();
     }
-
+    
     public void setCircularDateYear(String circularDateYear) {
         this.circularDateYear.setValue(circularDateYear);
     }
-
+    
     @FXML
     private void clear(ActionEvent event) {
         imageUrl.setText(null);
@@ -339,11 +317,10 @@ public class ExternalIncomingPageController implements Initializable {
         setTopic(null);
         setDestination(null);
         setAction(null);
-        refreshArchefTableView();
         AppDate.setCurrentDate(circularDateDay, circularDateMonth, circularDateYear);
         AppDate.setCurrentDate(receiptNumberDateDay, receiptNumberDateMonth, receiptNumberDateYear);
     }
-
+    
     private boolean chakimage() {
         boolean stat = false;
         try {
@@ -354,221 +331,115 @@ public class ExternalIncomingPageController implements Initializable {
         }
         return stat;
     }
-
-    private void archefTableView(ResultSet rs) {
+    
+    private void refreshData() {
         try {
-            int squence = 0;
-            while (rs.next()) {
-                squence++;
-                Archeflist.add(new ArchefModel(
-                        rs.getString("CIRCULARID"),
-                        rs.getString("CIRCULARDATE"),
-                        rs.getString("RECEIPTNUMBER"),
-                        rs.getString("RECEIPTDATE"),
-                        rs.getString("TOPIC"),
-                        rs.getString("DESTINATION"),
-                        rs.getString("SAVEFILE"),
-                        rs.getString("ACTION"),
-                        squence
-                ));
-            }
-            rs.close();
-        } catch (SQLException ex) {
-            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
-        }
-        circularid_col.setCellValueFactory(new PropertyValueFactory<>("circularid"));
-        circularDate_col.setCellValueFactory(new PropertyValueFactory<>("circularDate"));
-        receiptNumber_col.setCellValueFactory(new PropertyValueFactory<>("receiptNumber"));
-        receiptDate_col.setCellValueFactory(new PropertyValueFactory<>("receiptDate"));
-        topic_col.setCellValueFactory(new PropertyValueFactory<>("topic"));
-        destination_col.setCellValueFactory(new PropertyValueFactory<>("destination"));
-        saveFile_col.setCellValueFactory(new PropertyValueFactory<>("saveFile"));
-        action_col.setCellValueFactory(new PropertyValueFactory<>("action"));
-        squence_col.setCellValueFactory(new PropertyValueFactory<>("squnce"));
-
-        Callback<TableColumn<ArchefModel, String>, TableCell<ArchefModel, String>> cellFactory
-                = (final TableColumn<ArchefModel, String> param) -> {
-                    final TableCell<ArchefModel, String> cell = new TableCell<ArchefModel, String>() {
-
-                final Button btn = new Button();
-
-                @Override
-                public void updateItem(String item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (empty) {
-                        setGraphic(null);
-                        setText(null);
-                    } else {
-                        btn.setOnAction(event -> {
-                            try {
-                                if (circularID == null) {
-                                    FormValidation.showAlert(null, "اختر السجل من الجدول", Alert.AlertType.ERROR);
-                                } else {
-                                    pdfimage = DatabaseAccess.getPdfFile(circularID, circularDate);
-                                    ShowPdf.writePdf(pdfimage);
-                                    pdfimage = null;
-                                    circularID = null;
-                                    circularDate = null;
-                                }
-                            } catch (Exception ex) {
-                                FormValidation.showAlert(null, "لا توجد صورة", Alert.AlertType.ERROR);
-                            }
-                        });
-                        btn.setStyle("-fx-font-family: 'URW DIN Arabic';"
-                                + "    -fx-font-size: 10px;"
-                                + "    -fx-background-color: #FFFFFF;"
-                                + "    -fx-background-radius: 0;"
-                                + "    -fx-text-fill: #FFFFFF;"
-                                + "    -fx-effect: dropshadow(three-pass-box,#3C3B3B, 20, 0, 5, 5); ");
-                        Image image = new Image("/images/newPdf.png");
-                        ImageView view = new ImageView(image);
-                        btn.setGraphic(view);
-                        setGraphic(btn);
-                        setText(null);
-                    }
-
-                }
-            };
-                    return cell;
-                };
-        Callback<TableColumn<ArchefModel, String>, TableCell<ArchefModel, String>> cellFactory1
-                = (final TableColumn<ArchefModel, String> param) -> {
-                    final TableCell<ArchefModel, String> cell = new TableCell<ArchefModel, String>() {
-
-                final Button btn = new Button();
-
-                @Override
-                public void updateItem(String item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (empty) {
-                        setGraphic(null);
-                        setText(null);
-                    } else {
-                        btn.setOnAction(event -> {
-                            try {
-                                if (circularID == null) {
-                                    FormValidation.showAlert(null, "اختر السجل من الجدول", Alert.AlertType.ERROR);
-                                } else {
-                                    DatabaseAccess.insertImage("externalincoming", " `CIRCULARID` ='" + circularID + "' AND CIRCULARDATE ='" + circularDate + "'");
-                                    circularID = null;
-                                    circularDate = null;
-                                }
-                            } catch (Exception ex) {
-                                FormValidation.showAlert(null, "لا توجد صورة", Alert.AlertType.ERROR);
-                            }
-                        });
-                        btn.setStyle("-fx-font-family: 'URW DIN Arabic';"
-                                + "    -fx-font-size: 10px;"
-                                + "    -fx-background-color: #1E3606;"
-                                + "    -fx-background-radius: 0;"
-                                + "    -fx-text-fill: #FFFFFF;"
-                                + "    -fx-effect: dropshadow(three-pass-box,#3C3B3B, 20, 0, 5, 5); ");
-                        Image image = new Image("/images/scaner.png");
-                        ImageView view = new ImageView(image);
-                        btn.setGraphic(view);
-                        setGraphic(btn);
-                        setText(null);
-                    }
-
-                }
-            };
-                    return cell;
-                };
-
-        circularImage_col.setCellFactory(cellFactory);
-        addImage_col.setCellFactory(cellFactory1);
-
-        archefTable.setItems(Archeflist);
-    }
-
-    public void getTableRow(TableView table) {
-        table.setOnMouseClicked(new EventHandler() {
-            @Override
-            public void handle(Event event) {
-                ObservableList<ArchefModel> list = FXCollections.observableArrayList();
-                list = table.getSelectionModel().getSelectedItems();
-                if (!list.isEmpty()) {
-                    circularID = list.get(0).getCircularid();
-                    circularDate = list.get(0).getCircularDate();
-                    setCircularid(list.get(0).getCircularid());
-                    setCircularDate(list.get(0).getCircularDate());
-                    setReceiptNumber(list.get(0).getReceiptNumber());
-                    setReceiptNumberDate(list.get(0).getReceiptDate());
-                    setDestination(list.get(0).getDestination());
-                    setTopic(list.get(0).getTopic());
-                    setSaveFile(list.get(0).getSaveFile());
-                    setAction(list.get(0).getAction());
-                }
-            }
-        });
-    }
-
-    private void getTableRowByInterKey(TableView table) {
-        table.setOnKeyPressed(new EventHandler() {
-            @Override
-            public void handle(Event event) {
-                ObservableList<ArchefModel> list = FXCollections.observableArrayList();
-                list = table.getSelectionModel().getSelectedItems();
-                if (!list.isEmpty()) {
-                    circularID = list.get(0).getCircularid();
-                    circularDate = list.get(0).getCircularDate();
-                    setCircularid(list.get(0).getCircularid());
-                    setCircularDate(list.get(0).getCircularDate());
-                    setReceiptNumber(list.get(0).getReceiptNumber());
-                    setReceiptNumberDate(list.get(0).getReceiptDate());
-                    setTopic(list.get(0).getTopic());
-                    setSaveFile(list.get(0).getSaveFile());
-                    setAction(list.get(0).getAction());
-                }
-            }
-        });
-    }
-
-    private void refreshArchefTableView() {
-        try {
-            Archeflist.clear();
-            archefTableView(DatabaseAccess.getData("SELECT * FROM externalincoming ORDER BY ID DESC"));
+            archefModelObject.clear();
+            vbox.getChildren().clear();
+            viewdata(DatabaseAccess.getData("SELECT * FROM externalincoming ORDER BY ID DESC"));
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
     }
-
+    
+    private List<ArchefModel> getData(ResultSet rs) {
+        List<ArchefModel> archefModels = new ArrayList<>();
+        ArchefModel archefModel;
+        try {
+            while (rs.next()) {
+                archefModel = new ArchefModel();
+                archefModel.setCircularid(rs.getString("CIRCULARID"));
+                archefModel.setCircularDate(rs.getString("CIRCULARDATE"));
+                archefModel.setTopic(rs.getString("TOPIC"));
+                archefModel.setDestination(rs.getString("DESTINATION"));
+                archefModel.setSaveFile(rs.getString("SAVEFILE"));
+                archefModel.setReceiptNumber(rs.getString("RECEIPTNUMBER"));
+                archefModel.setReceiptDate(rs.getString("RECEIPTDATE"));
+                archefModel.setAction(rs.getString("ACTION"));
+                archefModel.setRecordYear(AppDate.getYear(rs.getString("RECEIPTNUMBER")));
+                archefModels.add(archefModel);
+            }
+        } catch (SQLException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
+        return archefModels;
+    }
+    
+    private void setChosendata(ArchefModel archefModel) {
+        setCircularid(archefModel.getCircularid());
+        setCircularDate(archefModel.getCircularDate());
+        setReceiptNumber(archefModel.getReceiptNumber());
+        setReceiptNumberDate(archefModel.getReceiptDate());
+        setTopic(archefModel.getTopic());
+        setDestination(archefModel.getDestination());
+        setSaveFile(archefModel.getSaveFile());
+        setAction(archefModel.getAction());
+        arshefyear = AppDate.getYear(archefModel.getReceiptDate());
+    }
+    
+    private void viewdata(ResultSet rs) {
+        archefModelObject.addAll(getData(rs));
+        if (archefModelObject.size() > 0) {
+            setChosendata(archefModelObject.get(0));
+            mylistener = new ExternalIncomingPageListener() {
+                @Override
+                public void onClickListener(ArchefModel archefModel) {
+                    setChosendata(archefModel);
+                }
+            };
+        }
+        
+        try {
+            for (ArchefModel archefModel : archefModelObject) {
+                FXMLLoader fxmlLoader = new FXMLLoader();
+                fxmlLoader.setLocation(getClass().getResource("/view/ExternalIncomingItem.fxml"));
+                AnchorPane pane = fxmlLoader.load();
+                ExternalIncomingItemController externalIncomingItemController = fxmlLoader.getController();
+                externalIncomingItemController.setData(archefModel, mylistener);
+                vbox.getChildren().add(pane);
+            }
+        } catch (IOException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
+    }
+    
     @FXML
     private File getImageUrle(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
-//        FileChooser.ExtensionFilter ext1 = new FileChooser.ExtensionFilter("JPG files(*.jpg)", "*.JPG");
-//        FileChooser.ExtensionFilter ext2 = new FileChooser.ExtensionFilter("PNG files(*.png)", "*.PNG");
-//        FileChooser.ExtensionFilter ext3 = new FileChooser.ExtensionFilter("JPEG‬‬  files(*.jpeg)", "*.JPEG‬‬");
         FileChooser.ExtensionFilter ext4 = new FileChooser.ExtensionFilter("PDF  files(*.pdf)", "*.PDF");
         fileChooser.getExtensionFilters().addAll(ext4);
         imagefile = fileChooser.showOpenDialog(stage);
         imageUrl.setText(imagefile.getPath());
         return imagefile;
     }
-
+    
     @FXML
     private void searchData(ActionEvent event) {
         String searchValue = getSearchType();
         switch (searchValue) {
             case "البحث برقم المعاملة":
-                Archeflist.clear();
-                archefTableView(getDataBycircularid());
+                archefModelObject.clear();
+                vbox.getChildren().clear();
+                viewdata(getDataBycircularid());
                 break;
             case "البحث برقم الوارد":
-                Archeflist.clear();
-                archefTableView(getDataByReceiptNumber());
+                archefModelObject.clear();
+                vbox.getChildren().clear();
+                viewdata(getDataByReceiptNumber());
                 break;
             case "البحث بالموضوع":
-                Archeflist.clear();
-                archefTableView(getDataByTopic());
+                archefModelObject.clear();
+                vbox.getChildren().clear();
+                viewdata(getDataByTopic());
                 break;
             case "البحث بجهة المعاملة":
-                Archeflist.clear();
-                archefTableView(getDataByDestination());
+                archefModelObject.clear();
+                vbox.getChildren().clear();
+                viewdata(getDataByDestination());
                 break;
         }
     }
-
+    
     public ResultSet getDataBycircularid() {
         ResultSet rs = null;
         try {
@@ -578,7 +449,7 @@ public class ExternalIncomingPageController implements Initializable {
         }
         return rs;
     }
-
+    
     public ResultSet getDataByReceiptNumber() {
         ResultSet rs = null;
         try {
@@ -588,7 +459,7 @@ public class ExternalIncomingPageController implements Initializable {
         }
         return rs;
     }
-
+    
     public ResultSet getDataByTopic() {
         ResultSet rs = null;
         try {
@@ -598,7 +469,7 @@ public class ExternalIncomingPageController implements Initializable {
         }
         return rs;
     }
-
+    
     public ResultSet getDataByDestination() {
         ResultSet rs = null;
         try {
@@ -608,16 +479,16 @@ public class ExternalIncomingPageController implements Initializable {
         }
         return rs;
     }
-
+    
     @FXML
     private void addtoLeaderDisplay(ActionEvent event) {
         String tableName = "displaydata";
         String[] data = {HijriCalendar.getSimpleDate(), "عرض القائد", topic.getText(), destination.getValue()};
         String fieldName = "`DISPLAYDATE`,`DISPLAYTYPE`,`TOPIC`,`DESTINATION`";
         String valuenumbers = "?,?,?,?";
-
+        
         boolean idState = FormValidation.notNull(circularID, "الرجاءاختر السجل من الجدول");
-
+        
         if (idState) {
             try {
                 DatabaseAccess.insert(tableName, fieldName, valuenumbers, data);
@@ -628,16 +499,16 @@ public class ExternalIncomingPageController implements Initializable {
             }
         }
     }
-
+    
     @FXML
     private void addtoLeaderSignature(ActionEvent event) {
         String tableName = "displaydata";
         String[] data = {HijriCalendar.getSimpleDate(), "توقيع القائد", topic.getText(), destination.getValue()};
         String fieldName = "`DISPLAYDATE`,`DISPLAYTYPE`,`TOPIC`,`DESTINATION`";
         String valuenumbers = "?,?,?,?";
-
+        
         boolean idState = FormValidation.notNull(circularID, "الرجاءاختر السجل من الجدول");
-
+        
         if (idState) {
             try {
                 DatabaseAccess.insert(tableName, fieldName, valuenumbers, data);
@@ -648,16 +519,16 @@ public class ExternalIncomingPageController implements Initializable {
             }
         }
     }
-
+    
     @FXML
     private void addtoManagerSignature(ActionEvent event) {
         String tableName = "displaydata";
         String[] data = {HijriCalendar.getSimpleDate(), "توقيع الركن", topic.getText(), destination.getValue()};
         String fieldName = "`DISPLAYDATE`,`DISPLAYTYPE`,`TOPIC`,`DESTINATION`";
         String valuenumbers = "?,?,?,?";
-
+        
         boolean idState = FormValidation.notNull(circularID, "الرجاءاختر السجل من الجدول");
-
+        
         if (idState) {
             try {
                 DatabaseAccess.insert(tableName, fieldName, valuenumbers, data);
@@ -668,16 +539,16 @@ public class ExternalIncomingPageController implements Initializable {
             }
         }
     }
-
+    
     @FXML
     private void addtoManagerDisplay(ActionEvent event) {
         String tableName = "displaydata";
         String[] data = {HijriCalendar.getSimpleDate(), "عرض الركن", topic.getText(), destination.getValue()};
         String fieldName = "`DISPLAYDATE`,`DISPLAYTYPE`,`TOPIC`,`DESTINATION`";
         String valuenumbers = "?,?,?,?";
-
+        
         boolean idState = FormValidation.notNull(circularID, "الرجاءاختر السجل من الجدول");
-
+        
         if (idState) {
             try {
                 DatabaseAccess.insert(tableName, fieldName, valuenumbers, data);
@@ -688,16 +559,16 @@ public class ExternalIncomingPageController implements Initializable {
             }
         }
     }
-
+    
     @FXML
     private void addtoManagerSmallSignature(ActionEvent event) {
         String tableName = "displaydata";
         String[] data = {HijriCalendar.getSimpleDate(), "تاشير الركن", topic.getText(), destination.getValue()};
         String fieldName = "`DISPLAYDATE`,`DISPLAYTYPE`,`TOPIC`,`DESTINATION`";
         String valuenumbers = "?,?,?,?";
-
+        
         boolean idState = FormValidation.notNull(circularID, "الرجاءاختر السجل من الجدول");
-
+        
         if (idState) {
             try {
                 DatabaseAccess.insert(tableName, fieldName, valuenumbers, data);
@@ -708,16 +579,16 @@ public class ExternalIncomingPageController implements Initializable {
             }
         }
     }
-
+    
     @FXML
     private void addtoManagerOrders(ActionEvent event) {
         String tableName = "displaydata";
         String[] data = {HijriCalendar.getSimpleDate(), "توجيه الركن", topic.getText(), destination.getValue()};
         String fieldName = "`DISPLAYDATE`,`DISPLAYTYPE`,`TOPIC`,`DESTINATION`";
         String valuenumbers = "?,?,?,?";
-
+        
         boolean idState = FormValidation.notNull(circularID, "الرجاءاختر السجل من الجدول");
-
+        
         if (idState) {
             try {
                 DatabaseAccess.insert(tableName, fieldName, valuenumbers, data);
@@ -728,14 +599,5 @@ public class ExternalIncomingPageController implements Initializable {
             }
         }
     }
-
-    @FXML
-    private void addNames(ActionEvent event) {
-         if (circularID != null) {
-            App.lodAddNmaesPage(circularID, AppDate.getYear(getCircularDate()),"external");
-        } else {
-            showAlert("", "اختر السجل من الجدول");
-        }
-    }
-
+    
 }

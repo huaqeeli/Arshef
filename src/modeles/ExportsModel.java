@@ -1,12 +1,11 @@
-
 package modeles;
 
-
 public class ExportsModel {
-    String id, topic,destination,exportNum,exportDate,notes,saveFile,exportsImage,internalincomingnum,entryDate;
+
+    String id, topic, destination, exportNum, exportDate, notes, saveFile, exportsImage, internalincomingnum, entryDate,recordYear;
     int squence;
 
-    public ExportsModel(String id, String topic, String destination, String exportNum, String exportDate, String notes, String saveFile, String entryDate) {
+    public ExportsModel(String id, String topic, String destination, String exportNum, String exportDate, String notes, String saveFile, String exportsImage, String internalincomingnum, String entryDate, String recordYear) {
         this.id = id;
         this.topic = topic;
         this.destination = destination;
@@ -14,10 +13,24 @@ public class ExportsModel {
         this.exportDate = exportDate;
         this.notes = notes;
         this.saveFile = saveFile;
+        this.exportsImage = exportsImage;
+        this.internalincomingnum = internalincomingnum;
         this.entryDate = entryDate;
+        this.recordYear = recordYear;
     }
 
-    
+    public String getRecordYear() {
+        return recordYear;
+    }
+
+    public void setRecordYear(String recordYear) {
+        this.recordYear = recordYear;
+    }
+
+   
+
+    public ExportsModel() {
+    }
 
     public String getId() {
         return id;
@@ -42,8 +55,6 @@ public class ExportsModel {
     public void setEntryDate(String entryDate) {
         this.entryDate = entryDate;
     }
-
-    
 
     public String getTopic() {
         return topic;
@@ -114,7 +125,4 @@ public class ExportsModel {
         return "ExportsModel{" + "id=" + id + ", topic=" + topic + ", destination=" + destination + ", exportNum=" + exportNum + ", exportDate=" + exportDate + ", notes=" + notes + ", saveFile=" + saveFile + ", exportsImage=" + exportsImage + ", internalincomingnum=" + internalincomingnum + ", entryDate=" + entryDate + ", squence=" + squence + '}';
     }
 
-    
-   
-    
 }

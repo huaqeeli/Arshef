@@ -1,5 +1,6 @@
 package controllers;
 
+import Serveces.DisplayPageListener;
 import Validation.FormValidation;
 import java.io.File;
 import java.io.FileInputStream;
@@ -20,14 +21,17 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.TableColumn;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import modeles.DisplayModele;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
@@ -49,27 +53,11 @@ public class DisplayPageController implements Initializable {
     private ComboBox<?> DateYear;
     @FXML
     private Button searchButton1;
-    @FXML
-    private TableView<DisplayModele> displayTable;
-    @FXML
-    private TableColumn<?, ?> squence_col;
-    @FXML
-    private TableColumn<?, ?> displayid_col;
-    @FXML
-    private TableColumn<?, ?> displayDate_col;
-    @FXML
-    private TableColumn<?, ?> destination_col;
-    @FXML
-    private TableColumn<?, ?> topic_col;
-    @FXML
-    private TableColumn<?, ?> displayType_col;
-    @FXML
-    private TableColumn<?, ?> notes_col;
 
     ObservableList<DisplayModele> Displaylist = FXCollections.observableArrayList();
     ObservableList<String> displayTypelist = FXCollections.observableArrayList("عرض القائد", "توقيع القائد", "عرض الركن", "توقيع الركن", "توجيه الركن", "تاشير الركن");
     ObservableList<String> placeComboBoxlist = FXCollections.observableArrayList();
-    String displayDate = null;
+    Label displayDate = null;
     String id = null;
     @FXML
     private ComboBox<?> displayDateDay;
@@ -86,6 +74,11 @@ public class DisplayPageController implements Initializable {
     @FXML
     private TextField notes;
     Config config = new Config();
+    List<DisplayModele> displayObject = new ArrayList<>();
+    private DisplayPageListener mylistener;
+    @FXML
+    private VBox vbox;
+    ActionEvent event;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -93,11 +86,10 @@ public class DisplayPageController implements Initializable {
         AppDate.setCurrentDate(DateDay, DateMonth, DateYear);
         AppDate.setDateValue(displayDateDay, displayDateMonth, displayDateYear);
         AppDate.setCurrentDate(displayDateDay, displayDateMonth, displayDateYear);
-        refreshDisplayTableView();
+        refreshData();
         FillComboBox.fillComboBox(displayTypelist, displayType);
         destination.setItems(filleCoursPlace(placeComboBoxlist));
-        getTableRow(displayTable);
-        getTableRowByInterKey(displayTable);
+        clear(event);
     }
 
     private ObservableList filleCoursPlace(ObservableList list) {
@@ -120,8 +112,9 @@ public class DisplayPageController implements Initializable {
     @FXML
     private void searchData(ActionEvent event) {
         try {
-            Displaylist.clear();
-            displayTableView(DatabaseAccess.getData("SELECT * FROM displaydata WHERE DISPLAYDATE = '" + getSearchDate() + "' "));
+            displayObject.clear();
+            vbox.getChildren().clear();
+            viewdata(DatabaseAccess.getData("SELECT * FROM displaydata WHERE DISPLAYDATE = '" + getSearchDate() + "' "));
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
@@ -142,7 +135,7 @@ public class DisplayPageController implements Initializable {
             while (rs.next()) {
                 DisplayModele display = new DisplayModele();
                 String squnceText = ArabicSetting.EnglishToarabic(Integer.toString(squnce));
-                display.setSqunces(squnceText);
+                 display.setSqunces(squnceText);
                 display.setTopic(rs.getString("TOPIC"));
                 display.setDestination(rs.getString("DESTINATION"));
                 display.setName(rs.getString("RANK") + "/" + rs.getString("NAME"));
@@ -159,7 +152,7 @@ public class DisplayPageController implements Initializable {
             while (rs1.next()) {
                 DisplayModele display1 = new DisplayModele();
                 String squnceText = ArabicSetting.EnglishToarabic(Integer.toString(squnce1));
-                display1.setSqunces(squnceText);
+               display1.setSqunces(squnceText);
                 display1.setTopic(rs1.getString("TOPIC"));
                 display1.setNotes(rs1.getString("NOTES"));
                 dataItems1.add(display1);
@@ -248,7 +241,7 @@ public class DisplayPageController implements Initializable {
     private void delete(ActionEvent event) {
         try {
             DatabaseAccess.delete("displaydata", "ID = '" + id + "'");
-            refreshDisplayTableView();
+            refreshData();
             clear(event);
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
@@ -267,43 +260,73 @@ public class DisplayPageController implements Initializable {
         return HijriCalendar.getSimpleDate();
     }
 
-    private void refreshDisplayTableView() {
+    private void refreshData() {
         try {
-            Displaylist.clear();
-            displayTableView(DatabaseAccess.getData("SELECT * FROM displaydata WHERE DISPLAYDATE = '" + getCurrentDate() + "' "));
+            displayObject.clear();
+            vbox.getChildren().clear();
+            viewdata(DatabaseAccess.getData("SELECT * FROM displaydata WHERE DISPLAYDATE = '" + getCurrentDate() + "' "));
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
     }
 
-    private void displayTableView(ResultSet rs) {
+    private List<DisplayModele> getData(ResultSet rs) {
+        List<DisplayModele> displayModeles = new ArrayList<>();
+        DisplayModele displayModele;
         try {
             int squence = 0;
             while (rs.next()) {
                 squence++;
-                Displaylist.add(new DisplayModele(
-                        rs.getString("ID"),
-                        rs.getString("DISPLAYDATE"),
-                        rs.getString("DESTINATION"),
-                        rs.getString("TOPIC"),
-                        rs.getString("DISPLAYTYPE"),
-                        rs.getString("NOTES"),
-                        squence
-                ));
+                displayModele = new DisplayModele();
+                displayModele.setSquence(squence);
+                displayModele.setDisplayid(rs.getString("ID"));
+                displayModele.setDisplayDate(rs.getString("DISPLAYDATE"));
+                displayModele.setDestination(rs.getString("DESTINATION"));
+                displayModele.setTopic(rs.getString("TOPIC"));
+                displayModele.setDisplayType(rs.getString("DISPLAYTYPE"));
+                displayModele.setNotes(rs.getString("NOTES"));
+                displayModeles.add(displayModele);
             }
             rs.close();
         } catch (SQLException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
-        displayid_col.setCellValueFactory(new PropertyValueFactory<>("displayid"));
-        displayDate_col.setCellValueFactory(new PropertyValueFactory<>("displayDate"));
-        topic_col.setCellValueFactory(new PropertyValueFactory<>("topic"));
-        destination_col.setCellValueFactory(new PropertyValueFactory<>("destination"));
-        displayType_col.setCellValueFactory(new PropertyValueFactory<>("displayType"));
-        squence_col.setCellValueFactory(new PropertyValueFactory<>("squence"));
-        notes_col.setCellValueFactory(new PropertyValueFactory<>("notes"));
+        return displayModeles;
+    }
 
-        displayTable.setItems(Displaylist);
+    private void setChosendata(DisplayModele displayModele) {
+        AppDate.setSeparateDate(displayDateDay, displayDateMonth, displayDateYear, displayModele.getDisplayDate());
+        displayType.setValue(displayModele.getDisplayType());
+        topic.setText(displayModele.getTopic());
+        destination.setValue(displayModele.getDestination());
+        notes.setText(displayModele.getNotes());
+        id = displayModele.getDisplayid();
+    }
+
+    private void viewdata(ResultSet rs) {
+        displayObject.addAll(getData(rs));
+        if (displayObject.size() > 0) {
+            setChosendata(displayObject.get(0));
+            mylistener = new DisplayPageListener() {
+                @Override
+                public void onClickListener(DisplayModele displayModele) {
+                    setChosendata(displayModele);
+                }
+            };
+        }
+
+        try {
+            for (DisplayModele displayModele : displayObject) {
+                FXMLLoader fxmlLoader = new FXMLLoader();
+                fxmlLoader.setLocation(getClass().getResource("/view/DisplayItem.fxml"));
+                AnchorPane pane = fxmlLoader.load();
+                DisplayItemController displayItemController = fxmlLoader.getController();
+                displayItemController.setData(displayModele, mylistener);
+                vbox.getChildren().add(pane);
+            }
+        } catch (IOException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
     }
 
     @FXML
@@ -320,7 +343,7 @@ public class DisplayPageController implements Initializable {
         if (displayTypeState && destinationState && topicState) {
             try {
                 DatabaseAccess.insert(tableName, fieldName, valuenumbers, data);
-                refreshDisplayTableView();
+                refreshData();
                 clear(event);
             } catch (IOException ex) {
                 FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
@@ -341,7 +364,7 @@ public class DisplayPageController implements Initializable {
         if (displayTypeState && destinationState && topicState) {
             try {
                 DatabaseAccess.updat(tableName, fieldName, data, "ID = '" + id + "'");
-                refreshDisplayTableView();
+                refreshData();
                 clear(event);
             } catch (IOException ex) {
                 FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
@@ -393,5 +416,9 @@ public class DisplayPageController implements Initializable {
                 }
             }
         });
+    }
+
+    @FXML
+    private void click(MouseEvent event) {
     }
 }

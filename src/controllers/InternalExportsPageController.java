@@ -85,6 +85,7 @@ public class InternalExportsPageController implements Initializable {
     private InternalExportsPageListener mylistener;
     @FXML
     private VBox vbox;
+    ActionEvent event;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -97,6 +98,7 @@ public class InternalExportsPageController implements Initializable {
         destination.setItems(filleDestination(destinationlist));
         AppDate.setYearValue(year);
         AppDate.setCurrentYear(year);
+        clear(event);
     }
 
     private ObservableList filleDestination(ObservableList list) {
@@ -308,7 +310,6 @@ public class InternalExportsPageController implements Initializable {
         setNotes(null);
         setImageUrl(null);
         setSaveFaile(null);
-        refreshData();
     }
 
     @FXML

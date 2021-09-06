@@ -95,6 +95,16 @@
                         <Insets bottom="5.0" />
                      </VBox.margin>
                   </Button>
+                  <Button alignment="CENTER" layoutX="10.0" layoutY="557.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#followupPage" prefHeight="43.0" prefWidth="100.0" styleClass="toolBarButton" text="المتابعة">
+                     <VBox.margin>
+                        <Insets bottom="5.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button alignment="CENTER" layoutX="10.0" layoutY="513.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#formationPage" prefHeight="43.0" prefWidth="100.0" styleClass="toolBarButton" text="التشكيل">
+                     <VBox.margin>
+                        <Insets bottom="5.0" />
+                     </VBox.margin>
+                  </Button>
                   <Button alignment="CENTER" layoutX="10.0" layoutY="106.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#addNewDaetination" prefHeight="43.0" prefWidth="100.0" styleClass="toolBarButton" text="اضافة جهة الوارد">
                      <VBox.margin>
                         <Insets bottom="5.0" />

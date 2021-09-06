@@ -35,7 +35,7 @@ public class ExternalIncomingPageController implements Initializable {
     ObservableList<ArchefModel> Archeflist = FXCollections.observableArrayList();
     ObservableList<String> coursComboBoxlist = FXCollections.observableArrayList();
     ObservableList<String> placeComboBoxlist = FXCollections.observableArrayList();
-    ObservableList<String> searchTypelist = FXCollections.observableArrayList("البحث برقم المعاملة", "البحث برقم الوارد", "البحث بالموضوع", "البحث بجهة المعاملة");
+    ObservableList<String> searchTypelist = FXCollections.observableArrayList("البحث برقم المعاملة", "البحث برقم الوارد", "البحث بالموضوع", "البحث بجهة المعاملة","البحث برقم الملف","البحث بالرقم العسكري");
     
     @FXML
     private TextField imageUrl;
@@ -321,22 +321,11 @@ public class ExternalIncomingPageController implements Initializable {
         AppDate.setCurrentDate(receiptNumberDateDay, receiptNumberDateMonth, receiptNumberDateYear);
     }
     
-    private boolean chakimage() {
-        boolean stat = false;
-        try {
-            ResultSet rs = DatabaseAccess.getData("SELECT IMAGE FROM externalincoming WHERE IMAGE IS NULL");
-            stat = rs.next();
-        } catch (IOException | SQLException ex) {
-            Logger.getLogger(ExternalIncomingPageController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return stat;
-    }
-    
     private void refreshData() {
         try {
             archefModelObject.clear();
             vbox.getChildren().clear();
-            viewdata(DatabaseAccess.getData("SELECT * FROM externalincoming ORDER BY ID DESC"));
+            viewdata(DatabaseAccess.getData("SELECT CIRCULARID,CIRCULARDATE,TOPIC,DESTINATION,SAVEFILE,RECEIPTNUMBER,RECEIPTDATE,ACTION FROM externalincoming ORDER BY ID DESC"));
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
@@ -375,6 +364,7 @@ public class ExternalIncomingPageController implements Initializable {
         setSaveFile(archefModel.getSaveFile());
         setAction(archefModel.getAction());
         arshefyear = AppDate.getYear(archefModel.getReceiptDate());
+        circularID = archefModel.getCircularid();
     }
     
     private void viewdata(ResultSet rs) {
@@ -437,6 +427,16 @@ public class ExternalIncomingPageController implements Initializable {
                 vbox.getChildren().clear();
                 viewdata(getDataByDestination());
                 break;
+            case "البحث برقم الملف":
+                archefModelObject.clear();
+                vbox.getChildren().clear();
+                viewdata(getDataSaveFile());
+                break;
+            case "البحث بالرقم العسكري":
+                archefModelObject.clear();
+                vbox.getChildren().clear();
+                viewdata(getDataMitaryID());
+                break;
         }
     }
     
@@ -459,11 +459,30 @@ public class ExternalIncomingPageController implements Initializable {
         }
         return rs;
     }
+    public ResultSet getDataSaveFile() {
+        ResultSet rs = null;
+        try {
+            rs = DatabaseAccess.select("externalincoming", "SAVEFILE = '" + getSearchText() + "' AND ARSHEFYEAR = '" + getYear() + "' ");
+        } catch (IOException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
+        return rs;
+    }
     
     public ResultSet getDataByTopic() {
         ResultSet rs = null;
         try {
-            rs = DatabaseAccess.selectQuiry("SELECT * FROM externalincoming WHERE TOPIC LIKE '" + "%" + getSearchText() + "%" + "' AND ARSHEFYEAR = '" + getYear() + "' ");
+            rs = DatabaseAccess.selectQuiry("SELECT CIRCULARID,CIRCULARDATE,TOPIC,DESTINATION,SAVEFILE,RECEIPTNUMBER,RECEIPTDATE,ACTION FROM externalincoming WHERE TOPIC LIKE '" + "%" + getSearchText() + "%" + "' AND ARSHEFYEAR = '" + getYear() + "' ");
+        } catch (IOException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
+        return rs;
+    }
+   
+    public ResultSet getDataMitaryID() {
+        ResultSet rs = null;
+        try {
+            rs = DatabaseAccess.selectQuiry("SELECT externalincoming.CIRCULARID,externalincoming.CIRCULARDATE,externalincoming.TOPIC,externalincoming.DESTINATION,externalincoming.SAVEFILE,externalincoming.RECEIPTNUMBER,externalincoming.RECEIPTDATE,externalincoming.ACTION FROM externalincoming,circularnames WHERE externalincoming.CIRCULARID = circularnames.CIRCULARID AND circularnames.MILITARYID = '" + getSearchText() + "' AND ARSHEFYEAR = '" + getYear() + "'");
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }

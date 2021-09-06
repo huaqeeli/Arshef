@@ -2,44 +2,28 @@ package controllers;
 
 import Serveces.InternalIncomingPageListener;
 import Validation.FormValidation;
-import static Validation.FormValidation.showAlert;
-import arshef.App;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import modeles.InternalIncomingModel;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperCompileManager;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperPrintManager;
-import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.design.JasperDesign;
-import net.sf.jasperreports.engine.xml.JRXmlLoader;
 
 public class InternalIncomingPageController implements Initializable {
 
@@ -80,7 +64,7 @@ public class InternalIncomingPageController implements Initializable {
     private String registrationId = null;
     ObservableList<String> destinationlist = FXCollections.observableArrayList();
     ObservableList<InternalIncomingModel> recipientList = FXCollections.observableArrayList();
-    ObservableList<String> searchTypelist = FXCollections.observableArrayList("البحث برقم الوارد", "البحث بتاريخ الوارد", "البحث بالموضوع", "البحث بجهة الوارد", "عرض الكل");
+    ObservableList<String> searchTypelist = FXCollections.observableArrayList("البحث برقم الوارد", "البحث بتاريخ الوارد", "البحث بالموضوع", "البحث بجهة الوارد", "البحث برقم الملف","البحث بالرقم العسكري","عرض الكل");
     
     public final List<InternalIncomingModel> internalIncomingObject = new ArrayList<>();
     private InternalIncomingPageListener mylistener;
@@ -107,7 +91,7 @@ public class InternalIncomingPageController implements Initializable {
         FillComboBox.fillComboBox(searchTypelist, searchType);
         destination.setItems(filleDestination(destinationlist));
         AppDate.setYearValue(year);
-        AppDate.setCurrentYear(year);
+        year.setValue(Integer.toString(HijriCalendar.getSimpleYear()));
         clear(event);
     }
 
@@ -132,7 +116,7 @@ public class InternalIncomingPageController implements Initializable {
         try {
             internalIncomingObject.clear();
             vbox.getChildren().clear();
-            viewdata(DatabaseAccess.getData("SELECT REGIS_NO,RECIPIENT_DATE,CIRCULAR_NO,CIRCULAR_DATE,CIRCULAR_DIR,TOPIC,SAVE_FILE,NOTES FROM internalincoming where RECORD_YEAR ='" + Integer.toString(HijriCalendar.getSimpleYear()) + "' ORDER BY REGIS_NO DESC"));
+            viewdata(DatabaseAccess.getData("SELECT REGIS_NO,RECIPIENT_DATE,CIRCULAR_NO,CIRCULAR_DATE,CIRCULAR_DIR,TOPIC,SAVE_FILE,NOTES FROM internalincoming where RECORD_YEAR ='" +HijriCalendar.getSimpleYear() + "' ORDER BY REGIS_NO DESC"));
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
@@ -520,6 +504,16 @@ public class InternalIncomingPageController implements Initializable {
                 vbox.getChildren().clear();
                 viewdata(getDataByRegistrationNum());
                 break;
+            case "البحث برقم الملف":
+                internalIncomingObject.clear();
+                vbox.getChildren().clear();
+                viewdata(getDataBySaveFile());
+                break;
+            case "البحث بالرقم العسكري":
+                internalIncomingObject.clear();
+                vbox.getChildren().clear();
+                viewdata(getDataMitaryID());
+                break;
         }
     }
 
@@ -552,6 +546,15 @@ public class InternalIncomingPageController implements Initializable {
         }
         return rs;
     }
+    public ResultSet getDataMitaryID() {
+        ResultSet rs = null;
+        try {
+            rs = DatabaseAccess.selectQuiry("SELECT internalincoming.REGIS_NO,internalincoming.RECIPIENT_DATE,internalincoming.CIRCULAR_NO,internalincoming.CIRCULAR_DATE,internalincoming.CIRCULAR_DIR,internalincoming.TOPIC,internalincoming.SAVE_FILE,internalincoming.NOTES FROM internalincoming, circularnames WHERE internalincoming.REGIS_NO = circularnames.CIRCULARID AND circularnames.MILITARYID =  '" +  getSearchText() + "' AND RECORD_YEAR = '" + getYear() + "' ");
+        } catch (IOException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
+        return rs;
+    }
 
     public ResultSet getDataByIncomingDate() {
         ResultSet rs = null;
@@ -566,7 +569,16 @@ public class InternalIncomingPageController implements Initializable {
     public ResultSet getDataByRegistrationNum() {
         ResultSet rs = null;
         try {
-            rs = DatabaseAccess.select("internalincoming", "REGIS_NO = '" + getSearchText() + "'");
+            rs = DatabaseAccess.select("internalincoming", "REGIS_NO = '" + getSearchText() + "' AND RECORD_YEAR = '" + getYear() + "'");
+        } catch (IOException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
+        return rs;
+    }
+    public ResultSet getDataBySaveFile() {
+        ResultSet rs = null;
+        try {
+            rs = DatabaseAccess.select("internalincoming", "SAVE_FILE = '" + getSearchText() + "' AND RECORD_YEAR = '" + getYear() + "'");
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }

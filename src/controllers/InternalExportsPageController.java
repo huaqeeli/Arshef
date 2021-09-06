@@ -15,6 +15,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -73,7 +75,7 @@ public class InternalExportsPageController implements Initializable {
     private String registrationId = null;
     ObservableList<String> destinationlist = FXCollections.observableArrayList();
     ObservableList<InternalExportsModel> exportsList = FXCollections.observableArrayList();
-    ObservableList<String> searchTypelist = FXCollections.observableArrayList("البحث برقم الصادر", "البحث بتاريخ الصادر", "البحث بالموضوع", "البحث بجهة الصادر", "عرض الكل");
+    ObservableList<String> searchTypelist = FXCollections.observableArrayList("البحث برقم الصادر", "البحث بتاريخ الصادر", "البحث بالموضوع", "البحث بجهة الصادر","البحث برقم الملف", "البحث بالرقم العسكري", "عرض الكل");
     Config config = new Config();
     @FXML
     private ComboBox<?> searchDateDay;
@@ -97,7 +99,7 @@ public class InternalExportsPageController implements Initializable {
         FillComboBox.fillComboBox(searchTypelist, searchType);
         destination.setItems(filleDestination(destinationlist));
         AppDate.setYearValue(year);
-        AppDate.setCurrentYear(year);
+        year.setValue(Integer.toString(HijriCalendar.getSimpleYear()));
         clear(event);
     }
 
@@ -291,14 +293,6 @@ public class InternalExportsPageController implements Initializable {
 
         } catch (IOException | SQLException | JRException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
-        }
-    }
-
-    private void addNames(ActionEvent event) {
-        if (registrationId != null) {
-            App.lodAddNmaesPage(registrationId, AppDate.getYear(getExportsDate()), "internal");
-        } else {
-            showAlert("", "اختر السجل من الجدول");
         }
     }
 
@@ -577,6 +571,16 @@ public class InternalExportsPageController implements Initializable {
                 vbox.getChildren().clear();
                 viewdata(getDataByExportNumber());
                 break;
+            case "البحث برقم الملف":
+                internalExportsObject.clear(); 
+                vbox.getChildren().clear();
+                viewdata(getDataBySaveFile());
+                break;
+            case "البحث بالرقم العسكري":
+                internalExportsObject.clear();
+                vbox.getChildren().clear();
+                viewdata(getDataMitaryID());
+                break;
         }
     }
 
@@ -593,7 +597,7 @@ public class InternalExportsPageController implements Initializable {
     public ResultSet getDataByDestination() {
         ResultSet rs = null;
         try {
-            rs = DatabaseAccess.selectQuiry("SELECT * FROM internalexports WHERE DESTINATION LIKE '" + "%" + getSearchText() + "%" + "' AND RECORDYEAR = '" + getYear() + "' ");
+            rs = DatabaseAccess.selectQuiry("SELECT REGISNO,EXPORTDATE,DESTINATION,TOPIC,SAVEFILE,NOTES FROM internalexports WHERE DESTINATION LIKE '" + "%" + getSearchText() + "%" + "' AND RECORDYEAR = '" + getYear() + "' ");
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
@@ -603,7 +607,16 @@ public class InternalExportsPageController implements Initializable {
     public ResultSet getDataByTopic() {
         ResultSet rs = null;
         try {
-            rs = DatabaseAccess.selectQuiry("SELECT * FROM internalexports WHERE TOPIC LIKE '" + "%" + getSearchText() + "%" + "' AND RECORDYEAR = '" + getYear() + "' ");
+            rs = DatabaseAccess.selectQuiry("SELECT REGISNO,EXPORTDATE,DESTINATION,TOPIC,SAVEFILE,NOTES FROM internalexports WHERE TOPIC LIKE '" + "%" + getSearchText() + "%" + "' AND RECORDYEAR = '" + getYear() + "' ");
+        } catch (IOException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
+        return rs;
+    }
+    public ResultSet getDataMitaryID() {
+        ResultSet rs = null;
+        try {
+            rs = DatabaseAccess.selectQuiry("SELECT internalexports.REGISNO,internalexports.EXPORTDATE,internalexports.DESTINATION,internalexports.TOPIC,internalexports.SAVEFILE,internalexports.NOTES FROM internalexports,circularnames WHERE internalexports.REGISNO = circularnames.CIRCULARID AND circularnames.MILITARYID =  '" +  getSearchText() + "' AND RECORDYEAR = '" + getYear() + "' ");
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
@@ -623,7 +636,16 @@ public class InternalExportsPageController implements Initializable {
     public ResultSet getDataByExportNumber() {
         ResultSet rs = null;
         try {
-            rs = DatabaseAccess.select("internalexports", "REGISNO = '" + getSearchText() + "'");
+            rs = DatabaseAccess.select("internalexports", "REGISNO = '" + getSearchText() + "' AND RECORDYEAR = '" + getYear() + "'");
+        } catch (IOException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
+        return rs;
+    }
+    public ResultSet getDataBySaveFile() {
+        ResultSet rs = null;
+        try {
+            rs = DatabaseAccess.select("internalexports", "SAVEFILE = '" + getSearchText() + "' AND RECORDYEAR = '" + getYear() + "'");
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
@@ -647,6 +669,16 @@ public class InternalExportsPageController implements Initializable {
 
     @FXML
     private void getIncomingData(KeyEvent event) {
+        try {
+            ResultSet rs = DatabaseAccess.select("internalincoming", "REGIS_NO = '" + getIncomingNum() + "' AND RECORD_YEAR = '" + getYear() + "'");
+            if(rs.next()){
+                setTopic(rs.getString("TOPIC"));
+                setDestination(rs.getString("CIRCULAR_DIR"));
+                setSaveFaile(rs.getString("SAVE_FILE"));
+            }
+        } catch (IOException | SQLException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
     }
 
 }

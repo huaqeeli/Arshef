@@ -137,4 +137,13 @@ public class HomePageController implements Initializable {
          content.setCenter(App.loadFXML("/view/InternalExportsPage"));
     }
 
+    @FXML
+    private void followupPage(ActionEvent event) {
+    }
+
+    @FXML
+    private void formationPage(ActionEvent event) throws IOException {
+        content.setCenter(App.loadFXML("/view/FormationPage"));
+    }
+
 }

@@ -68,7 +68,7 @@ public class ExternalExportsPageController implements Initializable {
     
     ObservableList<ExportsModel> Exportslist = FXCollections.observableArrayList();
     ObservableList<String> placeComboBoxlist = FXCollections.observableArrayList();
-    ObservableList<String> searchTypelist = FXCollections.observableArrayList("البحث برقم الصادر", "البحث بتاريخ الصادر", "البحث بالموضوع", "البحث بجهة الصادر", "عرض الكل");
+    ObservableList<String> searchTypelist = FXCollections.observableArrayList("البحث برقم الصادر", "البحث بتاريخ الصادر", "البحث بالموضوع", "البحث بجهة الصادر","البحث الرقم العسكري","البحث برقم الملف","عرض الكل");
     ObservableList<String> uintComboBoxlist = FXCollections.observableArrayList();
     
     File imagefile = null;
@@ -451,7 +451,7 @@ public class ExternalExportsPageController implements Initializable {
         try {
             exportObject.clear();
             vbox.getChildren().clear();
-            viewdata(DatabaseAccess.getData("SELECT * FROM exportsdata ORDER BY ENTRYDATE DESC"));
+            viewdata(DatabaseAccess.getData("SELECT ID,ENTRYDATE,TOPIC,DESTINATION,SAVEFILE,EXPORTNUM,EXPORTDATE,NOTES FROM exportsdata ORDER BY ENTRYDATE DESC"));
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
@@ -490,6 +490,8 @@ public class ExternalExportsPageController implements Initializable {
         setExportDate(exportsModel.getExportDate());
         setNotes(exportsModel.getNotes());
         recordYear = AppDate.getYear(exportsModel.getEntryDate());
+        id = exportsModel.getId();
+        enteryDate = exportsModel.getEntryDate();
     }
     
     private void viewdata(ResultSet rs) {
@@ -548,6 +550,16 @@ public class ExternalExportsPageController implements Initializable {
                 vbox.getChildren().clear();
                 viewdata(getDataByExportNumber());
                 break;
+            case "البحث برقم الملف":
+                exportObject.clear();
+                vbox.getChildren().clear();
+                viewdata(getDataBySaveFile());
+                break;
+            case "البحث الرقم العسكري":
+                exportObject.clear();
+                vbox.getChildren().clear();
+                viewdata(getDataMitaryID());
+                break;
         }
     }
     
@@ -564,7 +576,7 @@ public class ExternalExportsPageController implements Initializable {
     public ResultSet getDataByDestination() {
         ResultSet rs = null;
         try {
-            rs = DatabaseAccess.selectQuiry("SELECT * FROM exportsdata WHERE DESTINATION LIKE '" + "%" + getSearchText() + "%" + "' AND RECORDYEAR = '" + getYear() + "' ");
+            rs = DatabaseAccess.selectQuiry("SELECT ID,ENTRYDATE,TOPIC,DESTINATION,SAVEFILE,EXPORTNUM,EXPORTDATE,NOTES FROM exportsdata WHERE DESTINATION LIKE '" + "%" + getSearchText() + "%" + "' AND RECORDYEAR = '" + getYear() + "' ");
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
@@ -574,7 +586,7 @@ public class ExternalExportsPageController implements Initializable {
     public ResultSet getDataByTopic() {
         ResultSet rs = null;
         try {
-            rs = DatabaseAccess.selectQuiry("SELECT * FROM exportsdata WHERE TOPIC LIKE '" + "%" + getSearchText() + "%" + "' AND RECORDYEAR = '" + getYear() + "' ");
+            rs = DatabaseAccess.selectQuiry("SELECT ID,ENTRYDATE,TOPIC,DESTINATION,SAVEFILE,EXPORTNUM,EXPORTDATE,NOTES FROM exportsdata WHERE TOPIC LIKE '" + "%" + getSearchText() + "%" + "' AND RECORDYEAR = '" + getYear() + "' ");
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
@@ -594,7 +606,25 @@ public class ExternalExportsPageController implements Initializable {
     public ResultSet getDataByExportNumber() {
         ResultSet rs = null;
         try {
-            rs = DatabaseAccess.select("exportsdata", "EXPORTNUM = '" + getSearchText() + "'");
+            rs = DatabaseAccess.select("exportsdata", "EXPORTNUM = '" + getSearchText() + "'AND RECORDYEAR = '" + getYear() + "' ");
+        } catch (IOException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
+        return rs;
+    }
+    public ResultSet getDataBySaveFile() {
+        ResultSet rs = null;
+        try {
+            rs = DatabaseAccess.select("exportsdata", "SAVEFILE = '" + getSearchText() + "' AND RECORDYEAR = '" + getYear() + "'");
+        } catch (IOException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
+        return rs;
+    }
+    public ResultSet getDataMitaryID() {
+        ResultSet rs = null;
+        try {
+            rs = DatabaseAccess.getData("SELECT exportsdata.ID,exportsdata.ENTRYDATE,exportsdata.TOPIC,exportsdata.DESTINATION,exportsdata.SAVEFILE,exportsdata.EXPORTNUM,exportsdata.EXPORTDATE,exportsdata.NOTES FROM exportsdata,circularnames WHERE exportsdata.ID = circularnames.CIRCULARID AND circularnames.MILITARYID = '" + getSearchText() + "' AND RECORDYEAR = '" + getYear() + "'");
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }

@@ -429,6 +429,8 @@
     -fx-font-size: 13px;
     -fx-text-fill: #FFFFFF;
     -fx-background-color:  #596367;
+     -fx-border-radius: 100 ;
+      -fx-background-radius: 100;
 }
 .itemBackground{
     -fx-background-image: url(../images/showimage.png); 

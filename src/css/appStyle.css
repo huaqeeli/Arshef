@@ -422,15 +422,17 @@
     -fx-font-family: "URW DIN Arabic"; 
     -fx-font-size: 13px;
     -fx-border-color: #D5D8D8;
-    -fx-border-width: 0 2 0 0 ;
+    -fx-border-width: 0 2 0 2 ;
+    -fx-border-radius: 100 ;
+    
 }
 .squnseLable {
     -fx-font-family: "URW DIN Arabic"; 
     -fx-font-size: 13px;
     -fx-text-fill: #FFFFFF;
     -fx-background-color:  #596367;
-     -fx-border-radius: 100 ;
-      -fx-background-radius: 100;
+    -fx-border-radius: 100 ;
+    -fx-background-radius: 100;
 }
 .itemBackground{
     -fx-background-image: url(../images/showimage.png); 
@@ -444,14 +446,18 @@
     -fx-effect: dropshadow(three-pass-box,#3C3B3B, 20, 0, 5, 5); 
 }
 .headerPanl{
-    -fx-background-color: #596367;
+    /*-fx-background-color: #596367;*/
 }
 .tableHeder{
     -fx-font-family: "URW DIN Arabic";
     -fx-font-size: 15px;
     -fx-text-fill: #FFFFFF;
     -fx-border-color: #747D80;
-    -fx-border-width: 0 2 0 0 ;
+    -fx-border-width: 0 2 0 2 ;
+    -fx-border-radius: 100 ;
+     -fx-background-color: #3B4244;
+    -fx-background-radius: 100;
+     -fx-effect: dropshadow(three-pass-box,#3C3B3B, 20, 0, 5, 5); 
 }
 .tableHeder:hover{
 
@@ -461,10 +467,14 @@
     -fx-border-width: 0 0 5 0 ;
 }
 .itemPanl:hover{
-    /*    -fx-background-color: #E6E8E3;*/
     -fx-background-color: #F68A1F;
     -fx-text-fill: #FFFFFF;
 }
 .itemPanl:selected{
     -fx-background-color: #1E3606;
+}
+.markButton{
+    -fx-background-color: #686868;
+    -fx-background-radius: 100;
+    -fx-border-radius: 100 ;
 }

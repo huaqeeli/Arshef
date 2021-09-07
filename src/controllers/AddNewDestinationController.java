@@ -92,7 +92,7 @@ public class AddNewDestinationController implements Initializable {
     private void coursplaceEdit(ActionEvent event) {
         String tableName = "placenames";
         String fieldName = "`PLACENAME`=?,`UINTTYPE`=?";
-        String[] data = {getNewplacename()};
+        String[] data = {getNewplacename(), getUintType()};
         boolean newcoursnameState = FormValidation.textFieldNotEmpty(newplacename, "الرجاء اسم الجهة");
         boolean newcoursidState = FormValidation.notNull(placeid, "الرجاء اختر السجل من الجدول");
         if (newcoursnameState && newcoursidState) {

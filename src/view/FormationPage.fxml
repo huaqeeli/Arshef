@@ -27,21 +27,14 @@
          <children>
             <HBox alignment="CENTER" nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0">
                <children>
-                  <ComboBox fx:id="searchType" accessibleText="coursCombobox" maxWidth="1.7976931348623157E308" onAction="#enableSearchDate" prefHeight="40.0" prefWidth="150.0" promptText="طريقة البحث" styleClass="appComboBox" HBox.hgrow="ALWAYS">
+                  <ComboBox fx:id="searchUint" accessibleText="coursCombobox" maxWidth="1.7976931348623157E308" onAction="#getDataBYUint" prefHeight="40.0" prefWidth="100.0" styleClass="appComboBox" HBox.hgrow="ALWAYS" />
+                  <ComboBox fx:id="searchType" accessibleText="coursCombobox" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="150.0" promptText="طريقة البحث" styleClass="appComboBox" HBox.hgrow="ALWAYS">
                      <HBox.margin>
-                        <Insets left="5.0" />
+                        <Insets />
                      </HBox.margin>
                   </ComboBox>
-                  <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="350.0">
-                     <children>
-                        <ComboBox fx:id="searchDateDay" accessibleText="coursCombobox" disable="true" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="60.0" styleClass="appComboBox" HBox.hgrow="ALWAYS" />
-                        <ComboBox fx:id="searchDateMonth" accessibleText="coursCombobox" disable="true" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="60.0" styleClass="appComboBox" HBox.hgrow="ALWAYS" />
-                        <ComboBox fx:id="searchDateYear" accessibleText="coursCombobox" disable="true" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="60.0" styleClass="appComboBox" HBox.hgrow="ALWAYS" />
-                     </children>
-                  </HBox>
-                  <ComboBox fx:id="year" accessibleText="coursCombobox" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="100.0" styleClass="appComboBox" HBox.hgrow="ALWAYS" />
                   <TextField fx:id="searchText" alignment="CENTER" onAction="#searchData" prefHeight="40.0" promptText="ادخل نص البحث" styleClass="appText" HBox.hgrow="ALWAYS" />
-                  <Button contentDisplay="CENTER" focusTraversable="false" mnemonicParsing="false" prefHeight="40.0" prefWidth="29.0" styleClass="searchPageButton">
+                  <Button contentDisplay="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#searchData" prefHeight="40.0" prefWidth="29.0" styleClass="searchPageButton">
                      <graphic>
                         <ImageView fitHeight="17.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -130,7 +123,7 @@
                   <Insets bottom="2.0" left="5.0" right="5.0" />
                </VBox.margin>
             </HBox>
-            <HBox alignment="CENTER" maxHeight="70.0" maxWidth="1.7976931348623157E308" minHeight="70.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="72.0" prefWidth="1200.0" style="-fx-border-color: #B4BCAC; -fx-border-width: 2;" styleClass="headerPanl">
+            <HBox alignment="CENTER" maxHeight="70.0" maxWidth="1.7976931348623157E308" minHeight="70.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="72.0" prefWidth="1200.0" spacing="2.0" style="-fx-border-color: #B4BCAC; -fx-border-width: 2;" styleClass="headerPanl">
                <children>
                   <Label alignment="CENTER" prefHeight="40.0" prefWidth="60.0" styleClass="tableHeder" text="عدد" />
                   <Label alignment="CENTER" prefHeight="40.0" prefWidth="130.0" styleClass="tableHeder" text="الرقم العسكري" />
@@ -139,6 +132,7 @@
                   <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="227.0" styleClass="tableHeder" text="الاسم" HBox.hgrow="ALWAYS" />
                   <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="227.0" styleClass="tableHeder" text="الوحدة" HBox.hgrow="ALWAYS" />
                   <Label alignment="CENTER" prefHeight="40.0" prefWidth="300.0" styleClass="tableHeder" text="ملاحظات" />
+                  <Label alignment="CENTER" layoutX="903.0" layoutY="25.0" prefHeight="40.0" prefWidth="100.0" />
                </children>
                <VBox.margin>
                   <Insets left="5.0" right="5.0" />

@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 
 <AnchorPane id="AnchorPane" nodeOrientation="RIGHT_TO_LEFT" prefHeight="50.0" prefWidth="1200.0" stylesheets="@../css/appStyle.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.DisplayItemController">
    <children>
-      <HBox alignment="CENTER" maxHeight="70.0" maxWidth="1.7976931348623157E308" minHeight="70.0" nodeOrientation="RIGHT_TO_LEFT" onMouseClicked="#click" prefHeight="72.0" prefWidth="1200.0" styleClass="itemPanl" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <HBox alignment="CENTER" maxHeight="70.0" maxWidth="1.7976931348623157E308" minHeight="70.0" nodeOrientation="RIGHT_TO_LEFT" onMouseClicked="#click" prefHeight="72.0" prefWidth="1200.0" spacing="2.0" styleClass="itemPanl" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label fx:id="squance" alignment="CENTER" prefHeight="40.0" prefWidth="40.0" styleClass="squnseLable" text="عدد" />
+            <Label fx:id="squance" alignment="CENTER" prefHeight="40.0" prefWidth="40.0" styleClass="squnseLable" text="عدد">
+               <HBox.margin>
+                  <Insets left="10.0" />
+               </HBox.margin></Label>
             <Label fx:id="saveNum" alignment="CENTER" prefHeight="40.0" prefWidth="119.0" styleClass="itemLable" text="رقم الحفظ" />
             <Label fx:id="displayDate" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="119.0" styleClass="itemLable" text="تاريخ العرض" />
             <Label fx:id="Destination" alignment="CENTER" layoutX="465.0" layoutY="23.0" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="227.0" styleClass="itemLable" text="جهة المعاملة" HBox.hgrow="ALWAYS" />

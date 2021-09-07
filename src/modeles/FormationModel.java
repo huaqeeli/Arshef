@@ -3,7 +3,7 @@ package modeles;
 
 
 public class FormationModel {
-    private int squnce;
+    private int squnce,markState;
     private String militaryID,personalID,name,rank,uint,note;
 
     public FormationModel() {
@@ -18,6 +18,16 @@ public class FormationModel {
         this.uint = uint;
         this.note = note;
     }
+
+    public int getMarkState() {
+        return markState;
+    }
+
+    public void setMarkState(int markState) {
+        this.markState = markState;
+    }
+
+   
 
     public String getNote() {
         return note;

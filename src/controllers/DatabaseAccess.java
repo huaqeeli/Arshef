@@ -51,6 +51,24 @@ public class DatabaseAccess {
         return lastId;
     }
 
+    public static void insert(String tapleName, String fildName, String valueNamber, int data) throws IOException {
+        Connection con = DatabaseConniction.dbConnector();
+        String guiry = "INSERT INTO " + tapleName + "(" + fildName + ")VALUES(" + valueNamber + " )";
+        try {
+            PreparedStatement psm = con.prepareStatement(guiry);
+            psm.setInt(1, data);
+            int t = psm.executeUpdate();
+            if (t > 0) {
+            } else {
+                JOptionPane.showMessageDialog(null, "حدث خطاء في عملية الحفظ الرجاء المحاولة مرة اخرى");
+            }
+            con.close();
+            psm.close();
+        } catch (SQLException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
+    }
+
     public static int insert(String tapleName, String fildName, String valueNamber, String[] data, File imagefile) throws IOException {
         int lastId = 0;
         Connection con = DatabaseConniction.dbConnector();
@@ -175,6 +193,7 @@ public class DatabaseAccess {
         }
         return pdfByte;
     }
+
     public static byte[] getSecretPdfFile(String regisid, String year) {
         InputStream image = null;
         byte[] pdfByte = null;
@@ -197,6 +216,7 @@ public class DatabaseAccess {
         }
         return pdfByte;
     }
+
     public static byte[] getInternalExportPdfFile(String regisid, String year) {
         InputStream image = null;
         byte[] pdfByte = null;
@@ -283,7 +303,7 @@ public class DatabaseAccess {
     public static ResultSet getData(String quiry) throws IOException {
         ResultSet rs = null;
         Connection con = DatabaseConniction.dbConnector();
-      
+
         try {
             PreparedStatement psm = con.prepareStatement(quiry);
             rs = psm.executeQuery();
@@ -352,6 +372,7 @@ public class DatabaseAccess {
     public static ResultSet select(String tapleName, String condation) throws IOException {
         ResultSet rs = null;
         String guiry = "SELECT * FROM " + tapleName + " " + "WHERE" + " " + condation;
+        System.out.println(guiry);
         Connection con = DatabaseConniction.dbConnector();
         try {
             PreparedStatement psm = con.prepareStatement(guiry);
@@ -422,7 +443,7 @@ public class DatabaseAccess {
 
     public static void updat(String tapleName, String fildNameAndValue, String condition) throws IOException {
         Connection con = DatabaseConniction.dbConnector();
-        String guiry = "UPDATE " + tapleName + " SET " + fildNameAndValue + " WHERE" + condition;
+        String guiry = "UPDATE " + tapleName + " SET " + fildNameAndValue + " WHERE" + " " + condition;
         try {
             PreparedStatement psm = con.prepareStatement(guiry);
             psm.executeUpdate();
@@ -548,7 +569,7 @@ public class DatabaseAccess {
             } catch (SQLException ex) {
                 FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
             }
-            
+
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }

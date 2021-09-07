@@ -3,7 +3,6 @@ package controllers;
 import Serveces.InternalExportsPageListener;
 import Validation.FormValidation;
 import static Validation.FormValidation.showAlert;
-import arshef.App;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -15,8 +14,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -124,7 +121,7 @@ public class InternalExportsPageController implements Initializable {
         try {
             internalExportsObject.clear();
             vbox.getChildren().clear();
-            viewdata(DatabaseAccess.getData("SELECT REGISNO,EXPORTDATE,DESTINATION,TOPIC,SAVEFILE,NOTES FROM internalexports WHERE RECORDYEAR ='" + HijriCalendar.getSimpleYear() + "' ORDER BY REGISNO DESC"));
+            viewdata(DatabaseAccess.getData("SELECT REGISNO,EXPORTDATE,DESTINATION,TOPIC,SAVEFILE,NOTES FROM internalexports WHERE EXPORTDATE ='" + HijriCalendar.getSimpleDate()+ "' ORDER BY REGISNO DESC"));
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
@@ -587,7 +584,7 @@ public class InternalExportsPageController implements Initializable {
     public ResultSet getAllData() {
         ResultSet rs = null;
         try {
-            rs = DatabaseAccess.select("internalexports", "RECORDYEAR = '" + getYear() + "' ");
+            rs = DatabaseAccess.select("internalexports", "RECORDYEAR = '" + getYear() + "' ORDER BY REGISNO DESC");
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }

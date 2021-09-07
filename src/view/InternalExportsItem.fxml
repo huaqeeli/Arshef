@@ -10,7 +10,7 @@
 
 <AnchorPane id="AnchorPane" prefHeight="50.0" prefWidth="1200.0" styleClass="mainFxmlClass" stylesheets="@../css/appStyle.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.InternalExportsItemController">
    <children>
-      <HBox alignment="CENTER" maxHeight="70.0" maxWidth="1.7976931348623157E308" minHeight="70.0" nodeOrientation="RIGHT_TO_LEFT" onMouseClicked="#click" prefHeight="72.0" prefWidth="1200.0" styleClass="itemPanl" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <HBox alignment="CENTER" maxHeight="70.0" maxWidth="1.7976931348623157E308" minHeight="70.0" nodeOrientation="RIGHT_TO_LEFT" onMouseClicked="#click" prefHeight="72.0" prefWidth="1200.0" spacing="2.0" styleClass="itemPanl" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Label fx:id="regisNO" alignment="CENTER" prefHeight="40.0" prefWidth="92.0" styleClass="itemLable" text="رقم القيد" />
             <Label fx:id="exportsDate" alignment="CENTER" prefHeight="40.0" prefWidth="119.0" styleClass="itemLable" text="تاريخ الصادر" />
@@ -20,7 +20,7 @@
             <Label fx:id="notes" alignment="CENTER" prefHeight="40.0" prefWidth="200.0" styleClass="itemLable" text="ملاحظات" />
             <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="50.0" prefWidth="150.0" spacing="2.0" HBox.hgrow="ALWAYS">
                <children>
-                  <Button mnemonicParsing="false" onAction="#printBarcod" prefHeight="25.0" prefWidth="25.0" styleClass="actionButton">
+                  <Button mnemonicParsing="false" onAction="#printBarcod" prefHeight="40.0" prefWidth="40.0" styleClass="actionButton">
                      <graphic>
                         <ImageView fitHeight="23.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -29,7 +29,7 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button mnemonicParsing="false" onAction="#scanImage" prefHeight="25.0" prefWidth="25.0" styleClass="actionButton">
+                  <Button mnemonicParsing="false" onAction="#scanImage" prefHeight="40.0" prefWidth="40.0" styleClass="actionButton">
                      <graphic>
                         <ImageView fitHeight="23.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -38,7 +38,7 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button mnemonicParsing="false" onAction="#addNames" prefHeight="25.0" prefWidth="25.0" styleClass="actionButton">
+                  <Button mnemonicParsing="false" onAction="#addNames" prefHeight="40.0" prefWidth="40.0" styleClass="actionButton">
                      <graphic>
                         <ImageView fitHeight="23.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -47,7 +47,7 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button mnemonicParsing="false" onAction="#showImage" prefHeight="25.0" prefWidth="25.0" styleClass="actionButton">
+                  <Button mnemonicParsing="false" onAction="#showImage" prefHeight="40.0" prefWidth="40.0" styleClass="actionButton">
                      <graphic>
                         <ImageView fitHeight="23.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
                            <image>

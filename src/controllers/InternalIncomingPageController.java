@@ -116,7 +116,7 @@ public class InternalIncomingPageController implements Initializable {
         try {
             internalIncomingObject.clear();
             vbox.getChildren().clear();
-            viewdata(DatabaseAccess.getData("SELECT REGIS_NO,RECIPIENT_DATE,CIRCULAR_NO,CIRCULAR_DATE,CIRCULAR_DIR,TOPIC,SAVE_FILE,NOTES FROM internalincoming where RECORD_YEAR ='" +HijriCalendar.getSimpleYear() + "' ORDER BY REGIS_NO DESC"));
+            viewdata(DatabaseAccess.getData("SELECT REGIS_NO,RECIPIENT_DATE,CIRCULAR_NO,CIRCULAR_DATE,CIRCULAR_DIR,TOPIC,SAVE_FILE,NOTES FROM internalincoming where RECIPIENT_DATE ='" +HijriCalendar.getSimpleDate()+ "' ORDER BY REGIS_NO DESC"));
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
@@ -520,7 +520,7 @@ public class InternalIncomingPageController implements Initializable {
     public ResultSet getAllData() {
         ResultSet rs = null;
         try {
-            rs = DatabaseAccess.select("internalincoming", "RECORD_YEAR = '" + getYear() + "' ");
+            rs = DatabaseAccess.select("internalincoming", "RECORD_YEAR = '" + getYear() + "'  ORDER BY REGIS_NO DESC ");
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }

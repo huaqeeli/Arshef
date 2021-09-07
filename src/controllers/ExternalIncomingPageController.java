@@ -11,8 +11,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -31,12 +29,12 @@ import javafx.stage.Stage;
 import modeles.ArchefModel;
 
 public class ExternalIncomingPageController implements Initializable {
-    
+
     ObservableList<ArchefModel> Archeflist = FXCollections.observableArrayList();
     ObservableList<String> coursComboBoxlist = FXCollections.observableArrayList();
     ObservableList<String> placeComboBoxlist = FXCollections.observableArrayList();
-    ObservableList<String> searchTypelist = FXCollections.observableArrayList("البحث برقم المعاملة", "البحث برقم الوارد", "البحث بالموضوع", "البحث بجهة المعاملة","البحث برقم الملف","البحث بالرقم العسكري");
-    
+    ObservableList<String> searchTypelist = FXCollections.observableArrayList("البحث برقم المعاملة", "البحث برقم الوارد", "البحث بتاريخ الوارد", "البحث بالموضوع", "البحث بجهة المعاملة", "البحث برقم الملف", "البحث بالرقم العسكري", "عرض الكل");
+
     @FXML
     private TextField imageUrl;
     String circularID = null;
@@ -45,7 +43,7 @@ public class ExternalIncomingPageController implements Initializable {
     Stage stage = new Stage();
     byte[] pdfimage = null;
     String arshefyear = null;
-    
+
     @FXML
     private TextField searchText;
     @FXML
@@ -84,6 +82,12 @@ public class ExternalIncomingPageController implements Initializable {
     List<ArchefModel> archefModelObject = new ArrayList<>();
     private ExternalIncomingPageListener mylistener;
     ActionEvent event;
+    @FXML
+    private ComboBox<String> searchDateDay;
+    @FXML
+    private ComboBox<String> searchDateMonth;
+    @FXML
+    private ComboBox<String> searchDateYear;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -93,12 +97,14 @@ public class ExternalIncomingPageController implements Initializable {
         AppDate.setDateValue(receiptNumberDateDay, receiptNumberDateMonth, receiptNumberDateYear);
         AppDate.setCurrentDate(circularDateDay, circularDateMonth, circularDateYear);
         AppDate.setCurrentDate(receiptNumberDateDay, receiptNumberDateMonth, receiptNumberDateYear);
+        AppDate.setDateValue(searchDateDay, searchDateMonth, searchDateYear);
+        AppDate.setCurrentDate(searchDateDay, searchDateMonth, searchDateYear);
         AppDate.setYearValue(year);
         year.setValue(Integer.toString(HijriCalendar.getSimpleYear()));
         destination.setItems(filleCoursPlace(placeComboBoxlist));
         clear(event);
     }
-    
+
     private ObservableList filleCoursPlace(ObservableList list) {
         try {
             ResultSet rs = DatabaseAccess.select("placenames", "UINTTYPE='خارجي'");
@@ -115,7 +121,7 @@ public class ExternalIncomingPageController implements Initializable {
         }
         return list;
     }
-    
+
     @FXML
     private void save(ActionEvent event) throws SQLException {
         String tableName = "externalincoming";
@@ -130,7 +136,7 @@ public class ExternalIncomingPageController implements Initializable {
             fieldName = "`CIRCULARID`,`CIRCULARDATE`,`RECEIPTNUMBER`,`RECEIPTDATE`,`DESTINATION`,`TOPIC`,`SAVEFILE`,`ACTION`,`ARSHEFYEAR`";
             valuenumbers = "?,?,?,?,?,?,?,?,?";
         }
-        
+
         boolean circularidState = FormValidation.textFieldNotEmpty(circularid, "الرجاء ادخال رقم المعاملة");
         boolean circularidTypeNumber = FormValidation.textFieldTypeNumber(circularid, "يقبل ارقام فقط");
         boolean circularidSNotexisting = FormValidation.ifexisting("externalincoming", "`CIRCULARID`,`ARSHEFYEAR`", "CIRCULARID ='" + getCircularid() + "' AND ARSHEFYEAR='" + arshefyear + "'", "تم ادخال رقم المعاملة مسبقا");
@@ -140,7 +146,7 @@ public class ExternalIncomingPageController implements Initializable {
         boolean destinationState = FormValidation.comboBoxNotEmpty(destination, "الرجاء ادخال جهة المعاملة");
         boolean topicState = FormValidation.textFieldNotEmpty(topic, "الرجاء ادخال الموضوع");
         boolean saveFileState = FormValidation.textFieldNotEmpty(saveFile, "الرجاء ادخال ملف الحفظ");
-        
+
         if (circularidState && circularidSNotexisting && receiptNumberNotexisting && receiptNumberState && destinationState && topicState && saveFileState && circularidTypeNumber && receiptNumberTypeNumber) {
             try {
                 DatabaseAccess.insert(tableName, fieldName, valuenumbers, data, imagefile);
@@ -151,7 +157,7 @@ public class ExternalIncomingPageController implements Initializable {
             }
         }
     }
-    
+
     @FXML
     private void edit(ActionEvent event) throws SQLException {
         String tableName = "externalincoming";
@@ -163,7 +169,7 @@ public class ExternalIncomingPageController implements Initializable {
         } else {
             fieldName = "`CIRCULARID`=?,`CIRCULARDATE`=?,`RECEIPTNUMBER`=?,`RECEIPTDATE`=?,`DESTINATION`=?,`TOPIC`=?,`SAVEFILE`=?,`ACTION`=?";
         }
-        
+
         boolean circularidState = FormValidation.textFieldNotEmpty(circularid, "الرجاء ادخال رقم المعاملة");
         boolean circularidTypeNumber = FormValidation.textFieldTypeNumber(circularid, "الرجاء ادخال رقم المعاملة");
         boolean receiptNumberState = FormValidation.textFieldNotEmpty(receiptNumber, "الرجاء ادخال رقم الوارد");
@@ -171,7 +177,7 @@ public class ExternalIncomingPageController implements Initializable {
         boolean destinationState = FormValidation.comboBoxNotEmpty(destination, "الرجاء ادخال جهة المعاملة");
         boolean topicState = FormValidation.textFieldNotEmpty(topic, "الرجاء ادخال الموضوع");
         boolean saveFileState = FormValidation.textFieldNotEmpty(saveFile, "الرجاء ادخال ملف الحفظ");
-        
+
         if (circularidState && receiptNumberState && destinationState && topicState && saveFileState && circularidTypeNumber && receiptNumberTypeNumber) {
             try {
                 DatabaseAccess.updat(tableName, fieldName, data, "CIRCULARID = '" + circularID + "' AND ARSHEFYEAR = '" + arshefyear + "' ", imagefile);
@@ -182,7 +188,7 @@ public class ExternalIncomingPageController implements Initializable {
             }
         }
     }
-    
+
     @FXML
     private void delete(ActionEvent event) {
         try {
@@ -194,119 +200,119 @@ public class ExternalIncomingPageController implements Initializable {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
     }
-    
+
     public String getImageUrl() {
         return imageUrl.getText();
     }
-    
+
     public void setImageUrl(String imageUrl) {
         this.imageUrl.setText(imageUrl);
     }
-    
+
     public String getSearchText() {
         return searchText.getText();
     }
-    
+
     public void setSearchText(String searchText) {
         this.searchText.setText(searchText);
     }
-    
+
     public String getSearchType() {
         return searchType.getValue();
     }
-    
+
     public void setSearchType(String searchType) {
         this.searchType.setValue(searchType);
     }
-    
+
     public String getYear() {
         return year.getValue();
     }
-    
+
     public void setYear(String year) {
         this.year.setValue(year);
     }
-    
+
     public String getAction() {
         return action.getText();
     }
-    
+
     public void setAction(String action) {
         this.action.setText(action);
     }
-    
+
     public String getCircularid() {
         return circularid.getText();
     }
-    
+
     public void setCircularid(String circularid) {
         this.circularid.setText(circularid);
     }
-    
+
     public String getReceiptNumber() {
         return receiptNumber.getText();
     }
-    
+
     public void setReceiptNumber(String receiptNumber) {
         this.receiptNumber.setText(receiptNumber);
     }
-    
+
     public String getDestination() {
         return destination.getValue();
     }
-    
+
     public void setDestination(String destination) {
         this.destination.setValue(destination);
     }
-    
+
     public String getTopic() {
         return topic.getText();
     }
-    
+
     public void setTopic(String topic) {
         this.topic.setText(topic);
     }
-    
+
     public String getSaveFile() {
         return saveFile.getText();
     }
-    
+
     public void setSaveFile(String saveFile) {
         this.saveFile.setText(saveFile);
     }
-    
+
     public String getCircularDate() {
         return AppDate.getDate(circularDateDay, circularDateMonth, circularDateYear);
     }
-    
+
     public void setCircularDate() {
         AppDate.setCurrentDate(circularDateDay, circularDateMonth, circularDateYear);
     }
-    
+
     public void setCircularDate(String date) {
         AppDate.setSeparateDate(circularDateDay, circularDateMonth, circularDateYear, date);
     }
-    
+
     public String getReceiptNumberDate() {
         return AppDate.getDate(receiptNumberDateDay, receiptNumberDateMonth, receiptNumberDateYear);
     }
-    
+
     public void setReceiptNumberDate() {
         AppDate.setCurrentDate(receiptNumberDateDay, receiptNumberDateMonth, receiptNumberDateYear);
     }
-    
+
     public void setReceiptNumberDate(String date) {
         AppDate.setSeparateDate(receiptNumberDateDay, receiptNumberDateMonth, receiptNumberDateYear, date);
     }
-    
+
     public String getCircularDateYear() {
         return circularDateYear.getValue();
     }
-    
+
     public void setCircularDateYear(String circularDateYear) {
         this.circularDateYear.setValue(circularDateYear);
     }
-    
+
     @FXML
     private void clear(ActionEvent event) {
         imageUrl.setText(null);
@@ -320,17 +326,17 @@ public class ExternalIncomingPageController implements Initializable {
         AppDate.setCurrentDate(circularDateDay, circularDateMonth, circularDateYear);
         AppDate.setCurrentDate(receiptNumberDateDay, receiptNumberDateMonth, receiptNumberDateYear);
     }
-    
+
     private void refreshData() {
         try {
             archefModelObject.clear();
             vbox.getChildren().clear();
-            viewdata(DatabaseAccess.getData("SELECT CIRCULARID,CIRCULARDATE,TOPIC,DESTINATION,SAVEFILE,RECEIPTNUMBER,RECEIPTDATE,ACTION FROM externalincoming ORDER BY ID DESC"));
+            viewdata(DatabaseAccess.getData("SELECT CIRCULARID,CIRCULARDATE,TOPIC,DESTINATION,SAVEFILE,RECEIPTNUMBER,RECEIPTDATE,ACTION FROM externalincoming WHERE RECEIPTDATE = '" + HijriCalendar.getSimpleDate() + "'  ORDER BY ID DESC"));
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
     }
-    
+
     private List<ArchefModel> getData(ResultSet rs) {
         List<ArchefModel> archefModels = new ArrayList<>();
         ArchefModel archefModel;
@@ -353,7 +359,7 @@ public class ExternalIncomingPageController implements Initializable {
         }
         return archefModels;
     }
-    
+
     private void setChosendata(ArchefModel archefModel) {
         setCircularid(archefModel.getCircularid());
         setCircularDate(archefModel.getCircularDate());
@@ -366,7 +372,7 @@ public class ExternalIncomingPageController implements Initializable {
         arshefyear = AppDate.getYear(archefModel.getReceiptDate());
         circularID = archefModel.getCircularid();
     }
-    
+
     private void viewdata(ResultSet rs) {
         archefModelObject.addAll(getData(rs));
         if (archefModelObject.size() > 0) {
@@ -378,7 +384,7 @@ public class ExternalIncomingPageController implements Initializable {
                 }
             };
         }
-        
+
         try {
             for (ArchefModel archefModel : archefModelObject) {
                 FXMLLoader fxmlLoader = new FXMLLoader();
@@ -392,7 +398,7 @@ public class ExternalIncomingPageController implements Initializable {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
     }
-    
+
     @FXML
     private File getImageUrle(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
@@ -402,7 +408,11 @@ public class ExternalIncomingPageController implements Initializable {
         imageUrl.setText(imagefile.getPath());
         return imagefile;
     }
-    
+
+    public String getSearchDate() {
+        return AppDate.getDate(searchDateDay, searchDateMonth, searchDateYear);
+    }
+
     @FXML
     private void searchData(ActionEvent event) {
         String searchValue = getSearchType();
@@ -437,9 +447,29 @@ public class ExternalIncomingPageController implements Initializable {
                 vbox.getChildren().clear();
                 viewdata(getDataMitaryID());
                 break;
+            case "البحث بتاريخ الوارد":
+                archefModelObject.clear();
+                vbox.getChildren().clear();
+                viewdata(getDataByReceiptDate());
+                break;
+            case "عرض الكل":
+                archefModelObject.clear();
+                vbox.getChildren().clear();
+                viewdata(getAllData());
+                break;
         }
     }
-    
+
+    public ResultSet getAllData() {
+        ResultSet rs = null;
+        try {
+            rs = DatabaseAccess.select("externalincoming", " ARSHEFYEAR = '" + getYear() + "' ORDER BY ID DESC ");
+        } catch (IOException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
+        return rs;
+    }
+
     public ResultSet getDataBycircularid() {
         ResultSet rs = null;
         try {
@@ -449,7 +479,17 @@ public class ExternalIncomingPageController implements Initializable {
         }
         return rs;
     }
-    
+
+    public ResultSet getDataByReceiptDate() {
+        ResultSet rs = null;
+        try {
+            rs = DatabaseAccess.select("externalincoming", "RECEIPTDATE = '" + getSearchDate() + "' ");
+        } catch (IOException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
+        return rs;
+    }
+
     public ResultSet getDataByReceiptNumber() {
         ResultSet rs = null;
         try {
@@ -459,6 +499,7 @@ public class ExternalIncomingPageController implements Initializable {
         }
         return rs;
     }
+
     public ResultSet getDataSaveFile() {
         ResultSet rs = null;
         try {
@@ -468,7 +509,7 @@ public class ExternalIncomingPageController implements Initializable {
         }
         return rs;
     }
-    
+
     public ResultSet getDataByTopic() {
         ResultSet rs = null;
         try {
@@ -478,7 +519,7 @@ public class ExternalIncomingPageController implements Initializable {
         }
         return rs;
     }
-   
+
     public ResultSet getDataMitaryID() {
         ResultSet rs = null;
         try {
@@ -488,7 +529,7 @@ public class ExternalIncomingPageController implements Initializable {
         }
         return rs;
     }
-    
+
     public ResultSet getDataByDestination() {
         ResultSet rs = null;
         try {
@@ -498,16 +539,16 @@ public class ExternalIncomingPageController implements Initializable {
         }
         return rs;
     }
-    
+
     @FXML
     private void addtoLeaderDisplay(ActionEvent event) {
         String tableName = "displaydata";
         String[] data = {HijriCalendar.getSimpleDate(), "عرض القائد", topic.getText(), destination.getValue()};
         String fieldName = "`DISPLAYDATE`,`DISPLAYTYPE`,`TOPIC`,`DESTINATION`";
         String valuenumbers = "?,?,?,?";
-        
+
         boolean idState = FormValidation.notNull(circularID, "الرجاءاختر السجل من الجدول");
-        
+
         if (idState) {
             try {
                 DatabaseAccess.insert(tableName, fieldName, valuenumbers, data);
@@ -518,16 +559,16 @@ public class ExternalIncomingPageController implements Initializable {
             }
         }
     }
-    
+
     @FXML
     private void addtoLeaderSignature(ActionEvent event) {
         String tableName = "displaydata";
         String[] data = {HijriCalendar.getSimpleDate(), "توقيع القائد", topic.getText(), destination.getValue()};
         String fieldName = "`DISPLAYDATE`,`DISPLAYTYPE`,`TOPIC`,`DESTINATION`";
         String valuenumbers = "?,?,?,?";
-        
+
         boolean idState = FormValidation.notNull(circularID, "الرجاءاختر السجل من الجدول");
-        
+
         if (idState) {
             try {
                 DatabaseAccess.insert(tableName, fieldName, valuenumbers, data);
@@ -538,16 +579,16 @@ public class ExternalIncomingPageController implements Initializable {
             }
         }
     }
-    
+
     @FXML
     private void addtoManagerSignature(ActionEvent event) {
         String tableName = "displaydata";
         String[] data = {HijriCalendar.getSimpleDate(), "توقيع الركن", topic.getText(), destination.getValue()};
         String fieldName = "`DISPLAYDATE`,`DISPLAYTYPE`,`TOPIC`,`DESTINATION`";
         String valuenumbers = "?,?,?,?";
-        
+
         boolean idState = FormValidation.notNull(circularID, "الرجاءاختر السجل من الجدول");
-        
+
         if (idState) {
             try {
                 DatabaseAccess.insert(tableName, fieldName, valuenumbers, data);
@@ -558,16 +599,16 @@ public class ExternalIncomingPageController implements Initializable {
             }
         }
     }
-    
+
     @FXML
     private void addtoManagerDisplay(ActionEvent event) {
         String tableName = "displaydata";
         String[] data = {HijriCalendar.getSimpleDate(), "عرض الركن", topic.getText(), destination.getValue()};
         String fieldName = "`DISPLAYDATE`,`DISPLAYTYPE`,`TOPIC`,`DESTINATION`";
         String valuenumbers = "?,?,?,?";
-        
+
         boolean idState = FormValidation.notNull(circularID, "الرجاءاختر السجل من الجدول");
-        
+
         if (idState) {
             try {
                 DatabaseAccess.insert(tableName, fieldName, valuenumbers, data);
@@ -578,16 +619,16 @@ public class ExternalIncomingPageController implements Initializable {
             }
         }
     }
-    
+
     @FXML
     private void addtoManagerSmallSignature(ActionEvent event) {
         String tableName = "displaydata";
         String[] data = {HijriCalendar.getSimpleDate(), "تاشير الركن", topic.getText(), destination.getValue()};
         String fieldName = "`DISPLAYDATE`,`DISPLAYTYPE`,`TOPIC`,`DESTINATION`";
         String valuenumbers = "?,?,?,?";
-        
+
         boolean idState = FormValidation.notNull(circularID, "الرجاءاختر السجل من الجدول");
-        
+
         if (idState) {
             try {
                 DatabaseAccess.insert(tableName, fieldName, valuenumbers, data);
@@ -598,16 +639,16 @@ public class ExternalIncomingPageController implements Initializable {
             }
         }
     }
-    
+
     @FXML
     private void addtoManagerOrders(ActionEvent event) {
         String tableName = "displaydata";
         String[] data = {HijriCalendar.getSimpleDate(), "توجيه الركن", topic.getText(), destination.getValue()};
         String fieldName = "`DISPLAYDATE`,`DISPLAYTYPE`,`TOPIC`,`DESTINATION`";
         String valuenumbers = "?,?,?,?";
-        
+
         boolean idState = FormValidation.notNull(circularID, "الرجاءاختر السجل من الجدول");
-        
+
         if (idState) {
             try {
                 DatabaseAccess.insert(tableName, fieldName, valuenumbers, data);
@@ -618,5 +659,20 @@ public class ExternalIncomingPageController implements Initializable {
             }
         }
     }
-    
+
+    @FXML
+    private void enableSearchDate(ActionEvent event) {
+        if ("البحث بتاريخ الوارد".equals(getSearchType())) {
+            searchDateDay.setDisable(false);
+            searchDateMonth.setDisable(false);
+            searchDateYear.setDisable(false);
+            year.setDisable(true);
+        } else {
+            searchDateDay.setDisable(true);
+            searchDateMonth.setDisable(true);
+            searchDateYear.setDisable(true);
+            year.setDisable(false);
+        }
+    }
+
 }

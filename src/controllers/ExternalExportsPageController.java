@@ -451,7 +451,7 @@ public class ExternalExportsPageController implements Initializable {
         try {
             exportObject.clear();
             vbox.getChildren().clear();
-            viewdata(DatabaseAccess.getData("SELECT ID,ENTRYDATE,TOPIC,DESTINATION,SAVEFILE,EXPORTNUM,EXPORTDATE,NOTES FROM exportsdata ORDER BY ENTRYDATE DESC"));
+            viewdata(DatabaseAccess.getData("SELECT ID,ENTRYDATE,TOPIC,DESTINATION,SAVEFILE,EXPORTNUM,EXPORTDATE,NOTES FROM exportsdata WHERE EXPORTDATE = '" + HijriCalendar.getSimpleDate()+ "'ORDER BY ENTRYDATE DESC"));
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
@@ -566,7 +566,7 @@ public class ExternalExportsPageController implements Initializable {
     public ResultSet getAllData() {
         ResultSet rs = null;
         try {
-            rs = DatabaseAccess.select("exportsdata", "RECORDYEAR = '" + getYear() + "' ");
+            rs = DatabaseAccess.select("exportsdata", "RECORDYEAR = '" + getYear() + "' ORDER BY ENTRYDATE DESC ");
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }

@@ -25,15 +25,7 @@ import modeles.FormationModel;
 public class FormationPageController implements Initializable {
 
     @FXML
-    private ComboBox<?> searchType;
-    @FXML
-    private ComboBox<?> searchDateDay;
-    @FXML
-    private ComboBox<?> searchDateMonth;
-    @FXML
-    private ComboBox<?> searchDateYear;
-    @FXML
-    private ComboBox<?> year;
+    private ComboBox<String> searchType;
     @FXML
     private TextField searchText;
     @FXML
@@ -54,19 +46,25 @@ public class FormationPageController implements Initializable {
     private FormationPageListener mylistener;
     ObservableList<String> uintlist = FXCollections.observableArrayList();
     ObservableList<String> rankComboBoxlist = FXCollections.observableArrayList("فريق اول", "فريق", "لواء", "عميد", "عقيد", "مقدم", "رائد", "نقيب", "ملازم أول", "ملازم", "رئيس رقباء", "رقيب أول", "رقيب", "وكيل رقيب", "عريف", "جندي أول", "جندي");
+    ObservableList<String> searchTypelist = FXCollections.observableArrayList("البحث بالرقم العسكري", "البحث برقم السجل المدني", "البحث بالاسم", "عرض الكل");
+    @FXML
+    private ComboBox<String> searchUint;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        refreshData();
         uint.setItems(filleUint(uintlist));
+        searchUint.setItems(filleUint(uintlist));
         rank.setItems(rankComboBoxlist);
+        searchType.setItems(searchTypelist);
     }
 
     private ObservableList filleUint(ObservableList list) {
         try {
-            ResultSet rs = DatabaseAccess.select("placenames", "UINTTYPE='داخلي'");
+            ResultSet rs = DatabaseAccess.select("placenames", "UINTTYPE='داخلي'"); 
+            list.add("");
             try {
                 while (rs.next()) {
+                   
                     list.add(rs.getString("PLACENAME"));
                 }
                 rs.close();
@@ -77,31 +75,6 @@ public class FormationPageController implements Initializable {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
         return list;
-    }
-
-    private ObservableList filleRank(ObservableList list) {
-        try {
-            ResultSet rs = DatabaseAccess.select("placenames", "UINTTYPE='داخلي'");
-            try {
-                while (rs.next()) {
-                    list.add(rs.getString("PLACENAME"));
-                }
-                rs.close();
-            } catch (SQLException ex) {
-                FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
-            }
-        } catch (IOException ex) {
-            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
-        }
-        return list;
-    }
-
-    @FXML
-    private void enableSearchDate(ActionEvent event) {
-    }
-
-    @FXML
-    private void searchData(ActionEvent event) {
     }
 
     @FXML
@@ -123,7 +96,7 @@ public class FormationPageController implements Initializable {
         if (militaryIDExisting && personalIDExisting && rankState && uintState && nameState && personalIDState && personalIDNumber && militaryIDState && militaryIDNumber) {
             try {
                 DatabaseAccess.insert(tableName, fieldName, valuenumbers, data);
-                refreshData();
+                refreshData(uint.getValue());
                 clear(event);
             } catch (IOException ex) {
                 FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
@@ -148,7 +121,7 @@ public class FormationPageController implements Initializable {
         if (rankState && uintState && nameState && personalIDState && personalIDNumber && militaryIDState && militaryIDNumber) {
             try {
                 DatabaseAccess.updat(tableName, fieldName, data, "MILITARYID = '" + militaryID.getText() + "'");
-                refreshData();
+                refreshData(uint.getValue());
                 clear(event);
             } catch (IOException ex) {
                 FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
@@ -160,6 +133,8 @@ public class FormationPageController implements Initializable {
     private void delete(ActionEvent event) {
         try {
             DatabaseAccess.delete("personaldata", "MILITARYID = '" + militaryID.getText() + "'");
+            refreshData(uint.getValue());
+            clear(event);
         } catch (IOException ex) {
             Logger.getLogger(FormationPageController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -173,13 +148,15 @@ public class FormationPageController implements Initializable {
         rank.setValue(null);
         uint.setValue(null);
         note.setText(null);
+        searchText.setText(null);
+        searchType.setValue(null);
     }
 
-    private void refreshData() {
+    private void refreshData(String uint) {
         try {
             FormationObject.clear();
             vbox.getChildren().clear();
-            viewdata(DatabaseAccess.getData("SELECT MILITARYID , PERSONALID , NAME , RANK , UNIT , NOTE FROM personaldata "));//ORDER BY MILITARYID ASC
+            viewdata(DatabaseAccess.getData("SELECT MILITARYID , PERSONALID , NAME , RANK , UNIT , NOTE ,MARK FROM personaldata WHERE UNIT ='" + uint + "' ORDER BY MILITARYID ASC"));
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
@@ -225,6 +202,7 @@ public class FormationPageController implements Initializable {
                 formationModel.setRank(rs.getString("RANK"));
                 formationModel.setUint(rs.getString("UNIT"));
                 formationModel.setNote(rs.getString("NOTE"));
+                formationModel.setMarkState(rs.getInt("MARK"));
                 formationModels.add(formationModel);
             }
         } catch (SQLException ex) {
@@ -240,6 +218,78 @@ public class FormationPageController implements Initializable {
         rank.setValue(formationModel.getRank());
         uint.setValue(formationModel.getUint());
         note.setText(formationModel.getNote());
+    }
+
+    @FXML
+    private void getDataBYUint(ActionEvent event) {
+        refreshData(searchUint.getValue());
+    }
+
+    @FXML//("البحث بالرقم العسكري","البحث برقم السجل المدني","البحث بالاسم", "عرض الكل");
+    private void searchData(ActionEvent event) {
+        String searchValue = searchType.getValue();
+        switch (searchValue) {
+            case "عرض الكل":
+                FormationObject.clear();
+                vbox.getChildren().clear();
+                viewdata(getAllData());
+                break;
+            case "البحث بالاسم":
+                FormationObject.clear();
+                vbox.getChildren().clear();
+                viewdata(getDataByName());
+                break;
+            case "البحث برقم السجل المدني":
+                FormationObject.clear();
+                vbox.getChildren().clear();
+                viewdata(getDataByPersonalID());
+                break;
+            case "البحث بالرقم العسكري":
+                FormationObject.clear();
+                vbox.getChildren().clear();
+                viewdata(getDataMitaryID());
+                break;
+        }
+    }
+
+    private ResultSet getAllData() {
+        ResultSet rs = null;
+        try {
+            rs = DatabaseAccess.select("personaldata");
+        } catch (IOException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
+        return rs;
+    }
+
+    private ResultSet getDataByName() {
+        ResultSet rs = null;
+        try {
+            rs = DatabaseAccess.select("personaldata", "NAME LIKE '" + "%" + searchText.getText() + "%" + "'");
+        } catch (IOException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
+        return rs;
+    }
+
+    private ResultSet getDataByPersonalID() {
+        ResultSet rs = null;
+        try {
+            rs = DatabaseAccess.select("personaldata", "PERSONALID = '" + searchText.getText() + "'");
+        } catch (IOException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
+        return rs;
+    }
+
+    private ResultSet getDataMitaryID() {
+        ResultSet rs = null;
+        try {
+            rs = DatabaseAccess.select("personaldata", "MILITARYID = '" + searchText.getText() + "'");
+        } catch (IOException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
+        return rs;
     }
 
 }

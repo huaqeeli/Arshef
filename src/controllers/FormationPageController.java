@@ -45,10 +45,12 @@ public class FormationPageController implements Initializable {
     ObservableList<FormationModel> FormationObject = FXCollections.observableArrayList();
     private FormationPageListener mylistener;
     ObservableList<String> uintlist = FXCollections.observableArrayList();
-    ObservableList<String> rankComboBoxlist = FXCollections.observableArrayList("فريق اول", "فريق", "لواء", "عميد", "عقيد", "مقدم", "رائد", "نقيب", "ملازم أول", "ملازم", "رئيس رقباء", "رقيب أول", "رقيب", "وكيل رقيب", "عريف", "جندي أول", "جندي");
+    ObservableList<String> rankComboBoxlist = FXCollections.observableArrayList("الفريق اول", "القريق", "الواء", "العميد", "العقيد", "المقد", "الرائد", "النقيب", "الملازم أول", "الملازم", "رئيس رقباء", "رقيب أول", "رقيب", "وكيل رقيب", "عريف", "جندي أول", "جندي");
     ObservableList<String> searchTypelist = FXCollections.observableArrayList("البحث بالرقم العسكري", "البحث برقم السجل المدني", "البحث بالاسم", "عرض الكل");
     @FXML
     private ComboBox<String> searchUint;
+    @FXML
+    private TextField specializ;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -80,9 +82,9 @@ public class FormationPageController implements Initializable {
     @FXML
     private void save(ActionEvent event) {
         String tableName = "personaldata";
-        String fieldName = "`MILITARYID`,`PERSONALID`,`NAME`,`RANK`,`UNIT`,`NOTE`";
-        String[] data = {militaryID.getText(), personalID.getText(), name.getText(), rank.getValue(), uint.getValue(), note.getText()};
-        String valuenumbers = "?,?,?,?,?,?";
+        String fieldName = "`MILITARYID`,`PERSONALID`,`NAME`,`RANK`,`UNIT`,`NOTE`,`SPECIALTY`";
+        String[] data = {militaryID.getText(), personalID.getText(), name.getText(), rank.getValue(), uint.getValue(), note.getText(),specializ.getText()};
+        String valuenumbers = "?,?,?,?,?,?,?";
 
         boolean rankState = FormValidation.comboBoxNotEmpty(rank, "الرجاء اختيار الرتبة");
         boolean uintState = FormValidation.comboBoxNotEmpty(uint, "الرجاء اختيار الوحدة");
@@ -107,8 +109,8 @@ public class FormationPageController implements Initializable {
     @FXML
     private void edit(ActionEvent event) {
         String tableName = "personaldata";
-        String fieldName = "`MILITARYID`=?,`PERSONALID`=?,`NAME`=?,`RANK`=?,`UNIT`=?,`NOTE`=?";
-        String[] data = {militaryID.getText(), personalID.getText(), name.getText(), rank.getValue(), uint.getValue(), note.getText()};
+        String fieldName = "`MILITARYID`=?,`PERSONALID`=?,`NAME`=?,`RANK`=?,`UNIT`=?,`NOTE`=?,`SPECIALTY`=?";
+        String[] data = {militaryID.getText(), personalID.getText(), name.getText(), rank.getValue(), uint.getValue(), note.getText(),specializ.getText()};
 
         boolean rankState = FormValidation.comboBoxNotEmpty(rank, "الرجاء اختيار الرتبة");
         boolean uintState = FormValidation.comboBoxNotEmpty(uint, "الرجاء اختيار الوحدة");
@@ -156,7 +158,7 @@ public class FormationPageController implements Initializable {
         try {
             FormationObject.clear();
             vbox.getChildren().clear();
-            viewdata(DatabaseAccess.getData("SELECT MILITARYID , PERSONALID , NAME , RANK , UNIT , NOTE ,MARK FROM personaldata WHERE UNIT ='" + uint + "' ORDER BY MILITARYID ASC"));
+            viewdata(DatabaseAccess.getData("SELECT * FROM personaldata WHERE UNIT ='" + uint + "' ORDER BY MILITARYID ASC"));
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
@@ -203,6 +205,7 @@ public class FormationPageController implements Initializable {
                 formationModel.setUint(rs.getString("UNIT"));
                 formationModel.setNote(rs.getString("NOTE"));
                 formationModel.setMarkState(rs.getInt("MARK"));
+                formationModel.setSpecializ(rs.getString("SPECIALTY"));
                 formationModels.add(formationModel);
             }
         } catch (SQLException ex) {
@@ -218,6 +221,7 @@ public class FormationPageController implements Initializable {
         rank.setValue(formationModel.getRank());
         uint.setValue(formationModel.getUint());
         note.setText(formationModel.getNote());
+        specializ.setText(formationModel.getSpecializ());
     }
 
     @FXML

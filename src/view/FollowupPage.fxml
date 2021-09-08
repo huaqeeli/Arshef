@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane id="AnchorPane" prefHeight="800.0" prefWidth="1200.0" styleClass="mainFxmlClass" stylesheets="@../css/appStyle.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.FollowupPageController">
+   <children>
+      <HBox alignment="CENTER_RIGHT" prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #1E3606;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label styleClass="headerlabel" text="المتابعة">
+               <HBox.margin>
+                  <Insets right="5.0" />
+               </HBox.margin>
+            </Label>
+         </children>
+      </HBox>
+      <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" nodeOrientation="RIGHT_TO_LEFT" prefHeight="200.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">
+         <children>
+            <HBox alignment="CENTER" maxHeight="45.0" minHeight="45.0" prefHeight="40.0" prefWidth="200.0">
+               <children>
+                  <ComboBox fx:id="searchType" accessibleText="coursCombobox" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="150.0" promptText="طريقة البحث" styleClass="appComboBox" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets left="5.0" />
+                     </HBox.margin>
+                  </ComboBox>
+                  <ComboBox fx:id="year" accessibleText="coursCombobox" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="100.0" styleClass="appComboBox" HBox.hgrow="ALWAYS" />
+                  <TextField fx:id="searchText" alignment="CENTER" onAction="#searchData" prefHeight="40.0" promptText="ادخل نص البحث" styleClass="appText" HBox.hgrow="ALWAYS" />
+                  <Button contentDisplay="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#searchData" prefHeight="40.0" prefWidth="29.0" styleClass="searchPageButton">
+                     <graphic>
+                        <ImageView fitHeight="17.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/search.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <HBox.margin>
+                        <Insets right="5.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+               <VBox.margin>
+                  <Insets bottom="5.0" top="5.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox alignment="CENTER" layoutX="10.0" layoutY="755.0" maxHeight="45.0" minHeight="45.0" prefHeight="45.0" prefWidth="200.0">
+               <children>
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="190.0" styleClass="toolBarButton" text="نوع المعاملة" HBox.hgrow="ALWAYS" />
+                  <ComboBox fx:id="circularType" accessibleText="coursCombobox" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="300.0" styleClass="appComboBox" HBox.hgrow="ALWAYS" />
+               </children>
+               <VBox.margin>
+                  <Insets bottom="2.0" left="5.0" right="5.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox alignment="CENTER" maxHeight="45.0" minHeight="45.0" prefHeight="45.0" prefWidth="200.0">
+               <children>
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="190.0" styleClass="toolBarButton" text="رقم المعاملة" />
+                  <TextField fx:id="circularid" alignment="CENTER" prefHeight="40.0" prefWidth="300.0" styleClass="appText" HBox.hgrow="ALWAYS" />
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="190.0" styleClass="toolBarButton" text="تاريخ المعاملة" />
+                  <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="300.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <ComboBox fx:id="circularDateDay" accessibleText="coursCombobox" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="50.0" styleClass="appComboBox" HBox.hgrow="ALWAYS" />
+                        <ComboBox fx:id="circularDateMonth" accessibleText="coursCombobox" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="50.0" styleClass="appComboBox" HBox.hgrow="ALWAYS" />
+                        <ComboBox fx:id="circularDateYear" accessibleText="coursCombobox" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="50.0" styleClass="appComboBox" HBox.hgrow="ALWAYS" />
+                     </children>
+                  </HBox>
+               </children>
+               <VBox.margin>
+                  <Insets bottom="2.0" left="5.0" right="5.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox alignment="CENTER" layoutX="15.0" layoutY="502.0" maxHeight="45.0" minHeight="45.0" prefHeight="45.0" prefWidth="200.0">
+               <children>
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="190.0" styleClass="toolBarButton" text="الموضوع" />
+                  <TextField fx:id="topic" alignment="CENTER" prefHeight="40.0" prefWidth="300.0" styleClass="appText" HBox.hgrow="ALWAYS" />
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="190.0" styleClass="toolBarButton" text="الاجراء المطلوب" />
+                  <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="300.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <TextField fx:id="Required" alignment="CENTER" prefHeight="40.0" prefWidth="300.0" styleClass="appText" HBox.hgrow="ALWAYS" />
+                     </children>
+                  </HBox>
+               </children>
+               <VBox.margin>
+                  <Insets bottom="2.0" left="5.0" right="5.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox alignment="CENTER" layoutX="15.0" layoutY="480.0" maxHeight="45.0" minHeight="45.0" prefHeight="45.0" prefWidth="200.0">
+               <children>
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="190.0" styleClass="toolBarButton" text="الحالة" />
+                  <TextField fx:id="Status" alignment="CENTER" prefHeight="40.0" prefWidth="300.0" styleClass="appText" HBox.hgrow="ALWAYS" />
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="190.0" styleClass="toolBarButton" text="تاريخ الانجاز" />
+                  <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="300.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <ComboBox fx:id="CompletionDateDay" accessibleText="coursCombobox" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="50.0" styleClass="appComboBox" HBox.hgrow="ALWAYS" />
+                        <ComboBox fx:id="CompletionDateMonth" accessibleText="coursCombobox" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="50.0" styleClass="appComboBox" HBox.hgrow="ALWAYS" />
+                        <ComboBox fx:id="CompletionDateYear" accessibleText="coursCombobox" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="50.0" styleClass="appComboBox" HBox.hgrow="ALWAYS" />
+                     </children>
+                  </HBox>
+               </children>
+               <VBox.margin>
+                  <Insets bottom="2.0" left="5.0" right="5.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox alignment="CENTER" maxHeight="60.0" minHeight="60.0" prefHeight="60.0" prefWidth="1185.0" style="-fx-background-color: #898989;">
+               <children>
+                  <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#save" prefHeight="40.0" styleClass="toolBarButton" text="حفظ" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets right="2.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#edit" prefHeight="40.0" styleClass="toolBarButton" text="تعديل" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets right="2.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#delete" prefHeight="40.0" styleClass="toolBarButton" text="حذف" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets right="2.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#clear" prefHeight="40.0" prefWidth="80.0" styleClass="toolBarButton">
+                     <graphic>
+                        <ImageView fitHeight="28.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/refreach.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </children>
+               <VBox.margin>
+                  <Insets bottom="2.0" left="5.0" right="5.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox alignment="CENTER" maxHeight="70.0" maxWidth="1.7976931348623157E308" minHeight="70.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="72.0" prefWidth="1200.0" styleClass="headerPanl">
+               <children>
+                  <Label alignment="CENTER" layoutX="103.0" layoutY="23.0" maxWidth="1.7976931348623157E308" prefHeight="50.0" prefWidth="119.0" styleClass="tableHeder" text="عدد" />
+                  <Label alignment="CENTER" prefHeight="50.0" prefWidth="119.0" styleClass="tableHeder" text="رقم المعاملة" />
+                  <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="50.0" prefWidth="140.0" styleClass="tableHeder" text="تاريخ المعاملة" />
+                  <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="50.0" prefWidth="227.0" styleClass="tableHeder" text="الموضوع" HBox.hgrow="ALWAYS" />
+                  <Label alignment="CENTER" layoutX="465.0" layoutY="23.0" maxWidth="1.7976931348623157E308" prefHeight="50.0" prefWidth="227.0" styleClass="tableHeder" text="الاجراء المطلوب" HBox.hgrow="ALWAYS" />
+                  <Label alignment="CENTER" prefHeight="50.0" prefWidth="227.0" styleClass="tableHeder" text="الحالة" HBox.hgrow="ALWAYS" />
+                  <Label alignment="CENTER" prefHeight="50.0" prefWidth="227.0" styleClass="tableHeder" text="تاريخ الانجاز" HBox.hgrow="ALWAYS" />
+                  <Label prefHeight="40.0" prefWidth="60.0" />
+               </children>
+               <VBox.margin>
+                  <Insets left="5.0" right="5.0" />
+               </VBox.margin>
+            </HBox>
+            <ScrollPane fitToHeight="true" fitToWidth="true" prefWidth="3000.0" VBox.vgrow="ALWAYS">
+               <content>
+                  <VBox fx:id="vbox" />
+               </content>
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" />
+               </VBox.margin>
+            </ScrollPane>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

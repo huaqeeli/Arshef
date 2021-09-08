@@ -35,6 +35,8 @@ public class FormationItemController implements Initializable {
     private Label squnce;
     @FXML
     private HBox content;
+    @FXML
+    private Label specializ;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -51,6 +53,7 @@ public class FormationItemController implements Initializable {
         name.setText(formationModel.getName());
         uint.setText(formationModel.getUint());
         note.setText(formationModel.getNote());
+        specializ.setText(formationModel.getSpecializ());
         if (formationModel.getMarkState() == 0) {
             content.setStyle("-fx-background-color: #E9E9E9;");
         } else {

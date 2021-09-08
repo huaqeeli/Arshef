@@ -16,13 +16,14 @@
                <HBox.margin>
                   <Insets left="10.0" right="5.0" />
                </HBox.margin></Label>
-            <Label fx:id="militaryID" alignment="CENTER" prefHeight="40.0" prefWidth="130.0" styleClass="itemLable" text="الرقم العسكري" />
-            <Label fx:id="personalID" alignment="CENTER" prefHeight="40.0" prefWidth="140.0" styleClass="itemLable" text="رقم السجل المدني" />
-            <Label fx:id="rank" alignment="CENTER" layoutX="209.0" layoutY="12.0" prefHeight="40.0" prefWidth="125.0" styleClass="itemLable" text="الرتبة" />
+            <Label fx:id="militaryID" alignment="CENTER" prefHeight="40.0" prefWidth="150.0" styleClass="itemLable" text="الرقم العسكري" />
+            <Label fx:id="personalID" alignment="CENTER" prefHeight="40.0" prefWidth="150.0" styleClass="itemLable" text="رقم السجل المدني" />
+            <Label fx:id="rank" alignment="CENTER" layoutX="209.0" layoutY="12.0" prefHeight="40.0" prefWidth="140.0" styleClass="itemLable" text="الرتبة" />
             <Label fx:id="name" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="227.0" styleClass="itemLable" text="الاسم" HBox.hgrow="ALWAYS" />
             <Label fx:id="uint" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="227.0" styleClass="itemLable" text="الوحدة" HBox.hgrow="ALWAYS" />
+            <Label fx:id="specializ" alignment="CENTER" layoutX="838.0" layoutY="23.0" prefHeight="40.0" prefWidth="300.0" styleClass="itemLable" text="التخصص" />
             <Label fx:id="note" alignment="CENTER" prefHeight="40.0" prefWidth="300.0" styleClass="itemLable" text="ملاحظات" />
-            <Button mnemonicParsing="false" onAction="#addMark" prefHeight="40.0" prefWidth="40.0" styleClass="markButton">
+            <Button mnemonicParsing="false" onAction="#addMark" prefHeight="40.0" prefWidth="40.0" styleClass="actionButton">
                <graphic>
                   <ImageView fitHeight="25.0" fitWidth="81.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -31,7 +32,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button layoutX="1169.0" layoutY="26.0" mnemonicParsing="false" onAction="#deleteMark" prefHeight="40.0" prefWidth="40.0" styleClass="markButton">
+            <Button layoutX="1169.0" layoutY="26.0" mnemonicParsing="false" onAction="#deleteMark" prefHeight="40.0" prefWidth="40.0" styleClass="actionButton">
                <graphic>
                   <ImageView fitHeight="25.0" fitWidth="81.0" pickOnBounds="true" preserveRatio="true">
                      <image>

@@ -89,6 +89,15 @@
                   <Insets bottom="2.0" left="5.0" right="5.0" />
                </VBox.margin>
             </HBox>
+            <HBox alignment="CENTER" layoutX="15.0" layoutY="150.0" maxHeight="45.0" minHeight="45.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="45.0" prefWidth="1065.0">
+               <children>
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="190.0" styleClass="toolBarButton" text="التخصص" />
+                  <TextField fx:id="specializ" alignment="CENTER" maxWidth="1.7976931348623157E308" nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="300.0" styleClass="appText" HBox.hgrow="ALWAYS" />
+               </children>
+               <VBox.margin>
+                  <Insets left="5.0" right="5.0" />
+               </VBox.margin>
+            </HBox>
             <HBox alignment="CENTER_RIGHT" maxHeight="45.0" minHeight="45.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="45.0" prefWidth="1065.0">
                <children>
                   <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#save" prefHeight="40.0" prefWidth="300.0" styleClass="toolBarButton" text="حفظ" HBox.hgrow="ALWAYS">
@@ -125,13 +134,14 @@
             </HBox>
             <HBox alignment="CENTER" maxHeight="70.0" maxWidth="1.7976931348623157E308" minHeight="70.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="72.0" prefWidth="1200.0" spacing="2.0" style="-fx-border-color: #B4BCAC; -fx-border-width: 2;" styleClass="headerPanl">
                <children>
-                  <Label alignment="CENTER" prefHeight="40.0" prefWidth="60.0" styleClass="tableHeder" text="عدد" />
-                  <Label alignment="CENTER" prefHeight="40.0" prefWidth="130.0" styleClass="tableHeder" text="الرقم العسكري" />
-                  <Label alignment="CENTER" prefHeight="40.0" prefWidth="140.0" styleClass="tableHeder" text="رقم السجل المدني" />
-                  <Label alignment="CENTER" layoutX="209.0" layoutY="12.0" prefHeight="40.0" prefWidth="125.0" styleClass="tableHeder" text="الرتبة" />
-                  <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="227.0" styleClass="tableHeder" text="الاسم" HBox.hgrow="ALWAYS" />
-                  <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="227.0" styleClass="tableHeder" text="الوحدة" HBox.hgrow="ALWAYS" />
-                  <Label alignment="CENTER" prefHeight="40.0" prefWidth="300.0" styleClass="tableHeder" text="ملاحظات" />
+                  <Label alignment="CENTER" prefHeight="50.0" prefWidth="60.0" styleClass="tableHeder" text="عدد" />
+                  <Label alignment="CENTER" prefHeight="50.0" prefWidth="150.0" styleClass="tableHeder" text="الرقم العسكري" />
+                  <Label alignment="CENTER" prefHeight="50.0" prefWidth="150.0" styleClass="tableHeder" text="رقم السجل المدني" />
+                  <Label alignment="CENTER" layoutX="209.0" layoutY="12.0" prefHeight="50.0" prefWidth="140.0" styleClass="tableHeder" text="الرتبة" />
+                  <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="50.0" prefWidth="227.0" styleClass="tableHeder" text="الاسم" HBox.hgrow="ALWAYS" />
+                  <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="50.0" prefWidth="227.0" styleClass="tableHeder" text="الوحدة" HBox.hgrow="ALWAYS" />
+                  <Label alignment="CENTER" layoutX="619.0" layoutY="25.0" maxWidth="1.7976931348623157E308" prefHeight="50.0" prefWidth="227.0" styleClass="tableHeder" text="التخصص" />
+                  <Label alignment="CENTER" prefHeight="50.0" prefWidth="300.0" styleClass="tableHeder" text="ملاحظات" />
                   <Label alignment="CENTER" layoutX="903.0" layoutY="25.0" prefHeight="40.0" prefWidth="100.0" />
                </children>
                <VBox.margin>

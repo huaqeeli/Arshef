@@ -4,7 +4,7 @@ package modeles;
 
 public class FormationModel {
     private int squnce,markState;
-    private String militaryID,personalID,name,rank,uint,note;
+    private String militaryID,personalID,name,rank,uint,note,specializ;
 
     public FormationModel() {
     }
@@ -17,6 +17,14 @@ public class FormationModel {
         this.rank = rank;
         this.uint = uint;
         this.note = note;
+    }
+
+    public String getSpecializ() {
+        return specializ;
+    }
+
+    public void setSpecializ(String specializ) {
+        this.specializ = specializ;
     }
 
     public int getMarkState() {

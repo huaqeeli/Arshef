@@ -3,13 +3,13 @@ package modeles;
 
 
 public class FollowupModel {
-    int squnce;
-    String circularid,circulardate,topic,required,status,completiondate,openStat;
+    int squnce,openStat;
+    String circularid,circulardate,topic,required,status,completiondate;
 
     public FollowupModel() {
     }
 
-    public FollowupModel(int squnce, String circularid, String circulardate, String topic, String required, String status, String completiondate, String openStat) {
+    public FollowupModel(int squnce, String circularid, String circulardate, String topic, String required, String status, String completiondate, int openStat) {
         this.squnce = squnce;
         this.circularid = circularid;
         this.circulardate = circulardate;
@@ -76,11 +76,11 @@ public class FollowupModel {
         this.completiondate = completiondate;
     }
 
-    public String getOpenStat() {
+    public int getOpenStat() {
         return openStat;
     }
 
-    public void setOpenStat(String openStat) {
+    public void setOpenStat(int openStat) {
         this.openStat = openStat;
     }
     

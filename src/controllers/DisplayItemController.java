@@ -19,10 +19,7 @@ public class DisplayItemController implements Initializable {
     private Label notes;
     @FXML
     private Label squance;
-    @FXML
-    private Label saveNum;
-    @FXML
-    private Label displayDate;
+   
     @FXML
     private Label Destination;
     @FXML
@@ -30,6 +27,10 @@ public class DisplayItemController implements Initializable {
 
     private DisplayModele displayModele;
     private DisplayPageListener mylistener;
+    @FXML
+    private Label circularid;
+    @FXML
+    private Label circularDate;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -40,10 +41,10 @@ public class DisplayItemController implements Initializable {
         this.displayModele = displayModele;
         this.mylistener = mylistener;
         squance.setText(Integer.toString(displayModele.getSquence()));
-        saveNum.setText(displayModele.getDisplayid());
-        displayDate.setText(displayModele.getDisplayDate());
+        circularid.setText(displayModele.getCircularid());
+        circularDate.setText(displayModele.getCirculardate());
         topic.setText(displayModele.getTopic());
-        Destination.setText(displayModele.getDestination());
+        Destination.setText(displayModele.getDistnation());
         displayTape.setText(displayModele.getDisplayType());
         notes.setText(displayModele.getNotes());
     }  

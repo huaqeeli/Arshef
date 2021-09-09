@@ -10,7 +10,7 @@ public class NewClass {
     static Config config = new Config();
     
     public static void main(String[] args) throws IOException {
-         System.out.println(getRemainingDays("1443/02/07"));
+         System.out.println(getRemainingDays("1443/02/01"));
     }
      public static String getRemainingDays(String date) {
         String value = null;

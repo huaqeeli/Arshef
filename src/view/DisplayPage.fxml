@@ -34,7 +34,7 @@
                         <ComboBox fx:id="DateYear" accessibleText="coursCombobox" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="50.0" styleClass="appComboBox" HBox.hgrow="ALWAYS" />
                      </children>
                   </HBox>
-                  <Button fx:id="searchButton1" contentDisplay="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#searchData" prefHeight="40.0" prefWidth="29.0" styleClass="searchPageButton">
+                  <Button contentDisplay="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#searchData" prefHeight="40.0" prefWidth="29.0" styleClass="searchPageButton">
                      <graphic>
                         <ImageView fitHeight="17.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -53,16 +53,10 @@
             </HBox>
             <HBox alignment="CENTER" maxHeight="45.0" minHeight="45.0" prefHeight="45.0" prefWidth="200.0">
                <children>
-                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="190.0" styleClass="toolBarButton" text="تاريخ العرض" />
-                  <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="300.0" HBox.hgrow="ALWAYS">
-                     <children>
-                        <ComboBox fx:id="displayDateDay" accessibleText="coursCombobox" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="50.0" styleClass="appComboBox" HBox.hgrow="ALWAYS" />
-                        <ComboBox fx:id="displayDateMonth" accessibleText="coursCombobox" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="50.0" styleClass="appComboBox" HBox.hgrow="ALWAYS" />
-                        <ComboBox fx:id="displayDateYear" accessibleText="coursCombobox" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="50.0" styleClass="appComboBox" HBox.hgrow="ALWAYS" />
-                     </children>
-                  </HBox>
-                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="190.0" styleClass="toolBarButton" text="نوع العرض" />
-                  <ComboBox fx:id="displayType" accessibleText="coursCombobox" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="300.0" styleClass="appComboBox" HBox.hgrow="ALWAYS" />
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="190.0" styleClass="toolBarButton" text="نوع المعاملة" HBox.hgrow="ALWAYS" />
+                  <ComboBox fx:id="circularType" accessibleText="coursCombobox" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="300.0" styleClass="appComboBox" HBox.hgrow="ALWAYS" />
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="190.0" styleClass="toolBarButton" text="رقم المعاملة" />
+                  <TextField fx:id="circularid" alignment="CENTER" onKeyReleased="#getCircularData" prefHeight="40.0" prefWidth="300.0" styleClass="appText" HBox.hgrow="ALWAYS" />
                </children>
                <VBox.margin>
                   <Insets left="5.0" right="5.0" />
@@ -70,9 +64,26 @@
             </HBox>
             <HBox alignment="CENTER" maxHeight="45.0" minHeight="45.0" prefHeight="45.0" prefWidth="200.0">
                <children>
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="190.0" styleClass="toolBarButton" text="تاريخ المعاملة" />
+                  <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="300.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <ComboBox fx:id="displayDateDay" accessibleText="coursCombobox" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="50.0" styleClass="appComboBox" HBox.hgrow="ALWAYS" />
+                        <ComboBox fx:id="displayDateMonth" accessibleText="coursCombobox" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="50.0" styleClass="appComboBox" HBox.hgrow="ALWAYS" />
+                        <ComboBox fx:id="displayDateYear" accessibleText="coursCombobox" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="50.0" styleClass="appComboBox" HBox.hgrow="ALWAYS" />
+                     </children>
+                  </HBox>
                   <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="190.0" styleClass="toolBarButton" text="الموضوع" />
                   <TextField fx:id="topic" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="300.0" styleClass="appText" HBox.hgrow="ALWAYS" />
-                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="190.0" styleClass="toolBarButton" text="موجه الى" HBox.hgrow="ALWAYS" />
+               </children>
+               <VBox.margin>
+                  <Insets left="5.0" right="5.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox alignment="CENTER" maxHeight="45.0" minHeight="45.0" prefHeight="45.0" prefWidth="200.0">
+               <children>
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="190.0" styleClass="toolBarButton" text="نوع العرض" />
+                  <ComboBox fx:id="displayType" accessibleText="coursCombobox" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="300.0" styleClass="appComboBox" HBox.hgrow="ALWAYS" />
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="190.0" styleClass="toolBarButton" text="جهة المعاملة" HBox.hgrow="ALWAYS" />
                   <ComboBox fx:id="destination" accessibleText="coursCombobox" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="300.0" styleClass="appComboBox" HBox.hgrow="ALWAYS" />
                </children>
                <VBox.margin>
@@ -128,15 +139,15 @@
                   <Insets left="5.0" right="5.0" />
                </VBox.margin>
             </HBox>
-            <HBox alignment="CENTER" maxHeight="70.0" maxWidth="1.7976931348623157E308" minHeight="70.0" nodeOrientation="RIGHT_TO_LEFT" onMouseClicked="#click" prefHeight="72.0" prefWidth="1200.0" styleClass="headerPanl">
+            <HBox alignment="CENTER" maxHeight="70.0" maxWidth="1.7976931348623157E308" minHeight="70.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="72.0" prefWidth="1200.0" styleClass="headerPanl">
                <children>
-                  <Label alignment="CENTER" prefHeight="40.0" prefWidth="60.0" styleClass="tableHeder" text="عدد" />
-                  <Label alignment="CENTER" prefHeight="40.0" prefWidth="119.0" styleClass="tableHeder" text="رقم الحفظ" />
-                  <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="119.0" styleClass="tableHeder" text="تاريخ العرض" />
-                  <Label alignment="CENTER" layoutX="465.0" layoutY="23.0" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="227.0" styleClass="tableHeder" text="جهة المعاملة" HBox.hgrow="ALWAYS" />
-                  <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="227.0" styleClass="tableHeder" text="الموضوع" HBox.hgrow="ALWAYS" />
-                  <Label alignment="CENTER" prefHeight="40.0" prefWidth="119.0" styleClass="tableHeder" text="نوع العرض" />
-                  <Label alignment="CENTER" prefHeight="40.0" prefWidth="315.0" styleClass="tableHeder" text="ملاحظات" HBox.hgrow="ALWAYS" />
+                  <Label alignment="CENTER" prefHeight="50.0" prefWidth="60.0" styleClass="tableHeder" text="عدد" />
+                  <Label alignment="CENTER" prefHeight="50.0" prefWidth="119.0" styleClass="tableHeder" text="رقم المعاملة" />
+                  <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="50.0" prefWidth="119.0" styleClass="tableHeder" text="تاريخ المعاملة" />
+                  <Label alignment="CENTER" layoutX="465.0" layoutY="23.0" maxWidth="1.7976931348623157E308" prefHeight="50.0" prefWidth="227.0" styleClass="tableHeder" text="جهة المعاملة" HBox.hgrow="ALWAYS" />
+                  <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="50.0" prefWidth="227.0" styleClass="tableHeder" text="الموضوع" HBox.hgrow="ALWAYS" />
+                  <Label alignment="CENTER" prefHeight="50.0" prefWidth="119.0" styleClass="tableHeder" text="نوع العرض" />
+                  <Label alignment="CENTER" prefHeight="50.0" prefWidth="315.0" styleClass="tableHeder" text="ملاحظات" HBox.hgrow="ALWAYS" />
                </children>
                <VBox.margin>
                   <Insets left="5.0" right="5.0" />

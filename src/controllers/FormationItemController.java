@@ -1,6 +1,7 @@
 package controllers;
 
 import Serveces.FormationPageListener;
+import Validation.FormValidation;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -9,6 +10,7 @@ import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -73,7 +75,7 @@ public class FormationItemController implements Initializable {
             DatabaseAccess.updat("personaldata", " MARK = 1", "MILITARYID = '" + militaryID.getText() + "'");
             content.setStyle("-fx-background-color: #8CA598;");
         } catch (IOException ex) {
-            Logger.getLogger(FormationItemController.class.getName()).log(Level.SEVERE, null, ex);
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
 
     }
@@ -84,7 +86,7 @@ public class FormationItemController implements Initializable {
             DatabaseAccess.updat("personaldata", " MARK = 0", "MILITARYID = '" + militaryID.getText() + "'");
             content.setStyle("-fx-background-color: #E9E9E9;");
         } catch (IOException ex) {
-            Logger.getLogger(FormationItemController.class.getName()).log(Level.SEVERE, null, ex);
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
     }
 }

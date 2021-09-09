@@ -9,8 +9,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -24,16 +22,11 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import modeles.FollowupModel;
-import modeles.FormationModel;
 
 public class FollowupPageController implements Initializable {
 
     @FXML
     private ComboBox<String> searchType;
-    @FXML
-    private ComboBox<String> year;
-    @FXML
-    private TextField searchText;
     @FXML
     private ComboBox<String> circularType;
     @FXML
@@ -62,6 +55,7 @@ public class FollowupPageController implements Initializable {
     private FollowupPageListener mylistener;
     String circularID, cirularDate;
     ObservableList<String> circularTypelist = FXCollections.observableArrayList("الوارد الخارجي", "الصادرالخارجي", "الوارد الداخلي", "الصادر الداخلي");
+    ObservableList<String> searchTypelist = FXCollections.observableArrayList("المعاملات تحت الاجراء", "المعاملات المنتهية");
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -70,12 +64,46 @@ public class FollowupPageController implements Initializable {
         AppDate.setDateValue(CompletionDateDay, CompletionDateMonth, CompletionDateYear);
         AppDate.setCurrentDate(CompletionDateDay, CompletionDateMonth, CompletionDateYear);
         circularType.setItems(circularTypelist);
+        searchType.setItems(searchTypelist);
         refreshData();
         clear(null);
     }
 
     @FXML
     private void searchData(ActionEvent event) {
+        String searchValue = searchType.getValue();
+        switch (searchValue) {
+            case "المعاملات تحت الاجراء":
+                followupObject.clear();
+                vbox.getChildren().clear();
+                viewdata(getUnderProcedur());
+                break;
+            case "المعاملات المنتهية":
+                followupObject.clear();
+                vbox.getChildren().clear();
+                viewdata(getFinshed());
+                break;
+        }
+    }
+
+    private ResultSet getUnderProcedur() {
+        ResultSet rs = null;
+        try {
+            rs = DatabaseAccess.select("followup", "OPENSTAT = '0'");
+        } catch (IOException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
+        return rs;
+    }
+
+    private ResultSet getFinshed() {
+        ResultSet rs = null;
+        try {
+            rs = DatabaseAccess.select("followup", "OPENSTAT = '1'");
+        } catch (IOException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
+        return rs;
     }
 
     @FXML
@@ -88,8 +116,9 @@ public class FollowupPageController implements Initializable {
         boolean circularidState = FormValidation.textFieldNotEmpty(circularid, "الرجاء ادخال رقم المعاملة");
         boolean topicState = FormValidation.textFieldNotEmpty(topic, "الرجاء ادخال الموضوع");
         boolean RequiredState = FormValidation.textFieldNotEmpty(Required, "الرجاء ادخال الاجراء المطلوب");
+        boolean circularidExisting = FormValidation.ifexisting("followup", "CIRCULARID", "CIRCULARID = '" + circularID + "' AND CIRCULARDATE = '" + cirularDate + "'", "تم اداخال المعاملة مسبقا");
 
-        if (RequiredState && circularidState && topicState) {
+        if (RequiredState && circularidState && topicState && circularidExisting) {
             try {
                 DatabaseAccess.insert(tableName, fieldName, valuenumbers, data);
                 refreshData();
@@ -103,7 +132,7 @@ public class FollowupPageController implements Initializable {
     @FXML
     private void edit(ActionEvent event) {
         String tableName = "followup";
-        String fieldName = "`CIRCULARID`=?,`CIRCULARDATE`?,`TOPIC`=?,`REQUIRED`=?,`STATUS`=?,`COMPLETIONDATE`=?";
+        String fieldName = "`CIRCULARID`=?,`CIRCULARDATE`=?,`TOPIC`=?,`REQUIRED`=?,`STATUS`=?,`COMPLETIONDATE`=?";
         String[] data = {circularid.getText(), getCircularDate(), topic.getText(), Required.getText(), Status.getText(), getCompletionDate()};
 
         boolean circularidState = FormValidation.textFieldNotEmpty(circularid, "الرجاء ادخال رقم المعاملة");
@@ -125,6 +154,8 @@ public class FollowupPageController implements Initializable {
     private void delete(ActionEvent event) {
         try {
             DatabaseAccess.delete("followup", "CIRCULARID = '" + circularID + "' AND CIRCULARDATE = '" + cirularDate + "'");
+            refreshData();
+            clear(event);
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
@@ -133,18 +164,18 @@ public class FollowupPageController implements Initializable {
     @FXML
     private void clear(ActionEvent event) {
         circularid.setText(null);
-        setCircularDate(null);
+        AppDate.setCurrentDate(circularDateDay, circularDateMonth, circularDateYear);
         topic.setText(null);
         Required.setText(null);
         Status.setText(null);
-        setCompletionDate(null);
+        AppDate.setCurrentDate(CompletionDateDay, CompletionDateMonth, CompletionDateYear);
     }
 
     private void refreshData() {
         try {
             followupObject.clear();
             vbox.getChildren().clear();
-            viewdata(DatabaseAccess.select("followup" , "OPENSTAT = '0' ORDER BY CIRCULARDATE ASC"));
+            viewdata(DatabaseAccess.select("followup", "OPENSTAT = '0' ORDER BY CIRCULARDATE ASC"));
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
@@ -191,7 +222,7 @@ public class FollowupPageController implements Initializable {
                 followupModel.setRequired(rs.getString("REQUIRED"));
                 followupModel.setStatus(rs.getString("STATUS"));
                 followupModel.setCompletiondate(rs.getString("COMPLETIONDATE"));
-                followupModel.setOpenStat(rs.getString("OPENSTAT"));
+                followupModel.setOpenStat(rs.getInt("OPENSTAT"));
                 followupObjects.add(followupModel);
             }
         } catch (SQLException ex) {
@@ -233,7 +264,7 @@ public class FollowupPageController implements Initializable {
         switch (typeValue) {
             case "الوارد الخارجي":
                 try {
-                    ResultSet rs = DatabaseAccess.select("externalincoming", "CIRCULARID = '" + circularid.getText() + "' AND ARSHEFYEAR ='" + HijriCalendar.getSimpleYear() + "'");
+                    ResultSet rs = DatabaseAccess.select("externalincoming", "RECEIPTNUMBER = '" + circularid.getText() + "' AND ARSHEFYEAR ='" + HijriCalendar.getSimpleYear() + "'");
                     if (rs.next()) {
                         setCircularDate(rs.getString("CIRCULARDATE"));
                         topic.setText(rs.getString("TOPIC"));

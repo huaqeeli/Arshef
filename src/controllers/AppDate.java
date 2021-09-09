@@ -154,10 +154,11 @@ public class AppDate {
         return value;
     }
 
-    public static String getRemainingDays(String date) {
-        String value = null;
+    public static int getRemainingDays(String date) {
+        String value = null; 
+        int intvalue = 0;
         if (date != null) {
-            int intvalue = 0;
+           
             int day = Integer.parseInt(getDay(date));
             int month = Integer.parseInt(getMonth(date));
             int year = Integer.parseInt(getYear(date));
@@ -165,8 +166,8 @@ public class AppDate {
             int currentMont = HijriCalendar.getSimpleMonth();
             int currentYear = HijriCalendar.getSimpleYear();
             intvalue = (day-currentDay)+((month-currentMont)*30)+( (year - currentYear)*360);
-            value = Integer.toString(intvalue);
+//            value = Integer.toString(intvalue);
         }
-        return value;
+        return intvalue;
     }
 }

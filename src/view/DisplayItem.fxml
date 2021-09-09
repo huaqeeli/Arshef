@@ -11,10 +11,10 @@
          <children>
             <Label fx:id="squance" alignment="CENTER" prefHeight="40.0" prefWidth="40.0" styleClass="squnseLable" text="عدد">
                <HBox.margin>
-                  <Insets left="10.0" />
+                  <Insets left="10.0" right="5.0" />
                </HBox.margin></Label>
-            <Label fx:id="saveNum" alignment="CENTER" prefHeight="40.0" prefWidth="119.0" styleClass="itemLable" text="رقم الحفظ" />
-            <Label fx:id="displayDate" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="119.0" styleClass="itemLable" text="تاريخ العرض" />
+            <Label fx:id="circularid" alignment="CENTER" prefHeight="40.0" prefWidth="119.0" styleClass="itemLable" text="رقم المعاملة" />
+            <Label fx:id="circularDate" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="119.0" styleClass="itemLable" text="تاريخ المعاملة" />
             <Label fx:id="Destination" alignment="CENTER" layoutX="465.0" layoutY="23.0" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="227.0" styleClass="itemLable" text="جهة المعاملة" HBox.hgrow="ALWAYS" />
             <Label fx:id="topic" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="227.0" styleClass="itemLable" text="الموضوع" HBox.hgrow="ALWAYS" />
             <Label fx:id="displayTape" alignment="CENTER" prefHeight="40.0" prefWidth="119.0" styleClass="itemLable" text="نوع العرض" />

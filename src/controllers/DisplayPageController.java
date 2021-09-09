@@ -29,6 +29,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
@@ -51,12 +52,11 @@ public class DisplayPageController implements Initializable {
     private ComboBox<?> DateMonth;
     @FXML
     private ComboBox<?> DateYear;
-    @FXML
-    private Button searchButton1;
 
     ObservableList<DisplayModele> Displaylist = FXCollections.observableArrayList();
     ObservableList<String> displayTypelist = FXCollections.observableArrayList("عرض القائد", "توقيع القائد", "عرض الركن", "توقيع الركن", "توجيه الركن", "تاشير الركن");
     ObservableList<String> placeComboBoxlist = FXCollections.observableArrayList();
+    ObservableList<String> circularTypelist = FXCollections.observableArrayList("الوارد الخارجي", "الصادرالخارجي", "الوارد الداخلي", "الصادر الداخلي");
     Label displayDate = null;
     String id = null;
     @FXML
@@ -79,6 +79,10 @@ public class DisplayPageController implements Initializable {
     @FXML
     private VBox vbox;
     ActionEvent event;
+    @FXML
+    private ComboBox<String> circularType;
+    @FXML
+    private TextField circularid;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -89,6 +93,7 @@ public class DisplayPageController implements Initializable {
         refreshData();
         FillComboBox.fillComboBox(displayTypelist, displayType);
         destination.setItems(filleCoursPlace(placeComboBoxlist));
+        circularType.setItems(circularTypelist);
         clear(event);
     }
 
@@ -127,18 +132,17 @@ public class DisplayPageController implements Initializable {
 
             List<DisplayModele> dataItems = new ArrayList<>();
 
-//            ResultSet rs = DatabaseAccess.select("displaydata", "DISPLAYDATE = '" + getSearchDate() + "' and (DISPLAYTYPE = 'توقيع القائد')");
-            ResultSet rs = DatabaseAccess.getData("SELECT displaydata.TOPIC,displaydata.NOTES,displaydata.DESTINATION ,circularnames.MILITARYID,personaldata.NAME,personaldata.MILITARYID,personaldata.RANK "
-                    + "FROM circularnames,personaldata,displaydata "
-                    + "WHERE displaydata.ID = circularnames.CIRCULARID AND circularnames.MILITARYID =personaldata.MILITARYID AND DISPLAYTYPE = 'توقيع القائد'");
+            ResultSet rs = DatabaseAccess.select("displaydata", "DISPLAYDATE = '" + getSearchDate() + "' AND DISPLAYTYPE = 'توقيع القائد'");
+//            ResultSet rs = DatabaseAccess.getData("SELECT displaydata.TOPIC,displaydata.NOTES,displaydata.DESTINATION ,circularnames.MILITARYID,personaldata.NAME,personaldata.MILITARYID,personaldata.RANK "
+//                    + "FROM circularnames,personaldata,displaydata "
+//                    + "WHERE displaydata.CIRCULARID = circularnames.CIRCULARID AND circularnames.MILITARYID = personaldata.MILITARYID AND DISPLAYTYPE = 'توقيع القائد'");
             int squnce = 1;
             while (rs.next()) {
                 DisplayModele display = new DisplayModele();
                 String squnceText = ArabicSetting.EnglishToarabic(Integer.toString(squnce));
-                 display.setSqunces(squnceText);
+                display.setSqunces(squnceText);
                 display.setTopic(rs.getString("TOPIC"));
-                display.setDestination(rs.getString("DESTINATION"));
-                display.setName(rs.getString("RANK") + "/" + rs.getString("NAME"));
+                display.setDistnation(rs.getString("DESTINATION"));
                 display.setNotes(rs.getString("NOTES"));
                 dataItems.add(display);
                 squnce++;
@@ -146,13 +150,13 @@ public class DisplayPageController implements Initializable {
             rs.close();
             List<DisplayModele> dataItems1 = new ArrayList<>();
 
-            ResultSet rs1 = DatabaseAccess.select("displaydata", "DISPLAYDATE = '" + getSearchDate() + "' and DISPLAYTYPE = 'عرض القائد'");
+            ResultSet rs1 = DatabaseAccess.select("displaydata", "DISPLAYDATE = '" + getSearchDate() + "' AND DISPLAYTYPE = 'عرض القائد'");
             int squnce1 = 1;
 
             while (rs1.next()) {
                 DisplayModele display1 = new DisplayModele();
                 String squnceText = ArabicSetting.EnglishToarabic(Integer.toString(squnce1));
-               display1.setSqunces(squnceText);
+                display1.setSqunces(squnceText);
                 display1.setTopic(rs1.getString("TOPIC"));
                 display1.setNotes(rs1.getString("NOTES"));
                 dataItems1.add(display1);
@@ -249,7 +253,7 @@ public class DisplayPageController implements Initializable {
     }
 
     public String getDisplayDate() {
-        return AppDate.getDate(displayDateDay, displayDateMonth, displayDateYear);
+        return HijriCalendar.getSimpleDate();
     }
 
     public String getSearchDate() {
@@ -281,10 +285,12 @@ public class DisplayPageController implements Initializable {
                 displayModele.setSquence(squence);
                 displayModele.setDisplayid(rs.getString("ID"));
                 displayModele.setDisplayDate(rs.getString("DISPLAYDATE"));
-                displayModele.setDestination(rs.getString("DESTINATION"));
+                displayModele.setDistnation(rs.getString("DESTINATION"));
                 displayModele.setTopic(rs.getString("TOPIC"));
                 displayModele.setDisplayType(rs.getString("DISPLAYTYPE"));
                 displayModele.setNotes(rs.getString("NOTES"));
+                displayModele.setCircularid(rs.getString("CIRCULARID"));
+                displayModele.setCirculardate(rs.getString("CIRCULARDATE"));
                 displayModeles.add(displayModele);
             }
             rs.close();
@@ -295,10 +301,12 @@ public class DisplayPageController implements Initializable {
     }
 
     private void setChosendata(DisplayModele displayModele) {
-        AppDate.setSeparateDate(displayDateDay, displayDateMonth, displayDateYear, displayModele.getDisplayDate());
+        AppDate.setSeparateDate(displayDateDay, displayDateMonth, displayDateYear, displayModele.getCirculardate());
         displayType.setValue(displayModele.getDisplayType());
         topic.setText(displayModele.getTopic());
-        destination.setValue(displayModele.getDestination());
+        destination.setValue(displayModele.getDistnation());
+        notes.setText(displayModele.getNotes());
+        circularid.setText(displayModele.getCircularid());
         notes.setText(displayModele.getNotes());
         id = displayModele.getDisplayid();
     }
@@ -332,15 +340,16 @@ public class DisplayPageController implements Initializable {
     @FXML
     private void save(ActionEvent event) {
         String tableName = "displaydata";
-        String[] data = {getDisplayDate(), displayType.getValue(), topic.getText(), destination.getValue(), notes.getText()};
-        String fieldName = "`DISPLAYDATE`,`DISPLAYTYPE`,`TOPIC`,`DESTINATION`,`NOTES`";
-        String valuenumbers = "?,?,?,?,?";
+        String[] data = {getDisplayDate(), displayType.getValue(), topic.getText(), destination.getValue(), notes.getText(), circularid.getText(), getCircularDate()};
+        String fieldName = "`DISPLAYDATE`,`DISPLAYTYPE`,`TOPIC`,`DESTINATION`,`NOTES`,`CIRCULARID`,`CIRCULARDATE`";
+        String valuenumbers = "?,?,?,?,?,?,?";
 
         boolean destinationState = FormValidation.comboBoxNotEmpty(destination, "الرجاء ادخال جهة المعاملة");
         boolean displayTypeState = FormValidation.comboBoxNotEmpty(displayType, "الرجاء اختر نوع العرض");
         boolean topicState = FormValidation.textFieldNotEmpty(topic, "الرجاء ادخال الموضوع");
+        boolean circularidExisting = FormValidation.ifexisting("displaydata", "CIRCULARID", "CIRCULARID = '" + circularid.getText() + "' AND DISPLAYDATE ='" + getDisplayDate() + "'AND DISPLAYTYPE ='" + displayType.getValue() + "'", "تم اضافة المعاملة في عرض اليوم مسبقا");
 
-        if (displayTypeState && destinationState && topicState) {
+        if (displayTypeState && destinationState && topicState && circularidExisting) {
             try {
                 DatabaseAccess.insert(tableName, fieldName, valuenumbers, data);
                 refreshData();
@@ -354,8 +363,8 @@ public class DisplayPageController implements Initializable {
     @FXML
     private void edit(ActionEvent event) {
         String tableName = "displaydata";
-        String[] data = {getDisplayDate(), displayType.getValue(), topic.getText(), destination.getValue(), notes.getText()};
-        String fieldName = "`DISPLAYDATE`=?,`DISPLAYTYPE`=?,`TOPIC`=?,`DESTINATION`=?,`NOTES`=?";
+        String[] data = {getDisplayDate(), displayType.getValue(), topic.getText(), destination.getValue(), notes.getText(), circularid.getText(), getCircularDate()};
+        String fieldName = "`DISPLAYDATE`=?,`DISPLAYTYPE`=?,`TOPIC`=?,`DESTINATION`=?,`NOTES`=?,`CIRCULARID`=?,`CIRCULARDATE`=?";
 
         boolean destinationState = FormValidation.comboBoxNotEmpty(destination, "الرجاء ادخال جهة المعاملة");
         boolean displayTypeState = FormValidation.comboBoxNotEmpty(displayType, "الرجاء اختر نوع العرض");
@@ -379,46 +388,92 @@ public class DisplayPageController implements Initializable {
         topic.setText(null);
         notes.setText(null);
         destination.setValue(null);
-    }
-
-    public void getTableRow(TableView table) {
-        table.setOnMouseClicked(new EventHandler() {
-            @Override
-            public void handle(Event event) {
-                ObservableList<DisplayModele> list = FXCollections.observableArrayList();
-                list = table.getSelectionModel().getSelectedItems();
-                if (!list.isEmpty()) {
-                    id = list.get(0).getDisplayid();
-                    displayType.setValue(list.get(0).getDisplayType());
-                    topic.setText(list.get(0).getTopic());
-                    destination.setValue(list.get(0).getDestination());
-                    notes.setText(list.get(0).getNotes());
-                    AppDate.setSeparateDate(displayDateDay, displayDateMonth, displayDateYear, list.get(0).getDisplayDate());
-                }
-            }
-        });
-    }
-
-    private void getTableRowByInterKey(TableView table) {
-        table.setOnKeyPressed(new EventHandler() {
-            @Override
-            public void handle(Event event) {
-                ObservableList<DisplayModele> list = FXCollections.observableArrayList();
-                list = table.getSelectionModel().getSelectedItems();
-                if (!list.isEmpty()) {
-                    id = list.get(0).getDisplayid();
-                    displayType.setValue(list.get(0).getDisplayType());
-                    topic.setText(list.get(0).getTopic());
-                    destination.setValue(list.get(0).getDestination());
-                    destination.setValue(null);
-                    notes.setText(list.get(0).getNotes());
-                    AppDate.setSeparateDate(displayDateDay, displayDateMonth, displayDateYear, list.get(0).getDisplayDate());
-                }
-            }
-        });
+        circularid.setText(null);
+        circularType.setValue(null);
     }
 
     @FXML
-    private void click(MouseEvent event) {
+    private void getCircularData(KeyEvent event) {
+        String typeValue = circularType.getValue();
+        if (typeValue != null) {
+
+            switch (typeValue) {
+                case "الوارد الخارجي":
+                    try {
+                        ResultSet rs = DatabaseAccess.select("externalincoming", "RECEIPTNUMBER = '" + circularid.getText() + "' AND ARSHEFYEAR ='" + HijriCalendar.getSimpleYear() + "'");
+                        if (rs.next()) {
+                            setCircularDate(rs.getString("CIRCULARDATE"));
+                            topic.setText("وارد من" + " " + rs.getString("DESTINATION") + " " + rs.getString("TOPIC") + " " + getName(circularid.getText(), "external"));
+                            destination.setValue(rs.getString("DESTINATION"));
+                        }
+                    } catch (IOException | SQLException ex) {
+                        FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+                    }
+                    break;
+                case "الصادرالخارجي":
+                    try {
+                        ResultSet rs = DatabaseAccess.select("exportsdata", "EXPORTNUM = '" + circularid.getText() + "' AND RECORDYEAR ='" + HijriCalendar.getSimpleYear() + "'");
+                        if (rs.next()) {
+                            setCircularDate(rs.getString("EXPORTDATE"));
+                            topic.setText("صادر الى" + " " + rs.getString("DESTINATION") + " " + rs.getString("TOPIC") + " " + getName(circularid.getText(), "external"));
+                            destination.setValue(rs.getString("DESTINATION"));
+                        }
+                    } catch (IOException | SQLException ex) {
+                        FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+                    }
+                    break;
+                case "الوارد الداخلي":
+                    try {
+                        ResultSet rs = DatabaseAccess.select("internalincoming", "REGIS_NO = '" + circularid.getText() + "' AND RECORD_YEAR ='" + HijriCalendar.getSimpleYear() + "'");
+                        if (rs.next()) {
+                            setCircularDate(rs.getString("RECIPIENT_DATE"));
+                            topic.setText("وارد من" + " " + rs.getString("CIRCULAR_DIR") + " " + rs.getString("TOPIC") + " " + getName(circularid.getText(), "internal"));
+                            destination.setValue(rs.getString("CIRCULAR_DIR"));
+                        }
+                    } catch (IOException | SQLException ex) {
+                        FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+                    }
+                    break;
+                case "الصادر الداخلي":
+                    try {
+                        ResultSet rs = DatabaseAccess.select("internalexports", "REGISNO = '" + circularid.getText() + "' AND RECORDYEAR ='" + HijriCalendar.getSimpleYear() + "'");
+                        if (rs.next()) {
+                            setCircularDate(rs.getString("EXPORTDATE"));
+                            topic.setText("صادر الى" + " " + rs.getString("DESTINATION") + " " + rs.getString("TOPIC") + " " + getName(circularid.getText(), "internal"));
+                            destination.setValue(rs.getString("DESTINATION"));
+                        }
+                    } catch (IOException | SQLException ex) {
+                        FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+                    }
+                    break;
+            }
+        } else {
+            FormValidation.showAlert(null, "اختر نوع المعاملة", Alert.AlertType.ERROR);
+        }
+
+    }
+
+    private String getName(String id, String type) {
+        String name = null;
+        try {
+            ResultSet rs = DatabaseAccess.getData("SELECT circularnames.YEAR,circularnames.MILITARYID,personaldata.NAME,personaldata.MILITARYID,personaldata.RANK FROM circularnames,personaldata "
+                    + "WHERE circularnames.MILITARYID = personaldata.MILITARYID AND CIRCULARID = '" + circularid.getText() + "'AND YEAR = '" + HijriCalendar.getSimpleYear() + "'AND type = '" + type + "' ");
+            if (rs.next()) {
+                name = rs.getString("personaldata.RANK") + "/" + rs.getString("personaldata.NAME");
+            } else {
+                name = "";
+            }
+        } catch (IOException | SQLException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
+        return name;
+    }
+
+    private void setCircularDate(String date) {
+        AppDate.setSeparateDate(displayDateDay, displayDateMonth, displayDateYear, date);
+    }
+
+    private String getCircularDate() {
+        return AppDate.getDate(displayDateDay, displayDateMonth, displayDateYear);
     }
 }

@@ -2,23 +2,23 @@ package modeles;
 
 public class DisplayModele {
 
-    String displayid, displayDate, destination, topic, displayType, notes, squnces, name;
+    String displayid, displayDate, distnation, topic, displayType, notes, squnces, name,circularid,circulardate;
     int tablesquence;
 
-    public DisplayModele(String displayid, String displayDate, String destination, String topic, String displayType, String notes, int squence) {
+    public DisplayModele(String displayid, String displayDate, String distnation, String topic, String displayType, String notes, int squence) {
         this.displayid = displayid;
         this.displayDate = displayDate;
-        this.destination = destination;
+        this.distnation = distnation;
         this.topic = topic;
         this.displayType = displayType;
         this.notes = notes;
         this.tablesquence = squence;
     }
 
-    public DisplayModele(String displayid, String displayDate, String destination, String topic, String displayType, String notes, String squnces, String name, int squence) {
+    public DisplayModele(String displayid, String displayDate, String distnation, String topic, String displayType, String notes, String squnces, String name, int squence) {
         this.displayid = displayid;
         this.displayDate = displayDate;
-        this.destination = destination;
+        this.distnation = distnation;
         this.topic = topic;
         this.displayType = displayType;
         this.notes = notes;
@@ -26,7 +26,33 @@ public class DisplayModele {
         this.name = name;
         this.tablesquence = squence;
     }
+    public DisplayModele() {
+    }
 
+    public String getCircularid() {
+        return circularid;
+    }
+
+    public void setCircularid(String circularid) {
+        this.circularid = circularid;
+    }
+
+    public String getCirculardate() {
+        return circulardate;
+    }
+
+    public void setCirculardate(String circulardate) {
+        this.circulardate = circulardate;
+    }
+
+    public int getTablesquence() {
+        return tablesquence;
+    }
+
+    public void setTablesquence(int tablesquence) {
+        this.tablesquence = tablesquence;
+    }
+    
     public String getName() {
         return name;
     }
@@ -41,8 +67,7 @@ public class DisplayModele {
         this.squnces = squnces;
     }
 
-    public DisplayModele() {
-    }
+    
 
     public String getSqunces() {
         return squnces;
@@ -76,13 +101,15 @@ public class DisplayModele {
         this.displayDate = displayDate;
     }
 
-    public String getDestination() {
-        return destination;
+    public String getDistnation() {
+        return distnation;
     }
 
-    public void setDestination(String destination) {
-        this.destination = destination;
+    public void setDistnation(String distnation) {
+        this.distnation = distnation;
     }
+
+    
 
     public String getTopic() {
         return topic;
@@ -110,7 +137,7 @@ public class DisplayModele {
 
     @Override
     public String toString() {
-        return "DisplayModele{" + "displayid=" + displayid + ", displayDate=" + displayDate + ", destination=" + destination + ", topic=" + topic + ", displayType=" + displayType + ", notes=" + notes + ", squnces=" + squnces + ", squence=" + tablesquence + '}';
+        return "DisplayModele{" + "displayid=" + displayid + ", displayDate=" + displayDate + ", distnation=" + distnation + ", topic=" + topic + ", displayType=" + displayType + ", notes=" + notes + ", squnces=" + squnces + ", squence=" + tablesquence + '}';
     }
 
 }

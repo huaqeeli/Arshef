@@ -1,13 +1,17 @@
 package controllers;
 
 import Serveces.FollowupPageListener;
+import Validation.FormValidation;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import modeles.FollowupModel;
 
 public class FollowupItemController implements Initializable {
@@ -26,9 +30,13 @@ public class FollowupItemController implements Initializable {
     private Label Status;
     @FXML
     private Label CompletionDate;
-    
+
     private FollowupModel followupModel;
     private FollowupPageListener followupPageListener;
+    @FXML
+    private HBox content;
+    @FXML
+    private Label remingdayes;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -45,11 +53,33 @@ public class FollowupItemController implements Initializable {
         Required.setText(followupModel.getRequired());
         Status.setText(followupModel.getStatus());
         CompletionDate.setText(followupModel.getCompletiondate());
-
+        int remingday = AppDate.getRemainingDays(followupModel.getCompletiondate());
+        if (remingday < 0) {
+            remingdayes.setText("0");
+        } else {
+            remingdayes.setText(Integer.toString(remingday) + " " + "يوما");
+        }
+        if (remingday <= 7 && remingday > 5 && followupModel.getOpenStat() == 0) {
+            content.setStyle(" -fx-background-color: #FFD764;");
+        } else if (remingday <= 5 && followupModel.getOpenStat() == 0) {
+            content.setStyle(" -fx-background-color: #FE0000;");
+            circularid.setStyle(" -fx-text-fill: #FFFFFF;");
+            circularDate.setStyle(" -fx-text-fill: #FFFFFF;");
+            topic.setStyle(" -fx-text-fill: #FFFFFF;");
+            Required.setStyle(" -fx-text-fill: #FFFFFF;");
+            Status.setStyle(" -fx-text-fill: #FFFFFF;");
+            CompletionDate.setStyle(" -fx-text-fill: #FFFFFF;");
+            remingdayes.setStyle(" -fx-text-fill: #FFFFFF;");
+        }
     }
 
     @FXML
     private void deleteMark(ActionEvent event) {
+        try {
+            DatabaseAccess.updat("followup", " OPENSTAT = 1", "CIRCULARID = '" + circularid.getText() + "' AND CIRCULARDATE = '" + circularDate.getText() + "'");
+        } catch (IOException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
     }
 
     @FXML

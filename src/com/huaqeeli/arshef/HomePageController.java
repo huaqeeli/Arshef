@@ -138,7 +138,8 @@ public class HomePageController implements Initializable {
     }
 
     @FXML
-    private void followupPage(ActionEvent event) {
+    private void followupPage(ActionEvent event) throws IOException {
+             content.setCenter(App.loadFXML("/view/FollowupPage"));
     }
 
     @FXML

@@ -39,6 +39,7 @@ public class AppDate {
     public static void setCurrentYear(ComboBox year) {
         year.setValue(HijriCalendar.getSimpleYear());
     }
+
     public static void setCurrentDate(ComboBox day, ComboBox month, ComboBox year) {
         if (HijriCalendar.getSimpleDay() < 10) {
             day.setValue("0" + HijriCalendar.getSimpleDay());
@@ -149,6 +150,22 @@ public class AppDate {
             } else {
                 value = deffyear + yearText + " و" + deffmonth + monthText + " و" + deffday + " " + dayText;
             }
+        }
+        return value;
+    }
+
+    public static String getRemainingDays(String date) {
+        String value = null;
+        if (date != null) {
+            int intvalue = 0;
+            int day = Integer.parseInt(getDay(date));
+            int month = Integer.parseInt(getMonth(date));
+            int year = Integer.parseInt(getYear(date));
+            int currentDay = HijriCalendar.getSimpleDay();
+            int currentMont = HijriCalendar.getSimpleMonth();
+            int currentYear = HijriCalendar.getSimpleYear();
+            intvalue = (day-currentDay)+((month-currentMont)*30)+( (year - currentYear)*360);
+            value = Integer.toString(intvalue);
         }
         return value;
     }

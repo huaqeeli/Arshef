@@ -372,7 +372,6 @@ public class DatabaseAccess {
     public static ResultSet select(String tapleName, String condation) throws IOException {
         ResultSet rs = null;
         String guiry = "SELECT * FROM " + tapleName + " " + "WHERE" + " " + condation;
-        System.out.println(guiry);
         Connection con = DatabaseConniction.dbConnector();
         try {
             PreparedStatement psm = con.prepareStatement(guiry);

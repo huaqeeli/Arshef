@@ -35,7 +35,7 @@ public class FollowupItemController implements Initializable {
 
     }
 
-    private void setData(FollowupModel followupModel, FollowupPageListener followupPageListener) {
+    public void setData(FollowupModel followupModel, FollowupPageListener followupPageListener) {
         this.followupModel = followupModel;
         this.followupPageListener = followupPageListener;
         squnce.setText(Integer.toString(followupModel.getSqunce()));

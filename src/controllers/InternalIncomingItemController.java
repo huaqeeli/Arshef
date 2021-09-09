@@ -2,7 +2,6 @@ package controllers;
 
 import Serveces.InternalIncomingPageListener;
 import Validation.FormValidation;
-import static Validation.FormValidation.showAlert;
 import arshef.App;
 import java.io.IOException;
 import java.net.URL;

@@ -303,7 +303,6 @@ public class DatabaseAccess {
     public static ResultSet getData(String quiry) throws IOException {
         ResultSet rs = null;
         Connection con = DatabaseConniction.dbConnector();
-
         try {
             PreparedStatement psm = con.prepareStatement(quiry);
             rs = psm.executeQuery();

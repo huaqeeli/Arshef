@@ -64,6 +64,7 @@ public class secretPageController implements Initializable {
     private SecretPageListener myListener;
 
     String recordYear = null;
+    String circularID = null;
     File imagefile = null;
     Stage stage = new Stage();
     byte[] pdfimage = null;
@@ -125,6 +126,8 @@ public class secretPageController implements Initializable {
         topic.setText(secretModel.getTopic());
         saveFile.setText(secretModel.getSaveFile());
         note.setText(secretModel.getNote());
+        circularID= secretModel.getCircularid();
+        recordYear = secretModel.getRecordYear();
     }
 
     @FXML
@@ -237,12 +240,12 @@ public class secretPageController implements Initializable {
 
         boolean destinationState = FormValidation.comboBoxNotEmpty(destination, "الرجاء ادخال جهة المعاملة");
         boolean topicState = FormValidation.textFieldNotEmpty(topic, "الرجاء ادخال الموضوع");
-        boolean circularidState = FormValidation.textFieldNotEmpty(circularid, "الرجاء ادخال رقم المعاملة"); 
+        boolean circularidState = FormValidation.textFieldNotEmpty(circularid, "الرجاء ادخال رقم المعاملة");
         boolean saveFileState = FormValidation.textFieldNotEmpty(saveFile, "الرجاء ادخال ملف الحفظ");
 
-        if (destinationState && topicState && saveFileState && circularidState ) {
+        if (destinationState && topicState && saveFileState && circularidState) {
             try {
-                DatabaseAccess.updat(tableName, fieldName, data,"CIRCULARID = '" + circularid.getText() + "'AND RECORDYEAR = '" + recordYear + "'", imagefile);
+                DatabaseAccess.updat(tableName, fieldName, data, "CIRCULARID = '" + circularid.getText() + "'AND RECORDYEAR = '" + recordYear + "'", imagefile);
                 refreshdata();
                 clear(event);
             } catch (IOException ex) {
@@ -260,6 +263,17 @@ public class secretPageController implements Initializable {
         saveFile.setText(null);
         note.setText(null);
         refreshdata();
+    }
+
+    @FXML
+    private void delete(ActionEvent event) {
+        try {
+            DatabaseAccess.delete("secretdata", " `CIRCULARID` ='" + circularid.getText() + "' AND RECORDYEAR ='" + recordYear + "'");
+            refreshdata();
+            clear(event);
+        } catch (IOException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
     }
 
 }

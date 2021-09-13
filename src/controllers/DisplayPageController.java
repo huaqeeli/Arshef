@@ -18,19 +18,14 @@ import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import modeles.DisplayModele;
@@ -83,6 +78,8 @@ public class DisplayPageController implements Initializable {
     private ComboBox<String> circularType;
     @FXML
     private TextField circularid;
+    @FXML
+    private TextField action;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -133,9 +130,6 @@ public class DisplayPageController implements Initializable {
             List<DisplayModele> dataItems = new ArrayList<>();
 
             ResultSet rs = DatabaseAccess.select("displaydata", "DISPLAYDATE = '" + getSearchDate() + "' AND DISPLAYTYPE = 'توقيع القائد'");
-//            ResultSet rs = DatabaseAccess.getData("SELECT displaydata.TOPIC,displaydata.NOTES,displaydata.DESTINATION ,circularnames.MILITARYID,personaldata.NAME,personaldata.MILITARYID,personaldata.RANK "
-//                    + "FROM circularnames,personaldata,displaydata "
-//                    + "WHERE displaydata.CIRCULARID = circularnames.CIRCULARID AND circularnames.MILITARYID = personaldata.MILITARYID AND DISPLAYTYPE = 'توقيع القائد'");
             int squnce = 1;
             while (rs.next()) {
                 DisplayModele display = new DisplayModele();
@@ -199,6 +193,7 @@ public class DisplayPageController implements Initializable {
                 String squnceText = ArabicSetting.EnglishToarabic(Integer.toString(squnce));
                 display.setSqunces(squnceText);
                 display.setTopic(rs.getString("TOPIC"));
+                display.setAction(rs.getString("ACTION"));
                 display.setNotes(rs.getString("NOTES"));
                 dataItems.add(display);
                 squnce++;
@@ -291,6 +286,7 @@ public class DisplayPageController implements Initializable {
                 displayModele.setNotes(rs.getString("NOTES"));
                 displayModele.setCircularid(rs.getString("CIRCULARID"));
                 displayModele.setCirculardate(rs.getString("CIRCULARDATE"));
+                displayModele.setAction(rs.getString("ACTION"));
                 displayModeles.add(displayModele);
             }
             rs.close();
@@ -340,9 +336,9 @@ public class DisplayPageController implements Initializable {
     @FXML
     private void save(ActionEvent event) {
         String tableName = "displaydata";
-        String[] data = {getDisplayDate(), displayType.getValue(), topic.getText(), destination.getValue(), notes.getText(), circularid.getText(), getCircularDate()};
-        String fieldName = "`DISPLAYDATE`,`DISPLAYTYPE`,`TOPIC`,`DESTINATION`,`NOTES`,`CIRCULARID`,`CIRCULARDATE`";
-        String valuenumbers = "?,?,?,?,?,?,?";
+        String[] data = {getDisplayDate(), displayType.getValue(), topic.getText(), destination.getValue(), notes.getText(), circularid.getText(), getCircularDate(),action.getText()};
+        String fieldName = "`DISPLAYDATE`,`DISPLAYTYPE`,`TOPIC`,`DESTINATION`,`NOTES`,`CIRCULARID`,`CIRCULARDATE`,`ACTION`";
+        String valuenumbers = "?,?,?,?,?,?,?,?";
 
         boolean destinationState = FormValidation.comboBoxNotEmpty(destination, "الرجاء ادخال جهة المعاملة");
         boolean displayTypeState = FormValidation.comboBoxNotEmpty(displayType, "الرجاء اختر نوع العرض");
@@ -363,8 +359,8 @@ public class DisplayPageController implements Initializable {
     @FXML
     private void edit(ActionEvent event) {
         String tableName = "displaydata";
-        String[] data = {getDisplayDate(), displayType.getValue(), topic.getText(), destination.getValue(), notes.getText(), circularid.getText(), getCircularDate()};
-        String fieldName = "`DISPLAYDATE`=?,`DISPLAYTYPE`=?,`TOPIC`=?,`DESTINATION`=?,`NOTES`=?,`CIRCULARID`=?,`CIRCULARDATE`=?";
+        String[] data = {getDisplayDate(), displayType.getValue(), topic.getText(), destination.getValue(), notes.getText(), circularid.getText(), getCircularDate(),action.getText()};
+        String fieldName = "`DISPLAYDATE`=?,`DISPLAYTYPE`=?,`TOPIC`=?,`DESTINATION`=?,`NOTES`=?,`CIRCULARID`=?,`CIRCULARDATE`=?,`ACTION`=?";
 
         boolean destinationState = FormValidation.comboBoxNotEmpty(destination, "الرجاء ادخال جهة المعاملة");
         boolean displayTypeState = FormValidation.comboBoxNotEmpty(displayType, "الرجاء اختر نوع العرض");
@@ -390,6 +386,7 @@ public class DisplayPageController implements Initializable {
         destination.setValue(null);
         circularid.setText(null);
         circularType.setValue(null);
+        action.setText(null);
     }
 
     @FXML

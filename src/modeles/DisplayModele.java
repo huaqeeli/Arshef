@@ -2,7 +2,7 @@ package modeles;
 
 public class DisplayModele {
 
-    String displayid, displayDate, distnation, topic, displayType, notes, squnces, name,circularid,circulardate;
+    String displayid, displayDate, distnation, topic, displayType, notes, squnces, name,circularid,circulardate,action;
     int tablesquence;
 
     public DisplayModele(String displayid, String displayDate, String distnation, String topic, String displayType, String notes, int squence) {
@@ -27,6 +27,14 @@ public class DisplayModele {
         this.tablesquence = squence;
     }
     public DisplayModele() {
+    }
+
+    public String getAction() {
+        return action;
+    }
+
+    public void setAction(String action) {
+        this.action = action;
     }
 
     public String getCircularid() {

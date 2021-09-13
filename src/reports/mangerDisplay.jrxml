@@ -38,6 +38,7 @@
 		<field name="squnces" class="java.lang.String"/>
 		<field name="notes" class="java.lang.String"/>
 		<field name="topic" class="java.lang.String"/>
+		<field name="action" class="java.lang.String"/>
 	</subDataset>
 	<subDataset name="SignatureAndSmallSignature" uuid="a6636f72-eef5-41f2-9f86-4a7395c9e76b">
 		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
@@ -269,6 +270,13 @@
 								<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 								<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 							</box>
+							<textField>
+								<reportElement x="0" y="0" width="124" height="30" uuid="95bad6f3-6342-4828-b54a-cd6b09554218"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{action}]]></textFieldExpression>
+							</textField>
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="39" uuid="1bd90a86-760d-4908-9917-47a7d6215b41">

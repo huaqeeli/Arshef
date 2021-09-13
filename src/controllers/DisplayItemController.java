@@ -31,6 +31,8 @@ public class DisplayItemController implements Initializable {
     private Label circularid;
     @FXML
     private Label circularDate;
+    @FXML
+    private Label action;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -47,6 +49,7 @@ public class DisplayItemController implements Initializable {
         Destination.setText(displayModele.getDistnation());
         displayTape.setText(displayModele.getDisplayType());
         notes.setText(displayModele.getNotes());
+        action.setText(displayModele.getAction());
     }  
 
     @FXML

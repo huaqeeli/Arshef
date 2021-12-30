@@ -116,7 +116,7 @@ public class FollowupPageController implements Initializable {
         boolean circularidState = FormValidation.textFieldNotEmpty(circularid, "الرجاء ادخال رقم المعاملة");
         boolean topicState = FormValidation.textFieldNotEmpty(topic, "الرجاء ادخال الموضوع");
         boolean RequiredState = FormValidation.textFieldNotEmpty(Required, "الرجاء ادخال الاجراء المطلوب");
-        boolean circularidExisting = FormValidation.ifexisting("followup", "CIRCULARID", "CIRCULARID = '" + circularID + "' AND CIRCULARDATE = '" + cirularDate + "'", "تم اداخال المعاملة مسبقا");
+        boolean circularidExisting = FormValidation.ifexisting("followup", "CIRCULARID", "CIRCULARID = '" + circularid.getText() + "' AND CIRCULARDATE = '" + getCircularDate() + "'", "تم اداخال المعاملة مسبقا");
 
         if (RequiredState && circularidState && topicState && circularidExisting) {
             try {
@@ -259,53 +259,57 @@ public class FollowupPageController implements Initializable {
     }
 
     @FXML
-    private void getCircularData(KeyEvent event) {
+    private void getCircularData(ActionEvent event) {
         String typeValue = circularType.getValue();
-        switch (typeValue) {
-            case "الوارد الخارجي":
-                try {
-                    ResultSet rs = DatabaseAccess.select("externalincoming", "RECEIPTNUMBER = '" + circularid.getText() + "' AND ARSHEFYEAR ='" + HijriCalendar.getSimpleYear() + "'");
-                    if (rs.next()) {
-                        setCircularDate(rs.getString("CIRCULARDATE"));
-                        topic.setText(rs.getString("TOPIC"));
+        if (typeValue == null || "".equals(typeValue)) {
+            FormValidation.showAlert(null, "الرجاء اختيار نوع المعاملة", Alert.AlertType.ERROR);
+        } else {
+            switch (typeValue) {
+                case "الوارد الخارجي":
+                    try {
+                        ResultSet rs = DatabaseAccess.select("externalincoming", "RECEIPTNUMBER = '" + circularid.getText() + "' AND ARSHEFYEAR ='" + HijriCalendar.getSimpleYear() + "'");
+                        if (rs.next()) {
+                            setCircularDate(rs.getString("CIRCULARDATE"));
+                            topic.setText(rs.getString("TOPIC"));
+                        }
+                    } catch (IOException | SQLException ex) {
+                        FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
                     }
-                } catch (IOException | SQLException ex) {
-                    FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
-                }
-                break;
-            case "الصادرالخارجي":
-                try {
-                    ResultSet rs = DatabaseAccess.select("exportsdata", "EXPORTNUM = '" + circularid.getText() + "' AND RECORDYEAR ='" + HijriCalendar.getSimpleYear() + "'");
-                    if (rs.next()) {
-                        setCircularDate(rs.getString("EXPORTDATE"));
-                        topic.setText(rs.getString("TOPIC"));
+                    break;
+                case "الصادرالخارجي":
+                    try {
+                        ResultSet rs = DatabaseAccess.select("exportsdata", "EXPORTNUM = '" + circularid.getText() + "' AND RECORDYEAR ='" + HijriCalendar.getSimpleYear() + "'");
+                        if (rs.next()) {
+                            setCircularDate(rs.getString("EXPORTDATE"));
+                            topic.setText(rs.getString("TOPIC"));
+                        }
+                    } catch (IOException | SQLException ex) {
+                        FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
                     }
-                } catch (IOException | SQLException ex) {
-                    FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
-                }
-                break;
-            case "الوارد الداخلي":
-                try {
-                    ResultSet rs = DatabaseAccess.select("internalincoming", "REGIS_NO = '" + circularid.getText() + "' AND RECORD_YEAR ='" + HijriCalendar.getSimpleYear() + "'");
-                    if (rs.next()) {
-                        setCircularDate(rs.getString("RECIPIENT_DATE"));
-                        topic.setText(rs.getString("TOPIC"));
+                    break;
+                case "الوارد الداخلي":
+                    try {
+                        ResultSet rs = DatabaseAccess.select("internalincoming", "REGIS_NO = '" + circularid.getText() + "' AND RECORD_YEAR ='" + HijriCalendar.getSimpleYear() + "'");
+                        if (rs.next()) {
+                            setCircularDate(rs.getString("RECIPIENT_DATE"));
+                            topic.setText(rs.getString("TOPIC"));
+                        }
+                    } catch (IOException | SQLException ex) {
+                        FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
                     }
-                } catch (IOException | SQLException ex) {
-                    FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
-                }
-                break;
-            case "الصادر الداخلي":
-                try {
-                    ResultSet rs = DatabaseAccess.select("internalexports", "REGISNO = '" + circularid.getText() + "' AND RECORDYEAR ='" + HijriCalendar.getSimpleYear() + "'");
-                    if (rs.next()) {
-                        setCircularDate(rs.getString("EXPORTDATE"));
-                        topic.setText(rs.getString("TOPIC"));
+                    break;
+                case "الصادر الداخلي":
+                    try {
+                        ResultSet rs = DatabaseAccess.select("internalexports", "REGISNO = '" + circularid.getText() + "' AND RECORDYEAR ='" + HijriCalendar.getSimpleYear() + "'");
+                        if (rs.next()) {
+                            setCircularDate(rs.getString("EXPORTDATE"));
+                            topic.setText(rs.getString("TOPIC"));
+                        }
+                    } catch (IOException | SQLException ex) {
+                        FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
                     }
-                } catch (IOException | SQLException ex) {
-                    FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
-                }
-                break;
+                    break;
+            }
         }
     }
 

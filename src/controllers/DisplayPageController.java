@@ -304,6 +304,7 @@ public class DisplayPageController implements Initializable {
         notes.setText(displayModele.getNotes());
         circularid.setText(displayModele.getCircularid());
         notes.setText(displayModele.getNotes());
+        action.setText(displayModele.getAction());
         id = displayModele.getDisplayid();
     }
 

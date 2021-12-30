@@ -63,6 +63,7 @@ public class FormationPageController implements Initializable {
     private ObservableList filleUint(ObservableList list) {
         try {
             ResultSet rs = DatabaseAccess.select("placenames", "UINTTYPE='داخلي'"); 
+            list.clear();
             list.add("");
             try {
                 while (rs.next()) {

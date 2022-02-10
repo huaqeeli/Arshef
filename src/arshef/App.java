@@ -1,6 +1,7 @@
 package arshef;
 
 import Validation.FormValidation;
+import controllers.AddMissionNamesController;
 import controllers.AddNamesController;
 import controllers.CensusPageController;
 import controllers.ChangePassowrdController;
@@ -114,6 +115,33 @@ public class App extends Application {
             AddNamesController controller = new AddNamesController();
             controller = (AddNamesController) fxmlLoader.getController();
             controller.setPassingData(circularID, year,type);
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            scene.setFill(Color.TRANSPARENT);
+            root.setOnMousePressed((MouseEvent event) -> {
+                x = event.getSceneX();
+                y = event.getSceneY();
+            });
+            root.setOnMouseDragged((MouseEvent event) -> {
+                stage.setX(event.getScreenX() - x);
+                stage.setY(event.getScreenY() - y);
+            });
+            stage.setScene(scene);
+            stage.initStyle(StageStyle.TRANSPARENT);
+            stage.showAndWait();
+        } catch (IOException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
+        return root;
+    }
+    public static Parent lodAddMissionNmaesPage(String missionID) {
+        Parent root = null;
+        try {
+            FXMLLoader fxmlLoader = loadFX("/view/AddMissionNames");
+            root = fxmlLoader.load();
+            AddMissionNamesController controller = new AddMissionNamesController();
+            controller = (AddMissionNamesController) fxmlLoader.getController();
+            controller.setPassingData(missionID);
             Scene scene = new Scene(root);
             Stage stage = new Stage();
             scene.setFill(Color.TRANSPARENT);

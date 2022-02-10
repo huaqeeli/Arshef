@@ -26,7 +26,6 @@ public class ExporteExcelSheet {
     String[] personalData;
     HSSFWorkbook workBook = new HSSFWorkbook();
     HSSFSheet sheet = workBook.createSheet();
-
     public ExporteExcelSheet(ResultSet rs, String[] feild, String[] titel) {
         this.rs = rs;
         this.feild = feild;
@@ -63,6 +62,18 @@ public class ExporteExcelSheet {
         return tableDataList;
     }
 
+    public CellStyle setTitelStyle() {
+        CellStyle headerstyle = workBook.createCellStyle();
+        headerstyle.setFillPattern(CellStyle.SOLID_FOREGROUND);
+         headerstyle.setFillForegroundColor(IndexedColors.WHITE.getIndex());
+        headerstyle.setAlignment(HorizontalAlignment.CENTER);
+        headerstyle.setBorderBottom((short) 0);
+        headerstyle.setBorderTop((short) 0);
+        headerstyle.setBorderRight((short) 0);
+        headerstyle.setBorderLeft((short) 0);
+        headerstyle.setBorderLeft((short) 0);
+        return headerstyle;
+    }
     public CellStyle setHederStyle() {
         CellStyle headerstyle = workBook.createCellStyle();
         headerstyle.setFillForegroundColor(IndexedColors.LIGHT_GREEN.getIndex());
@@ -71,6 +82,7 @@ public class ExporteExcelSheet {
         headerstyle.setBorderBottom((short) 2);
         headerstyle.setBorderTop((short) 2);
         headerstyle.setBorderRight((short) 2);
+        headerstyle.setBorderLeft((short) 2);
         headerstyle.setBorderLeft((short) 2);
         return headerstyle;
     }
@@ -111,7 +123,7 @@ public class ExporteExcelSheet {
         String file = fileName + ".xls";
         try {
             sheet.setRightToLeft(true);
-            sheet.setDefaultColumnWidth(20);
+            sheet.setDefaultColumnWidth(30);
             FileOutputStream fos = new FileOutputStream(file);
             workBook.write(fos);
             fos.flush();

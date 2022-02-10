@@ -491,6 +491,25 @@ public class DatabaseAccess {
         }
     }
 
+    public static boolean deleteAll(String tapleName, String condition) throws IOException {
+        Connection con = DatabaseConniction.dbConnector();
+        String guiry = "DELETE FROM " + tapleName + " WHERE " + condition;
+        boolean state = false;
+        try {
+            PreparedStatement psm = con.prepareStatement(guiry);
+            Alert alert = FormValidation.confirmationDilog("تاكيد الحذف", "سوف يتم حذف السجل هل تريد المتابعة");
+            if (alert.getResult() == ButtonType.YES) {
+                int t = psm.executeUpdate();
+                if (t > 0) {
+                    state = true;
+                }
+            }
+        } catch (SQLException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
+        return state;
+    }
+
     public static void delete(String quiry) throws IOException {
         Connection con = DatabaseConniction.dbConnector();
         try {

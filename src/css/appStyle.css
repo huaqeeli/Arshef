@@ -459,6 +459,28 @@
     -fx-background-radius: 100;
      -fx-effect: dropshadow(three-pass-box,#3C3B3B, 20, 0, 5, 5); 
 }
+.missionNameHeder{
+    -fx-font-family: "URW DIN Arabic";
+    -fx-font-size: 15px;
+    -fx-text-fill: #FFFFFF;
+    -fx-border-color: #FFFFFF;
+    -fx-border-width: 0 2 0 2 ;
+    -fx-border-radius: 100 ;
+     -fx-background-color: #1E3606;
+    -fx-background-radius: 100;
+     -fx-effect: dropshadow(three-pass-box,#3C3B3B, 20, 0, 5, 5); 
+}
+.missionHeder{
+    -fx-font-family: "URW DIN Arabic";
+    -fx-font-size: 15px;
+    -fx-text-fill: #FFFFFF;
+    -fx-border-color: #F9B169;
+    -fx-border-width: 0 2 0 2 ;
+    -fx-border-radius: 100 ;
+     -fx-background-color: #F68A1F;
+    -fx-background-radius: 100;
+     -fx-effect: dropshadow(three-pass-box,#3C3B3B, 20, 0, 5, 5); 
+}
 .tableHeder:hover{
 
 }
@@ -473,8 +495,28 @@
 .itemPanl:selected{
     -fx-background-color: #1E3606;
 }
+.missionitemPanl{
+    -fx-background-color: #B4BCAC;
+    -fx-border-color:  #1E3606;
+    -fx-border-width: 0 0 5 0 ;
+}
+.missionitemPanl:hover{
+    -fx-background-color: #8CA598;
+    -fx-text-fill: #FFFFFF;
+    -fx-border-color:  #5D6E65;
+    -fx-border-width: 0 0 5 0 ;
+}
+.missionitemPanl:selected{
+    -fx-background-color: #1E3606;
+}
 .markButton{
     -fx-background-color: #686868;
     -fx-background-radius: 100;
     -fx-border-radius: 100 ;
+}
+.formationLapal{
+    -fx-background-color: #F68A1F;
+    -fx-text-fill: #FFFFFF;
+     -fx-font-family: "URW DIN Arabic";
+    -fx-font-size: 15px;
 }

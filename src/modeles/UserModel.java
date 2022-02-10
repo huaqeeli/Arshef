@@ -2,7 +2,7 @@ package modeles;
 
 public class UserModel {
 
-    String militaryid,rank, name, usertype;
+    String militaryid,rank, name, usertype,uint;
     int squnce;
 
     public UserModel(String militaryid, String rank, String name, String usertype, int squnce) {
@@ -12,6 +12,27 @@ public class UserModel {
         this.usertype = usertype;
         this.squnce = squnce;
     }
+
+    public UserModel(String militaryid, String rank, String name, String usertype, String uint, int squnce) {
+        this.militaryid = militaryid;
+        this.rank = rank;
+        this.name = name;
+        this.usertype = usertype;
+        this.uint = uint;
+        this.squnce = squnce;
+    }
+
+    public UserModel() {
+    }
+
+    public String getUint() {
+        return uint;
+    }
+
+    public void setUint(String uint) {
+        this.uint = uint;
+    }
+    
 
     public String getMilitaryid() {
         return militaryid;

@@ -424,13 +424,13 @@
     -fx-border-color: #D5D8D8;
     -fx-border-width: 0 2 0 2 ;
     -fx-border-radius: 100 ;
-    
+
 }
 .squnseLable {
     -fx-font-family: "URW DIN Arabic"; 
     -fx-font-size: 13px;
     -fx-text-fill: #FFFFFF;
-    -fx-background-color:  #596367;
+    -fx-background-color:  #1E3606;
     -fx-border-radius: 100 ;
     -fx-background-radius: 100;
 }
@@ -441,6 +441,22 @@
     -fx-border-radius: 50;
     -fx-background-radius: 50;
     -fx-background-color: #1E3606;
+}
+.exclButton{
+    -fx-font-family: "URW DIN Arabic"; 
+    -fx-border-radius: 50;
+    -fx-background-radius: 50;
+    -fx-background-color: #1E3606;
+    -fx-font-size: 15px;
+    -fx-text-fill: #FFFFFF;
+}
+.formatoioLable{
+    -fx-border-radius: 50;
+    -fx-background-radius: 0 50 50 0;
+}
+.formatoioLable2{
+    -fx-border-radius: 50;
+    -fx-background-radius: 50 0 0 50;
 }
 .shdow{
     -fx-effect: dropshadow(three-pass-box,#3C3B3B, 20, 0, 5, 5); 
@@ -455,9 +471,9 @@
     -fx-border-color: #747D80;
     -fx-border-width: 0 2 0 2 ;
     -fx-border-radius: 100 ;
-     -fx-background-color: #3B4244;
+    -fx-background-color: #3B4244;
     -fx-background-radius: 100;
-     -fx-effect: dropshadow(three-pass-box,#3C3B3B, 20, 0, 5, 5); 
+    -fx-effect: dropshadow(three-pass-box,#3C3B3B, 20, 0, 5, 5); 
 }
 .missionNameHeder{
     -fx-font-family: "URW DIN Arabic";
@@ -466,9 +482,9 @@
     -fx-border-color: #FFFFFF;
     -fx-border-width: 0 2 0 2 ;
     -fx-border-radius: 100 ;
-     -fx-background-color: #1E3606;
+    -fx-background-color: #1E3606;
     -fx-background-radius: 100;
-     -fx-effect: dropshadow(three-pass-box,#3C3B3B, 20, 0, 5, 5); 
+    -fx-effect: dropshadow(three-pass-box,#3C3B3B, 20, 0, 5, 5); 
 }
 .missionHeder{
     -fx-font-family: "URW DIN Arabic";
@@ -477,9 +493,9 @@
     -fx-border-color: #F9B169;
     -fx-border-width: 0 2 0 2 ;
     -fx-border-radius: 100 ;
-     -fx-background-color: #F68A1F;
+    -fx-background-color: #F68A1F;
     -fx-background-radius: 100;
-     -fx-effect: dropshadow(three-pass-box,#3C3B3B, 20, 0, 5, 5); 
+    -fx-effect: dropshadow(three-pass-box,#3C3B3B, 20, 0, 5, 5); 
 }
 .tableHeder:hover{
 
@@ -517,6 +533,6 @@
 .formationLapal{
     -fx-background-color: #F68A1F;
     -fx-text-fill: #FFFFFF;
-     -fx-font-family: "URW DIN Arabic";
-    -fx-font-size: 15px;
+    -fx-font-family: "URW DIN Arabic";
+    -fx-font-size: 20px;
 }

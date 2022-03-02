@@ -5,6 +5,7 @@ import Validation.FormValidation;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -180,7 +181,10 @@ public class ExternalIncomingPageController implements Initializable {
 
         if (circularidState && receiptNumberState && destinationState && topicState && saveFileState && circularidTypeNumber && receiptNumberTypeNumber) {
             try {
-                DatabaseAccess.updat(tableName, fieldName, data, "CIRCULARID = '" + circularID + "' AND ARSHEFYEAR = '" + arshefyear + "' ", imagefile);
+                int t = DatabaseAccess.updat(tableName, fieldName, data, "CIRCULARID = '" + circularID + "' AND ARSHEFYEAR = '" + arshefyear + "' ", imagefile);
+                if (t > 0) {
+                    FormValidation.showAlert("", "تم تحديث البيانات", Alert.AlertType.CONFIRMATION);
+                }
                 refreshData();
                 clear(event);
             } catch (IOException ex) {
@@ -405,6 +409,7 @@ public class ExternalIncomingPageController implements Initializable {
         FileChooser.ExtensionFilter ext4 = new FileChooser.ExtensionFilter("PDF  files(*.pdf)", "*.PDF");
         fileChooser.getExtensionFilters().addAll(ext4);
         imagefile = fileChooser.showOpenDialog(stage);
+        System.out.println(imagefile);
         imageUrl.setText(imagefile.getPath());
         return imagefile;
     }
@@ -540,7 +545,6 @@ public class ExternalIncomingPageController implements Initializable {
         return rs;
     }
 
-    @FXML
     private void addtoLeaderDisplay(ActionEvent event) {
         String tableName = "displaydata";
         String[] data = {HijriCalendar.getSimpleDate(), "عرض القائد", topic.getText(), destination.getValue()};
@@ -560,7 +564,6 @@ public class ExternalIncomingPageController implements Initializable {
         }
     }
 
-    @FXML
     private void addtoLeaderSignature(ActionEvent event) {
         String tableName = "displaydata";
         String[] data = {HijriCalendar.getSimpleDate(), "توقيع القائد", topic.getText(), destination.getValue()};
@@ -580,7 +583,6 @@ public class ExternalIncomingPageController implements Initializable {
         }
     }
 
-    @FXML
     private void addtoManagerSignature(ActionEvent event) {
         String tableName = "displaydata";
         String[] data = {HijriCalendar.getSimpleDate(), "توقيع الركن", topic.getText(), destination.getValue()};
@@ -600,7 +602,6 @@ public class ExternalIncomingPageController implements Initializable {
         }
     }
 
-    @FXML
     private void addtoManagerDisplay(ActionEvent event) {
         String tableName = "displaydata";
         String[] data = {HijriCalendar.getSimpleDate(), "عرض الركن", topic.getText(), destination.getValue()};
@@ -620,7 +621,6 @@ public class ExternalIncomingPageController implements Initializable {
         }
     }
 
-    @FXML
     private void addtoManagerSmallSignature(ActionEvent event) {
         String tableName = "displaydata";
         String[] data = {HijriCalendar.getSimpleDate(), "تاشير الركن", topic.getText(), destination.getValue()};
@@ -640,7 +640,6 @@ public class ExternalIncomingPageController implements Initializable {
         }
     }
 
-    @FXML
     private void addtoManagerOrders(ActionEvent event) {
         String tableName = "displaydata";
         String[] data = {HijriCalendar.getSimpleDate(), "توجيه الركن", topic.getText(), destination.getValue()};
@@ -673,6 +672,41 @@ public class ExternalIncomingPageController implements Initializable {
             searchDateYear.setDisable(true);
             year.setDisable(false);
         }
+    }
+
+    @FXML
+    private void sendTosecretData(ActionEvent event) {
+        InputStream image = null;
+        byte[] byteimage = null;
+        try {
+            String tableName = "secretdata";
+            ResultSet rs = DatabaseAccess.select("externalincoming", "CIRCULARID='" + circularID + "'AND ARSHEFYEAR = '" + arshefyear + "'");
+            if (rs.next()) {
+                setCircularid(rs.getString("CIRCULARID"));
+                setCircularDate(rs.getString("CIRCULARDATE"));
+                setReceiptNumber(rs.getString("RECEIPTNUMBER"));
+                setReceiptNumberDate(rs.getString("RECEIPTDATE"));
+                setDestination(rs.getString("DESTINATION"));
+                setTopic(rs.getString("TOPIC"));
+                setSaveFile(rs.getString("SAVEFILE"));
+                setAction(rs.getString("ACTION"));
+                arshefyear = rs.getString("ARSHEFYEAR");
+                image = rs.getBinaryStream("IMAGE");
+                byteimage = new byte[image.available()];
+                image.read(byteimage);
+            }
+            String[] data = {getCircularid(), getCircularDate(), getReceiptNumber(), getReceiptNumberDate(), getDestination(), getTopic(), getSaveFile(), getAction(), arshefyear};
+            String valuenumbers = null;
+            String fieldName = "`CIRCULARID`,`CIRCULARDATE`,`RECEIPTNUMBER`,`RECEIPTDATE`,`DESTINATION`,`TOPIC`,`SAVEFILE`,`NOTE`,`RECORDYEAR`,`IMAGE`";
+            valuenumbers = "?,?,?,?,?,?,?,?,?,?";
+            DatabaseAccess.insert(tableName, fieldName, valuenumbers, data, byteimage);
+            DatabaseAccess.secretDelete("externalincoming", "CIRCULARID='" + circularID + "'AND ARSHEFYEAR = '" + arshefyear + "'");
+            refreshData();
+            clear(event);
+        } catch (IOException | SQLException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
+
     }
 
 }

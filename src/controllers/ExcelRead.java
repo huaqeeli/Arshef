@@ -1,4 +1,3 @@
-
 package controllers;
 
 import java.io.FileInputStream;
@@ -20,14 +19,14 @@ public class ExcelRead {
     public static void main(String[] args) throws Exception {
         String filename = "C:\\Users\\y50\\Documents\\personaldata.xls";
         FileInputStream fis = null;
-        
+
 //        Connection con = DatabaseConniction.dbConnector();
         try {
             fis = new FileInputStream(filename);
             HSSFWorkbook workbook = new HSSFWorkbook(fis);
             HSSFSheet sheet = workbook.getSheetAt(0);
             Iterator rows = sheet.rowIterator();
-            
+
             while (rows.hasNext()) {
                 HSSFRow row = (HSSFRow) rows.next();
                 Iterator cells = row.cellIterator();
@@ -37,24 +36,31 @@ public class ExcelRead {
                     cell.setCellType(CellType.STRING);
                     data.add(cell);
 
-                } 
+                }
+                String rank = data.get(0).toString();
+                String militryid = data.get(1).toString();
+                String name = data.get(2).toString();
+                String personalid = data.get(3).toString();
+                String unit = data.get(4).toString();
+                String[] updatdata = {name, rank, unit};
+                String[] insertdata = {militryid, personalid, name, rank, unit};
 //                String rank = data.get(0).toString();
 //                String militryid = data.get(1).toString();
 //                String name = data.get(2).toString();
 //                String specializ = data.get(3).toString();
 //                String unit = data.get(4).toString();
 //                String personalid = data.get(5).toString();
-                System.out.println(data.get(1));
+                System.out.println(data.get(0) + "" + data.get(1) + "" + data.get(2) + "" + data.get(3) + "" + data.get(4));
 //                PreparedStatement psm = null;
-//                String jdbc_insert_sql = "INSERT INTO personaldata(`MILITARYID`,`PERSONALID`,`NAME`,`RANK`,`UNIT`,`SPECIALTY`) VALUES (?,?,?,?,?,?)";
+//                String jdbc_insert_sql = "INSERT INTO livingdata(`MILITARYID`,`PERSONALID`,`NAME`,`RANK`,`UNIT`) VALUES (?,?,?,?,?)";
 //                psm = con.prepareStatement(jdbc_insert_sql);
 //                psm.setString(1, militryid);
 //                psm.setString(2, personalid);
 //                psm.setString(3, name);
 //                psm.setString(4, rank);
 //                psm.setString(5, unit);
-//                psm.setString(6, specializ);
 //                psm.executeUpdate();
+                DatabaseAccess.insert("personaldata", "`MILITARYID`,`PERSONALID`,`NAME`,`RANK`,`UNIT`", "?,?,?,?,?", insertdata);
             }
             System.out.println("تم حفظ البيانات في قاعدة البيانات");
         } catch (IOException e) {
@@ -62,7 +68,7 @@ public class ExcelRead {
         } finally {
             if (fis != null) {
                 fis.close();
-                
+
             }
 //            con.close();
         }

@@ -161,43 +161,6 @@
                   <Insets bottom="2.0" left="5.0" right="5.0" />
                </VBox.margin>
             </HBox>
-            <HBox alignment="CENTER" maxHeight="60.0" minHeight="60.0" prefHeight="60.0" prefWidth="1185.0" style="-fx-background-color: #898989;">
-               <children>
-                  <Button layoutX="375.0" layoutY="10.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#addtoLeaderDisplay" prefHeight="40.0" styleClass="showButton" text="اضافة  لعرض القائد" HBox.hgrow="ALWAYS">
-                     <HBox.margin>
-                        <Insets right="2.0" />
-                     </HBox.margin>
-                  </Button>
-                  <Button layoutX="703.0" layoutY="10.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#addtoLeaderSignature" prefHeight="40.0" styleClass="showButton" text="اضافة لتوقيع القائد" HBox.hgrow="ALWAYS">
-                     <HBox.margin>
-                        <Insets right="2.0" />
-                     </HBox.margin>
-                  </Button>
-                  <Button layoutX="1127.0" layoutY="10.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#addtoManagerSignature" prefHeight="40.0" styleClass="showButton" text="اضافة لتوقيع الركن" HBox.hgrow="ALWAYS">
-                     <HBox.margin>
-                        <Insets right="2.0" />
-                     </HBox.margin>
-                  </Button>
-                  <Button layoutX="1127.0" layoutY="10.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#addtoManagerDisplay" prefHeight="40.0" styleClass="showButton" text="اضافة لعرض الركن" HBox.hgrow="ALWAYS">
-                     <HBox.margin>
-                        <Insets right="2.0" />
-                     </HBox.margin>
-                  </Button>
-                  <Button layoutX="1127.0" layoutY="10.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#addtoManagerSmallSignature" prefHeight="40.0" styleClass="showButton" text="اضافة لتاشير الركن" HBox.hgrow="ALWAYS">
-                     <HBox.margin>
-                        <Insets right="2.0" />
-                     </HBox.margin>
-                  </Button>
-                  <Button layoutX="1127.0" layoutY="10.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#addtoManagerOrders" prefHeight="40.0" styleClass="showButton" text="اضافة لتوجيه الركن" HBox.hgrow="ALWAYS">
-                     <HBox.margin>
-                        <Insets right="2.0" />
-                     </HBox.margin>
-                  </Button>
-               </children>
-               <VBox.margin>
-                  <Insets left="5.0" right="5.0" />
-               </VBox.margin>
-            </HBox>
             <HBox alignment="CENTER" maxHeight="70.0" maxWidth="1.7976931348623157E308" minHeight="70.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="72.0" prefWidth="1200.0" styleClass="headerPanl">
                <children>
                   <Label alignment="CENTER" prefHeight="50.0" prefWidth="119.0" styleClass="tableHeder" text="رقم الحفظ" />

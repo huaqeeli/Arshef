@@ -25,15 +25,15 @@
       </HBox>
       <VBox alignment="TOP_RIGHT" nodeOrientation="RIGHT_TO_LEFT" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">
          <children>
-            <HBox alignment="CENTER_RIGHT" maxHeight="45.0" minHeight="45.0" prefHeight="45.0" prefWidth="200.0">
+            <HBox alignment="CENTER" nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0">
                <children>
-                  <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="400.0">
-                     <children>
-                        <ComboBox fx:id="DateDay" accessibleText="coursCombobox" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="50.0" styleClass="appComboBox" HBox.hgrow="ALWAYS" />
-                        <ComboBox fx:id="DateMonth" accessibleText="coursCombobox" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="50.0" styleClass="appComboBox" HBox.hgrow="ALWAYS" />
-                        <ComboBox fx:id="DateYear" accessibleText="coursCombobox" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="50.0" styleClass="appComboBox" HBox.hgrow="ALWAYS" />
-                     </children>
-                  </HBox>
+                  <ComboBox fx:id="searchType" accessibleText="coursCombobox" maxWidth="1.7976931348623157E308" onAction="#enableSearchDate" prefHeight="40.0" prefWidth="150.0" promptText="طريقة البحث" styleClass="appComboBox" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets left="5.0" />
+                     </HBox.margin>
+                  </ComboBox>
+                  <ComboBox fx:id="year" accessibleText="coursCombobox" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="100.0" styleClass="appComboBox" HBox.hgrow="ALWAYS" />
+                  <TextField fx:id="searchText" alignment="CENTER" onAction="#searchData" prefHeight="40.0" promptText="ادخل نص البحث" styleClass="appText" HBox.hgrow="ALWAYS" />
                   <Button contentDisplay="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#searchData" prefHeight="40.0" prefWidth="29.0" styleClass="searchPageButton">
                      <graphic>
                         <ImageView fitHeight="17.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
@@ -47,9 +47,6 @@
                      </HBox.margin>
                   </Button>
                </children>
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
             </HBox>
             <HBox alignment="CENTER" maxHeight="45.0" minHeight="45.0" prefHeight="45.0" prefWidth="200.0">
                <children>

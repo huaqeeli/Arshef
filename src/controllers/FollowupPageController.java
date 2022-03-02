@@ -18,7 +18,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import modeles.FollowupModel;
@@ -141,7 +140,10 @@ public class FollowupPageController implements Initializable {
 
         if (RequiredState && circularidState && topicState) {
             try {
-                DatabaseAccess.updat(tableName, fieldName, data, "CIRCULARID = '" + circularID + "' AND CIRCULARDATE = '" + cirularDate + "'");
+                int t = DatabaseAccess.updat(tableName, fieldName, data, "CIRCULARID = '" + circularID + "' AND CIRCULARDATE = '" + cirularDate + "'");
+                if (t > 0) {
+                    FormValidation.showAlert("", "تم تحديث البيانات", Alert.AlertType.CONFIRMATION);
+                }
                 refreshData();
                 clear(event);
             } catch (IOException ex) {

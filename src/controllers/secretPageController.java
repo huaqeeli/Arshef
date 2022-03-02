@@ -33,7 +33,7 @@ public class secretPageController implements Initializable {
     @FXML
     private ComboBox<?> searchType;
     @FXML
-    private ComboBox<?> year;
+    private ComboBox<String> year;
     @FXML
     private TextField searchText;
     @FXML
@@ -62,24 +62,37 @@ public class secretPageController implements Initializable {
     ObservableList<String> placeComboBoxlist = FXCollections.observableArrayList();
     public final List<SecretModel> secretObject = new ArrayList<>();
     private SecretPageListener myListener;
-
+    ObservableList<String> searchTypelist = FXCollections.observableArrayList("البحث برقم المعاملة", "البحث برقم الوارد", "البحث بتاريخ الوارد", "البحث بالموضوع", "البحث بجهة المعاملة", "البحث برقم الملف", "البحث بالرقم العسكري", "عرض الكل");
     String recordYear = null;
     String circularID = null;
     File imagefile = null;
     Stage stage = new Stage();
     byte[] pdfimage = null;
+    @FXML
+    private TextField receiptNumber;
+    @FXML
+    private ComboBox<?> receiptNumberDateDay;
+    @FXML
+    private ComboBox<?> receiptNumberDateMonth;
+    @FXML
+    private ComboBox<?> receiptNumberDateYear;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         refreshdata();
         AppDate.setDateValue(circularDateDay, circularDateMonth, circularDateYear);
         AppDate.setCurrentDate(circularDateDay, circularDateMonth, circularDateYear);
+        AppDate.setDateValue(receiptNumberDateDay, receiptNumberDateMonth, receiptNumberDateYear);
+        AppDate.setCurrentDate(receiptNumberDateDay, receiptNumberDateMonth, receiptNumberDateYear);
         destination.setItems(filleCoursPlace(placeComboBoxlist));
+        AppDate.setYearValue(year);
+        year.setValue(Integer.toString(HijriCalendar.getSimpleYear()));
+        FillComboBox.fillComboBox(searchTypelist, searchType);
     }
 
     private ObservableList filleCoursPlace(ObservableList list) {
         try {
-            ResultSet rs = DatabaseAccess.select("placenames", "UINTTYPE='خارجي'");
+            ResultSet rs = DatabaseAccess.select("placenames");
             try {
                 while (rs.next()) {
                     list.add(rs.getString("PLACENAME"));
@@ -104,9 +117,12 @@ public class secretPageController implements Initializable {
                 squence++;
                 secretModel = new SecretModel();
                 secretModel.setSqunse(squence);
+                secretModel.setId(rs.getString("ID"));
                 secretModel.setCircularid(rs.getString("CIRCULARID"));
                 secretModel.setCirculardate(rs.getString("CIRCULARDATE"));
                 secretModel.setDestination(rs.getString("DESTINATION"));
+                secretModel.setReceiptNumber(rs.getString("RECEIPTNUMBER"));
+                secretModel.setReceiptNumberDate(rs.getString("RECEIPTDATE"));
                 secretModel.setTopic(rs.getString("TOPIC"));
                 secretModel.setSaveFile(rs.getString("SAVEFILE"));
                 secretModel.setNote(rs.getString("NOTE"));
@@ -121,12 +137,14 @@ public class secretPageController implements Initializable {
 
     private void setChosendata(SecretModel secretModel) {
         circularid.setText(secretModel.getCircularid());
-        AppDate.setSeparateDate(circularDateDay, circularDateMonth, circularDateYear, secretModel.getCirculardate());
+        setCircularDate(secretModel.getCirculardate());
         destination.setValue(secretModel.getDestination());
         topic.setText(secretModel.getTopic());
+        receiptNumber.setText(secretModel.getReceiptNumber());
+        setReceiptNumberDate(secretModel.getReceiptNumberDate());
         saveFile.setText(secretModel.getSaveFile());
         note.setText(secretModel.getNote());
-        circularID= secretModel.getCircularid();
+        circularID = secretModel.getCircularid();
         recordYear = secretModel.getRecordYear();
     }
 
@@ -185,6 +203,14 @@ public class secretPageController implements Initializable {
         AppDate.setSeparateDate(circularDateDay, circularDateMonth, circularDateYear, circularDate);
     }
 
+    public String getReceiptNumberDate() {
+        return AppDate.getDate(receiptNumberDateDay, receiptNumberDateMonth, receiptNumberDateYear);
+    }
+
+    public void setReceiptNumberDate(String circularDate) {
+        AppDate.setSeparateDate(receiptNumberDateDay, receiptNumberDateMonth, receiptNumberDateYear, circularDate);
+    }
+
     public String setYear(String date) {
         return AppDate.getYear(date);
     }
@@ -198,24 +224,23 @@ public class secretPageController implements Initializable {
     private void save(ActionEvent event) {
         String tableName = "secretdata";
         String fieldName = null;
-        recordYear = Integer.toString(HijriCalendar.getSimpleYear());
-        String[] data = {circularid.getText(), getCircularDate(), destination.getValue(), topic.getText(), saveFile.getText(), note.getText(), recordYear};
+        recordYear = setYear(getCircularDate());
+        String[] data = {circularid.getText(), getCircularDate(), receiptNumber.getText(), getReceiptNumberDate(), destination.getValue(), topic.getText(), saveFile.getText(), note.getText(), recordYear};
         String valuenumbers = null;
         if (imagefile != null) {
-            fieldName = "`CIRCULARID`,`CIRCULARDATE`,`DESTINATION`,`TOPIC`,`SAVEFILE`,`NOTE`,`RECORDYEAR`,`IMAGE`";
-            valuenumbers = "?,?,?,?,?,?,?,?";
+            fieldName = "`CIRCULARID`,`CIRCULARDATE`,`RECEIPTNUMBER`,`RECEIPTDATE`,`DESTINATION`,`TOPIC`,`SAVEFILE`,`NOTE`,`RECORDYEAR`,`IMAGE`";
+            valuenumbers = "?,?,?,?,?,?,?,?,?,?";
         } else {
-            fieldName = "`CIRCULARID`,`CIRCULARDATE`,`DESTINATION`,`TOPIC`,`SAVEFILE`,`NOTE`,`RECORDYEAR`";
-            valuenumbers = "?,?,?,?,?,?,?";
+            fieldName = "`CIRCULARID`,`CIRCULARDATE`,`RECEIPTNUMBER`,`RECEIPTDATE`,`DESTINATION`,`TOPIC`,`SAVEFILE`,`NOTE`,`RECORDYEAR`";
+            valuenumbers = "?,?,?,?,?,?,?,?,?";
         }
 
-        boolean destinationState = FormValidation.comboBoxNotEmpty(destination, "الرجاء ادخال جهة المعاملة");
         boolean topicState = FormValidation.textFieldNotEmpty(topic, "الرجاء ادخال الموضوع");
-        boolean circularidState = FormValidation.textFieldNotEmpty(circularid, "الرجاء ادخال رقم المعاملة");
-        boolean circularidEexisting = FormValidation.ifexisting("secretdata", "CIRCULARID", "CIRCULARID = '" + circularid.getText() + "'AND RECORDYEAR = '" + recordYear + "'", "تم حفظ المعاملة مسبقا");
+        boolean circularidExusting = FormValidation.ifexisting("secretdata", "CIRCULARID", "CIRCULARID = '" + circularid.getText() + "'AND RECORDYEAR = '" + year.getValue() + "'", "تم ادخال معاملة بنفس الرقم لعام " + year.getValue() + "هـ");
+        boolean receiptNumberExusting = FormValidation.ifexisting("secretdata", "RECEIPTNUMBER", "RECEIPTNUMBER = '" + receiptNumber.getText() + "'AND RECORDYEAR = '" + year.getValue() + "'", "تم ادخال معاملة بنفس الرقم لعام " + year.getValue() + "هـ");
         boolean saveFileState = FormValidation.textFieldNotEmpty(saveFile, "الرجاء ادخال ملف الحفظ");
 
-        if (destinationState && topicState && saveFileState && circularidState && circularidEexisting) {
+        if (topicState && saveFileState && circularidExusting && receiptNumberExusting) {
             try {
                 DatabaseAccess.insert(tableName, fieldName, valuenumbers, data, imagefile);
                 refreshdata();
@@ -230,20 +255,18 @@ public class secretPageController implements Initializable {
     private void edit(ActionEvent event) {
         String tableName = "secretdata";
         String fieldName = null;
-        recordYear = Integer.toString(HijriCalendar.getSimpleYear());
-        String[] data = {circularid.getText(), getCircularDate(), destination.getValue(), topic.getText(), saveFile.getText(), note.getText(), recordYear};
+        recordYear =  setYear(getCircularDate());
+        String[] data = {circularid.getText(), getCircularDate(), receiptNumber.getText(), getReceiptNumberDate(), destination.getValue(), topic.getText(), saveFile.getText(), note.getText(), recordYear};
         if (imagefile != null) {
-            fieldName = "`CIRCULARID`=?,`CIRCULARDATE`=?,`DESTINATION`=?,`TOPIC`=?,`SAVEFILE`=?,`NOTE`=?,`RECORDYEAR`=?,`IMAGE`=?";
+            fieldName = "`CIRCULARID`=?,`CIRCULARDATE`=?,`RECEIPTNUMBER`=?,`RECEIPTDATE`=?,`DESTINATION`=?,`TOPIC`=?,`SAVEFILE`=?,`NOTE`=?,`RECORDYEAR`=?,`IMAGE`=?";
         } else {
-            fieldName = "`CIRCULARID`=?,`CIRCULARDATE`=?,`DESTINATION`=?,`TOPIC`=?,`SAVEFILE`=?,`NOTE`=?,`RECORDYEAR`=?";
+            fieldName = "`CIRCULARID`=?,`CIRCULARDATE`=?,`RECEIPTNUMBER`=?,`RECEIPTDATE`=?,`DESTINATION`=?,`TOPIC`=?,`SAVEFILE`=?,`NOTE`=?,`RECORDYEAR`=?";
         }
 
-        boolean destinationState = FormValidation.comboBoxNotEmpty(destination, "الرجاء ادخال جهة المعاملة");
-        boolean topicState = FormValidation.textFieldNotEmpty(topic, "الرجاء ادخال الموضوع");
-        boolean circularidState = FormValidation.textFieldNotEmpty(circularid, "الرجاء ادخال رقم المعاملة");
+        boolean topicState = FormValidation.textFieldNotEmpty(topic, "الرجاء ادخال الموضوع"); 
         boolean saveFileState = FormValidation.textFieldNotEmpty(saveFile, "الرجاء ادخال ملف الحفظ");
 
-        if (destinationState && topicState && saveFileState && circularidState) {
+        if (topicState && saveFileState ) {
             try {
                 DatabaseAccess.updat(tableName, fieldName, data, "CIRCULARID = '" + circularid.getText() + "'AND RECORDYEAR = '" + recordYear + "'", imagefile);
                 refreshdata();
@@ -258,11 +281,12 @@ public class secretPageController implements Initializable {
     private void clear(ActionEvent event) {
         circularid.setText(null);
         AppDate.setCurrentDate(circularDateDay, circularDateMonth, circularDateYear);
+        AppDate.setCurrentDate(receiptNumberDateDay, receiptNumberDateMonth, receiptNumberDateYear);
         destination.setValue(null);
         topic.setText(null);
         saveFile.setText(null);
         note.setText(null);
-        refreshdata();
+        receiptNumber.setText(null);
     }
 
     @FXML

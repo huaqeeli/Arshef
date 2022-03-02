@@ -21,6 +21,15 @@
             <Label fx:id="notes" alignment="CENTER" prefHeight="40.0" prefWidth="227.0" styleClass="itemLable" text="ملاحظات" HBox.hgrow="ALWAYS" />
             <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="50.0" prefWidth="150.0" spacing="2.0" HBox.hgrow="ALWAYS">
                <children>
+                  <Button mnemonicParsing="false" onAction="#printBarcod" prefHeight="40.0" prefWidth="40.0" styleClass="actionButton">
+                     <graphic>
+                        <ImageView fitHeight="23.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/barcode.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
                   <Button mnemonicParsing="false" onAction="#scanImage" prefHeight="40.0" prefWidth="40.0" styleClass="actionButton">
                      <graphic>
                         <ImageView fitHeight="23.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">

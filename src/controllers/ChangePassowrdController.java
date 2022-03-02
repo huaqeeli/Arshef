@@ -50,7 +50,11 @@ public class ChangePassowrdController implements Initializable {
         if (militaryidstatus && newPasswordstatus && reNewPassowrdstatus) {
             if (newPassword.getText().equals(reNewPassowrd.getText())) {
                 try {
-                    DatabaseAccess.updat(tabelNme, fieldName, data, "MILITARYID ='" + militaryid.getText() + "'");
+                    int t = DatabaseAccess.updat(tabelNme, fieldName, data, "MILITARYID ='" + militaryid.getText() + "'");
+                    if (t > 0) {
+                        FormValidation.showAlert(null, "تم تحديث كلمة المرور ويمكنك الان تسجيل الدخول بالبيانات الجديدة", Alert.AlertType.INFORMATION);
+                        close(event);
+                    }
                 } catch (IOException ex) {
                     FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
                 }

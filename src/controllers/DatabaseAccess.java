@@ -6,6 +6,7 @@ import com.asprise.imaging.core.Request;
 import com.asprise.imaging.core.Result;
 import com.itextpdf.text.BadElementException;
 import com.mysql.jdbc.Statement;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -26,6 +27,7 @@ public class DatabaseAccess {
 
     public static int insert(String tapleName, String fildName, String valueNamber, String[] data) throws IOException {
         int lastId = 0;
+        int t = 0;
         Connection con = DatabaseConniction.dbConnector();
         String guiry = "INSERT INTO " + tapleName + "(" + fildName + ")VALUES(" + valueNamber + " )";
         try {
@@ -34,10 +36,10 @@ public class DatabaseAccess {
             for (int i = 1; i <= e; i++) {
                 psm.setString(i, data[i - 1]);
             }
-            int t = psm.executeUpdate();
+            t = psm.executeUpdate();
             if (t > 0) {
             } else {
-                JOptionPane.showMessageDialog(null, "حدث خطاء في عملية الحفظ الرجاء المحاولة مرة اخرى");
+                FormValidation.showAlert(null,  "حدث خطاء في عملية الحفظ الرجاء المحاولة مرة اخرى", Alert.AlertType.ERROR);
             }
             ResultSet rs = psm.getGeneratedKeys();
             if (rs.next()) {
@@ -48,7 +50,7 @@ public class DatabaseAccess {
         } catch (SQLException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
-        return lastId;
+        return t;
     }
 
     public static void insert(String tapleName, String fildName, String valueNamber, int data) throws IOException {
@@ -83,6 +85,38 @@ public class DatabaseAccess {
                 FileInputStream fin = new FileInputStream(imagefile);
                 int len = (int) imagefile.length();
                 psm.setBinaryStream(e + 1, fin, len);
+            }
+            int t = psm.executeUpdate();
+            if (t > 0) {
+            } else {
+                FormValidation.showAlert("", "حدث خطاء في عملية الحفظ الرجاء المحاولة مرة اخرى");
+            }
+            ResultSet rs = psm.getGeneratedKeys();
+            if (rs.next()) {
+                lastId = rs.getInt(1);
+            }
+            con.close();
+            psm.close();
+            rs.close();
+        } catch (SQLException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
+        return lastId;
+    }
+
+    public static int insert(String tapleName, String fildName, String valueNamber, String[] data, byte[] imagefile) throws IOException {
+        int lastId = 0;
+        Connection con = DatabaseConniction.dbConnector();
+        String guiry = "INSERT INTO " + tapleName + "(" + fildName + ")VALUES(" + valueNamber + ")";
+        try {
+            PreparedStatement psm = con.prepareStatement(guiry, Statement.RETURN_GENERATED_KEYS);
+            int e = data.length;
+            for (int i = 1; i <= e; i++) {
+                psm.setString(i, data[i - 1]);
+            }
+            if (imagefile != null) {
+                InputStream inputStream = new ByteArrayInputStream(imagefile);
+                psm.setBinaryStream(e + 1, inputStream, (int) (imagefile.length));
             }
             int t = psm.executeUpdate();
             if (t > 0) {
@@ -201,7 +235,7 @@ public class DatabaseAccess {
             if (regisid == null || year == null) {
                 FormValidation.showAlert(null, "اختر السجل من الجدول", Alert.AlertType.ERROR);
             } else {
-                ResultSet rs = DatabaseAccess.getData("SELECT IMAGE FROM secretdata WHERE CIRCULARID = '" + regisid + "'AND RECORDYEAR = '" + year + "'");
+                ResultSet rs = DatabaseAccess.getData("SELECT IMAGE FROM secretdata WHERE ID = '" + regisid + "'AND RECORDYEAR = '" + year + "'");
                 if (rs.next()) {
                     image = rs.getBinaryStream("IMAGE");
                     pdfByte = new byte[image.available()];
@@ -406,22 +440,24 @@ public class DatabaseAccess {
         return rs;
     }
 
-    public static void updat(String tapleName, String fildNameAndValue, String[] data, String condition) throws IOException {
+    public static int updat(String tapleName, String fildNameAndValue, String[] data, String condition) throws IOException {
         Connection con = DatabaseConniction.dbConnector();
         String guiry = "UPDATE " + tapleName + " SET " + fildNameAndValue + " " + "WHERE" + " " + condition;
+        int t = 0 ;
         try {
             PreparedStatement psm = con.prepareStatement(guiry);
             int e = data.length;
             for (int i = 1; i <= e; i++) {
                 psm.setString(i, data[i - 1]);
             }
-            int t = psm.executeUpdate();
-            if (t > 0) {
-                FormValidation.showAlert("", "تم تحديث البيانات", Alert.AlertType.CONFIRMATION);
-            }
+            t = psm.executeUpdate();
+//            if (t > 0) {
+//                FormValidation.showAlert("", "تم تحديث البيانات", Alert.AlertType.CONFIRMATION);
+//            }
         } catch (SQLException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
+        return t;
     }
 
     public static void updat(String tapleName, String fildNameAndValue, int[] data, String condition) throws IOException {
@@ -451,9 +487,10 @@ public class DatabaseAccess {
         }
     }
 
-    public static void updat(String tapleName, String fildNameAndValue, String[] data, String condition, File imagefile) throws IOException {
+    public static int updat(String tapleName, String fildNameAndValue, String[] data, String condition, File imagefile) throws IOException {
         Connection con = DatabaseConniction.dbConnector();
         String guiry = "UPDATE " + tapleName + " SET " + fildNameAndValue + " WHERE" + " " + condition;
+        int t = 0;
         try {
             PreparedStatement psm = con.prepareStatement(guiry);
             int e = data.length;
@@ -466,15 +503,16 @@ public class DatabaseAccess {
                 int len = (int) imagefile.length();
                 psm.setBinaryStream(e + 1, fin, len);
             }
-            int t = psm.executeUpdate();
-            if (t > 0) {
-                FormValidation.showAlert("", "تم تحديث البيانات", Alert.AlertType.CONFIRMATION);
-            }
+            t = psm.executeUpdate();
+//            if (t > 0) {
+//                FormValidation.showAlert("", "تم تحديث البيانات", Alert.AlertType.CONFIRMATION);
+//            }
             con.close();
             psm.close();
         } catch (SQLException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
+        return t;
     }
 
     public static void delete(String tapleName, String condition) throws IOException {
@@ -486,6 +524,17 @@ public class DatabaseAccess {
             if (alert.getResult() == ButtonType.YES) {
                 psm.executeUpdate();
             }
+        } catch (SQLException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
+    }
+
+    public static void secretDelete(String tapleName, String condition) throws IOException {
+        Connection con = DatabaseConniction.dbConnector();
+        String guiry = "DELETE FROM " + tapleName + " WHERE " + condition;
+        try {
+            PreparedStatement psm = con.prepareStatement(guiry);
+            psm.executeUpdate();
         } catch (SQLException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }

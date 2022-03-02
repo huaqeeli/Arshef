@@ -110,7 +110,10 @@ public class addOriginalCensusController implements Initializable, InitializClas
 
         if (uintState && OFcensusState && SRcensusState) {
             try {
-                DatabaseAccess.updat(tableName, fieldName, data, "UINT = '" + uint.getValue() + "'");
+                int t = DatabaseAccess.updat(tableName, fieldName, data, "UINT = '" + uint.getValue() + "'");
+                if (t > 0) {
+                    FormValidation.showAlert("", "تم تحديث البيانات", Alert.AlertType.CONFIRMATION);
+                }
                 refreshTableView();
                 clear(event);
             } catch (IOException ex) {

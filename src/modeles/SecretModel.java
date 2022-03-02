@@ -4,15 +4,18 @@ package modeles;
 
 public class SecretModel {
     private int squnse;
-    private String circularid,circulardate,destination,topic,saveFile,note,recordYear;
+    private String id,circularid,circulardate,receiptNumber,receiptNumberDate,destination,topic,saveFile,note,recordYear;
 
     public SecretModel() {
     }
 
-    public SecretModel(int squnse, String circularid, String circulardate, String destination, String topic, String saveFile, String note, String recordYear) {
+    public SecretModel(int squnse, String id, String circularid, String circulardate, String receiptNumber, String receiptNumberDate, String destination, String topic, String saveFile, String note, String recordYear) {
         this.squnse = squnse;
+        this.id = id;
         this.circularid = circularid;
         this.circulardate = circulardate;
+        this.receiptNumber = receiptNumber;
+        this.receiptNumberDate = receiptNumberDate;
         this.destination = destination;
         this.topic = topic;
         this.saveFile = saveFile;
@@ -20,7 +23,31 @@ public class SecretModel {
         this.recordYear = recordYear;
     }
 
-    
+   
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getReceiptNumber() {
+        return receiptNumber;
+    }
+
+    public void setReceiptNumber(String receiptNumber) {
+        this.receiptNumber = receiptNumber;
+    }
+
+    public String getReceiptNumberDate() {
+        return receiptNumberDate;
+    }
+
+    public void setReceiptNumberDate(String receiptNumberDate) {
+        this.receiptNumberDate = receiptNumberDate;
+    }
 
     public int getSqunse() {
         return squnse;

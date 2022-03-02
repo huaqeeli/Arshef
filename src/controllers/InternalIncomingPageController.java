@@ -64,11 +64,11 @@ public class InternalIncomingPageController implements Initializable {
     private String registrationId = null;
     ObservableList<String> destinationlist = FXCollections.observableArrayList();
     ObservableList<InternalIncomingModel> recipientList = FXCollections.observableArrayList();
-    ObservableList<String> searchTypelist = FXCollections.observableArrayList("البحث برقم الوارد", "البحث بتاريخ الوارد", "البحث بالموضوع", "البحث بجهة الوارد", "البحث برقم الملف","البحث بالرقم العسكري","عرض الكل");
-    
+    ObservableList<String> searchTypelist = FXCollections.observableArrayList("البحث برقم الوارد", "البحث بتاريخ الوارد", "البحث بالموضوع", "البحث بجهة الوارد", "البحث برقم الملف", "البحث بالرقم العسكري", "عرض الكل");
+
     public final List<InternalIncomingModel> internalIncomingObject = new ArrayList<>();
     private InternalIncomingPageListener mylistener;
-    
+
     Config config = new Config();
     @FXML
     private ComboBox<?> searchDateDay;
@@ -79,6 +79,7 @@ public class InternalIncomingPageController implements Initializable {
     @FXML
     private VBox vbox;
     ActionEvent event;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         refreshdata();
@@ -116,7 +117,7 @@ public class InternalIncomingPageController implements Initializable {
         try {
             internalIncomingObject.clear();
             vbox.getChildren().clear();
-            viewdata(DatabaseAccess.getData("SELECT REGIS_NO,RECIPIENT_DATE,CIRCULAR_NO,CIRCULAR_DATE,CIRCULAR_DIR,TOPIC,SAVE_FILE,NOTES FROM internalincoming where RECIPIENT_DATE ='" +HijriCalendar.getSimpleDate()+ "' ORDER BY REGIS_NO DESC"));
+            viewdata(DatabaseAccess.getData("SELECT REGIS_NO,RECIPIENT_DATE,CIRCULAR_NO,CIRCULAR_DATE,CIRCULAR_DIR,TOPIC,SAVE_FILE,NOTES FROM internalincoming where RECIPIENT_DATE ='" + HijriCalendar.getSimpleDate() + "' ORDER BY REGIS_NO DESC"));
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
@@ -238,7 +239,10 @@ public class InternalIncomingPageController implements Initializable {
 
         if (circularNumberState && topicState) {
             try {
-                DatabaseAccess.updat(tableName, fieldName, data, "REGIS_NO = '" + registrationId + "'AND RECORD_YEAR = '" + recordYear + "'", imagefile);
+                int t = DatabaseAccess.updat(tableName, fieldName, data, "REGIS_NO = '" + registrationId + "'AND RECORD_YEAR = '" + recordYear + "'", imagefile);
+                if (t > 0) {
+                    FormValidation.showAlert("", "تم تحديث البيانات", Alert.AlertType.CONFIRMATION);
+                }
                 refreshdata();
                 clear(event);
             } catch (IOException ex) {
@@ -247,7 +251,6 @@ public class InternalIncomingPageController implements Initializable {
         }
     }
 
-   
     @FXML
     private void clear(ActionEvent event) {
         setCircularNumber(null);
@@ -546,10 +549,11 @@ public class InternalIncomingPageController implements Initializable {
         }
         return rs;
     }
+
     public ResultSet getDataMitaryID() {
         ResultSet rs = null;
         try {
-            rs = DatabaseAccess.selectQuiry("SELECT internalincoming.REGIS_NO,internalincoming.RECIPIENT_DATE,internalincoming.CIRCULAR_NO,internalincoming.CIRCULAR_DATE,internalincoming.CIRCULAR_DIR,internalincoming.TOPIC,internalincoming.SAVE_FILE,internalincoming.NOTES FROM internalincoming, circularnames WHERE internalincoming.REGIS_NO = circularnames.CIRCULARID AND circularnames.MILITARYID =  '" +  getSearchText() + "' AND RECORD_YEAR = '" + getYear() + "' ");
+            rs = DatabaseAccess.selectQuiry("SELECT internalincoming.REGIS_NO,internalincoming.RECIPIENT_DATE,internalincoming.CIRCULAR_NO,internalincoming.CIRCULAR_DATE,internalincoming.CIRCULAR_DIR,internalincoming.TOPIC,internalincoming.SAVE_FILE,internalincoming.NOTES FROM internalincoming, circularnames WHERE internalincoming.REGIS_NO = circularnames.CIRCULARID AND circularnames.MILITARYID =  '" + getSearchText() + "' AND RECORD_YEAR = '" + getYear() + "' ");
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
@@ -575,6 +579,7 @@ public class InternalIncomingPageController implements Initializable {
         }
         return rs;
     }
+
     public ResultSet getDataBySaveFile() {
         ResultSet rs = null;
         try {

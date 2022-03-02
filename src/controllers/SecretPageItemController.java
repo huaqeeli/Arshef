@@ -36,17 +36,12 @@ public class SecretPageItemController implements Initializable {
     private SecretPageListener mylistener;
     @FXML
     private HBox content;
-    @FXML
-    private Label circulardete1;
-    @FXML
-    private Label destination1;
-    @FXML
-    private Label topic1;
-    @FXML
-    private Label topic11;
-    @FXML
-    private Label saveFile1;
     private String recordYear = null;
+    @FXML
+    private Label receiptNumber;
+    @FXML
+    private Label receiptNumberDate;
+    String id = null;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -61,9 +56,12 @@ public class SecretPageItemController implements Initializable {
     public void setData(SecretModel secretModel, SecretPageListener mylistener) {
         this.secretModel = secretModel;
         this.mylistener = mylistener;
+        id = secretModel.getId();
         squnse.setText(Integer.toString(secretModel.getSqunse()));
         circularid.setText(secretModel.getCircularid());
         circulardete.setText(secretModel.getCirculardate());
+        receiptNumber.setText(secretModel.getReceiptNumber());
+        receiptNumberDate.setText(secretModel.getReceiptNumberDate());
         destination.setText(secretModel.getDestination());
         topic.setText(secretModel.getTopic());
         saveFile.setText(secretModel.getSaveFile());
@@ -74,7 +72,7 @@ public class SecretPageItemController implements Initializable {
     @FXML
     private void scanImage(ActionEvent event) {
         try {
-            DatabaseAccess.insertImage("secretdata", " `CIRCULARID` ='" + circularid.getText() + "' AND RECORDYEAR ='" + recordYear + "'");
+            DatabaseAccess.insertImage("secretdata", " `ID` ='" + id + "' AND RECORDYEAR ='" + recordYear + "'");
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
@@ -82,19 +80,18 @@ public class SecretPageItemController implements Initializable {
 
     @FXML
     private void addNames(ActionEvent event) {
-        App.lodAddNmaesPage(circularid.getText(), recordYear, "secret");
+        App.lodAddNmaesPage(id, recordYear, "secret");
     }
 
     @FXML
     private void showImage(ActionEvent event) {
-        byte[] pdfimage = DatabaseAccess.getSecretPdfFile(circularid.getText(), recordYear);
+        byte[] pdfimage = DatabaseAccess.getSecretPdfFile(id, recordYear);
         ShowPdf.writePdf(pdfimage);
     }
 
-    @FXML
     private void delete(ActionEvent event) {
         try {
-            DatabaseAccess.delete("secretdata", " `CIRCULARID` ='" + circularid.getText() + "' AND RECORDYEAR ='" + recordYear + "'");
+            DatabaseAccess.delete("secretdata", " `CIRCULARID` ='" + id + "' AND RECORDYEAR ='" + recordYear + "'");
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }

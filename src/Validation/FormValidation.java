@@ -234,10 +234,7 @@ public class FormValidation {
             rs = psm.executeQuery();
             if (!rs.next()) {
                 state = false;
-                System.out.println("no image");
-            } else {
-                System.out.println("ther is image");
-            }
+            } 
             con.close();
             psm.close();
             rs.close();

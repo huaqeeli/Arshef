@@ -304,9 +304,12 @@ public class CensusPageController implements Initializable {
 
         if (textfieldState && tabeluintState) {
             try {
-                DatabaseAccess.updat(tableName, fieldName, OFdata, "uint = '" + tabeluint + "' AND dayDate = '" + daydate + "'AND type = 'OF'");
-                DatabaseAccess.updat(tableName, fieldName, SRdata, "uint = '" + tabeluint + "' AND dayDate = '" + daydate + "'AND type = 'SR'");
-                DatabaseAccess.updat("manualtable", mfieldName, mdata, "uint = '" + tabeluint + "' AND dayDate = '" + daydate + "'");
+                int t1 = DatabaseAccess.updat(tableName, fieldName, OFdata, "uint = '" + tabeluint + "' AND dayDate = '" + daydate + "'AND type = 'OF'");
+                int t2 = DatabaseAccess.updat(tableName, fieldName, SRdata, "uint = '" + tabeluint + "' AND dayDate = '" + daydate + "'AND type = 'SR'");
+                int t3 = DatabaseAccess.updat("manualtable", mfieldName, mdata, "uint = '" + tabeluint + "' AND dayDate = '" + daydate + "'");
+                if (t1 > 0 && t2 > 0 && t3 > 0) {
+                    FormValidation.showAlert("", "تم تحديث البيانات", Alert.AlertType.CONFIRMATION);
+                }
                 refreshcensusTableView();
                 clear(event);
             } catch (IOException ex) {

@@ -72,7 +72,7 @@ public class InternalExportsPageController implements Initializable {
     private String registrationId = null;
     ObservableList<String> destinationlist = FXCollections.observableArrayList();
     ObservableList<InternalExportsModel> exportsList = FXCollections.observableArrayList();
-    ObservableList<String> searchTypelist = FXCollections.observableArrayList("البحث برقم الصادر", "البحث بتاريخ الصادر", "البحث بالموضوع", "البحث بجهة الصادر","البحث برقم الملف", "البحث بالرقم العسكري", "عرض الكل");
+    ObservableList<String> searchTypelist = FXCollections.observableArrayList("البحث برقم الصادر", "البحث بتاريخ الصادر", "البحث بالموضوع", "البحث بجهة الصادر", "البحث برقم الملف", "البحث بالرقم العسكري", "عرض الكل");
     Config config = new Config();
     @FXML
     private ComboBox<?> searchDateDay;
@@ -121,7 +121,7 @@ public class InternalExportsPageController implements Initializable {
         try {
             internalExportsObject.clear();
             vbox.getChildren().clear();
-            viewdata(DatabaseAccess.getData("SELECT REGISNO,EXPORTDATE,DESTINATION,TOPIC,SAVEFILE,NOTES FROM internalexports WHERE EXPORTDATE ='" + HijriCalendar.getSimpleDate()+ "' ORDER BY REGISNO DESC"));
+            viewdata(DatabaseAccess.getData("SELECT REGISNO,EXPORTDATE,DESTINATION,TOPIC,SAVEFILE,NOTES FROM internalexports WHERE EXPORTDATE ='" + HijriCalendar.getSimpleDate() + "' ORDER BY REGISNO DESC"));
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
@@ -244,7 +244,10 @@ public class InternalExportsPageController implements Initializable {
 
         if (topicState) {
             try {
-                DatabaseAccess.updat(tableName, fieldName, data, "`REGISNO` = '" + registrationId + "' AND `RECORDYEAR` = '" + recordYear + "'", imagefile);
+                int t = DatabaseAccess.updat(tableName, fieldName, data, "`REGISNO` = '" + registrationId + "' AND `RECORDYEAR` = '" + recordYear + "'", imagefile);
+                if (t > 0) {
+                    FormValidation.showAlert("", "تم تحديث البيانات", Alert.AlertType.CONFIRMATION);
+                }
                 refreshData();
                 clear(event);
             } catch (IOException ex) {
@@ -569,7 +572,7 @@ public class InternalExportsPageController implements Initializable {
                 viewdata(getDataByExportNumber());
                 break;
             case "البحث برقم الملف":
-                internalExportsObject.clear(); 
+                internalExportsObject.clear();
                 vbox.getChildren().clear();
                 viewdata(getDataBySaveFile());
                 break;
@@ -610,10 +613,11 @@ public class InternalExportsPageController implements Initializable {
         }
         return rs;
     }
+
     public ResultSet getDataMitaryID() {
         ResultSet rs = null;
         try {
-            rs = DatabaseAccess.selectQuiry("SELECT internalexports.REGISNO,internalexports.EXPORTDATE,internalexports.DESTINATION,internalexports.TOPIC,internalexports.SAVEFILE,internalexports.NOTES FROM internalexports,circularnames WHERE internalexports.REGISNO = circularnames.CIRCULARID AND circularnames.MILITARYID =  '" +  getSearchText() + "' AND RECORDYEAR = '" + getYear() + "' ");
+            rs = DatabaseAccess.selectQuiry("SELECT internalexports.REGISNO,internalexports.EXPORTDATE,internalexports.DESTINATION,internalexports.TOPIC,internalexports.SAVEFILE,internalexports.NOTES FROM internalexports,circularnames WHERE internalexports.REGISNO = circularnames.CIRCULARID AND circularnames.MILITARYID =  '" + getSearchText() + "' AND RECORDYEAR = '" + getYear() + "' ");
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
@@ -639,6 +643,7 @@ public class InternalExportsPageController implements Initializable {
         }
         return rs;
     }
+
     public ResultSet getDataBySaveFile() {
         ResultSet rs = null;
         try {
@@ -668,7 +673,7 @@ public class InternalExportsPageController implements Initializable {
     private void getIncomingData(KeyEvent event) {
         try {
             ResultSet rs = DatabaseAccess.select("internalincoming", "REGIS_NO = '" + getIncomingNum() + "' AND RECORD_YEAR = '" + getYear() + "'");
-            if(rs.next()){
+            if (rs.next()) {
                 setTopic(rs.getString("TOPIC"));
                 setDestination(rs.getString("CIRCULAR_DIR"));
                 setSaveFaile(rs.getString("SAVE_FILE"));

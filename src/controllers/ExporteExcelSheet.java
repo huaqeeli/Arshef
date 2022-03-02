@@ -26,6 +26,7 @@ public class ExporteExcelSheet {
     String[] personalData;
     HSSFWorkbook workBook = new HSSFWorkbook();
     HSSFSheet sheet = workBook.createSheet();
+
     public ExporteExcelSheet(ResultSet rs, String[] feild, String[] titel) {
         this.rs = rs;
         this.feild = feild;
@@ -50,9 +51,14 @@ public class ExporteExcelSheet {
             while (rs.next()) {
                 Object[] objArray = new Object[feild.length];
                 for (int i = 0; i < feild.length; i++) {
-                    objArray[i] = rs.getString(feild[i]);
+                    if (rs.getString(feild[i]) == null) {
+                        objArray[i] = "---";
+                    } else {
+                        objArray[i] = rs.getString(feild[i]);
+                    }
                 }
                 tableDataList.add(objArray);
+
             }
 
         } catch (SQLException ex) {
@@ -65,7 +71,7 @@ public class ExporteExcelSheet {
     public CellStyle setTitelStyle() {
         CellStyle headerstyle = workBook.createCellStyle();
         headerstyle.setFillPattern(CellStyle.SOLID_FOREGROUND);
-         headerstyle.setFillForegroundColor(IndexedColors.WHITE.getIndex());
+        headerstyle.setFillForegroundColor(IndexedColors.WHITE.getIndex());
         headerstyle.setAlignment(HorizontalAlignment.CENTER);
         headerstyle.setBorderBottom((short) 0);
         headerstyle.setBorderTop((short) 0);
@@ -74,6 +80,7 @@ public class ExporteExcelSheet {
         headerstyle.setBorderLeft((short) 0);
         return headerstyle;
     }
+
     public CellStyle setHederStyle() {
         CellStyle headerstyle = workBook.createCellStyle();
         headerstyle.setFillForegroundColor(IndexedColors.LIGHT_GREEN.getIndex());

@@ -56,7 +56,7 @@ public class ExternalExportsItemController implements Initializable {
     @FXML
     private void scanImage(ActionEvent event) {
         try {
-            DatabaseAccess.insertImage("exportsdata", " `ID` ='" + saveNum.getText() + "' AND ENTRYDATE ='" +  entryDate.getText() + "'");
+            DatabaseAccess.insertImage("exportsdata", " `ID` ='" + saveNum.getText() + "' AND ENTRYDATE ='" + entryDate.getText() + "'");
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
@@ -64,7 +64,7 @@ public class ExternalExportsItemController implements Initializable {
 
     @FXML
     private void addNames(ActionEvent event) {
-        App.lodAddNmaesPage( saveNum.getText(), AppDate.getYear(entryDate.getText()),"external");
+        App.lodAddNmaesPage(saveNum.getText(), AppDate.getYear(entryDate.getText()), "external");
     }
 
     @FXML

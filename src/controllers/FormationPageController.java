@@ -2,10 +2,15 @@ package controllers;
 
 import Serveces.FormationPageListener;
 import Validation.FormValidation;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,11 +21,20 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
+import javafx.stage.Window;
 import modeles.FormationModel;
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.CellType;
 
 public class FormationPageController implements Initializable {
 
@@ -46,11 +60,19 @@ public class FormationPageController implements Initializable {
     private FormationPageListener mylistener;
     ObservableList<String> uintlist = FXCollections.observableArrayList();
     ObservableList<String> rankComboBoxlist = FXCollections.observableArrayList("الفريق اول", "القريق", "الواء", "العميد", "العقيد", "المقد", "الرائد", "النقيب", "الملازم أول", "الملازم", "رئيس رقباء", "رقيب أول", "رقيب", "وكيل رقيب", "عريف", "جندي أول", "جندي");
-    ObservableList<String> searchTypelist = FXCollections.observableArrayList("البحث بالرقم العسكري", "البحث برقم السجل المدني", "البحث بالاسم", "عرض الكل");
+    ObservableList<String> searchTypelist = FXCollections.observableArrayList("البحث بالرقم العسكري", "البحث برقم السجل المدني", "البحث بالاسم", "عرض الكل", "عرض الملاحظات", "عرض اسماء المنقولين", "البحث بالرقم العسكري للمنقولين");
     @FXML
     private ComboBox<String> searchUint;
     @FXML
     private TextField specializ;
+    @FXML
+    private Label OFCount;
+    @FXML
+    private Label SRCount;
+    @FXML
+    private Label Totel;
+    @FXML
+    private Label pro;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -58,16 +80,17 @@ public class FormationPageController implements Initializable {
         searchUint.setItems(filleUint(uintlist));
         rank.setItems(rankComboBoxlist);
         searchType.setItems(searchTypelist);
+
     }
 
     private ObservableList filleUint(ObservableList list) {
         try {
-            ResultSet rs = DatabaseAccess.select("placenames", "UINTTYPE='داخلي'"); 
+            ResultSet rs = DatabaseAccess.select("placenames", "UINTTYPE='داخلي'");
             list.clear();
             list.add("");
             try {
                 while (rs.next()) {
-                   
+
                     list.add(rs.getString("PLACENAME"));
                 }
                 rs.close();
@@ -84,7 +107,7 @@ public class FormationPageController implements Initializable {
     private void save(ActionEvent event) {
         String tableName = "personaldata";
         String fieldName = "`MILITARYID`,`PERSONALID`,`NAME`,`RANK`,`UNIT`,`NOTE`,`SPECIALTY`";
-        String[] data = {militaryID.getText(), personalID.getText(), name.getText(), rank.getValue(), uint.getValue(), note.getText(),specializ.getText()};
+        String[] data = {militaryID.getText(), personalID.getText(), name.getText(), rank.getValue(), uint.getValue(), note.getText(), specializ.getText()};
         String valuenumbers = "?,?,?,?,?,?,?";
 
         boolean rankState = FormValidation.comboBoxNotEmpty(rank, "الرجاء اختيار الرتبة");
@@ -111,7 +134,7 @@ public class FormationPageController implements Initializable {
     private void edit(ActionEvent event) {
         String tableName = "personaldata";
         String fieldName = "`MILITARYID`=?,`PERSONALID`=?,`NAME`=?,`RANK`=?,`UNIT`=?,`NOTE`=?,`SPECIALTY`=?";
-        String[] data = {militaryID.getText(), personalID.getText(), name.getText(), rank.getValue(), uint.getValue(), note.getText(),specializ.getText()};
+        String[] data = {militaryID.getText(), personalID.getText(), name.getText(), rank.getValue(), uint.getValue(), note.getText(), specializ.getText()};
 
         boolean rankState = FormValidation.comboBoxNotEmpty(rank, "الرجاء اختيار الرتبة");
         boolean uintState = FormValidation.comboBoxNotEmpty(uint, "الرجاء اختيار الوحدة");
@@ -123,7 +146,10 @@ public class FormationPageController implements Initializable {
 
         if (rankState && uintState && nameState && personalIDState && personalIDNumber && militaryIDState && militaryIDNumber) {
             try {
-                DatabaseAccess.updat(tableName, fieldName, data, "MILITARYID = '" + militaryID.getText() + "'");
+                int t = DatabaseAccess.updat(tableName, fieldName, data, "MILITARYID = '" + militaryID.getText() + "'");
+                if (t > 0) {
+                    FormValidation.showAlert("", "تم تحديث البيانات", Alert.AlertType.CONFIRMATION);
+                }
                 refreshData(uint.getValue());
                 clear(event);
             } catch (IOException ex) {
@@ -134,12 +160,22 @@ public class FormationPageController implements Initializable {
 
     @FXML
     private void delete(ActionEvent event) {
+        String tableName = "livingdata";
+        String fieldName = "`MILITARYID`,`PERSONALID`,`NAME`,`RANK`,`UNIT`,`NOTE`,`SPECIALTY`";
+        String[] data = {militaryID.getText(), personalID.getText(), name.getText(), rank.getValue(), uint.getValue(), note.getText(), specializ.getText()};
+        String valuenumbers = "?,?,?,?,?,?,?";
         try {
-            DatabaseAccess.delete("personaldata", "MILITARYID = '" + militaryID.getText() + "'");
+            int t = DatabaseAccess.insert(tableName, fieldName, valuenumbers, data);
+            if (t > 0) {
+                DatabaseAccess.delete("personaldata", "MILITARYID = '" + militaryID.getText() + "'");
+            } else {
+                FormValidation.showAlert(null, "حدثت مشكلة اثناء الحذف", Alert.AlertType.ERROR);
+            }
+
             refreshData(uint.getValue());
             clear(event);
         } catch (IOException ex) {
-            Logger.getLogger(FormationPageController.class.getName()).log(Level.SEVERE, null, ex);
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
     }
 
@@ -153,6 +189,8 @@ public class FormationPageController implements Initializable {
         note.setText(null);
         searchText.setText(null);
         searchType.setValue(null);
+        searchUint.setValue(null);
+        refreshData(null);
     }
 
     private void refreshData(String uint) {
@@ -228,9 +266,12 @@ public class FormationPageController implements Initializable {
     @FXML
     private void getDataBYUint(ActionEvent event) {
         refreshData(searchUint.getValue());
+        OFCount.setText(getOfCount(searchUint.getValue()));
+        SRCount.setText(getSrCount(searchUint.getValue()));
+        Totel.setText(getAllCount(searchUint.getValue()));
     }
 
-    @FXML//("البحث بالرقم العسكري","البحث برقم السجل المدني","البحث بالاسم", "عرض الكل");
+    @FXML
     private void searchData(ActionEvent event) {
         String searchValue = searchType.getValue();
         switch (searchValue) {
@@ -238,6 +279,11 @@ public class FormationPageController implements Initializable {
                 FormationObject.clear();
                 vbox.getChildren().clear();
                 viewdata(getAllData());
+                break;
+            case "عرض اسماء المنقولين":
+                FormationObject.clear();
+                vbox.getChildren().clear();
+                viewdata(getLivingData());
                 break;
             case "البحث بالاسم":
                 FormationObject.clear();
@@ -249,10 +295,20 @@ public class FormationPageController implements Initializable {
                 vbox.getChildren().clear();
                 viewdata(getDataByPersonalID());
                 break;
+            case "عرض الملاحظات":
+                FormationObject.clear();
+                vbox.getChildren().clear();
+                viewdata(getAllNotes());
+                break;
             case "البحث بالرقم العسكري":
                 FormationObject.clear();
                 vbox.getChildren().clear();
                 viewdata(getDataMitaryID());
+                break;
+            case "البحث بالرقم العسكري للمنقولين":
+                FormationObject.clear();
+                vbox.getChildren().clear();
+                viewdata(getLivingDataMitaryID());
                 break;
         }
     }
@@ -261,6 +317,16 @@ public class FormationPageController implements Initializable {
         ResultSet rs = null;
         try {
             rs = DatabaseAccess.select("personaldata");
+        } catch (IOException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
+        return rs;
+    }
+
+    private ResultSet getLivingData() {
+        ResultSet rs = null;
+        try {
+            rs = DatabaseAccess.select("livingdata");
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
@@ -287,6 +353,16 @@ public class FormationPageController implements Initializable {
         return rs;
     }
 
+    private ResultSet getAllNotes() {
+        ResultSet rs = null;
+        try {
+            rs = DatabaseAccess.select("personaldata", "MARK = 1");
+        } catch (IOException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
+        return rs;
+    }
+
     private ResultSet getDataMitaryID() {
         ResultSet rs = null;
         try {
@@ -295,6 +371,212 @@ public class FormationPageController implements Initializable {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
         return rs;
+    }
+
+    private ResultSet getLivingDataMitaryID() {
+        ResultSet rs = null;
+        try {
+            rs = DatabaseAccess.select("livingdata", "MILITARYID = '" + searchText.getText() + "'");
+        } catch (IOException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
+        return rs;
+    }
+
+    private String getOfCount(String unit) {
+        String count = null;
+        try {
+            ResultSet rs = DatabaseAccess.getData("SELECT count(MILITARYID) AS COUNTRESOLT FROM arshefdb.personaldata WHERE MEMBERTYPE = 'OF' AND UNIT = '" + unit + "'");
+            if (rs.next()) {
+                count = rs.getString("COUNTRESOLT");
+            }
+        } catch (IOException | SQLException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
+        return count;
+    }
+
+    private String getSrCount(String unit) {
+        String count = null;
+        try {
+            ResultSet rs = DatabaseAccess.getData("SELECT count(MILITARYID) AS COUNTRESOLT FROM arshefdb.personaldata WHERE MEMBERTYPE = 'SR' AND UNIT = '" + unit + "'");
+            if (rs.next()) {
+                count = rs.getString("COUNTRESOLT");
+            }
+        } catch (IOException | SQLException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
+        return count;
+    }
+
+    private String getAllCount(String unit) {
+        String count = null;
+        try {
+            ResultSet rs = DatabaseAccess.getData("SELECT count(MILITARYID) AS COUNTRESOLT FROM arshefdb.personaldata WHERE UNIT = '" + unit + "'");
+            if (rs.next()) {
+                count = rs.getString("COUNTRESOLT");
+            }
+        } catch (IOException | SQLException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
+        return count;
+    }
+
+    @FXML
+    private void getExclForUint(ActionEvent event) {
+        if (uint.getValue() == null) {
+            FormValidation.showAlert(null, "الرجاء اختار الوحدة", Alert.AlertType.ERROR);
+        } else {
+            try {
+                FileChooser fileChooser = new FileChooser();
+                Window stage = null;
+                fileChooser.setInitialFileName("تشكيل " + " " + uint.getValue());
+                File file = fileChooser.showSaveDialog(stage);
+                String savefile = null;
+                if (file != null) {
+                    savefile = file.toString();
+                }
+                ResultSet rs = DatabaseAccess.getData("SELECT * FROM personaldata WHERE UNIT ='" + uint.getValue() + "' ORDER BY MILITARYID ASC");
+                String[] feild = {"MILITARYID", "PERSONALID", "NAME", "RANK", "UNIT", "SPECIALTY"};
+                String[] titel = {"الرقم العسكري", "رقم الهوية", "الاسم", "الرتبة", "الوحدة", "التخصص"};
+                String[] sheetTitel = {"تشكيل " + " " + uint.getValue()};
+                ExporteExcelSheet exporter = new ExporteExcelSheet();
+                ArrayList<Object[]> dataList = exporter.getTableData(rs, feild);
+                if (dataList != null && dataList.size() > 0) {
+                    exporter.ceratHeader(sheetTitel, 0, exporter.setTitelStyle());
+                    exporter.ceratHeader(titel, 1, exporter.setHederStyle());
+                    exporter.ceratContent(dataList, feild, 2, exporter.setContentStyle());
+                    exporter.writeFile(savefile);
+                } else {
+                    FormValidation.showAlert(null, "There is no data available in the table to export", Alert.AlertType.ERROR);
+                }
+                rs.close();
+
+            } catch (IOException | SQLException ex) {
+                FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+            }
+        }
+    }
+
+    @FXML
+    private void getExcleForFores(ActionEvent event) {
+        try {
+            FileChooser fileChooser = new FileChooser();
+            Window stage = null;
+            fileChooser.setInitialFileName("تشكيل قوة السيف الجرب ");
+            File file = fileChooser.showSaveDialog(stage);
+            String savefile = null;
+            if (file != null) {
+                savefile = file.toString();
+            }
+            ResultSet rs = DatabaseAccess.getData("SELECT * FROM personaldata ORDER BY MILITARYID ASC");
+            String[] feild = {"MILITARYID", "PERSONALID", "NAME", "RANK", "UNIT", "SPECIALTY"};
+            String[] titel = {"الرقم العسكري", "رقم الهوية", "الاسم", "الرتبة", "الوحدة", "التخصص"};
+            String[] sheetTitel = {"تشكيل قوة السيف الجرب "};
+            ExporteExcelSheet exporter = new ExporteExcelSheet();
+            ArrayList<Object[]> dataList = exporter.getTableData(rs, feild);
+            if (dataList != null && dataList.size() > 0) {
+                exporter.ceratHeader(sheetTitel, 0, exporter.setTitelStyle());
+                exporter.ceratHeader(titel, 1, exporter.setHederStyle());
+                exporter.ceratContent(dataList, feild, 2, exporter.setContentStyle());
+                exporter.writeFile(savefile);
+            } else {
+                FormValidation.showAlert(null, "There is no data available in the table to export", Alert.AlertType.ERROR);
+            }
+            rs.close();
+        } catch (IOException | SQLException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
+    }
+
+    @FXML
+    private void updateAllFromExcle(ActionEvent event) throws IOException {
+        Alert alert = FormValidation.confirmationDilog("تنبيه", "يجب ان يكون ترتيب ملف الاكسل كتالي :" + "\n" + "الرقم العسكري - الرتبة - الاسم - رقم الهوية - الوحدة" + "\n" + "هل تريد المتابعة ؟");
+        if (alert.getResult() == ButtonType.YES) {
+            Window stage = null;
+            FileChooser fileChooser = new FileChooser();
+            FileChooser.ExtensionFilter ext1 = new FileChooser.ExtensionFilter("Excel files(*.xls)", "*.XLS");
+            fileChooser.getExtensionFilters().addAll(ext1);
+            File execlfile = fileChooser.showOpenDialog(stage);
+            FileInputStream fis = null;
+            try {
+                fis = new FileInputStream(execlfile.getPath());
+                HSSFWorkbook workbook = new HSSFWorkbook(fis);
+                HSSFSheet sheet = workbook.getSheetAt(0);
+                Iterator rows = sheet.rowIterator();
+                int t = 0;
+                while (rows.hasNext()) {
+                    HSSFRow row = (HSSFRow) rows.next();
+                    Iterator cells = row.cellIterator();
+                    List data = new ArrayList();
+                    while (cells.hasNext()) {
+                        HSSFCell cell = (HSSFCell) cells.next();
+                        cell.setCellType(CellType.STRING);
+                        data.add(cell);
+                    }
+                    String militryid = data.get(0).toString();
+                    String rank = data.get(1).toString();
+                    String name = data.get(2).toString();
+                    String personalid = data.get(3).toString();
+                    String unit = data.get(4).toString();
+                    String specialty = data.get(5).toString();
+                    String[] updatdata = {name, rank, personalid, unit, specialty};
+                    String[] insertdata = {militryid, personalid, name, rank, unit, specialty};
+                    boolean milataryidExisting = FormValidation.ifNotexisting("personaldata", "MILITARYID", "MILITARYID='" + militryid + "'");
+                    if (milataryidExisting) {
+                        t = DatabaseAccess.updat("personaldata", "`NAME`=?,`RANK`=?,`PERSONALID`=?,`UNIT`=?,`SPECIALTY`=?", updatdata, "MILITARYID='" + militryid + "'");
+                        while(t==0){
+                            for (int i = 0; i < 10; i++) {
+                                pro.setText("...............................................................");
+                            }
+                        }
+                       
+                    } else {
+                        t = DatabaseAccess.insert("personaldata", "`MILITARYID`,`PERSONALID`,`NAME`,`RANK`,`UNIT`,`SPECIALTY`", "?,?,?,?,?,?", insertdata);
+                    }
+                }
+                if (t > 0) {
+                    FormValidation.showAlert(null, "تم تحديث بيانات الهوية", Alert.AlertType.INFORMATION);
+                }
+            } catch (IOException e) {
+                FormValidation.showAlert(null, e.toString(), Alert.AlertType.ERROR);
+            } finally {
+                if (fis != null) {
+                    fis.close();
+                }
+            }
+        }
+    }
+
+    @FXML
+    private void getExcleForLivingName(ActionEvent event) {
+        try {
+            FileChooser fileChooser = new FileChooser();
+            Window stage = null;
+            fileChooser.setInitialFileName("بيان اسماء المنقولين خارج القوة ");
+            File file = fileChooser.showSaveDialog(stage);
+            String savefile = null;
+            if (file != null) {
+                savefile = file.toString();
+            }
+            ResultSet rs = DatabaseAccess.getData("SELECT * FROM livingdata ");
+            String[] feild = {"MILITARYID", "PERSONALID", "NAME", "RANK", "UNIT", "SPECIALTY"};
+            String[] titel = {"الرقم العسكري", "رقم الهوية", "الاسم", "الرتبة", "الوحدة", "التخصص"};
+            String[] sheetTitel = {"بيان اسماء المنقولين خارج القوة "};
+            ExporteExcelSheet exporter = new ExporteExcelSheet();
+            ArrayList<Object[]> dataList = exporter.getTableData(rs, feild);
+            if (dataList != null && dataList.size() > 0) {
+                exporter.ceratHeader(sheetTitel, 0, exporter.setTitelStyle());
+                exporter.ceratHeader(titel, 1, exporter.setHederStyle());
+                exporter.ceratContent(dataList, feild, 2, exporter.setContentStyle());
+                exporter.writeFile(savefile);
+            } else {
+                FormValidation.showAlert(null, "There is no data available in the table to export", Alert.AlertType.ERROR);
+            }
+            rs.close();
+        } catch (IOException | SQLException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
     }
 
 }

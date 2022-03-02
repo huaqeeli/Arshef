@@ -62,11 +62,11 @@ public class AddMissionNamesController implements Initializable {
         String fieldName = "`MISSIONID`,`MILITARYID`";
         String valuenumbers = "?,?";
 
-        boolean uintExusting = FormValidation.ifexisting("MISSIONID", "MILITARYID", "MISSIONID = '" + missionID + "'AND MILITARYID = '" + getMilataryId() + "'", "تم حفظ الاسم لنقس المهمة  " + "" );
+        boolean missionidExusting = FormValidation.ifexisting("missionnames", "MILITARYID", "MISSIONID = '" + missionID + "'AND MILITARYID = '" + getMilataryId() + "'", "تم حفظ الاسم لنقس المهمة  " + "" );
         boolean militrayidExusting = FormValidation.ifNotexisting("personaldata", "MILITARYID", " MILITARYID = '" + getMilataryId() + "'", "لا توجد بيانات بالرقم العسكري (" + "" + getMilataryId() + ") الرجاء اضافة بياناته في التشكيل");
-        boolean OFcensusState = FormValidation.textFieldNotEmpty(milataryId, "الرجاء ادخل الرقم العسكري");
+        boolean milataryIdState = FormValidation.textFieldNotEmpty(milataryId, "الرجاء ادخل الرقم العسكري");
 
-        if (uintExusting && OFcensusState && militrayidExusting) {
+        if (missionidExusting && milataryIdState && militrayidExusting) {
             try {
                 DatabaseAccess.insert(tableName, fieldName, valuenumbers, data);
                 refreshTableView();

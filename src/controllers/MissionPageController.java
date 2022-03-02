@@ -10,6 +10,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -24,12 +26,6 @@ import modeles.UserModel;
 
 public class MissionPageController implements Initializable {
 
-    @FXML
-    private ComboBox<?> DateDay;
-    @FXML
-    private ComboBox<?> DateMonth;
-    @FXML
-    private ComboBox<?> DateYear;
     @FXML
     private VBox missionView;
     @FXML
@@ -56,6 +52,13 @@ public class MissionPageController implements Initializable {
     String missionid = null;
     private MissionItemController missionItemController;
     private MissionNamesItemController missionNamesItemController;
+    ObservableList<String> searchTypelist = FXCollections.observableArrayList("البحث باسم المهمة", "البحث بالرقم العسكري", "عرض الكل");
+    @FXML
+    private ComboBox<String> searchType;
+    @FXML
+    private ComboBox<String> year;
+    @FXML
+    private TextField searchText;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -63,19 +66,45 @@ public class MissionPageController implements Initializable {
         setStartDate(HijriCalendar.getSimpleDate());
         AppDate.setDateValue(statrDateDay, statrDateMonth, statrDateYear);
         AppDate.setDateValue(endDateDay, endDateMonth, endDateYear);
+        FillComboBox.fillComboBox(searchTypelist, searchType);
+        AppDate.setYearValue(year);
+        year.setValue(Integer.toString(HijriCalendar.getSimpleYear()));
         refreshdata();
     }
 
     @FXML
     private void searchData(ActionEvent event) {
+        try {
+            String searchValue = searchType.getValue();
+            switch (searchValue) {
+                case "عرض الكل":
+                    missionObject.clear();
+                    missionView.getChildren().clear();
+                    viewdata(DatabaseAccess.getData("SELECT MISSIONID,MISSIONNAME,STARTDATE,ENDDATAE FROM missiondata WHERE YEAR = '" + year.getValue() + "'"));
+                    break;
+                case "البحث باسم المهمة":
+                    missionObject.clear();
+                    missionView.getChildren().clear();
+                    viewdata(DatabaseAccess.getData("SELECT MISSIONID,MISSIONNAME,STARTDATE,ENDDATAE FROM missiondata WHERE MISSIONNAME LIKE '" + "%" + searchText.getText() + "%" + "' AND YEAR = '" + year.getValue() + "'"));
+                    break;
+                case "البحث بالرقم العسكري":
+                    missionObject.clear();
+                    missionView.getChildren().clear();
+                    viewdata(DatabaseAccess.getData("SELECT missiondata.MISSIONID,missiondata.MISSIONNAME,missiondata.STARTDATE,missiondata.ENDDATAE FROM missionnames,missiondata "
+                            + "WHERE missionnames.MISSIONID = missiondata.MISSIONID AND missionnames.MILITARYID = '" + searchText.getText() + "' AND YEAR = '" + year.getValue() + "'"));
+                    break;
+            }
+        } catch (IOException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
     }
 
     @FXML
     private void save(ActionEvent event) {
         String tableName = "missiondata";
-        String[] data = {missionname.getText(), getStartDate(), getEndDate()};
-        String fieldName = "`MISSIONNAME`,`STARTDATE`,`ENDDATAE`";
-        String valuenumbers = "?,?,?";
+        String[] data = {missionname.getText(), getStartDate(), getEndDate(), getYear(getStartDate())};
+        String fieldName = "`MISSIONNAME`,`STARTDATE`,`ENDDATAE`,`YEAR`";
+        String valuenumbers = "?,?,?,?";
 
         boolean missionnameState = FormValidation.textFieldNotEmpty(missionname, "الرجاء ادخل اسم المهمة");
 
@@ -100,7 +129,10 @@ public class MissionPageController implements Initializable {
 
         if (missionnameState) {
             try {
-                DatabaseAccess.updat(tableName, fieldName, data,"MISSIONID = '"+missionid+"'");
+                int t = DatabaseAccess.updat(tableName, fieldName, data, "MISSIONID = '" + missionid + "'");
+                if (t > 0) {
+                    FormValidation.showAlert("", "تم تحديث البيانات", Alert.AlertType.CONFIRMATION);
+                }
                 refreshdata();
                 clear(event);
             } catch (IOException ex) {
@@ -112,10 +144,10 @@ public class MissionPageController implements Initializable {
     @FXML
     private void delete(ActionEvent event) {
         try {
-            boolean state = DatabaseAccess.deleteAll("missiondata", "MISSIONID = '"+missionid+"'");
+            boolean state = DatabaseAccess.deleteAll("missiondata", "MISSIONID = '" + missionid + "'");
             if (state) {
-                DatabaseAccess.delete("missionnames", "MISSIONID = '"+missionid+"'");
-                FormValidation.showAlert(null, "تم حذف بيانات "+ missionname.getText(), Alert.AlertType.ERROR);
+                DatabaseAccess.delete("missionnames", "MISSIONID = '" + missionid + "'");
+                FormValidation.showAlert(null, "تم حذف بيانات " + missionname.getText(), Alert.AlertType.ERROR);
                 refreshdata();
             }
         } catch (IOException ex) {
@@ -125,6 +157,12 @@ public class MissionPageController implements Initializable {
 
     @FXML
     private void clear(ActionEvent event) {
+        setStartDate(HijriCalendar.getSimpleDate());
+        setEndDate(null);
+        missionname.setText(null);
+        refreshdata();
+        namesObject.clear();
+        namesView.getChildren().clear();
     }
 
     private void refreshdata() {
@@ -196,7 +234,7 @@ public class MissionPageController implements Initializable {
     private void viewdata(ResultSet rs) {
         missionObject.addAll(getData(rs));
         if (missionObject.size() > 0) {
-            setChosendata(missionObject.get(0));
+            // setChosendata(missionObject.get(0));
             mylistener = new MissionPageListener() {
                 @Override
                 public void onClickListener(MissionModel missionModel) {
@@ -235,7 +273,7 @@ public class MissionPageController implements Initializable {
             } catch (IOException ex) {
                 FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
             }
-        } 
+        }
     }
 
     public String getStartDate() {
@@ -247,10 +285,21 @@ public class MissionPageController implements Initializable {
     }
 
     public String getEndDate() {
-        return AppDate.getDate(endDateDay, endDateMonth, endDateYear);
+        if (endDateDay.getValue() != null || endDateMonth.getValue() != null || endDateYear.getValue() != null) {
+            return AppDate.getDate(endDateDay, endDateMonth, endDateYear);
+        }
+        return null;
     }
 
     public void setEndDate(String date) {
         AppDate.setSeparateDate(endDateDay, endDateMonth, endDateYear, date);
+    }
+
+    public String getYear(String date) {
+        return AppDate.getYear(date);
+    }
+
+    @FXML
+    private void enableSearchDate(ActionEvent event) {
     }
 }

@@ -7,6 +7,7 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -195,7 +196,7 @@ public class CensusPageController implements Initializable {
     }
 
     @FXML
-    private void save(ActionEvent event) {
+    private void save(ActionEvent event) throws ParseException {
         String tableName = "census";
         String daydate = AppDate.getDate(DateDay, DateMonth, DateYear);
         String currentcensusOF = null;
@@ -203,17 +204,17 @@ public class CensusPageController implements Initializable {
         String[] OFdata = {uint.getValue(), daydate, originalCensusOF.getText(), currentCensusOF.getText(), OrdinaryVacationOF.getText(), OccasionalVacationOF.getText(),
             SickleaveOF.getText(), QuarantineOF.getText(), InareaTrainingOF.getText(), OutareaTrainingOF.getText(), OutKingdomTrainingOF.getText(), OfficialMissionOF.getText(), JoblMissionOF.getText(),
             hospitalOF.getText(), outKingdomJobOF.getText(), outOftheForceOF.getText(), alternatesOF.getText(), administrativeleaveOF.getText(), lateOF.getText(),
-            AbsenceOF.getText(), PrisonOF.getText(), "OF"};
+            AbsenceOF.getText(), PrisonOF.getText(), "OF", HijriCalendar.getSimpleWeekday()};
 
         String[] SRdata = {uint.getValue(), daydate, originalCensusSR.getText(), currentCensusSR.getText(), OrdinaryVacationSR.getText(), OccasionalVacationSR.getText(),
             SickleaveSR.getText(), QuarantineSR.getText(), InareaTrainingSR.getText(), OutareaTrainingSR.getText(), OutKingdomTrainingSR.getText(), OfficialMissionSR.getText(), JobMissionSR.getText(),
             hospitalSR.getText(), outKingdomJobSR.getText(), outOftheForceSR.getText(), alternatesSR.getText(), administrativeleaveSR.getText(), lateSR.getText(),
-            AbsenceSR.getText(), PrisonSR.getText(), "SR"};
+            AbsenceSR.getText(), PrisonSR.getText(), "SR", HijriCalendar.getSimpleWeekday()};
         String fieldName = "`uint`,`dayDate`,`originalCensus`,`currentCensus`,`OrdinaryVacation`,`OccasionalVacation`,`Sickleave`,`Quarantine`,"
                 + "`InareaTraining`,`OutareaTraining`,`OutKingdomTraining`,`OfficialMission`,`JoblMission`,`hospital`,`outKingdomJob`,`outOftheForce`,`alternates`,"
-                + "`administrativeleave`,`late`,`Absence`,`Prison`,`type`";
+                + "`administrativeleave`,`late`,`Absence`,`Prison`,`type`,`dayName`";
 
-        String valuenumbers = "?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?";
+        String valuenumbers = "?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?";
         /*جدول التمام المختصر*/
         String origalOF = ArabicSetting.EnglishToarabic(originalCensusOF.getText());
         String origalSR = ArabicSetting.EnglishToarabic(originalCensusSR.getText());
@@ -613,6 +614,19 @@ public class CensusPageController implements Initializable {
         });
     }
 
+    private String getDateName(String date) {
+       String dayName = null;
+        try {
+            ResultSet rs = DatabaseAccess.select("census",  "dayDate = '" + AppDate.getDate(DateDay, DateMonth, DateYear) + "'");
+            if (rs.next()) {
+                dayName = rs.getString("dayName");
+            }
+        } catch (IOException | SQLException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
+        return dayName;
+    }
+
     @FXML
     private void printOprationReport(ActionEvent event) {
         try {
@@ -684,8 +698,8 @@ public class CensusPageController implements Initializable {
                 parameters.put("late", ArabicSetting.EnglishToarabic(rs2.getString("sum(late)")));
                 parameters.put("Absence", ArabicSetting.EnglishToarabic(rs2.getString("sum(Absence)")));
                 parameters.put("Prison", ArabicSetting.EnglishToarabic(rs2.getString("sum(Prison)")));
-                parameters.put("day", HijriCalendar.getSimpleWeekday());
-                parameters.put("date", ArabicSetting.EnglishToarabic(HijriCalendar.getSimpleDate()) + "هـ");
+                parameters.put("day", getDateName(AppDate.getDate(DateDay, DateMonth, DateYear)));
+                parameters.put("date", ArabicSetting.EnglishToarabic(AppDate.getDate(DateDay, DateMonth, DateYear)) + "هـ");
                 parameters.put("uintNum", ArabicSetting.EnglishToarabic("067"));
 
             }
@@ -771,8 +785,8 @@ public class CensusPageController implements Initializable {
                 parameters.put("late", ArabicSetting.EnglishToarabic(rs2.getString("sum(late)")));
                 parameters.put("Absence", ArabicSetting.EnglishToarabic(rs2.getString("sum(Absence)")));
                 parameters.put("Prison", ArabicSetting.EnglishToarabic(rs2.getString("sum(Prison)")));
-                parameters.put("day", HijriCalendar.getSimpleWeekday());
-                parameters.put("date", ArabicSetting.EnglishToarabic(HijriCalendar.getSimpleDate()) + "هـ");
+                parameters.put("day", getDateName(AppDate.getDate(DateDay, DateMonth, DateYear)));
+                parameters.put("date", ArabicSetting.EnglishToarabic(AppDate.getDate(DateDay, DateMonth, DateYear)) + "هـ");
                 parameters.put("uintNum", ArabicSetting.EnglishToarabic("067"));
             }
             JasperReport jrr = JasperCompileManager.compileReport(jasperReport);
@@ -810,8 +824,8 @@ public class CensusPageController implements Initializable {
                 parameters.put("infieldSR", ArabicSetting.EnglishToarabic(rs1.getString("sum(currentCensus)")));
                 parameters.put("outfieldOF", ArabicSetting.EnglishToarabic(outfieldOF));
                 parameters.put("outfieldSR", ArabicSetting.EnglishToarabic(outfieldSR));
-                parameters.put("day", HijriCalendar.getSimpleWeekday());
-                parameters.put("date", ArabicSetting.EnglishToarabic(HijriCalendar.getSimpleDate()) + "هـ");
+                 parameters.put("day", getDateName(AppDate.getDate(DateDay, DateMonth, DateYear)));
+                parameters.put("date", ArabicSetting.EnglishToarabic(AppDate.getDate(DateDay, DateMonth, DateYear)) + "هـ");
                 parameters.put("quaridate", AppDate.getDate(DateDay, DateMonth, DateYear));
                 parameters.put("uintNum", ArabicSetting.EnglishToarabic("067"));
             }

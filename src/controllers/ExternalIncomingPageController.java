@@ -409,7 +409,6 @@ public class ExternalIncomingPageController implements Initializable {
         FileChooser.ExtensionFilter ext4 = new FileChooser.ExtensionFilter("PDF  files(*.pdf)", "*.PDF");
         fileChooser.getExtensionFilters().addAll(ext4);
         imagefile = fileChooser.showOpenDialog(stage);
-        System.out.println(imagefile);
         imageUrl.setText(imagefile.getPath());
         return imagefile;
     }

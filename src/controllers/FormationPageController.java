@@ -3,17 +3,12 @@ package controllers;
 import Serveces.FormationPageListener;
 import Validation.FormValidation;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -21,7 +16,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -30,11 +24,6 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
 import modeles.FormationModel;
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.CellType;
 
 public class FormationPageController implements Initializable {
 
@@ -59,8 +48,9 @@ public class FormationPageController implements Initializable {
     ObservableList<FormationModel> FormationObject = FXCollections.observableArrayList();
     private FormationPageListener mylistener;
     ObservableList<String> uintlist = FXCollections.observableArrayList();
-    ObservableList<String> rankComboBoxlist = FXCollections.observableArrayList("الفريق اول", "القريق", "الواء", "العميد", "العقيد", "المقد", "الرائد", "النقيب", "الملازم أول", "الملازم", "رئيس رقباء", "رقيب أول", "رقيب", "وكيل رقيب", "عريف", "جندي أول", "جندي");
+    ObservableList<String> rankComboBoxlist = FXCollections.observableArrayList("الفريق اول", "القريق", "الواء", "العميد", "العقيد", "المقدم", "الرائد", "النقيب", "الملازم أول", "الملازم", "رئيس رقباء", "رقيب أول", "رقيب", "وكيل رقيب", "عريف", "جندي أول", "جندي");
     ObservableList<String> searchTypelist = FXCollections.observableArrayList("البحث بالرقم العسكري", "البحث برقم السجل المدني", "البحث بالاسم", "عرض الكل", "عرض الملاحظات", "عرض اسماء المنقولين", "البحث بالرقم العسكري للمنقولين");
+    ObservableList<String> typelist = FXCollections.observableArrayList("", "ضابط", "فرد");
     @FXML
     private ComboBox<String> searchUint;
     @FXML
@@ -71,8 +61,10 @@ public class FormationPageController implements Initializable {
     private Label SRCount;
     @FXML
     private Label Totel;
+
+    String tableName = "personaldata";
     @FXML
-    private Label pro;
+    private ComboBox<String> type;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -80,6 +72,10 @@ public class FormationPageController implements Initializable {
         searchUint.setItems(filleUint(uintlist));
         rank.setItems(rankComboBoxlist);
         searchType.setItems(searchTypelist);
+        type.setItems(typelist);
+        OFCount.setText(getOfCount());
+        SRCount.setText(getSrCount());
+        Totel.setText(getAllCount());
 
     }
 
@@ -103,15 +99,29 @@ public class FormationPageController implements Initializable {
         return list;
     }
 
+    private String getType() {
+        String value = null;
+        switch (type.getValue()) {
+            case "ضابط":
+                value = "OF";
+                break;
+            case "فرد":
+                value = "SR";
+                break;
+        }
+        return value;
+    }
+
     @FXML
     private void save(ActionEvent event) {
         String tableName = "personaldata";
-        String fieldName = "`MILITARYID`,`PERSONALID`,`NAME`,`RANK`,`UNIT`,`NOTE`,`SPECIALTY`";
-        String[] data = {militaryID.getText(), personalID.getText(), name.getText(), rank.getValue(), uint.getValue(), note.getText(), specializ.getText()};
-        String valuenumbers = "?,?,?,?,?,?,?";
+        String fieldName = "`MILITARYID`,`PERSONALID`,`NAME`,`RANK`,`UNIT`,`NOTE`,`SPECIALTY`,`MEMBERTYPE`";
+        String[] data = {militaryID.getText(), personalID.getText(), name.getText(), rank.getValue(), uint.getValue(), note.getText(), specializ.getText(), getType()};
+        String valuenumbers = "?,?,?,?,?,?,?,?";
 
         boolean rankState = FormValidation.comboBoxNotEmpty(rank, "الرجاء اختيار الرتبة");
         boolean uintState = FormValidation.comboBoxNotEmpty(uint, "الرجاء اختيار الوحدة");
+        boolean typeState = FormValidation.comboBoxNotEmpty(type, "الرجاء اختيار ضابط او فرد");
         boolean nameState = FormValidation.textFieldNotEmpty(name, "الرجاء ادخال الاسم");
         boolean personalIDState = FormValidation.textFieldNotEmpty(personalID, "الرجاء ادخال رقم السجل المدني");
         boolean personalIDNumber = FormValidation.textFieldTypeNumber(personalID, "الرجاء ادخال رقم السجل المدني");
@@ -119,7 +129,7 @@ public class FormationPageController implements Initializable {
         boolean militaryIDNumber = FormValidation.textFieldTypeNumber(militaryID, "الرجاء ادخال الرقم العسكري");
         boolean militaryIDExisting = FormValidation.ifexisting("personaldata", "MILITARYID", "MILITARYID = '" + militaryID.getText() + "'", "الرقم العسكري موجود مسبقا");
         boolean personalIDExisting = FormValidation.ifexisting("personaldata", "PERSONALID", "PERSONALID = '" + personalID.getText() + "'", "رقم السجل موجود مسبقا");
-        if (militaryIDExisting && personalIDExisting && rankState && uintState && nameState && personalIDState && personalIDNumber && militaryIDState && militaryIDNumber) {
+        if (militaryIDExisting && personalIDExisting && rankState && uintState && nameState && personalIDState && personalIDNumber && militaryIDState && militaryIDNumber && typeState) {
             try {
                 DatabaseAccess.insert(tableName, fieldName, valuenumbers, data);
                 refreshData(uint.getValue());
@@ -132,7 +142,7 @@ public class FormationPageController implements Initializable {
 
     @FXML
     private void edit(ActionEvent event) {
-        String tableName = "personaldata";
+        //String tableName = "personaldata";
         String fieldName = "`MILITARYID`=?,`PERSONALID`=?,`NAME`=?,`RANK`=?,`UNIT`=?,`NOTE`=?,`SPECIALTY`=?";
         String[] data = {militaryID.getText(), personalID.getText(), name.getText(), rank.getValue(), uint.getValue(), note.getText(), specializ.getText()};
 
@@ -146,12 +156,25 @@ public class FormationPageController implements Initializable {
 
         if (rankState && uintState && nameState && personalIDState && personalIDNumber && militaryIDState && militaryIDNumber) {
             try {
-                int t = DatabaseAccess.updat(tableName, fieldName, data, "MILITARYID = '" + militaryID.getText() + "'");
-                if (t > 0) {
-                    FormValidation.showAlert("", "تم تحديث البيانات", Alert.AlertType.CONFIRMATION);
+                int t = 0;
+                switch (tableName) {
+                    case "personaldata":
+                        t = DatabaseAccess.updat("personaldata", fieldName, data, "MILITARYID = '" + militaryID.getText() + "'");
+                        if (t > 0) {
+                            FormValidation.showAlert("", "تم تحديث البيانات", Alert.AlertType.CONFIRMATION);
+                        }
+                        refreshData(uint.getValue());
+                        clear(event);
+                        break;
+                    case "livingdata":
+                        t = DatabaseAccess.updat("livingdata", fieldName, data, "MILITARYID = '" + militaryID.getText() + "'");
+                        if (t > 0) {
+                            FormValidation.showAlert("", "تم تحديث البيانات", Alert.AlertType.CONFIRMATION);
+                        }
+                        refreshlivingeData();
+                        clear(event);
+                        break;
                 }
-                refreshData(uint.getValue());
-                clear(event);
             } catch (IOException ex) {
                 FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
             }
@@ -160,20 +183,30 @@ public class FormationPageController implements Initializable {
 
     @FXML
     private void delete(ActionEvent event) {
-        String tableName = "livingdata";
+
         String fieldName = "`MILITARYID`,`PERSONALID`,`NAME`,`RANK`,`UNIT`,`NOTE`,`SPECIALTY`";
         String[] data = {militaryID.getText(), personalID.getText(), name.getText(), rank.getValue(), uint.getValue(), note.getText(), specializ.getText()};
         String valuenumbers = "?,?,?,?,?,?,?";
         try {
-            int t = DatabaseAccess.insert(tableName, fieldName, valuenumbers, data);
-            if (t > 0) {
-                DatabaseAccess.delete("personaldata", "MILITARYID = '" + militaryID.getText() + "'");
-            } else {
-                FormValidation.showAlert(null, "حدثت مشكلة اثناء الحذف", Alert.AlertType.ERROR);
+            int t = 0;
+            switch (tableName) {
+                case "personaldata":
+                    t = DatabaseAccess.insert("livingdata", fieldName, valuenumbers, data);
+                    if (t > 0) {
+                        DatabaseAccess.delete("personaldata", "MILITARYID = '" + militaryID.getText() + "'");
+                    } else {
+                        FormValidation.showAlert(null, "حدثت مشكلة اثناء الحذف", Alert.AlertType.ERROR);
+                    }
+                    refreshData(uint.getValue());
+                    clear(event);
+                    break;
+                case "livingdata":
+                    DatabaseAccess.delete("livingdata", "MILITARYID = '" + militaryID.getText() + "'");
+                    refreshlivingeData();
+                    clear(event);
+                    break;
             }
 
-            refreshData(uint.getValue());
-            clear(event);
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
@@ -190,7 +223,11 @@ public class FormationPageController implements Initializable {
         searchText.setText(null);
         searchType.setValue(null);
         searchUint.setValue(null);
+        OFCount.setText(null);
+        SRCount.setText(null);
+        Totel.setText(null);
         refreshData(null);
+        tableName = "personaldata";
     }
 
     private void refreshData(String uint) {
@@ -198,6 +235,22 @@ public class FormationPageController implements Initializable {
             FormationObject.clear();
             vbox.getChildren().clear();
             viewdata(DatabaseAccess.getData("SELECT * FROM personaldata WHERE UNIT ='" + uint + "' ORDER BY MILITARYID ASC"));
+            OFCount.setText(getOfCount());
+            SRCount.setText(getSrCount());
+            Totel.setText(getAllCount());
+        } catch (IOException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
+    }
+
+    private void refreshlivingeData() {
+        try {
+            FormationObject.clear();
+            vbox.getChildren().clear();
+            viewdata(DatabaseAccess.getData("SELECT * FROM livingdata "));
+            OFCount.setText(getOfCount());
+            SRCount.setText(getSrCount());
+            Totel.setText(getAllCount());
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
@@ -244,6 +297,7 @@ public class FormationPageController implements Initializable {
                 formationModel.setUint(rs.getString("UNIT"));
                 formationModel.setNote(rs.getString("NOTE"));
                 formationModel.setMarkState(rs.getInt("MARK"));
+                formationModel.setMarkColor(rs.getString("MARKCOLOR"));
                 formationModel.setSpecializ(rs.getString("SPECIALTY"));
                 formationModels.add(formationModel);
             }
@@ -279,36 +333,43 @@ public class FormationPageController implements Initializable {
                 FormationObject.clear();
                 vbox.getChildren().clear();
                 viewdata(getAllData());
+                tableName = "personaldata";
                 break;
             case "عرض اسماء المنقولين":
                 FormationObject.clear();
                 vbox.getChildren().clear();
                 viewdata(getLivingData());
+                tableName = "livingdata";
                 break;
             case "البحث بالاسم":
                 FormationObject.clear();
                 vbox.getChildren().clear();
                 viewdata(getDataByName());
+                tableName = "personaldata";
                 break;
             case "البحث برقم السجل المدني":
                 FormationObject.clear();
                 vbox.getChildren().clear();
                 viewdata(getDataByPersonalID());
+                tableName = "personaldata";
                 break;
             case "عرض الملاحظات":
                 FormationObject.clear();
                 vbox.getChildren().clear();
                 viewdata(getAllNotes());
+                tableName = "personaldata";
                 break;
             case "البحث بالرقم العسكري":
                 FormationObject.clear();
                 vbox.getChildren().clear();
                 viewdata(getDataMitaryID());
+                tableName = "personaldata";
                 break;
             case "البحث بالرقم العسكري للمنقولين":
                 FormationObject.clear();
                 vbox.getChildren().clear();
                 viewdata(getLivingDataMitaryID());
+                tableName = "livingdata";
                 break;
         }
     }
@@ -356,7 +417,7 @@ public class FormationPageController implements Initializable {
     private ResultSet getAllNotes() {
         ResultSet rs = null;
         try {
-            rs = DatabaseAccess.select("personaldata", "MARK = 1");
+            rs = DatabaseAccess.select("personaldata", "MARK = 1 ORDER BY MARKCOLOR");
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
@@ -413,6 +474,45 @@ public class FormationPageController implements Initializable {
         String count = null;
         try {
             ResultSet rs = DatabaseAccess.getData("SELECT count(MILITARYID) AS COUNTRESOLT FROM arshefdb.personaldata WHERE UNIT = '" + unit + "'");
+            if (rs.next()) {
+                count = rs.getString("COUNTRESOLT");
+            }
+        } catch (IOException | SQLException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
+        return count;
+    }
+
+    private String getOfCount() {
+        String count = null;
+        try {
+            ResultSet rs = DatabaseAccess.getData("SELECT count(MILITARYID) AS COUNTRESOLT FROM arshefdb.personaldata WHERE MEMBERTYPE = 'OF'");
+            if (rs.next()) {
+                count = rs.getString("COUNTRESOLT");
+            }
+        } catch (IOException | SQLException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
+        return count;
+    }
+
+    private String getSrCount() {
+        String count = null;
+        try {
+            ResultSet rs = DatabaseAccess.getData("SELECT count(MILITARYID) AS COUNTRESOLT FROM arshefdb.personaldata WHERE MEMBERTYPE = 'SR'");
+            if (rs.next()) {
+                count = rs.getString("COUNTRESOLT");
+            }
+        } catch (IOException | SQLException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
+        return count;
+    }
+
+    private String getAllCount() {
+        String count = null;
+        try {
+            ResultSet rs = DatabaseAccess.getData("SELECT count(MILITARYID) AS COUNTRESOLT FROM arshefdb.personaldata ");
             if (rs.next()) {
                 count = rs.getString("COUNTRESOLT");
             }
@@ -491,61 +591,10 @@ public class FormationPageController implements Initializable {
 
     @FXML
     private void updateAllFromExcle(ActionEvent event) throws IOException {
-        Alert alert = FormValidation.confirmationDilog("تنبيه", "يجب ان يكون ترتيب ملف الاكسل كتالي :" + "\n" + "الرقم العسكري - الرتبة - الاسم - رقم الهوية - الوحدة" + "\n" + "هل تريد المتابعة ؟");
-        if (alert.getResult() == ButtonType.YES) {
-            Window stage = null;
-            FileChooser fileChooser = new FileChooser();
-            FileChooser.ExtensionFilter ext1 = new FileChooser.ExtensionFilter("Excel files(*.xls)", "*.XLS");
-            fileChooser.getExtensionFilters().addAll(ext1);
-            File execlfile = fileChooser.showOpenDialog(stage);
-            FileInputStream fis = null;
-            try {
-                fis = new FileInputStream(execlfile.getPath());
-                HSSFWorkbook workbook = new HSSFWorkbook(fis);
-                HSSFSheet sheet = workbook.getSheetAt(0);
-                Iterator rows = sheet.rowIterator();
-                int t = 0;
-                while (rows.hasNext()) {
-                    HSSFRow row = (HSSFRow) rows.next();
-                    Iterator cells = row.cellIterator();
-                    List data = new ArrayList();
-                    while (cells.hasNext()) {
-                        HSSFCell cell = (HSSFCell) cells.next();
-                        cell.setCellType(CellType.STRING);
-                        data.add(cell);
-                    }
-                    String militryid = data.get(0).toString();
-                    String rank = data.get(1).toString();
-                    String name = data.get(2).toString();
-                    String personalid = data.get(3).toString();
-                    String unit = data.get(4).toString();
-                    String specialty = data.get(5).toString();
-                    String[] updatdata = {name, rank, personalid, unit, specialty};
-                    String[] insertdata = {militryid, personalid, name, rank, unit, specialty};
-                    boolean milataryidExisting = FormValidation.ifNotexisting("personaldata", "MILITARYID", "MILITARYID='" + militryid + "'");
-                    if (milataryidExisting) {
-                        t = DatabaseAccess.updat("personaldata", "`NAME`=?,`RANK`=?,`PERSONALID`=?,`UNIT`=?,`SPECIALTY`=?", updatdata, "MILITARYID='" + militryid + "'");
-                        while(t==0){
-                            for (int i = 0; i < 10; i++) {
-                                pro.setText("...............................................................");
-                            }
-                        }
-                       
-                    } else {
-                        t = DatabaseAccess.insert("personaldata", "`MILITARYID`,`PERSONALID`,`NAME`,`RANK`,`UNIT`,`SPECIALTY`", "?,?,?,?,?,?", insertdata);
-                    }
-                }
-                if (t > 0) {
-                    FormValidation.showAlert(null, "تم تحديث بيانات الهوية", Alert.AlertType.INFORMATION);
-                }
-            } catch (IOException e) {
-                FormValidation.showAlert(null, e.toString(), Alert.AlertType.ERROR);
-            } finally {
-                if (fis != null) {
-                    fis.close();
-                }
-            }
-        }
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/view/UpdateAllFromExcle.fxml"));
+        AnchorPane pane = fxmlLoader.load();
+        vbox.getChildren().add(pane);
     }
 
     @FXML
@@ -563,6 +612,37 @@ public class FormationPageController implements Initializable {
             String[] feild = {"MILITARYID", "PERSONALID", "NAME", "RANK", "UNIT", "SPECIALTY"};
             String[] titel = {"الرقم العسكري", "رقم الهوية", "الاسم", "الرتبة", "الوحدة", "التخصص"};
             String[] sheetTitel = {"بيان اسماء المنقولين خارج القوة "};
+            ExporteExcelSheet exporter = new ExporteExcelSheet();
+            ArrayList<Object[]> dataList = exporter.getTableData(rs, feild);
+            if (dataList != null && dataList.size() > 0) {
+                exporter.ceratHeader(sheetTitel, 0, exporter.setTitelStyle());
+                exporter.ceratHeader(titel, 1, exporter.setHederStyle());
+                exporter.ceratContent(dataList, feild, 2, exporter.setContentStyle());
+                exporter.writeFile(savefile);
+            } else {
+                FormValidation.showAlert(null, "There is no data available in the table to export", Alert.AlertType.ERROR);
+            }
+            rs.close();
+        } catch (IOException | SQLException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
+    }
+
+    @FXML
+    private void getAllNotesExcle(ActionEvent event) {
+        try {
+            FileChooser fileChooser = new FileChooser();
+            Window stage = null;
+            fileChooser.setInitialFileName("بيان جميع الملاحظات");
+            File file = fileChooser.showSaveDialog(stage);
+            String savefile = null;
+            if (file != null) {
+                savefile = file.toString();
+            }
+            ResultSet rs = DatabaseAccess.select("personaldata", "MARK = 1 ORDER BY MARKCOLOR");
+            String[] feild = {"MILITARYID", "PERSONALID", "NAME", "RANK", "UNIT", "SPECIALTY", "NOTE"};
+            String[] titel = {"الرقم العسكري", "رقم الهوية", "الاسم", "الرتبة", "الوحدة", "التخصص", "ملاحظات"};
+            String[] sheetTitel = {"بيان جميع الملاحظات"};
             ExporteExcelSheet exporter = new ExporteExcelSheet();
             ArrayList<Object[]> dataList = exporter.getTableData(rs, feild);
             if (dataList != null && dataList.size() > 0) {

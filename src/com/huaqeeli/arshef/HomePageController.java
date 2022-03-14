@@ -119,7 +119,11 @@ public class HomePageController implements Initializable {
 
     @FXML
     private void secretPage(ActionEvent event) throws IOException {
-         content.setCenter(App.loadFXML("/view/secretPage"));
+          if ("مدير".equals(usertype)) {
+            content.setCenter(App.loadFXML("/view/secretPage"));
+        } else {
+            FormValidation.showAlert(null, "ليس لديك الصلاحية في الدخول", Alert.AlertType.ERROR);
+        }
     }
 
     @FXML

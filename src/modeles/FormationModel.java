@@ -4,7 +4,7 @@ package modeles;
 
 public class FormationModel {
     private int squnce,markState;
-    private String militaryID,personalID,name,rank,uint,note,specializ;
+    private String militaryID,personalID,name,rank,uint,note,specializ,markColor;
 
     public FormationModel() {
     }
@@ -17,6 +17,27 @@ public class FormationModel {
         this.rank = rank;
         this.uint = uint;
         this.note = note;
+    }
+
+    public FormationModel(int squnce, int markState, String militaryID, String personalID, String name, String rank, String uint, String note, String specializ, String markColor) {
+        this.squnce = squnce;
+        this.markState = markState;
+        this.militaryID = militaryID;
+        this.personalID = personalID;
+        this.name = name;
+        this.rank = rank;
+        this.uint = uint;
+        this.note = note;
+        this.specializ = specializ;
+        this.markColor = markColor;
+    }
+
+    public String getMarkColor() {
+        return markColor;
+    }
+
+    public void setMarkColor(String markColor) {
+        this.markColor = markColor;
     }
 
     public String getSpecializ() {

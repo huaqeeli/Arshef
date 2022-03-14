@@ -8,10 +8,16 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
 import modeles.FormationModel;
 
 public class FormationItemController implements Initializable {
@@ -37,6 +43,9 @@ public class FormationItemController implements Initializable {
     private HBox content;
     @FXML
     private Label specializ;
+    @FXML
+    private ColorPicker color;
+    Color markColor = null;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -57,7 +66,8 @@ public class FormationItemController implements Initializable {
         if (formationModel.getMarkState() == 0) {
             content.setStyle("-fx-background-color: #E9E9E9;");
         } else {
-            content.setStyle("-fx-background-color: #8CA598;");
+            markColor= Color.web(formationModel.getMarkColor());
+            content.setBackground(new Background(new BackgroundFill(markColor, CornerRadii.EMPTY, Insets.EMPTY)));
         }
     }
 
@@ -68,10 +78,11 @@ public class FormationItemController implements Initializable {
 
     @FXML
     private void addMark(ActionEvent event) {
-
+        Color value = color.getValue();
         try {
-            DatabaseAccess.updat("personaldata", " MARK = 1", "MILITARYID = '" + militaryID.getText() + "'");
-            content.setStyle("-fx-background-color: #8CA598;");
+            DatabaseAccess.updat("personaldata", " MARK = 1,MARKCOLOR= '" + value + "'", "MILITARYID = '" + militaryID.getText() + "'");
+            content.setStyle("-fx-background-color:" + value);
+            content.setBackground(new Background(new BackgroundFill(value, CornerRadii.EMPTY, Insets.EMPTY)));
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }

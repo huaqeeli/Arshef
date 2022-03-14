@@ -1,11 +1,14 @@
 package controllers;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 public final class HijriCalendar {
 
     public final static String[] WEEKDAYS = {"", "الاحد", "الاثنين", "الثلاثاء", "الاربعاء", "الخميس", "الجمعة", "السبت"};
-    public final static String[] MONTHS = {"", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"};
+    public final static String[] MONTHS = { "","01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"};
 
     public final static double[] UMMALQURA_DAT = {
         28607, 28636, 28665, 28695, 28724, 28754, 28783, 28813, 28843, 28872, 28901, 28931, 28960, 28990, 29019, 29049, 29078, 29108, 29137, 29167,
@@ -107,7 +110,7 @@ public final class HijriCalendar {
         double year = cal.get(Calendar.YEAR);
         double weekday = cal.get(Calendar.DAY_OF_WEEK);
 
-		//append January and February to the previous year (i.e. regard March as
+        //append January and February to the previous year (i.e. regard March as
         //the first month of the year in order to simplify leapday corrections)
         double m = month + 1;
         double y = year;
@@ -160,6 +163,71 @@ public final class HijriCalendar {
         return new int[]{(int) weekday, (int) day, (int) month, (int) year};
     }
 
+    public static int[] ummalQuraCalendar(Calendar cal, String date) throws ParseException {
+        if (cal == null) {
+            cal = Calendar.getInstance();
+        }
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        Date mydate = sdf.parse(date);
+        cal.setTime(mydate);
+        double day = cal.get(Calendar.DAY_OF_MONTH);
+        double month = cal.get(Calendar.MONTH);
+        double year = cal.get(Calendar.YEAR);
+        double weekday = cal.get(Calendar.DAY_OF_WEEK);
+        
+
+        //append January and February to the previous year (i.e. regard March as
+        //the first month of the year in order to simplify leapday corrections)
+        double m = month + 1;
+        double y = year;
+        if (m < 3) {
+            y -= 1;
+            m += 12;
+        }
+
+        //determine offset between Julian and Gregorian calendar 
+        double a = Math.floor(y / 100);
+        double jgc = a - Math.floor(a / 4) - 2;
+
+        //compute Chronological Julian Day Number (CJDN)
+        double cjdn = Math.floor(365.25 * (y + 4716)) + Math.floor(30.6001 * (m + 1)) + day - jgc - 1524;
+
+        a = Math.floor((cjdn - 1867216.25) / 36524.25);
+        jgc = a - Math.floor(a / 4.) + 1;
+        double b = cjdn + jgc + 1524;
+        double c = Math.floor((b - 122.1) / 365.25);
+        double d = Math.floor(365.25 * c);
+        month = Math.floor((b - d) / 30.6001);
+        day = (b - d) - Math.floor(30.6001 * month);
+
+        if (month > 13) {
+            c += 1;
+            month -= 12;
+        }
+        month -= 1;
+        year = c - 4716;
+
+        //compute Modified Chronological Julian Day Number (MCJDN)
+        double mcjdn = cjdn - 2400000;
+
+        //the MCJDN's of the start of the lunations in the Umm al-Qura calendar table
+        int i;
+        for (i = 0; i < UMMALQURA_DAT.length; i++) {
+            if (UMMALQURA_DAT[i] > mcjdn) {
+                break;
+            }
+        }
+
+        //compute and output the Umm al-Qura calendar date
+        a = i + 16260;
+        b = Math.floor((a - 1) / 12);
+        year = b + 1;
+        month = a - 12 * b;
+        day = mcjdn - UMMALQURA_DAT[i - 1] + 1;
+        double monthlen = UMMALQURA_DAT[i] - UMMALQURA_DAT[i-1]; //29 or 30 days
+        return new int[]{(int) weekday, (int) day, (int) month, (int) year};
+    }
+
     public static String getSimpleDate() {
         int[] dt = ummalQuraCalendar(null);
         String date = null;
@@ -190,4 +258,10 @@ public final class HijriCalendar {
         int[] dt = ummalQuraCalendar(null);
         return WEEKDAYS[dt[0]];
     }
+
+    public static String getSimpleWeekday(String date) throws ParseException {
+         int[] dt = ummalQuraCalendar(null,date);
+        return WEEKDAYS[dt[0]+1];
+    }
+
 }

@@ -31,7 +31,7 @@ import java.util.logging.Logger;
 public class secretPageController implements Initializable {
 
     @FXML
-    private ComboBox<?> searchType;
+    private ComboBox<String> searchType;
     @FXML
     private ComboBox<String> year;
     @FXML
@@ -76,6 +76,12 @@ public class secretPageController implements Initializable {
     private ComboBox<?> receiptNumberDateMonth;
     @FXML
     private ComboBox<?> receiptNumberDateYear;
+    @FXML
+    private ComboBox<?> searchDateDay;
+    @FXML
+    private ComboBox<?> searchDateMonth;
+    @FXML
+    private ComboBox<?> searchDateYear;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -84,6 +90,8 @@ public class secretPageController implements Initializable {
         AppDate.setCurrentDate(circularDateDay, circularDateMonth, circularDateYear);
         AppDate.setDateValue(receiptNumberDateDay, receiptNumberDateMonth, receiptNumberDateYear);
         AppDate.setCurrentDate(receiptNumberDateDay, receiptNumberDateMonth, receiptNumberDateYear);
+        AppDate.setDateValue(searchDateDay, searchDateMonth, searchDateYear);
+        AppDate.setCurrentDate(searchDateDay, searchDateMonth, searchDateYear);
         destination.setItems(filleCoursPlace(placeComboBoxlist));
         AppDate.setYearValue(year);
         year.setValue(Integer.toString(HijriCalendar.getSimpleYear()));
@@ -162,7 +170,7 @@ public class secretPageController implements Initializable {
         try {
             secretObject.clear();
             vbox.getChildren().clear();
-            viewdata(DatabaseAccess.getData("SELECT * FROM secretdata ORDER BY ID DESC"));
+            viewdata(DatabaseAccess.getData("SELECT ID, CIRCULARID, CIRCULARDATE, RECEIPTNUMBER, RECEIPTDATE, DESTINATION, TOPIC, SAVEFILE, NOTE, RECORDYEAR FROM secretdata ORDER BY ID DESC"));
         } catch (IOException ex) {
             Logger.getLogger(secretPageController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -171,7 +179,7 @@ public class secretPageController implements Initializable {
     private void viewdata(ResultSet rs) {
         secretObject.addAll(getData(rs));
         if (secretObject.size() > 0) {
-            setChosendata(secretObject.get(0));
+//            setChosendata(secretObject.get(0));
             myListener = new SecretPageListener() {
                 @Override
                 public void onClickListener(SecretModel secretModel) {
@@ -211,13 +219,69 @@ public class secretPageController implements Initializable {
         AppDate.setSeparateDate(receiptNumberDateDay, receiptNumberDateMonth, receiptNumberDateYear, circularDate);
     }
 
+    public String getSearchDate() {
+        return AppDate.getDate(searchDateDay, searchDateMonth, searchDateYear);
+    }
+
+    public void setSearchDate(String date) {
+        AppDate.setSeparateDate(searchDateDay, searchDateMonth, searchDateYear, date);
+    }
+
     public String setYear(String date) {
         return AppDate.getYear(date);
     }
 
     @FXML
     private void searchData(ActionEvent event) {
-
+        try {
+            String searchValue = searchType.getValue();
+            switch (searchValue) {
+                case "البحث برقم المعاملة":
+                    secretObject.clear();
+                    vbox.getChildren().clear();
+                    viewdata(DatabaseAccess.getData("SELECT ID, CIRCULARID, CIRCULARDATE, RECEIPTNUMBER, RECEIPTDATE, DESTINATION, TOPIC, SAVEFILE, NOTE, RECORDYEAR"
+                            + " FROM secretdata WHERE CIRCULARID = '" + searchText.getText() + "' ORDER BY RECEIPTDATE DESC"));
+                    break;
+                case "البحث برقم الوارد":
+                    secretObject.clear();
+                    vbox.getChildren().clear();
+                    viewdata(DatabaseAccess.getData("SELECT ID, CIRCULARID, CIRCULARDATE, RECEIPTNUMBER, RECEIPTDATE, DESTINATION, TOPIC, SAVEFILE, NOTE, RECORDYEAR"
+                            + " FROM secretdata WHERE RECEIPTNUMBER = '" + searchText.getText() + "' ORDER BY RECEIPTDATE DESC"));
+                    break;
+                case "البحث بتاريخ الوارد":
+                    secretObject.clear();
+                    vbox.getChildren().clear();
+                    viewdata(DatabaseAccess.getData("SELECT ID, CIRCULARID, CIRCULARDATE, RECEIPTNUMBER, RECEIPTDATE, DESTINATION, TOPIC, SAVEFILE, NOTE, RECORDYEAR"
+                            + " FROM secretdata WHERE RECEIPTDATE = '" + getSearchDate() + "' ORDER BY RECEIPTDATE DESC"));
+                    break;
+                case "البحث بالموضوع":
+                    secretObject.clear();
+                    vbox.getChildren().clear();
+                    viewdata(DatabaseAccess.getData("SELECT ID, CIRCULARID, CIRCULARDATE, RECEIPTNUMBER, RECEIPTDATE, DESTINATION, TOPIC, SAVEFILE, NOTE, RECORDYEAR"
+                            + " FROM secretdata WHERE TOPIC LIKE '" + "%" + searchText.getText() + "%" + "' ORDER BY RECEIPTDATE DESC"));
+                    break;
+                case "البحث بجهة المعاملة":
+                    secretObject.clear();
+                    vbox.getChildren().clear();
+                    viewdata(DatabaseAccess.getData("SELECT ID, CIRCULARID, CIRCULARDATE, RECEIPTNUMBER, RECEIPTDATE, DESTINATION, TOPIC, SAVEFILE, NOTE, RECORDYEAR"
+                            + " FROM secretdata WHERE DESTINATION LIKE '" + "%" + searchText.getText() + "%" + "' ORDER BY RECEIPTDATE DESC"));
+                    break;
+                case "البحث برقم الملف":
+                    secretObject.clear();
+                    vbox.getChildren().clear();
+                    viewdata(DatabaseAccess.getData("SELECT ID, CIRCULARID, CIRCULARDATE, RECEIPTNUMBER, RECEIPTDATE, DESTINATION, TOPIC, SAVEFILE, NOTE, RECORDYEAR"
+                            + " FROM secretdata WHERE SAVEFILE = '" + searchText.getText() + "' ORDER BY RECEIPTDATE DESC"));
+                    break;
+                case "البحث بالرقم العسكري":
+                    secretObject.clear();
+                    vbox.getChildren().clear();
+                    viewdata(DatabaseAccess.getData("SELECT ID, CIRCULARID, CIRCULARDATE, RECEIPTNUMBER, RECEIPTDATE, DESTINATION, TOPIC, SAVEFILE, NOTE, RECORDYEAR"
+                            + " FROM secretdata,circularnames WHERE secretdata.ID = circularnames.CIRCULARID AND circularnames.MILITARYID = '" + searchText.getText() + "' ORDER BY RECEIPTDATE DESC"));
+                    break;
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(secretPageController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @FXML
@@ -255,7 +319,7 @@ public class secretPageController implements Initializable {
     private void edit(ActionEvent event) {
         String tableName = "secretdata";
         String fieldName = null;
-        recordYear =  setYear(getCircularDate());
+        recordYear = setYear(getCircularDate());
         String[] data = {circularid.getText(), getCircularDate(), receiptNumber.getText(), getReceiptNumberDate(), destination.getValue(), topic.getText(), saveFile.getText(), note.getText(), recordYear};
         if (imagefile != null) {
             fieldName = "`CIRCULARID`=?,`CIRCULARDATE`=?,`RECEIPTNUMBER`=?,`RECEIPTDATE`=?,`DESTINATION`=?,`TOPIC`=?,`SAVEFILE`=?,`NOTE`=?,`RECORDYEAR`=?,`IMAGE`=?";
@@ -263,10 +327,10 @@ public class secretPageController implements Initializable {
             fieldName = "`CIRCULARID`=?,`CIRCULARDATE`=?,`RECEIPTNUMBER`=?,`RECEIPTDATE`=?,`DESTINATION`=?,`TOPIC`=?,`SAVEFILE`=?,`NOTE`=?,`RECORDYEAR`=?";
         }
 
-        boolean topicState = FormValidation.textFieldNotEmpty(topic, "الرجاء ادخال الموضوع"); 
+        boolean topicState = FormValidation.textFieldNotEmpty(topic, "الرجاء ادخال الموضوع");
         boolean saveFileState = FormValidation.textFieldNotEmpty(saveFile, "الرجاء ادخال ملف الحفظ");
 
-        if (topicState && saveFileState ) {
+        if (topicState && saveFileState) {
             try {
                 DatabaseAccess.updat(tableName, fieldName, data, "CIRCULARID = '" + circularid.getText() + "'AND RECORDYEAR = '" + recordYear + "'", imagefile);
                 refreshdata();
@@ -297,6 +361,21 @@ public class secretPageController implements Initializable {
             clear(event);
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
+    }
+
+    @FXML
+    private void enableSearchDate(ActionEvent event) {
+        if ("البحث بتاريخ الوارد".equals(searchType.getValue())) {
+            searchDateDay.setDisable(false);
+            searchDateMonth.setDisable(false);
+            searchDateYear.setDisable(false);
+            year.setDisable(true);
+        } else {
+            searchDateDay.setDisable(true);
+            searchDateMonth.setDisable(true);
+            searchDateYear.setDisable(true);
+            year.setDisable(false);
         }
     }
 

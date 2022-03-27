@@ -153,7 +153,8 @@ public class HomePageController implements Initializable {
 
     @FXML
     private void missionPage(ActionEvent event) throws IOException {
-        content.setCenter(App.loadFXML("/view/MissionPage"));
+//        content.setCenter(App.loadFXML("/view/MissionPage"));
+        content.setCenter(App.loadFXML("/view/AnalyticsPage"));
     }
 
 }

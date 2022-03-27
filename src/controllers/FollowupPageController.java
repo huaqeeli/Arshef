@@ -60,7 +60,7 @@ public class FollowupPageController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         AppDate.setDateValue(circularDateDay, circularDateMonth, circularDateYear);
         AppDate.setCurrentDate(circularDateDay, circularDateMonth, circularDateYear);
-        AppDate.setDateValue(CompletionDateDay, CompletionDateMonth, CompletionDateYear);
+        AppDate.setCompletionDateValue(CompletionDateDay, CompletionDateMonth, CompletionDateYear);
         AppDate.setCurrentDate(CompletionDateDay, CompletionDateMonth, CompletionDateYear);
         circularType.setItems(circularTypelist);
         searchType.setItems(searchTypelist);

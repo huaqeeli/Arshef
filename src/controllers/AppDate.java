@@ -1,6 +1,9 @@
 package controllers;
 
 import Validation.FormValidation;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 
@@ -27,6 +30,48 @@ public class AppDate {
             yearvalue = yearvalue - 1;
         }
     }
+    public static void setCompletionDateValue(ComboBox day, ComboBox month, ComboBox year) {
+        for (int i = 1; i <= 30; i++) {
+            if (i < 10) {
+                day.getItems().addAll("0" + Integer.toString(i));
+            } else {
+                day.getItems().addAll(Integer.toString(i));
+            }
+        }
+        for (int i = 1; i <= 12; i++) {
+            if (i < 10) {
+                month.getItems().addAll("0" + Integer.toString(i));
+            } else {
+                month.getItems().addAll(Integer.toString(i));
+            }
+        }
+        int yearvalue = HijriCalendar.getSimpleYear()+2;
+        for (int i = 0; i <= 50; i++) {
+            year.getItems().addAll(Integer.toString(yearvalue));
+            yearvalue = yearvalue - 1;
+        }
+    }
+    public static void setGregorianDateValue(ComboBox day, ComboBox month, ComboBox year) {
+        for (int i = 1; i <= 30; i++) {
+            if (i < 10) {
+                day.getItems().addAll("0" + Integer.toString(i));
+            } else {
+                day.getItems().addAll(Integer.toString(i));
+            }
+        }
+        for (int i = 1; i <= 12; i++) {
+            if (i < 10) {
+                month.getItems().addAll("0" + Integer.toString(i));
+            } else {
+                month.getItems().addAll(Integer.toString(i));
+            }
+        }
+        int yearvalue = getGregorianYear();
+        for (int i = 0; i <= 50; i++) {
+            year.getItems().addAll(Integer.toString(yearvalue));
+            yearvalue = yearvalue - 1;
+        }
+    }
 
     public static void setYearValue(ComboBox year) {
         int yearvalue = HijriCalendar.getSimpleYear();
@@ -36,8 +81,26 @@ public class AppDate {
         }
     }
 
+    public static void setGregorianYearValue(ComboBox year) {
+        Date date = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        int yearvalue = calendar.get(Calendar.YEAR);
+        for (int i = 0; i <= 50; i++) {
+            year.getItems().addAll(Integer.toString(yearvalue));
+            yearvalue = yearvalue - 1;
+        }
+    }
+
     public static void setCurrentYear(ComboBox year) {
         year.setValue(HijriCalendar.getSimpleYear());
+    }
+
+    public static void setCurrentGregorianYear(ComboBox year) {
+        Date date = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        year.setValue(calendar.get(Calendar.YEAR));
     }
 
     public static void setCurrentDate(ComboBox day, ComboBox month, ComboBox year) {
@@ -52,6 +115,39 @@ public class AppDate {
             month.setValue(HijriCalendar.getSimpleMonth());
         }
         year.setValue(HijriCalendar.getSimpleYear());
+    }
+
+    public static void setGregorianCurrentDate(ComboBox day, ComboBox month, ComboBox year) {
+        Date date = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        if (calendar.get(Calendar.DAY_OF_MONTH) < 10) {
+            day.setValue("0" + calendar.get(Calendar.DAY_OF_MONTH));
+        } else {
+            day.setValue(calendar.get(Calendar.DAY_OF_MONTH));
+        }
+        if (calendar.get(Calendar.MONTH)+1 < 10) {
+            month.setValue("0" + (calendar.get(Calendar.MONTH)+1));
+        } else {
+            month.setValue(calendar.get(Calendar.MONTH)+1);
+        }
+        year.setValue(calendar.get(Calendar.YEAR));
+    }
+    public static String getGregorianCurrentDate() {
+        SimpleDateFormat dtf = new SimpleDateFormat("dd/MM/yyyy");
+        Date date = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        String dateValue = dtf.format(date);
+        return dateValue;
+    }
+    public static int getGregorianYear() {
+        SimpleDateFormat dtf = new SimpleDateFormat("dd/MM/yyyy");
+        Date date = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        int dateValue = calendar.get(Calendar.YEAR);
+        return dateValue;
     }
 
     public static String getDate(ComboBox day, ComboBox month, ComboBox year) {
@@ -155,17 +251,17 @@ public class AppDate {
     }
 
     public static int getRemainingDays(String date) {
-        String value = null; 
+        String value = null;
         int intvalue = 0;
         if (date != null) {
-           
+
             int day = Integer.parseInt(getDay(date));
             int month = Integer.parseInt(getMonth(date));
             int year = Integer.parseInt(getYear(date));
             int currentDay = HijriCalendar.getSimpleDay();
             int currentMont = HijriCalendar.getSimpleMonth();
             int currentYear = HijriCalendar.getSimpleYear();
-            intvalue = (day-currentDay)+((month-currentMont)*30)+( (year - currentYear)*360);
+            intvalue = (day - currentDay) + ((month - currentMont) * 30) + ((year - currentYear) * 360);
 //            value = Integer.toString(intvalue);
         }
         return intvalue;

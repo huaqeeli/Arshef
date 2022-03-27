@@ -438,6 +438,9 @@
     -fx-background-image: url(../images/showimage.png); 
 }
 .actionButton{
+    -fx-font-family: "URW DIN Arabic"; 
+    -fx-font-size: 13px;
+    -fx-text-fill: #FFFFFF;
     -fx-border-radius: 50;
     -fx-background-radius: 50;
     -fx-background-color: #1E3606;

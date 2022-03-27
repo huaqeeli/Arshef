@@ -4,6 +4,7 @@ import Serveces.InternalIncomingPageListener;
 import Validation.FormValidation;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -26,7 +27,7 @@ import javafx.stage.Stage;
 import modeles.InternalIncomingModel;
 
 public class InternalIncomingPageController implements Initializable {
-
+    
     @FXML
     private TextField circularNumber;
     @FXML
@@ -64,11 +65,11 @@ public class InternalIncomingPageController implements Initializable {
     private String registrationId = null;
     ObservableList<String> destinationlist = FXCollections.observableArrayList();
     ObservableList<InternalIncomingModel> recipientList = FXCollections.observableArrayList();
-    ObservableList<String> searchTypelist = FXCollections.observableArrayList("البحث برقم الوارد", "البحث بتاريخ الوارد", "البحث بالموضوع", "البحث بجهة الوارد", "البحث برقم الملف", "البحث بالرقم العسكري", "عرض الكل");
-
+    ObservableList<String> searchTypelist = FXCollections.observableArrayList("البحث برقم المعاملة","البحث برقم الوارد", "البحث بتاريخ الوارد", "البحث بالموضوع", "البحث بجهة الوارد", "البحث برقم الملف", "البحث بالرقم العسكري", "عرض الكل");
+    
     public final List<InternalIncomingModel> internalIncomingObject = new ArrayList<>();
     private InternalIncomingPageListener mylistener;
-
+    
     Config config = new Config();
     @FXML
     private ComboBox<?> searchDateDay;
@@ -79,7 +80,7 @@ public class InternalIncomingPageController implements Initializable {
     @FXML
     private VBox vbox;
     ActionEvent event;
-
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         refreshdata();
@@ -95,7 +96,7 @@ public class InternalIncomingPageController implements Initializable {
         year.setValue(Integer.toString(HijriCalendar.getSimpleYear()));
         clear(event);
     }
-
+    
     private ObservableList filleDestination(ObservableList list) {
         try {
             ResultSet rs = DatabaseAccess.select("placenames", "UINTTYPE='داخلي'");
@@ -112,7 +113,7 @@ public class InternalIncomingPageController implements Initializable {
         }
         return list;
     }
-
+    
     private void refreshdata() {
         try {
             internalIncomingObject.clear();
@@ -122,7 +123,7 @@ public class InternalIncomingPageController implements Initializable {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
     }
-
+    
     private List<InternalIncomingModel> getData(ResultSet rs) {
         List<InternalIncomingModel> internalIncomingModels = new ArrayList<>();
         InternalIncomingModel internalIncomingModel;
@@ -145,7 +146,7 @@ public class InternalIncomingPageController implements Initializable {
         }
         return internalIncomingModels;
     }
-
+    
     private void setChosendata(InternalIncomingModel internalIncomingModel) {
         setCircularDate(internalIncomingModel.getCircularDate());
         setIncomingDate(internalIncomingModel.getRecipientDate());
@@ -157,11 +158,11 @@ public class InternalIncomingPageController implements Initializable {
         registrationId = internalIncomingModel.getRegisNo();
         recordYear = AppDate.getYear(internalIncomingModel.getCircularDate());
     }
-
+    
     private void viewdata(ResultSet rs) {
         internalIncomingObject.addAll(getData(rs));
         if (internalIncomingObject.size() > 0) {
-            setChosendata(internalIncomingObject.get(0));
+            //setChosendata(internalIncomingObject.get(0));
             mylistener = new InternalIncomingPageListener() {
                 @Override
                 public void onClickListener(InternalIncomingModel internalIncomingModel) {
@@ -169,7 +170,7 @@ public class InternalIncomingPageController implements Initializable {
                 }
             };
         }
-
+        
         try {
             for (InternalIncomingModel internalIncomingModel : internalIncomingObject) {
                 FXMLLoader fxmlLoader = new FXMLLoader();
@@ -183,7 +184,7 @@ public class InternalIncomingPageController implements Initializable {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
     }
-
+    
     @FXML
     private File getImageUrle(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
@@ -193,7 +194,7 @@ public class InternalIncomingPageController implements Initializable {
         setImageUrl(imagefile.getPath());
         return imagefile;
     }
-
+    
     @FXML
     private void insertData(ActionEvent event) throws IOException {
         String tableName = "internalincoming";
@@ -223,7 +224,7 @@ public class InternalIncomingPageController implements Initializable {
             }
         }
     }
-
+    
     @FXML
     private void updateData(ActionEvent event) throws IOException {
         String tableName = "internalincoming";
@@ -236,7 +237,7 @@ public class InternalIncomingPageController implements Initializable {
         }
         boolean circularNumberState = FormValidation.textFieldNotEmpty(circularNumber, "الرجاء ادخال رقم المعاملة");
         boolean topicState = FormValidation.textFieldNotEmpty(topic, "الرجاء ادخال جهة الوارد");
-
+        
         if (circularNumberState && topicState) {
             try {
                 int t = DatabaseAccess.updat(tableName, fieldName, data, "REGIS_NO = '" + registrationId + "'AND RECORD_YEAR = '" + recordYear + "'", imagefile);
@@ -250,7 +251,7 @@ public class InternalIncomingPageController implements Initializable {
             }
         }
     }
-
+    
     @FXML
     private void clear(ActionEvent event) {
         setCircularNumber(null);
@@ -260,17 +261,18 @@ public class InternalIncomingPageController implements Initializable {
         setNotes(null);
         setImageUrl(null);
         setSaveFaile(null);
+        setSearchText(null);
+        refreshdata();
     }
-
-    @FXML
+    
     private void addtoLeaderDisplay(ActionEvent event) {
         String tableName = "displaydata";
         String[] data = {HijriCalendar.getSimpleDate(), "عرض القائد", topic.getText(), destination.getValue()};
         String fieldName = "`DISPLAYDATE`,`DISPLAYTYPE`,`TOPIC`,`DESTINATION`";
         String valuenumbers = "?,?,?,?";
-
+        
         boolean idState = FormValidation.notNull(registrationId, "الرجاءاختر السجل من الجدول");
-
+        
         if (idState) {
             try {
                 DatabaseAccess.insert(tableName, fieldName, valuenumbers, data);
@@ -281,16 +283,15 @@ public class InternalIncomingPageController implements Initializable {
             }
         }
     }
-
-    @FXML
+    
     private void addtoLeaderSignature(ActionEvent event) {
         String tableName = "displaydata";
         String[] data = {HijriCalendar.getSimpleDate(), "توقيع القائد", topic.getText(), destination.getValue()};
         String fieldName = "`DISPLAYDATE`,`DISPLAYTYPE`,`TOPIC`,`DESTINATION`";
         String valuenumbers = "?,?,?,?";
-
+        
         boolean idState = FormValidation.notNull(registrationId, "الرجاءاختر السجل من الجدول");
-
+        
         if (idState) {
             try {
                 DatabaseAccess.insert(tableName, fieldName, valuenumbers, data);
@@ -301,16 +302,15 @@ public class InternalIncomingPageController implements Initializable {
             }
         }
     }
-
-    @FXML
+    
     private void addtoManagerSignature(ActionEvent event) {
         String tableName = "displaydata";
         String[] data = {HijriCalendar.getSimpleDate(), "توقيع الركن", topic.getText(), destination.getValue()};
         String fieldName = "`DISPLAYDATE`,`DISPLAYTYPE`,`TOPIC`,`DESTINATION`";
         String valuenumbers = "?,?,?,?";
-
+        
         boolean idState = FormValidation.notNull(registrationId, "الرجاءاختر السجل من الجدول");
-
+        
         if (idState) {
             try {
                 DatabaseAccess.insert(tableName, fieldName, valuenumbers, data);
@@ -321,16 +321,15 @@ public class InternalIncomingPageController implements Initializable {
             }
         }
     }
-
-    @FXML
+    
     private void addtoManagerDisplay(ActionEvent event) {
         String tableName = "displaydata";
         String[] data = {HijriCalendar.getSimpleDate(), "عرض الركن", topic.getText(), destination.getValue()};
         String fieldName = "`DISPLAYDATE`,`DISPLAYTYPE`,`TOPIC`,`DESTINATION`";
         String valuenumbers = "?,?,?,?";
-
+        
         boolean idState = FormValidation.notNull(registrationId, "الرجاءاختر السجل من الجدول");
-
+        
         if (idState) {
             try {
                 DatabaseAccess.insert(tableName, fieldName, valuenumbers, data);
@@ -341,16 +340,15 @@ public class InternalIncomingPageController implements Initializable {
             }
         }
     }
-
-    @FXML
+    
     private void addtoManagerSmallSignature(ActionEvent event) {
         String tableName = "displaydata";
         String[] data = {HijriCalendar.getSimpleDate(), "تاشير الركن", topic.getText(), destination.getValue()};
         String fieldName = "`DISPLAYDATE`,`DISPLAYTYPE`,`TOPIC`,`DESTINATION`";
         String valuenumbers = "?,?,?,?";
-
+        
         boolean idState = FormValidation.notNull(registrationId, "الرجاءاختر السجل من الجدول");
-
+        
         if (idState) {
             try {
                 DatabaseAccess.insert(tableName, fieldName, valuenumbers, data);
@@ -361,16 +359,15 @@ public class InternalIncomingPageController implements Initializable {
             }
         }
     }
-
-    @FXML
+    
     private void addtoManagerOrders(ActionEvent event) {
         String tableName = "displaydata";
         String[] data = {HijriCalendar.getSimpleDate(), "توجيه الركن", topic.getText(), destination.getValue()};
         String fieldName = "`DISPLAYDATE`,`DISPLAYTYPE`,`TOPIC`,`DESTINATION`";
         String valuenumbers = "?,?,?,?";
-
+        
         boolean idState = FormValidation.notNull(registrationId, "الرجاءاختر السجل من الجدول");
-
+        
         if (idState) {
             try {
                 DatabaseAccess.insert(tableName, fieldName, valuenumbers, data);
@@ -381,103 +378,111 @@ public class InternalIncomingPageController implements Initializable {
             }
         }
     }
-
+    
     public String getCircularNumber() {
         return circularNumber.getText();
     }
-
+    
     public void setCircularNumber(String circularNumber) {
         this.circularNumber.setText(circularNumber);
     }
-
+    
     public String getTopic() {
         return topic.getText();
     }
-
+    
     public void setTopic(String topic) {
         this.topic.setText(topic);
     }
-
+    
     public String getSaveFaile() {
         return saveFaile.getText();
     }
-
+    
     public void setSaveFaile(String saveFaile) {
         this.saveFaile.setText(saveFaile);
     }
-
+    
     public String getDestination() {
         return destination.getValue();
     }
-
+    
     public void setDestination(String destination) {
         this.destination.setValue(destination);
     }
-
+    
     public String getCircularDate() {
         return AppDate.getDate(circularDateday, circularDatemonth, circularDateyear);
     }
-
+    
     public void setCircularDate(String date) {
         AppDate.setSeparateDate(circularDateday, circularDatemonth, circularDateyear, date);
     }
-
+    
     public String getIncomingDate() {
         return AppDate.getDate(incomingDay, incomingMonth, incomingYear);
     }
-
+    
     public void setIncomingDate(String date) {
         AppDate.setSeparateDate(incomingDay, incomingMonth, incomingYear, date);
     }
-
+    
     public String getSearchText() {
         return searchText.getText();
     }
-
+    
     public void setSearchText(String searchText) {
         this.searchText.setText(searchText);
     }
-
+    
     public String getNotes() {
         return notes.getText();
     }
-
+    
     public void setNotes(String notes) {
         this.notes.setText(notes);
     }
-
+    
     public String getImageUrl() {
         return imageUrl.getText();
     }
-
+    
     public void setImageUrl(String imageUrl) {
         this.imageUrl.setText(imageUrl);
     }
-
+    
     public String getSearchType() {
         return searchType.getValue();
     }
-
+    
     public void setSearchType(String searchType) {
         this.searchType.setValue(searchType);
     }
-
+    
     public String getYear() {
         return year.getValue();
     }
-
+    
     public void setYear(String year) {
         this.year.setValue(year);
     }
-
+    
     public String getSearchDate() {
         return AppDate.getDate(searchDateDay, searchDateMonth, searchDateYear);
     }
-
+    
     public void setSearchDate(String date) {
         AppDate.setSeparateDate(searchDateDay, searchDateMonth, searchDateYear, date);
     }
-
+    
+    public String getRegistrationId() {
+        return registrationId;
+    }
+    
+    public void setRegistrationId(String registrationId) {
+        this.registrationId = registrationId;
+    }
+    
     @FXML
     private void searchData(ActionEvent event) {
         String searchValue = getSearchType();
@@ -486,6 +491,11 @@ public class InternalIncomingPageController implements Initializable {
                 internalIncomingObject.clear();
                 vbox.getChildren().clear();
                 viewdata(getAllData());
+                break;
+            case "البحث برقم المعاملة":
+                internalIncomingObject.clear();
+                vbox.getChildren().clear();
+                viewdata(getDataByCircularNum());
                 break;
             case "البحث بجهة الوارد":
                 internalIncomingObject.clear();
@@ -519,7 +529,7 @@ public class InternalIncomingPageController implements Initializable {
                 break;
         }
     }
-
+    
     public ResultSet getAllData() {
         ResultSet rs = null;
         try {
@@ -529,7 +539,7 @@ public class InternalIncomingPageController implements Initializable {
         }
         return rs;
     }
-
+    
     public ResultSet getDataByDestination() {
         ResultSet rs = null;
         try {
@@ -539,7 +549,7 @@ public class InternalIncomingPageController implements Initializable {
         }
         return rs;
     }
-
+    
     public ResultSet getDataByTopic() {
         ResultSet rs = null;
         try {
@@ -549,17 +559,19 @@ public class InternalIncomingPageController implements Initializable {
         }
         return rs;
     }
-
+    
     public ResultSet getDataMitaryID() {
         ResultSet rs = null;
         try {
-            rs = DatabaseAccess.selectQuiry("SELECT internalincoming.REGIS_NO,internalincoming.RECIPIENT_DATE,internalincoming.CIRCULAR_NO,internalincoming.CIRCULAR_DATE,internalincoming.CIRCULAR_DIR,internalincoming.TOPIC,internalincoming.SAVE_FILE,internalincoming.NOTES FROM internalincoming, circularnames WHERE internalincoming.REGIS_NO = circularnames.CIRCULARID AND circularnames.MILITARYID =  '" + getSearchText() + "' AND RECORD_YEAR = '" + getYear() + "' ");
+            rs = DatabaseAccess.selectQuiry("SELECT internalincoming.REGIS_NO,internalincoming.RECIPIENT_DATE,internalincoming.CIRCULAR_NO,internalincoming.CIRCULAR_DATE,internalincoming.CIRCULAR_DIR,internalincoming.TOPIC,internalincoming.SAVE_FILE,internalincoming.NOTES "
+                    + "FROM internalincoming, circularnames "
+                    + "WHERE internalincoming.REGIS_NO = circularnames.CIRCULARID AND circularnames.MILITARYID =  '" + getSearchText() + "' AND RECORD_YEAR = '" + getYear() + "'");
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
         return rs;
     }
-
+    
     public ResultSet getDataByIncomingDate() {
         ResultSet rs = null;
         try {
@@ -569,7 +581,7 @@ public class InternalIncomingPageController implements Initializable {
         }
         return rs;
     }
-
+    
     public ResultSet getDataByRegistrationNum() {
         ResultSet rs = null;
         try {
@@ -579,7 +591,16 @@ public class InternalIncomingPageController implements Initializable {
         }
         return rs;
     }
-
+    public ResultSet getDataByCircularNum() {
+        ResultSet rs = null;
+        try {
+            rs = DatabaseAccess.select("internalincoming", "CIRCULAR_NO = '" + getSearchText() + "' AND RECORD_YEAR = '" + getYear() + "'");
+        } catch (IOException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
+        return rs;
+    }
+    
     public ResultSet getDataBySaveFile() {
         ResultSet rs = null;
         try {
@@ -589,7 +610,7 @@ public class InternalIncomingPageController implements Initializable {
         }
         return rs;
     }
-
+    
     @FXML
     private void enableSearchDate(ActionEvent event) {
         if ("البحث بتاريخ الوارد".equals(getSearchType())) {
@@ -604,5 +625,43 @@ public class InternalIncomingPageController implements Initializable {
             year.setDisable(false);
         }
     }
+//ID, REGIS_NO, RECIPIENT_DATE, CIRCULAR_NO, CIRCULAR_DATE, CIRCULAR_DIR, TOPIC, SAVE_FILE, NOTES, RECORD_YEAR, IMAGE
 
+    @FXML
+    private void sendTosecretData(ActionEvent event) {
+        InputStream image = null;
+        byte[] byteimage = null;
+        try {
+            String tableName = "secretdata";
+            ResultSet rs = DatabaseAccess.select("internalincoming", "REGIS_NO = '" + registrationId + "'AND RECORD_YEAR = '" + recordYear + "'");
+            if (rs.next()) {
+                setCircularNumber(rs.getString("CIRCULAR_NO"));
+                setCircularDate(rs.getString("CIRCULAR_DATE"));
+                setRegistrationId(rs.getString("REGIS_NO"));
+                setIncomingDate(rs.getString("RECIPIENT_DATE"));
+                setDestination(rs.getString("CIRCULAR_DIR"));
+                setTopic(rs.getString("TOPIC"));
+                setSaveFaile(rs.getString("SAVE_FILE"));
+                setNotes(rs.getString("NOTES"));
+                recordYear = rs.getString("RECORD_YEAR");
+                image = rs.getBinaryStream("IMAGE");
+                byteimage = new byte[image.available()];
+                image.read(byteimage);
+            }
+            String[] data = {getCircularNumber(), getCircularDate(), getRegistrationId(), getIncomingDate(), getDestination(), getTopic(), getSaveFaile(), getNotes(), recordYear};
+            String valuenumbers = null;
+            String fieldName = "`CIRCULARID`,`CIRCULARDATE`,`RECEIPTNUMBER`,`RECEIPTDATE`,`DESTINATION`,`TOPIC`,`SAVEFILE`,`NOTE`,`RECORDYEAR`,`IMAGE`";
+            valuenumbers = "?,?,?,?,?,?,?,?,?,?";
+            int t = DatabaseAccess.insert(tableName, fieldName, valuenumbers, data, byteimage);
+            if (t > 0) {
+                DatabaseAccess.secretDelete("internalincoming", "REGIS_NO = '" + registrationId + "'AND RECORD_YEAR = '" + recordYear + "'");
+                refreshdata();
+                clear(event);
+            }
+            
+        } catch (IOException | SQLException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
+    }
+    
 }

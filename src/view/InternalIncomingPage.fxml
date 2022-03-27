@@ -132,6 +132,11 @@
                         <Insets left="2.0" />
                      </HBox.margin>
                   </Button>
+                  <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#sendTosecretData" prefHeight="40.0" prefWidth="300.0" styleClass="toolBarButton" text="نقل الى السري" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets left="2.0" />
+                     </HBox.margin>
+                  </Button>
                   <Button mnemonicParsing="false" onAction="#clear" prefHeight="40.0" prefWidth="80.0" styleClass="toolBarButton">
                      <graphic>
                         <ImageView fitHeight="28.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">

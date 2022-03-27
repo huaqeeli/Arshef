@@ -527,7 +527,9 @@ public class ExternalIncomingPageController implements Initializable {
     public ResultSet getDataMitaryID() {
         ResultSet rs = null;
         try {
-            rs = DatabaseAccess.selectQuiry("SELECT externalincoming.CIRCULARID,externalincoming.CIRCULARDATE,externalincoming.TOPIC,externalincoming.DESTINATION,externalincoming.SAVEFILE,externalincoming.RECEIPTNUMBER,externalincoming.RECEIPTDATE,externalincoming.ACTION FROM externalincoming,circularnames WHERE externalincoming.CIRCULARID = circularnames.CIRCULARID AND circularnames.MILITARYID = '" + getSearchText() + "' AND ARSHEFYEAR = '" + getYear() + "'");
+            rs = DatabaseAccess.selectQuiry("SELECT externalincoming.CIRCULARID,externalincoming.CIRCULARDATE,externalincoming.TOPIC,externalincoming.DESTINATION,externalincoming.SAVEFILE,externalincoming.RECEIPTNUMBER,externalincoming.RECEIPTDATE,externalincoming.ACTION "
+                    + "FROM externalincoming,circularnames "
+                    + "WHERE externalincoming.CIRCULARID = circularnames.CIRCULARID AND circularnames.MILITARYID = '" + getSearchText() + "' AND ARSHEFYEAR = '" + getYear() + "'");
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }

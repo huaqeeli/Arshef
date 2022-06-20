@@ -83,6 +83,9 @@ public class secretPageController implements Initializable {
     @FXML
     private ComboBox<?> searchDateYear;
 
+    String receiptnumber = null;
+    String circularnumber = null;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         refreshdata();
@@ -170,7 +173,7 @@ public class secretPageController implements Initializable {
         try {
             secretObject.clear();
             vbox.getChildren().clear();
-            viewdata(DatabaseAccess.getData("SELECT ID, CIRCULARID, CIRCULARDATE, RECEIPTNUMBER, RECEIPTDATE, DESTINATION, TOPIC, SAVEFILE, NOTE, RECORDYEAR FROM secretdata ORDER BY ID DESC"));
+            viewdata(DatabaseAccess.getData("SELECT ID, CIRCULARID, CIRCULARDATE, RECEIPTNUMBER, RECEIPTDATE, DESTINATION, TOPIC, SAVEFILE, NOTE, RECORDYEAR FROM secretdata ORDER BY CIRCULARDATE DESC"));
         } catch (IOException ex) {
             Logger.getLogger(secretPageController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -289,7 +292,19 @@ public class secretPageController implements Initializable {
         String tableName = "secretdata";
         String fieldName = null;
         recordYear = setYear(getCircularDate());
-        String[] data = {circularid.getText(), getCircularDate(), receiptNumber.getText(), getReceiptNumberDate(), destination.getValue(), topic.getText(), saveFile.getText(), note.getText(), recordYear};
+        if (receiptNumber.getText() == null && circularid.getText() == null) {
+            try {
+                receiptnumber = DatabaseAccess.getRegistrationNum();
+                DatabaseAccess.updatRegistrationNum();
+                circularnumber = receiptnumber;
+            } catch (IOException ex) {
+                FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+            }
+        } else {
+            receiptnumber = receiptNumber.getText();
+            circularnumber = circularid.getText();
+        }
+        String[] data = {circularnumber, getCircularDate(), receiptnumber, getReceiptNumberDate(), destination.getValue(), topic.getText(), saveFile.getText(), note.getText(), recordYear};
         String valuenumbers = null;
         if (imagefile != null) {
             fieldName = "`CIRCULARID`,`CIRCULARDATE`,`RECEIPTNUMBER`,`RECEIPTDATE`,`DESTINATION`,`TOPIC`,`SAVEFILE`,`NOTE`,`RECORDYEAR`,`IMAGE`";

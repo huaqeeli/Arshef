@@ -171,6 +171,7 @@ public class FollowupPageController implements Initializable {
         Required.setText(null);
         Status.setText(null);
         AppDate.setCurrentDate(CompletionDateDay, CompletionDateMonth, CompletionDateYear);
+        refreshData();
     }
 
     private void refreshData() {

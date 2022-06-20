@@ -102,19 +102,23 @@ public class InternalIncomingItemController implements Initializable {
         try {
             Connection con = DatabaseConniction.dbConnector();
             JasperDesign recipientReport = JRXmlLoader.load(config.getAppURL() + "\\reports\\RecipientBarcod.jrxml");
-            ResultSet rs = DatabaseAccess.select("internalincoming", "REGIS_NO = '" + regisNO.getText() + "'");
+            ResultSet rs = DatabaseAccess.getData("SELECT  REGIS_NO, RECIPIENT_DATE, CIRCULAR_DIR, TOPIC, SAVE_FILE ,RECORD_YEAR FROM internalincoming "
+                    + "WHERE `REGIS_NO` = '" + internalIncomingModel.getRegisNo() + "' AND `RECORD_YEAR` = '" + recordYear + "'");
+
             String regisNo = null;
             String recipientDate = null;
             String circularDir = null;
             int quRegisNo = 0;
             String unitName = null;
             String saveFile = null;
+            String recordYear = null;
             while (rs.next()) {
                 regisNo = ArabicSetting.EnglishToarabic(Integer.toString(rs.getInt("REGIS_NO")));
                 recipientDate = ArabicSetting.EnglishToarabic(rs.getString("RECIPIENT_DATE")) + "هـ";
                 circularDir = rs.getString("CIRCULAR_DIR");
                 saveFile = ArabicSetting.EnglishToarabic(rs.getString("SAVE_FILE"));
                 quRegisNo = rs.getInt("REGIS_NO");
+                recordYear = rs.getString("RECORD_YEAR");
                 unitName = DatabaseAccess.getUintName();
             }
             Map barrcod = new HashMap();
@@ -124,12 +128,13 @@ public class InternalIncomingItemController implements Initializable {
             barrcod.put("qex_id", quRegisNo);
             barrcod.put("unitName", unitName);
             barrcod.put("savefile", saveFile);
+            barrcod.put("recordYear", recordYear);
             JasperReport jr = JasperCompileManager.compileReport(recipientReport);
             JasperPrint jp = JasperFillManager.fillReport(jr, barrcod, con);
             JasperPrintManager.printReport(jp, false);
-//                JasperViewer.viewReport(jp, false);
+//            JasperViewer.viewReport(jp, false);
 
-        } catch (IOException | SQLException | JRException ex) {
+        } catch (IOException | JRException | SQLException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
     }

@@ -15,6 +15,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -88,16 +89,13 @@ public class AddMissionNamesController implements Initializable {
         }
     }
 
-   @FXML
     public void edit(ActionEvent event) {
     }
 
-    @FXML
     public void clear(ActionEvent event) {
         setMilataryId(null);
     }
 
-   @FXML
     public void tableView() {
         try {
             ResultSet rs = DatabaseAccess.getData("SELECT missionnames.MILITARYID,personaldata.NAME,personaldata.MILITARYID,personaldata.RANK FROM missionnames,personaldata "
@@ -124,13 +122,11 @@ public class AddMissionNamesController implements Initializable {
         namesTable.setItems(addnamesList);
     }
 
-    @FXML
     public void refreshTableView() {
         addnamesList.clear();
         tableView();
     }
 
-   @FXML
     public void getTableRow(TableView table) {
         table.setOnMouseClicked(new EventHandler() {
             @Override
@@ -144,7 +140,6 @@ public class AddMissionNamesController implements Initializable {
         });
     }
 
-   @FXML
     public void getTableRowByInterKey(TableView table) {
         table.setOnKeyPressed(new EventHandler() {
             @Override
@@ -188,6 +183,7 @@ public class AddMissionNamesController implements Initializable {
     public void setYear(String year) {
         this.year = year;
     }
+
 
     
 }

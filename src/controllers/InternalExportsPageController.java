@@ -587,7 +587,7 @@ public class InternalExportsPageController implements Initializable {
     public ResultSet getAllData() {
         ResultSet rs = null;
         try {
-            rs = DatabaseAccess.select("internalexports", "RECORDYEAR = '" + getYear() + "' ORDER BY REGISNO DESC");
+            rs = DatabaseAccess.selectQuiry("SELECT REGISNO,EXPORTDATE,DESTINATION,TOPIC,SAVEFILE,NOTES FROM internalexports WHERE RECORDYEAR = '" + getYear() + "' ORDER BY EXPORTDATE DESC");
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
@@ -597,7 +597,7 @@ public class InternalExportsPageController implements Initializable {
     public ResultSet getDataByDestination() {
         ResultSet rs = null;
         try {
-            rs = DatabaseAccess.selectQuiry("SELECT REGISNO,EXPORTDATE,DESTINATION,TOPIC,SAVEFILE,NOTES FROM internalexports WHERE DESTINATION LIKE '" + "%" + getSearchText() + "%" + "' AND RECORDYEAR = '" + getYear() + "' ");
+            rs = DatabaseAccess.selectQuiry("SELECT REGISNO,EXPORTDATE,DESTINATION,TOPIC,SAVEFILE,NOTES FROM internalexports WHERE DESTINATION LIKE '" + "%" + getSearchText() + "%" + "' AND RECORDYEAR = '" + getYear() + "' ORDER BY EXPORTDATE DESC ");
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
@@ -607,7 +607,7 @@ public class InternalExportsPageController implements Initializable {
     public ResultSet getDataByTopic() {
         ResultSet rs = null;
         try {
-            rs = DatabaseAccess.selectQuiry("SELECT REGISNO,EXPORTDATE,DESTINATION,TOPIC,SAVEFILE,NOTES FROM internalexports WHERE TOPIC LIKE '" + "%" + getSearchText() + "%" + "' AND RECORDYEAR = '" + getYear() + "' ");
+            rs = DatabaseAccess.selectQuiry("SELECT REGISNO,EXPORTDATE,DESTINATION,TOPIC,SAVEFILE,NOTES FROM internalexports WHERE TOPIC LIKE '" + "%" + getSearchText() + "%" + "' AND RECORDYEAR = '" + getYear() + "' ORDER BY EXPORTDATE DESC");
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
@@ -617,7 +617,7 @@ public class InternalExportsPageController implements Initializable {
     public ResultSet getDataMitaryID() {
         ResultSet rs = null;
         try {
-            rs = DatabaseAccess.selectQuiry("SELECT internalexports.REGISNO,internalexports.EXPORTDATE,internalexports.DESTINATION,internalexports.TOPIC,internalexports.SAVEFILE,internalexports.NOTES FROM internalexports,circularnames WHERE internalexports.REGISNO = circularnames.CIRCULARID AND circularnames.MILITARYID =  '" + getSearchText() + "' AND RECORDYEAR = '" + getYear() + "' ");
+            rs = DatabaseAccess.selectQuiry("SELECT internalexports.REGISNO,internalexports.EXPORTDATE,internalexports.DESTINATION,internalexports.TOPIC,internalexports.SAVEFILE,internalexports.NOTES FROM internalexports,circularnames WHERE internalexports.REGISNO = circularnames.CIRCULARID AND circularnames.MILITARYID =  '" + getSearchText() + "' AND RECORDYEAR = '" + getYear() + "' ORDER BY EXPORTDATE DESC");
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
@@ -627,7 +627,7 @@ public class InternalExportsPageController implements Initializable {
     public ResultSet getDataByExportDate() {
         ResultSet rs = null;
         try {
-            rs = DatabaseAccess.select("internalexports", "EXPORTDATE = '" + getSearchDate() + "'");
+            rs = DatabaseAccess.selectQuiry("SELECT REGISNO,EXPORTDATE,DESTINATION,TOPIC,SAVEFILE,NOTES FROM internalexports WHERE EXPORTDATE = '" + getSearchDate() + "'");
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
@@ -637,7 +637,7 @@ public class InternalExportsPageController implements Initializable {
     public ResultSet getDataByExportNumber() {
         ResultSet rs = null;
         try {
-            rs = DatabaseAccess.select("internalexports", "REGISNO = '" + getSearchText() + "' AND RECORDYEAR = '" + getYear() + "'");
+            rs = DatabaseAccess.selectQuiry("SELECT REGISNO,EXPORTDATE,DESTINATION,TOPIC,SAVEFILE,NOTES FROM internalexports WHERE REGISNO = '" + getSearchText() + "' AND RECORDYEAR = '" + getYear() + "' ORDER BY EXPORTDATE DESC");
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
@@ -647,7 +647,7 @@ public class InternalExportsPageController implements Initializable {
     public ResultSet getDataBySaveFile() {
         ResultSet rs = null;
         try {
-            rs = DatabaseAccess.select("internalexports", "SAVEFILE = '" + getSearchText() + "' AND RECORDYEAR = '" + getYear() + "'");
+            rs = DatabaseAccess.selectQuiry("SELECT REGISNO,EXPORTDATE,DESTINATION,TOPIC,SAVEFILE,NOTES FROM internalexports WHERE SAVEFILE = '" + getSearchText() + "' AND RECORDYEAR = '" + getYear() + "' ORDER BY EXPORTDATE DESC");
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }

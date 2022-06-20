@@ -96,8 +96,8 @@ public class ExternalIncomingItemController implements Initializable {
     private void printBarcod(ActionEvent event) {
         try {
             Connection con = DatabaseConniction.dbConnector();
-            JasperDesign recipientReport = JRXmlLoader.load(config.getAppURL() + "\\reports\\Externl‏‏RecipientBarcod.jrxml");
-            ResultSet rs = DatabaseAccess.select("externalincoming", "RECEIPTNUMBER = '" + archefModel.getReceiptNumber() + "'AND ARSHEFYEAR = '"+AppDate.getYear(archefModel.getReceiptDate())+"'");
+            JasperDesign recipientReport = JRXmlLoader.load(config.getAppURL() + "\\reports\\Externl‏‏RecipientBarcod.jrxml"); ResultSet rs = DatabaseAccess.getData("SELECT RECEIPTNUMBER, RECEIPTDATE, DESTINATION, SAVEFILE FROM externalincoming "
+                    + "WHERE RECEIPTNUMBER = '" + archefModel.getReceiptNumber() + "'AND ARSHEFYEAR = '"+AppDate.getYear(archefModel.getReceiptDate())+"'");
             String regisNo = null;
             String recipientDate = null;
             String circularDir = null;

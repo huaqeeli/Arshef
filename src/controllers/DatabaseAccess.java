@@ -362,6 +362,22 @@ public class DatabaseAccess {
         }
         return recordSquinc;
     }
+    public static String getRegistrationYear() throws IOException {
+        ResultSet rs = null;
+        String year = null;
+        Connection con = DatabaseConniction.dbConnector();
+        String quiry = "SELECT SQUINS_YEAR FROM recordesquins ";
+        try {
+            PreparedStatement psm = con.prepareStatement(quiry);
+            rs = psm.executeQuery();
+            if (rs.next()) {
+                year = rs.getString("SQUINS_YEAR");
+            }
+        } catch (SQLException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
+        return year;
+    }
 
     public static void updatRegistrationNum() throws IOException {
         Connection con = DatabaseConniction.dbConnector();
@@ -378,7 +394,7 @@ public class DatabaseAccess {
 
     public static void updatRegistrationNum(int newid, String newYear) throws IOException {
         Connection con = DatabaseConniction.dbConnector();
-        String guiry = "UPDATE recordesquins SET REGISTRATION_NUM = ?,SQUINS_YEAR = ? WHERE ID = 1";
+        String guiry = "UPDATE recordesquins SET `REGISTRATION_NUM` = ?, `SQUINS_YEAR` = ? WHERE ID = 1";
         try {
             PreparedStatement psm = con.prepareStatement(guiry);
             psm.setInt(1, newid);

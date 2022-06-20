@@ -508,8 +508,8 @@
     -fx-border-width: 0 0 5 0 ;
 }
 .itemPanl:hover{
-    -fx-background-color: #F68A1F;
-    -fx-text-fill: #FFFFFF;
+    -fx-background-color: #D5D5D5;
+    -fx-text-fill: #1E3606;
 }
 .itemPanl:selected{
     -fx-background-color: #1E3606;

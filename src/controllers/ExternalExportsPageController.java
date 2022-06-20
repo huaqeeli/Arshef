@@ -500,7 +500,7 @@ public class ExternalExportsPageController implements Initializable {
     private void viewdata(ResultSet rs) {
         exportObject.addAll(getData(rs));
         if (exportObject.size() > 0) {
-            setChosendata(exportObject.get(0));
+            //setChosendata(exportObject.get(0));
             mylistener = new ExternalExportsPageListener() {
                 @Override
                 public void onClickListener(ExportsModel exportsModel) {
@@ -569,7 +569,7 @@ public class ExternalExportsPageController implements Initializable {
     public ResultSet getAllData() {
         ResultSet rs = null;
         try {
-            rs = DatabaseAccess.select("exportsdata", "RECORDYEAR = '" + getYear() + "' ORDER BY ENTRYDATE DESC ");
+            rs = DatabaseAccess.selectQuiry("SELECT ID,ENTRYDATE,TOPIC,DESTINATION,SAVEFILE,EXPORTNUM,EXPORTDATE,NOTES FROM exportsdata WHERE RECORDYEAR = '" + getYear() + "' ORDER BY EXPORTDATE DESC ");
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
@@ -579,7 +579,7 @@ public class ExternalExportsPageController implements Initializable {
     public ResultSet getDataByDestination() {
         ResultSet rs = null;
         try {
-            rs = DatabaseAccess.selectQuiry("SELECT ID,ENTRYDATE,TOPIC,DESTINATION,SAVEFILE,EXPORTNUM,EXPORTDATE,NOTES FROM exportsdata WHERE DESTINATION LIKE '" + "%" + getSearchText() + "%" + "' AND RECORDYEAR = '" + getYear() + "' ");
+            rs = DatabaseAccess.selectQuiry("SELECT ID,ENTRYDATE,TOPIC,DESTINATION,SAVEFILE,EXPORTNUM,EXPORTDATE,NOTES FROM exportsdata WHERE DESTINATION LIKE '" + "%" + getSearchText() + "%" + "' AND RECORDYEAR = '" + getYear() + "' ORDER BY EXPORTDATE DESC");
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
@@ -589,7 +589,7 @@ public class ExternalExportsPageController implements Initializable {
     public ResultSet getDataByTopic() {
         ResultSet rs = null;
         try {
-            rs = DatabaseAccess.selectQuiry("SELECT ID,ENTRYDATE,TOPIC,DESTINATION,SAVEFILE,EXPORTNUM,EXPORTDATE,NOTES FROM exportsdata WHERE TOPIC LIKE '" + "%" + getSearchText() + "%" + "' AND RECORDYEAR = '" + getYear() + "' ");
+            rs = DatabaseAccess.selectQuiry("SELECT ID,ENTRYDATE,TOPIC,DESTINATION,SAVEFILE,EXPORTNUM,EXPORTDATE,NOTES FROM exportsdata WHERE TOPIC LIKE '" + "%" + getSearchText() + "%" + "' AND RECORDYEAR = '" + getYear() + "' ORDER BY EXPORTDATE DESC");
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
@@ -599,7 +599,7 @@ public class ExternalExportsPageController implements Initializable {
     public ResultSet getDataByExportDate() {
         ResultSet rs = null;
         try {
-            rs = DatabaseAccess.select("exportsdata", "EXPORTDATE = '" + getSearchDate() + "'");
+            rs = DatabaseAccess.selectQuiry("SELECT ID,ENTRYDATE,TOPIC,DESTINATION,SAVEFILE,EXPORTNUM,EXPORTDATE,NOTES FROM exportsdata WHERE EXPORTDATE = '" + getSearchDate() + "' ORDER BY EXPORTDATE DESC");
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
@@ -609,7 +609,7 @@ public class ExternalExportsPageController implements Initializable {
     public ResultSet getDataByExportNumber() {
         ResultSet rs = null;
         try {
-            rs = DatabaseAccess.select("exportsdata", "EXPORTNUM = '" + getSearchText() + "'AND RECORDYEAR = '" + getYear() + "' ");
+            rs = DatabaseAccess.selectQuiry("SELECT ID,ENTRYDATE,TOPIC,DESTINATION,SAVEFILE,EXPORTNUM,EXPORTDATE,NOTES FROM exportsdata WHERE EXPORTNUM = '" + getSearchText() + "'AND RECORDYEAR = '" + getYear() + "' ORDER BY EXPORTDATE DESC");
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
@@ -619,7 +619,7 @@ public class ExternalExportsPageController implements Initializable {
     public ResultSet getDataBySaveFile() {
         ResultSet rs = null;
         try {
-            rs = DatabaseAccess.select("exportsdata", "SAVEFILE = '" + getSearchText() + "' AND RECORDYEAR = '" + getYear() + "'");
+            rs = DatabaseAccess.selectQuiry("SELECT ID,ENTRYDATE,TOPIC,DESTINATION,SAVEFILE,EXPORTNUM,EXPORTDATE,NOTES FROM exportsdata WHERE SAVEFILE = '" + getSearchText() + "' AND RECORDYEAR = '" + getYear() + "' ORDER BY EXPORTDATE DESC");
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
@@ -629,7 +629,7 @@ public class ExternalExportsPageController implements Initializable {
     public ResultSet getDataMitaryID() {
         ResultSet rs = null;
         try {
-            rs = DatabaseAccess.getData("SELECT exportsdata.ID,exportsdata.ENTRYDATE,exportsdata.TOPIC,exportsdata.DESTINATION,exportsdata.SAVEFILE,exportsdata.EXPORTNUM,exportsdata.EXPORTDATE,exportsdata.NOTES FROM exportsdata,circularnames WHERE exportsdata.ID = circularnames.CIRCULARID AND circularnames.MILITARYID = '" + getSearchText() + "' AND RECORDYEAR = '" + getYear() + "'");
+            rs = DatabaseAccess.getData("SELECT exportsdata.ID,exportsdata.ENTRYDATE,exportsdata.TOPIC,exportsdata.DESTINATION,exportsdata.SAVEFILE,exportsdata.EXPORTNUM,exportsdata.EXPORTDATE,exportsdata.NOTES FROM exportsdata,circularnames WHERE exportsdata.ID = circularnames.CIRCULARID AND circularnames.MILITARYID = '" + getSearchText() + "' AND RECORDYEAR = '" + getYear() + "'ORDER BY EXPORTDATE DESC");
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }

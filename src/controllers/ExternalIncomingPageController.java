@@ -22,6 +22,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
@@ -35,7 +36,7 @@ public class ExternalIncomingPageController implements Initializable {
     ObservableList<String> coursComboBoxlist = FXCollections.observableArrayList();
     ObservableList<String> placeComboBoxlist = FXCollections.observableArrayList();
     ObservableList<String> searchTypelist = FXCollections.observableArrayList("البحث برقم المعاملة", "البحث برقم الوارد", "البحث بتاريخ الوارد", "البحث بالموضوع", "البحث بجهة المعاملة", "البحث برقم الملف", "البحث بالرقم العسكري", "عرض الكل");
-
+    ObservableList<ArchefModel> archefModelObject = FXCollections.observableArrayList();
     @FXML
     private TextField imageUrl;
     String circularID = null;
@@ -80,7 +81,7 @@ public class ExternalIncomingPageController implements Initializable {
     private TableColumn<ArchefModel, String> addImage_col;
     @FXML
     private VBox vbox;
-    List<ArchefModel> archefModelObject = new ArrayList<>();
+
     private ExternalIncomingPageListener mylistener;
     ActionEvent event;
     @FXML
@@ -89,6 +90,7 @@ public class ExternalIncomingPageController implements Initializable {
     private ComboBox<String> searchDateMonth;
     @FXML
     private ComboBox<String> searchDateYear;
+    private TableView<ArchefModel> dataViewTable;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -365,6 +367,7 @@ public class ExternalIncomingPageController implements Initializable {
     }
 
     private void setChosendata(ArchefModel archefModel) {
+//        archefModel = dataViewTable.getSelectionModel().getSelectedItem();
         setCircularid(archefModel.getCircularid());
         setCircularDate(archefModel.getCircularDate());
         setReceiptNumber(archefModel.getReceiptNumber());
@@ -380,7 +383,7 @@ public class ExternalIncomingPageController implements Initializable {
     private void viewdata(ResultSet rs) {
         archefModelObject.addAll(getData(rs));
         if (archefModelObject.size() > 0) {
-            setChosendata(archefModelObject.get(0));
+//            setChosendata(archefModelObject.get(0));
             mylistener = new ExternalIncomingPageListener() {
                 @Override
                 public void onClickListener(ArchefModel archefModel) {
@@ -388,7 +391,105 @@ public class ExternalIncomingPageController implements Initializable {
                 }
             };
         }
-
+//        circularid_col.setCellValueFactory(new PropertyValueFactory<>("circularid"));
+//        circularDate_col.setCellValueFactory(new PropertyValueFactory<>("circularDate"));
+//        receiptNumber_col.setCellValueFactory(new PropertyValueFactory<>("receiptNumber"));
+//        receiptDate_col.setCellValueFactory(new PropertyValueFactory<>("receiptDate"));
+//        topic_col.setCellValueFactory(new PropertyValueFactory<>("topic"));
+//        Destination_col.setCellValueFactory(new PropertyValueFactory<>("destination"));
+//        saveFile_col.setCellValueFactory(new PropertyValueFactory<>("saveFile"));
+//        notes_col.setCellValueFactory(new PropertyValueFactory<>("action"));
+//        ArchefModel MYarchefModel = null;
+//        String style = "-fx-font-family: 'URW DIN Arabic';"
+//                + "    -fx-font-size: 10px;"
+//                + "    -fx-background-color: #1E3606;"
+//                + "    -fx-background-radius: 50;"
+//                + "     -fx-border-radius: 50;"
+//                + "    -fx-text-fill: #FFFFFF;"
+//                + "    -fx-effect: dropshadow(three-pass-box,#3C3B3B, 20, 0, 5, 5); ";
+//        Callback<TableColumn<ArchefModel, String>, TableCell<ArchefModel, String>> cellFactory
+//                = (final TableColumn<ArchefModel, String> param) -> {
+//                    final TableCell<ArchefModel, String> cell = new TableCell<ArchefModel, String>() {
+//
+//                final Button printBarcod = new Button();
+//                final Button scanImage = new Button();
+//                final Button addNames = new Button();
+//                final Button showImage = new Button();
+//
+//                @Override
+//                public void updateItem(String item, boolean empty) {
+//                    super.updateItem(item, empty);
+//                    if (empty) {
+//                        setGraphic(null);
+//                        setText(null);
+//                    } else {
+//                        printBarcod.setOnAction(event -> {
+//                            try {
+//                                Connection con = DatabaseConniction.dbConnector();
+//                                JasperDesign recipientReport = JRXmlLoader.load(config.getAppURL() + "\\reports\\Externl‏‏RecipientBarcod.jrxml");
+//                                ResultSet rs = DatabaseAccess.select("externalincoming", "RECEIPTNUMBER = '" + MYarchefModel.getReceiptNumber() + "'AND ARSHEFYEAR = '" + AppDate.getYear(MYarchefModel.getReceiptDate()) + "'");
+//                                String regisNo = null;
+//                                String recipientDate = null;
+//                                String circularDir = null;
+//                                int quRegisNo = 0;
+//                                String unitName = null;
+//                                String saveFile = null;
+//                                while (rs.next()) {
+//                                    regisNo = ArabicSetting.EnglishToarabic(Integer.toString(rs.getInt("RECEIPTNUMBER")));
+//                                    recipientDate = ArabicSetting.EnglishToarabic(rs.getString("RECEIPTDATE")) + "هـ";
+//                                    circularDir = rs.getString("DESTINATION");
+//                                    quRegisNo = rs.getInt("RECEIPTNUMBER");
+//                                    saveFile = ArabicSetting.EnglishToarabic(rs.getString("SAVEFILE"));
+//                                    unitName = DatabaseAccess.getUintName();
+//                                }
+//                                Map barrcod = new HashMap();
+//                                barrcod.put("ex_id", regisNo);
+//                                barrcod.put("ex_date", recipientDate);
+//                                barrcod.put("dir_to", circularDir);
+//                                barrcod.put("qex_id", quRegisNo);
+//                                barrcod.put("savefile", saveFile);
+//                                barrcod.put("unitName", unitName);
+//                                JasperReport jr = JasperCompileManager.compileReport(recipientReport);
+//                                JasperPrint jp = JasperFillManager.fillReport(jr, barrcod, con);
+//                                JasperPrintManager.printReport(jp, false);
+//                            } catch (Exception ex) {
+//                                FormValidation.showAlert(null, "لا توجد صورة", Alert.AlertType.ERROR);
+//                            }
+//                        });
+//                        printBarcod.setStyle(style);
+//                        Image printBarcodimageicon = new Image("/images/barcode.png");
+//                        ImageView printBarcodimgeview = new ImageView(printBarcodimageicon);
+//                        printBarcod.setGraphic(printBarcodimgeview);
+//
+//                        scanImage.setOnAction(event -> {
+//                            try {
+//                                DatabaseAccess.insertImage("externalincoming", " `CIRCULARID` ='" + MYarchefModel.getCircularid() + "' AND CIRCULARDATE ='" + MYarchefModel.getCircularDate() + "'");
+//                            } catch (IOException ex) {
+//                                FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+//                            }
+//                        });
+//                        scanImage.setStyle(style);
+//                        Image scanimage = new Image("/images/scaner.png");
+//                        ImageView scanview = new ImageView(scanimage);
+//                        scanImage.setGraphic(scanview);
+////                        scanImage.setDisable(false);
+////                        imagebtn.setDisable(false);
+//                        HBox hbox = new HBox(printBarcod, scanImage);
+//                        hbox.setStyle("-fx-alignment:center");
+//                        HBox.setMargin(printBarcod, new Insets(2, 2, 0, 3));
+//                        HBox.setMargin(scanImage, new Insets(2, 2, 0, 3));
+//
+//                        setGraphic(hbox);
+//                        setText(null);
+//
+//                    }
+//                }
+//            };
+//                    return cell;
+//                };
+//        action_col.setCellFactory(cellFactory);
+//
+//        dataViewTable.setItems(archefModelObject);
         try {
             for (ArchefModel archefModel : archefModelObject) {
                 FXMLLoader fxmlLoader = new FXMLLoader();
@@ -467,7 +568,7 @@ public class ExternalIncomingPageController implements Initializable {
     public ResultSet getAllData() {
         ResultSet rs = null;
         try {
-            rs = DatabaseAccess.select("externalincoming", " ARSHEFYEAR = '" + getYear() + "' ORDER BY ID DESC ");
+            rs = DatabaseAccess.selectQuiry("SELECT CIRCULARID,CIRCULARDATE,TOPIC,DESTINATION,SAVEFILE,RECEIPTNUMBER,RECEIPTDATE,ACTION FROM externalincoming WHERE ARSHEFYEAR = '" + getYear() + "' ORDER BY RECEIPTDATE DESC ");
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
@@ -477,7 +578,7 @@ public class ExternalIncomingPageController implements Initializable {
     public ResultSet getDataBycircularid() {
         ResultSet rs = null;
         try {
-            rs = DatabaseAccess.select("externalincoming", "CIRCULARID = '" + getSearchText() + "' AND ARSHEFYEAR = '" + getYear() + "' ");
+            rs = DatabaseAccess.selectQuiry("SELECT CIRCULARID,CIRCULARDATE,TOPIC,DESTINATION,SAVEFILE,RECEIPTNUMBER,RECEIPTDATE,ACTION FROM externalincoming WHERE CIRCULARID = '" + getSearchText() + "' AND ARSHEFYEAR = '" + getYear() + "' ORDER BY RECEIPTDATE DESC");
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
@@ -487,7 +588,7 @@ public class ExternalIncomingPageController implements Initializable {
     public ResultSet getDataByReceiptDate() {
         ResultSet rs = null;
         try {
-            rs = DatabaseAccess.select("externalincoming", "RECEIPTDATE = '" + getSearchDate() + "' ");
+            rs = DatabaseAccess.selectQuiry("SELECT CIRCULARID,CIRCULARDATE,TOPIC,DESTINATION,SAVEFILE,RECEIPTNUMBER,RECEIPTDATE,ACTION FROM externalincoming WHERE RECEIPTDATE = '" + getSearchDate() + "' ORDER BY RECEIPTDATE DESC");
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
@@ -497,7 +598,7 @@ public class ExternalIncomingPageController implements Initializable {
     public ResultSet getDataByReceiptNumber() {
         ResultSet rs = null;
         try {
-            rs = DatabaseAccess.select("externalincoming", "RECEIPTNUMBER = '" + getSearchText() + "' AND ARSHEFYEAR = '" + getYear() + "' ");
+            rs = DatabaseAccess.selectQuiry("SELECT CIRCULARID,CIRCULARDATE,TOPIC,DESTINATION,SAVEFILE,RECEIPTNUMBER,RECEIPTDATE,ACTION FROM externalincoming WHERE RECEIPTNUMBER = '" + getSearchText() + "' AND ARSHEFYEAR = '" + getYear() + "' ORDER BY RECEIPTDATE DESC");
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
@@ -507,7 +608,7 @@ public class ExternalIncomingPageController implements Initializable {
     public ResultSet getDataSaveFile() {
         ResultSet rs = null;
         try {
-            rs = DatabaseAccess.select("externalincoming", "SAVEFILE = '" + getSearchText() + "' AND ARSHEFYEAR = '" + getYear() + "' ");
+            rs = DatabaseAccess.selectQuiry("SELECT CIRCULARID,CIRCULARDATE,TOPIC,DESTINATION,SAVEFILE,RECEIPTNUMBER,RECEIPTDATE,ACTION FROM externalincoming WHERE SAVEFILE = '" + getSearchText() + "' AND ARSHEFYEAR = '" + getYear() + "' ORDER BY RECEIPTDATE DESC");
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
@@ -517,7 +618,7 @@ public class ExternalIncomingPageController implements Initializable {
     public ResultSet getDataByTopic() {
         ResultSet rs = null;
         try {
-            rs = DatabaseAccess.selectQuiry("SELECT CIRCULARID,CIRCULARDATE,TOPIC,DESTINATION,SAVEFILE,RECEIPTNUMBER,RECEIPTDATE,ACTION FROM externalincoming WHERE TOPIC LIKE '" + "%" + getSearchText() + "%" + "' AND ARSHEFYEAR = '" + getYear() + "' ");
+            rs = DatabaseAccess.selectQuiry("SELECT CIRCULARID,CIRCULARDATE,TOPIC,DESTINATION,SAVEFILE,RECEIPTNUMBER,RECEIPTDATE,ACTION FROM externalincoming WHERE TOPIC LIKE '" + "%" + getSearchText() + "%" + "' AND ARSHEFYEAR = '" + getYear() + "' ORDER BY RECEIPTDATE DESC");
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
@@ -529,7 +630,7 @@ public class ExternalIncomingPageController implements Initializable {
         try {
             rs = DatabaseAccess.selectQuiry("SELECT externalincoming.CIRCULARID,externalincoming.CIRCULARDATE,externalincoming.TOPIC,externalincoming.DESTINATION,externalincoming.SAVEFILE,externalincoming.RECEIPTNUMBER,externalincoming.RECEIPTDATE,externalincoming.ACTION "
                     + "FROM externalincoming,circularnames "
-                    + "WHERE externalincoming.CIRCULARID = circularnames.CIRCULARID AND circularnames.MILITARYID = '" + getSearchText() + "' AND ARSHEFYEAR = '" + getYear() + "'");
+                    + "WHERE externalincoming.CIRCULARID = circularnames.CIRCULARID AND circularnames.MILITARYID = '" + getSearchText() + "' AND ARSHEFYEAR = '" + getYear() + "' ORDER BY RECEIPTDATE DESC");
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
@@ -539,7 +640,7 @@ public class ExternalIncomingPageController implements Initializable {
     public ResultSet getDataByDestination() {
         ResultSet rs = null;
         try {
-            rs = DatabaseAccess.selectQuiry("SELECT * FROM externalincoming WHERE DESTINATION LIKE '" + "%" + getSearchText() + "%" + "' AND ARSHEFYEAR = '" + getYear() + "' ");
+            rs = DatabaseAccess.selectQuiry("SELECT CIRCULARID,CIRCULARDATE,TOPIC,DESTINATION,SAVEFILE,RECEIPTNUMBER,RECEIPTDATE,ACTION FROM externalincoming WHERE DESTINATION LIKE '" + "%" + getSearchText() + "%" + "' AND ARSHEFYEAR = '" + getYear() + "' ORDER BY RECEIPTDATE DESC");
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }

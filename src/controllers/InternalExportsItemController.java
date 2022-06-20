@@ -44,6 +44,7 @@ public class InternalExportsItemController implements Initializable {
     private InternalExportsModel internalExportsModel;
     InternalExportsPageListener mylistener;
     private String recordYear = null;
+    private String regisno = null;
     Config config = new Config();
 
     @Override
@@ -61,6 +62,7 @@ public class InternalExportsItemController implements Initializable {
         saveFile.setText(internalExportsModel.getSaveFile());
         notes.setText(internalExportsModel.getNotes());
         recordYear = internalExportsModel.getRecordYear();
+        regisno = internalExportsModel.getRegisNO();
     }
 
     @FXML
@@ -93,18 +95,22 @@ public class InternalExportsItemController implements Initializable {
         try {
             Connection con = DatabaseConniction.dbConnector();
             JasperDesign recipientReport = JRXmlLoader.load(config.getAppURL() + "\\reports\\ExportingBarcod.jrxml");
-            ResultSet rs = DatabaseAccess.select("internalexports", "REGISNO = '" + regisNO.getText() + "'");
+//            ResultSet rs = DatabaseAccess.select("internalexports", "REGISNO = '" + regisno + "'");
+            ResultSet rs = DatabaseAccess.getData("SELECT  REGISNO, EXPORTDATE, DESTINATION, SAVEFILE,RECORDYEAR FROM internalexports "
+                    + "WHERE `REGISNO` = '" + regisno + "' AND `RECORDYEAR` = '" + recordYear + "'");
             String regisNo = null;
             String recipientDate = null;
             String circularDir = null;
             int quRegisNo = 0;
             String unitName = null;
             String saveFile = null;
+            String recordYear = null;
             while (rs.next()) {
                 regisNo = ArabicSetting.EnglishToarabic(Integer.toString(rs.getInt("REGISNO")));
                 recipientDate = ArabicSetting.EnglishToarabic(rs.getString("EXPORTDATE")) + "هـ";
                 circularDir = rs.getString("DESTINATION");
                 quRegisNo = rs.getInt("REGISNO");
+                recordYear = rs.getString("RECORDYEAR");
                 saveFile = ArabicSetting.EnglishToarabic(rs.getString("SAVEFILE"));
                 unitName = DatabaseAccess.getUintName();
             }
@@ -115,6 +121,7 @@ public class InternalExportsItemController implements Initializable {
             barrcod.put("qex_id", quRegisNo);
             barrcod.put("savefile", saveFile);
             barrcod.put("unitName", unitName);
+            barrcod.put("recordYear", recordYear);
             JasperReport jr = JasperCompileManager.compileReport(recipientReport);
             JasperPrint jp = JasperFillManager.fillReport(jr, barrcod, con);
             JasperPrintManager.printReport(jp, false);

@@ -259,7 +259,7 @@ public class FormationPageController implements Initializable {
     private void viewdata(ResultSet data) {
         FormationObject.addAll(getData(data));
         if (FormationObject.size() > 0) {
-            setChosendata(FormationObject.get(0));
+//            setChosendata(FormationObject.get(0));
             mylistener = new FormationPageListener() {
                 @Override
                 public void onClickListener(FormationModel formationModel) {
@@ -570,8 +570,8 @@ public class FormationPageController implements Initializable {
                 savefile = file.toString();
             }
             ResultSet rs = DatabaseAccess.getData("SELECT * FROM personaldata ORDER BY MILITARYID ASC");
-            String[] feild = {"MILITARYID", "PERSONALID", "NAME", "RANK", "UNIT", "SPECIALTY"};
-            String[] titel = {"الرقم العسكري", "رقم الهوية", "الاسم", "الرتبة", "الوحدة", "التخصص"};
+            String[] feild = {"MILITARYID",  "RANK","NAME", "PERSONALID", "UNIT", "SPECIALTY"};
+            String[] titel = {"الرقم العسكري",  "الرتبة", "الاسم","رقم الهوية", "الوحدة", "التخصص"};
             String[] sheetTitel = {"تشكيل قوة السيف الجرب "};
             ExporteExcelSheet exporter = new ExporteExcelSheet();
             ArrayList<Object[]> dataList = exporter.getTableData(rs, feild);

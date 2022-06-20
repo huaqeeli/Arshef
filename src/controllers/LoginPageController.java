@@ -48,14 +48,14 @@ public class LoginPageController implements Initializable {
         boolean userNameStatus = FormValidation.logintextFieldNotEmpty(userName, "ادخل اسم المستخدم");
         boolean passwordStatus = FormValidation.logintextFieldNotEmpty(password, "ادخل كلمة المرور");
         if (userNameStatus && passwordStatus) {
-            try { 
+            try {
                 ResultSet rs = DatabaseAccess.getData("SELECT * FROM userdata WHERE USERNAME ='" + userName.getText() + "' AND PASSWORD = '" + password.getText() + "'");
                 if (rs.next()) {
                     String mypassword = rs.getString("PASSWORDSTATE");
                     if (mypassword.equals("default")) {
-                         App.lodChangePassowrdPage(userName.getText());
+                        App.lodChangePassowrdPage(userName.getText());
                     } else {
-                        lodMainPage(rs.getString("NAME"), rs.getString("RANK"), rs.getString("USERTYPE"),rs.getString("MILITARYID"));
+                        lodMainPage(rs.getString("NAME"), rs.getString("RANK"), rs.getString("USERTYPE"), rs.getString("MILITARYID"));
                         close();
                     }
                 } else {
@@ -67,15 +67,15 @@ public class LoginPageController implements Initializable {
         }
     }
 
-    public void lodMainPage(String userName, String rank, String userType,String userid)  {
+    public void lodMainPage(String userName, String rank, String userType, String userid) {
         try {
             Stage stage = new Stage();
             Pane myPane = null;
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/homePage.fxml"));
             myPane = loader.load();
-            
+
             controller = (HomePageController) loader.getController();
-            controller.setData(userName, rank, userType,userid);
+            controller.setData(userName, rank, userType, userid);
             Scene scene = new Scene(myPane);
             Screen screen = Screen.getPrimary();
             Rectangle2D bounds = screen.getVisualBounds();
@@ -83,7 +83,7 @@ public class LoginPageController implements Initializable {
             stage.setY(bounds.getMinY());
             stage.setWidth(bounds.getWidth());
             stage.setHeight(bounds.getHeight());
-            
+
             Duration delay = Duration.seconds(600);
             PauseTransition transition = new PauseTransition(delay);
             transition.setOnFinished(evt -> {
@@ -139,7 +139,24 @@ public class LoginPageController implements Initializable {
 
     @FXML
     private void lodConfigSettingPage(ActionEvent event) {
-         App.showFxml("/view/ConfigSetting");
+        App.showFxml("/view/ConfigSetting");
+    }
+
+    private boolean checkNewYear() {
+        boolean state = false;
+        try {
+            String registrationYear = DatabaseAccess.getRegistrationYear();
+            String currentYear = Integer.toString(HijriCalendar.getSimpleYear());
+            if (registrationYear == null ? currentYear == null : registrationYear.equals(currentYear)) {
+                state = false;
+            } else {
+                state = true;
+            }
+
+        } catch (IOException ex) {
+            Logger.getLogger(LoginPageController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return state;
     }
 
 }

@@ -37,6 +37,7 @@ public class HomePageController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         try {
             content.setCenter(App.loadFXML("/view/ExternalIncomingPage"));
+//            content.setCenter(App.loadFXML("/view/ExternalIncomingPage_1"));
         } catch (IOException ex) {
            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
@@ -100,6 +101,7 @@ public class HomePageController implements Initializable {
     @FXML
     private void insertDataPage(ActionEvent event) throws IOException {
         content.setCenter(App.loadFXML("/view/ExternalIncomingPage"));
+//        content.setCenter(App.loadFXML("/view/ExternalIncomingPage_1"));
     }
 
     @FXML
@@ -153,8 +155,13 @@ public class HomePageController implements Initializable {
 
     @FXML
     private void missionPage(ActionEvent event) throws IOException {
-//        content.setCenter(App.loadFXML("/view/MissionPage"));
-        content.setCenter(App.loadFXML("/view/AnalyticsPage"));
+        content.setCenter(App.loadFXML("/view/MissionPage"));
+//        content.setCenter(App.loadFXML("/view/AnalyticsPage"));
+    }
+
+    @FXML
+    private void vacationPage(ActionEvent event) throws IOException {
+         content.setCenter(App.loadFXML("/view/vacation"));
     }
 
 }

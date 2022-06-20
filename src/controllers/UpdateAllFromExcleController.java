@@ -9,8 +9,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ResourceBundle;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -86,8 +84,8 @@ public class UpdateAllFromExcleController implements Initializable {
                     String personalid = data.get(3).toString();
                     String unit = data.get(4).toString();
                     String specialty = data.get(5).toString();
-                    String[] updatdata = {name, rank, personalid, unit, specialty};
-                    String[] insertdata = {militryid, personalid, name, rank, unit, specialty};
+                    String[] updatdata = {name, rank, personalid,unit, specialty};
+                    String[] insertdata = {militryid, personalid, name, rank,unit, specialty};
                     boolean milataryidExisting = FormValidation.ifNotexisting("personaldata", "MILITARYID", "MILITARYID='" + militryid + "'");
                     double pr = 0;
                     if (milataryidExisting) {
@@ -99,7 +97,7 @@ public class UpdateAllFromExcleController implements Initializable {
                     }
                 }
                 if (t > 0) {
-                    FormValidation.showAlert(null, "تم تحديث بيانات الهوية", Alert.AlertType.INFORMATION);
+                    FormValidation.showAlert(null, "تم تحديث البيانات", Alert.AlertType.INFORMATION);
                 }
             } catch (IOException e) {
                 FormValidation.showAlert(null, e.toString(), Alert.AlertType.ERROR);

@@ -187,9 +187,7 @@ public class FollowupPageController implements Initializable {
     private void viewdata(ResultSet rs) {
         followupObject.addAll(getData(rs));
         if (followupObject.size() > 0) {
-            setChosendata(followupObject.get(0));
             mylistener = new FollowupPageListener() {
-
                 @Override
                 public void onClickListener(FollowupModel followupModel) {
                     setChosendata(followupModel);
@@ -270,7 +268,8 @@ public class FollowupPageController implements Initializable {
             switch (typeValue) {
                 case "الوارد الخارجي":
                     try {
-                        ResultSet rs = DatabaseAccess.select("externalincoming", "RECEIPTNUMBER = '" + circularid.getText() + "' AND ARSHEFYEAR ='" + HijriCalendar.getSimpleYear() + "'");
+//                        ResultSet rs = DatabaseAccess.select("externalincoming", "RECEIPTNUMBER = '" + circularid.getText() + "' AND ARSHEFYEAR ='" + HijriCalendar.getSimpleYear() + "'");
+                        ResultSet rs = DatabaseAccess.selectQuiry("SELECT CIRCULARDATE,TOPIC FROM externalincoming WHERE RECEIPTNUMBER = '" + circularid.getText() + "' AND ARSHEFYEAR ='" + HijriCalendar.getSimpleYear() + "'");
                         if (rs.next()) {
                             setCircularDate(rs.getString("CIRCULARDATE"));
                             topic.setText(rs.getString("TOPIC"));
@@ -281,7 +280,8 @@ public class FollowupPageController implements Initializable {
                     break;
                 case "الصادرالخارجي":
                     try {
-                        ResultSet rs = DatabaseAccess.select("exportsdata", "EXPORTNUM = '" + circularid.getText() + "' AND RECORDYEAR ='" + HijriCalendar.getSimpleYear() + "'");
+//                        ResultSet rs = DatabaseAccess.select("exportsdata", "EXPORTNUM = '" + circularid.getText() + "' AND RECORDYEAR ='" + HijriCalendar.getSimpleYear() + "'");
+                        ResultSet rs = DatabaseAccess.selectQuiry("SELECT TOPIC,EXPORTDATE FROM exportsdata WHERE EXPORTNUM = '" + circularid.getText() + "'AND RECORDYEAR = '" +HijriCalendar.getSimpleYear() + "'");
                         if (rs.next()) {
                             setCircularDate(rs.getString("EXPORTDATE"));
                             topic.setText(rs.getString("TOPIC"));
@@ -292,7 +292,8 @@ public class FollowupPageController implements Initializable {
                     break;
                 case "الوارد الداخلي":
                     try {
-                        ResultSet rs = DatabaseAccess.select("internalincoming", "REGIS_NO = '" + circularid.getText() + "' AND RECORD_YEAR ='" + HijriCalendar.getSimpleYear() + "'");
+//                        ResultSet rs = DatabaseAccess.select("internalincoming", "REGIS_NO = '" + circularid.getText() + "' AND RECORD_YEAR ='" + HijriCalendar.getSimpleYear() + "'");
+                        ResultSet rs = DatabaseAccess.selectQuiry("SELECT  RECIPIENT_DATE,TOPIC FROM internalincoming WHERE REGIS_NO = '" + circularid.getText() + "' AND RECORD_YEAR ='" + HijriCalendar.getSimpleYear() + "'");
                         if (rs.next()) {
                             setCircularDate(rs.getString("RECIPIENT_DATE"));
                             topic.setText(rs.getString("TOPIC"));
@@ -303,7 +304,8 @@ public class FollowupPageController implements Initializable {
                     break;
                 case "الصادر الداخلي":
                     try {
-                        ResultSet rs = DatabaseAccess.select("internalexports", "REGISNO = '" + circularid.getText() + "' AND RECORDYEAR ='" + HijriCalendar.getSimpleYear() + "'");
+//                        ResultSet rs = DatabaseAccess.select("internalexports", "REGISNO = '" + circularid.getText() + "' AND RECORDYEAR ='" + HijriCalendar.getSimpleYear() + "'");
+                        ResultSet rs = DatabaseAccess.selectQuiry("SELECT EXPORTDATE,TOPIC FROM internalexports WHERE REGISNO = '" + circularid.getText() + "' AND RECORDYEAR ='" + HijriCalendar.getSimpleYear() + "'");
                         if (rs.next()) {
                             setCircularDate(rs.getString("EXPORTDATE"));
                             topic.setText(rs.getString("TOPIC"));

@@ -164,4 +164,9 @@ public class HomePageController implements Initializable {
          content.setCenter(App.loadFXML("/view/vacation"));
     }
 
+    @FXML
+    private void backupPage(ActionEvent event) {
+        App.showFxml("/view/backupPage");
+    }
+
 }

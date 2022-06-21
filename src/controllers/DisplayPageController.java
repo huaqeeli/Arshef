@@ -398,7 +398,7 @@ public class DisplayPageController implements Initializable {
             switch (typeValue) {
                 case "الوارد الخارجي":
                     try {
-                        ResultSet rs = DatabaseAccess.select("externalincoming", "RECEIPTNUMBER = '" + circularid.getText() + "' AND ARSHEFYEAR ='" + HijriCalendar.getSimpleYear() + "'");
+                        ResultSet rs = DatabaseAccess.selectQuiry("SELECT CIRCULARDATE,TOPIC,DESTINATION FROM externalincoming WHERE RECEIPTNUMBER = '" + circularid.getText() + "' AND ARSHEFYEAR ='" + HijriCalendar.getSimpleYear() + "'");
                         if (rs.next()) {
                             setCircularDate(rs.getString("CIRCULARDATE"));
                             topic.setText("وارد من" + " " + rs.getString("DESTINATION") + " " + rs.getString("TOPIC") + " " + getName(circularid.getText(), "external"));
@@ -410,7 +410,7 @@ public class DisplayPageController implements Initializable {
                     break;
                 case "الصادرالخارجي":
                     try {
-                        ResultSet rs = DatabaseAccess.select("exportsdata", "EXPORTNUM = '" + circularid.getText() + "' AND RECORDYEAR ='" + HijriCalendar.getSimpleYear() + "'");
+                        ResultSet rs = DatabaseAccess.selectQuiry("SELECT TOPIC,EXPORTDATE,DESTINATION FROM exportsdata WHERE EXPORTNUM = '" + circularid.getText() + "' AND RECORDYEAR ='" + HijriCalendar.getSimpleYear() + "'");
                         if (rs.next()) {
                             setCircularDate(rs.getString("EXPORTDATE"));
                             topic.setText("صادر الى" + " " + rs.getString("DESTINATION") + " " + rs.getString("TOPIC") + " " + getName(circularid.getText(), "external"));
@@ -422,7 +422,7 @@ public class DisplayPageController implements Initializable {
                     break;
                 case "الوارد الداخلي":
                     try {
-                        ResultSet rs = DatabaseAccess.select("internalincoming", "REGIS_NO = '" + circularid.getText() + "' AND RECORD_YEAR ='" + HijriCalendar.getSimpleYear() + "'");
+                        ResultSet rs = DatabaseAccess.selectQuiry("SELECT  RECIPIENT_DATE,TOPIC,CIRCULAR_DIR FROM internalincoming WHERE REGIS_NO = '" + circularid.getText() + "' AND RECORD_YEAR ='" + HijriCalendar.getSimpleYear() + "'");
                         if (rs.next()) {
                             setCircularDate(rs.getString("RECIPIENT_DATE"));
                             topic.setText("وارد من" + " " + rs.getString("CIRCULAR_DIR") + " " + rs.getString("TOPIC") + " " + getName(circularid.getText(), "internal"));
@@ -434,7 +434,7 @@ public class DisplayPageController implements Initializable {
                     break;
                 case "الصادر الداخلي":
                     try {
-                        ResultSet rs = DatabaseAccess.select("internalexports", "REGISNO = '" + circularid.getText() + "' AND RECORDYEAR ='" + HijriCalendar.getSimpleYear() + "'");
+                        ResultSet rs = DatabaseAccess.selectQuiry("SELECT EXPORTDATE,TOPIC,DESTINATION FROM internalexports WHERE REGISNO = '" + circularid.getText() + "' AND RECORDYEAR ='" + HijriCalendar.getSimpleYear() + "'");
                         if (rs.next()) {
                             setCircularDate(rs.getString("EXPORTDATE"));
                             topic.setText("صادر الى" + " " + rs.getString("DESTINATION") + " " + rs.getString("TOPIC") + " " + getName(circularid.getText(), "internal"));

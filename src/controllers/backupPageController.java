@@ -1,15 +1,12 @@
 package controllers;
 
 import Validation.FormValidation;
-import static controllers.DatabaseConniction.config;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -24,13 +21,13 @@ public class backupPageController implements Initializable {
 
     @FXML
     private VBox content;
-    private TextField saveUrl;
     @FXML
     private TextField backupUrl;
     @FXML
     private VBox continar;
 
     static Config config = new Config();
+    File backupfile = null;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -49,7 +46,7 @@ public class backupPageController implements Initializable {
             String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
             FileChooser fileChooser = new FileChooser();
             Window stage = null;
-            fileChooser.setInitialFileName("Backup" + "_" + date + ".sql");
+            fileChooser.setInitialFileName("Backup_"+ date + ".sql");
             File file = fileChooser.showSaveDialog(stage);
             String savefile = null;
             if (file != null) {
@@ -62,13 +59,12 @@ public class backupPageController implements Initializable {
             Runtime run = Runtime.getRuntime();
             /*"C:\\Program Files\\MySQL\\MySQL Server 5.6\\bin\\mysqldump --no-defaults --user="+ userName +" --password=" + password +" --host="+hostName+" --skip-opt --add-locks --create-options --disable-keys --extended-insert --single-transaction --skip-master-data --quick --set-charset --flush-privileges --quote-names --triggers --routines --comments --databases --default-character-set="$DB_CHARSET" --max_allowed_packet=16M "+dbName+" --result-file="+savefile+" */
 //            Process pr = run.exec("C:\\Program Files\\MySQL\\MySQL Server 5.6\\bin\\mysqldump.exe -u" + userName + " -p" + password + " --add-drop-database -B " + dbName + " -r " + savefile);
-            Process pr = run.exec("C:\\Program Files\\MySQL\\MySQL Server 5.6\\bin\\mysqldump --no-defaults --user=" + userName + " "
+            Process pr = run.exec(config.getAppURL() +"\\backupfiles\\mysqldump --no-defaults --user=" + userName + " "
                     + "--password=" + password + " --host=" + hostName + " --skip-opt --add-locks --create-options --disable-keys "
                     + "--extended-insert --single-transaction --skip-master-data --quick --set-charset --flush-privileges "
                     + "--quote-names --triggers --routines --comments --databases --default-character-set=utf8 "
-                    + "--max_allowed_packet=16M " + dbName + " --result-file=" + savefile);
+                    + "--max_allowed_packet=100M " + dbName + " --result-file=" + savefile);
             int processComplete = pr.waitFor();
-            System.out.println(processComplete);
             if (processComplete == 0) {
                 FormValidation.showAlert(null, "تم اخذ نسخةاحتياطية بنجاح", Alert.AlertType.CONFIRMATION);
             } else {
@@ -82,10 +78,36 @@ public class backupPageController implements Initializable {
 
     @FXML
     private void getBackupUrl(ActionEvent event) {
+        Window stage = null;
+        FileChooser fileChooser = new FileChooser();
+        FileChooser.ExtensionFilter ext1 = new FileChooser.ExtensionFilter("Sql files(*.sql)", "*.SQL");
+        fileChooser.getExtensionFilters().addAll(ext1);
+        backupfile = fileChooser.showOpenDialog(stage);
+        backupUrl.setText(backupfile.getPath());
     }
 
     @FXML
     private void restorData(ActionEvent event) {
+        try {
+            String userName = config.getUserName();
+            String password = config.getPassword();
+            Runtime run = Runtime.getRuntime();
+            if (backupfile == null) {
+                FormValidation.showAlert(null, "حدد ملف النسخة الاحتياطية", Alert.AlertType.ERROR);
+            } else {
+                String[] restorCmd = new String[]{config.getAppURL() +"\\mysql.exe", " --user=" + userName, " --password=" + password, " -e", " source " + backupfile};
+                Process pr = run.exec(restorCmd);
+
+                int processComplete = pr.waitFor();
+                if (processComplete == 0) {
+                    FormValidation.showAlert(null,"تم استرجاع البيانات بنجاح", Alert.AlertType.CONFIRMATION);
+                } else {
+                    FormValidation.showAlert(null,"حدث خطاء لم يتم استرجاع البيانات", Alert.AlertType.ERROR);
+                }
+            }
+        } catch (IOException | InterruptedException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
     }
 
 }

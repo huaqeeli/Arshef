@@ -58,16 +58,6 @@ public class secretPageController implements Initializable {
     private TextField note;
     @FXML
     public VBox vbox;
-
-    ObservableList<String> placeComboBoxlist = FXCollections.observableArrayList();
-    public final List<SecretModel> secretObject = new ArrayList<>();
-    private SecretPageListener myListener;
-    ObservableList<String> searchTypelist = FXCollections.observableArrayList("البحث برقم المعاملة", "البحث برقم الوارد", "البحث بتاريخ الوارد", "البحث بالموضوع", "البحث بجهة المعاملة", "البحث برقم الملف", "البحث بالرقم العسكري", "عرض الكل");
-    String recordYear = null;
-    String circularID = null;
-    File imagefile = null;
-    Stage stage = new Stage();
-    byte[] pdfimage = null;
     @FXML
     private TextField receiptNumber;
     @FXML
@@ -82,7 +72,15 @@ public class secretPageController implements Initializable {
     private ComboBox<?> searchDateMonth;
     @FXML
     private ComboBox<?> searchDateYear;
-
+    ObservableList<String> placeComboBoxlist = FXCollections.observableArrayList();
+    public final List<SecretModel> secretObject = new ArrayList<>();
+    private SecretPageListener myListener;
+    ObservableList<String> searchTypelist = FXCollections.observableArrayList("البحث برقم المعاملة", "البحث برقم الوارد", "البحث بتاريخ الوارد", "البحث بالموضوع", "البحث بجهة المعاملة", "البحث برقم الملف", "البحث بالرقم العسكري", "عرض الكل");
+    String recordYear = null;
+    String circularID = null;
+    File imagefile = null;
+    Stage stage = new Stage();
+    byte[] pdfimage = null;
     String receiptnumber = null;
     String circularnumber = null;
 
@@ -292,18 +290,27 @@ public class secretPageController implements Initializable {
         String tableName = "secretdata";
         String fieldName = null;
         recordYear = setYear(getCircularDate());
-        if (receiptNumber.getText() == null && circularid.getText() == null) {
-            try {
+        try {
+            if ((receiptNumber.getText() == null || "".equals(receiptNumber.getText())) && (circularid.getText() == null || "".equals(circularid.getText()))) {
                 receiptnumber = DatabaseAccess.getRegistrationNum();
+                circularnumber = DatabaseAccess.getRegistrationNum();
                 DatabaseAccess.updatRegistrationNum();
-                circularnumber = receiptnumber;
-            } catch (IOException ex) {
-                FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+            } else if ((receiptNumber.getText() != null || !"".equals(receiptNumber.getText())) && (circularid.getText() == null || "".equals(circularid.getText()))) {
+                circularnumber = DatabaseAccess.getRegistrationNum();
+                receiptnumber = receiptNumber.getText();
+                DatabaseAccess.updatRegistrationNum();
+            } else if ((receiptNumber.getText() == null || "".equals(receiptNumber.getText())) && (circularid.getText() != null || !"".equals(circularid.getText()))) {
+                receiptnumber = DatabaseAccess.getRegistrationNum();
+                circularnumber = circularid.getText();
+                DatabaseAccess.updatRegistrationNum();
+            } else {
+                receiptnumber = receiptNumber.getText();
+                circularnumber = circularid.getText();
             }
-        } else {
-            receiptnumber = receiptNumber.getText();
-            circularnumber = circularid.getText();
+        } catch (IOException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
+
         String[] data = {circularnumber, getCircularDate(), receiptnumber, getReceiptNumberDate(), destination.getValue(), topic.getText(), saveFile.getText(), note.getText(), recordYear};
         String valuenumbers = null;
         if (imagefile != null) {

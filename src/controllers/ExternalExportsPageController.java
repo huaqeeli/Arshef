@@ -10,6 +10,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -23,10 +26,12 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import modeles.ExportsModel;
+import org.progress.RingProgressIndicator;
 
 public class ExternalExportsPageController implements Initializable {
 
@@ -88,22 +93,28 @@ public class ExternalExportsPageController implements Initializable {
     @FXML
     private VBox vbox;
     ActionEvent event;
+    @FXML
+    private StackPane stackPane;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        AppDate.setDateValue(exportDateDay, exportDateMonth, exportDateYear);
-        AppDate.setDateValue(entryDateDay, entryDateMonth, entryDateYear);
-        AppDate.setCurrentDate(entryDateDay, entryDateMonth, entryDateYear);
-        FillComboBox.fillComboBox(searchTypelist, searchType);
-        AppDate.setDateValue(searchDateDay, searchDateMonth, searchDateYear);
-        AppDate.setCurrentDate(searchDateDay, searchDateMonth, searchDateYear);
-        AppDate.setYearValue(year);
+        try {
+            AppDate.setDateValue(exportDateDay, exportDateMonth, exportDateYear);
+            AppDate.setDateValue(entryDateDay, entryDateMonth, entryDateYear);
+            AppDate.setCurrentDate(entryDateDay, entryDateMonth, entryDateYear);
+            FillComboBox.fillComboBox(searchTypelist, searchType);
+            AppDate.setDateValue(searchDateDay, searchDateMonth, searchDateYear);
+            AppDate.setCurrentDate(searchDateDay, searchDateMonth, searchDateYear);
+            AppDate.setYearValue(year);
 //        AppDate.setCurrentYear(year);
-        year.setValue(Integer.toString(HijriCalendar.getSimpleYear()));
-        clearListCombobox();
-        refreshListCombobox();
-        refreshExportTableView();
-        clear(event);
+            year.setValue(Integer.toString(HijriCalendar.getSimpleYear()));
+            clearListCombobox();
+            refreshListCombobox();
+            refreshExportTableView();
+            clear(event);
+        } catch (SQLException ex) {
+            Logger.getLogger(ExternalExportsPageController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private ObservableList filleUint(ObservableList list) {
@@ -142,7 +153,7 @@ public class ExternalExportsPageController implements Initializable {
     }
 
     @FXML
-    private void save(ActionEvent event) {
+    private void save(ActionEvent event) throws SQLException {
         String tableName = "exportsdata";
         String fieldName = null;
         recordYear = Integer.toString(HijriCalendar.getSimpleYear());
@@ -194,7 +205,7 @@ public class ExternalExportsPageController implements Initializable {
                 }
                 refreshExportTableView();
                 clear(event);
-            } catch (IOException ex) {
+            } catch (IOException | SQLException ex) {
                 FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
             }
         }
@@ -206,7 +217,7 @@ public class ExternalExportsPageController implements Initializable {
             DatabaseAccess.delete("exportsdata", "ID = '" + id + "'AND ENTRYDATE = '" + enteryDate + "'");
             refreshExportTableView();
             clear(event);
-        } catch (IOException ex) {
+        } catch (IOException | SQLException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
     }
@@ -223,7 +234,6 @@ public class ExternalExportsPageController implements Initializable {
         setImageUrl(null);
     }
 
-    @FXML
     private void addtoLeaderDisplay(ActionEvent event) {
         String tableName = "displaydata";
         String[] data = {HijriCalendar.getSimpleDate(), "عرض القائد", topic.getText(), destination.getValue()};
@@ -243,7 +253,6 @@ public class ExternalExportsPageController implements Initializable {
         }
     }
 
-    @FXML
     private void addtoLeaderSignature(ActionEvent event) {
         String tableName = "displaydata";
         String[] data = {HijriCalendar.getSimpleDate(), "توقيع القائد", topic.getText(), destination.getValue()};
@@ -263,7 +272,6 @@ public class ExternalExportsPageController implements Initializable {
         }
     }
 
-    @FXML
     private void addtoManagerSignature(ActionEvent event) {
         String tableName = "displaydata";
         String[] data = {HijriCalendar.getSimpleDate(), "توقيع الركن", topic.getText(), destination.getValue()};
@@ -283,7 +291,6 @@ public class ExternalExportsPageController implements Initializable {
         }
     }
 
-    @FXML
     private void addtoManagerDisplay(ActionEvent event) {
         String tableName = "displaydata";
         String[] data = {HijriCalendar.getSimpleDate(), "عرض الركن", topic.getText(), destination.getValue()};
@@ -303,7 +310,6 @@ public class ExternalExportsPageController implements Initializable {
         }
     }
 
-    @FXML
     private void addtoManagerSmallSignature(ActionEvent event) {
         String tableName = "displaydata";
         String[] data = {HijriCalendar.getSimpleDate(), "تاشير الركن", topic.getText(), destination.getValue()};
@@ -323,7 +329,6 @@ public class ExternalExportsPageController implements Initializable {
         }
     }
 
-    @FXML
     private void addtoManagerOrders(ActionEvent event) {
         String tableName = "displaydata";
         String[] data = {HijriCalendar.getSimpleDate(), "توجيه الركن", topic.getText(), destination.getValue()};
@@ -450,7 +455,7 @@ public class ExternalExportsPageController implements Initializable {
         AppDate.setSeparateDate(searchDateDay, searchDateMonth, searchDateYear, date);
     }
 
-    private void refreshExportTableView() {
+    private void refreshExportTableView() throws SQLException {
         try {
             exportObject.clear();
             vbox.getChildren().clear();
@@ -497,7 +502,7 @@ public class ExternalExportsPageController implements Initializable {
         enteryDate = exportsModel.getEntryDate();
     }
 
-    private void viewdata(ResultSet rs) {
+    private void viewdata(ResultSet rs) throws SQLException {
         exportObject.addAll(getData(rs));
         if (exportObject.size() > 0) {
             //setChosendata(exportObject.get(0));
@@ -518,6 +523,7 @@ public class ExternalExportsPageController implements Initializable {
                 externalExportsItemController.setData(exportsModel, mylistener);
                 vbox.getChildren().add(pane);
             }
+            rs.close();
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
@@ -525,13 +531,18 @@ public class ExternalExportsPageController implements Initializable {
 
     /*"البحث برقم الصادر", "البحث بتاريخ الصادر", "البحث بالموضوع", "البحث بجهة الصادر", "عرض الكل"*/
     @FXML
-    private void searchData(ActionEvent event) {
+    private void searchData(ActionEvent event) throws SQLException {
         String searchValue = getSearchType();
         switch (searchValue) {
             case "عرض الكل":
                 exportObject.clear();
                 vbox.getChildren().clear();
-                viewdata(getAllData());
+                RingProgressIndicator rpi = new RingProgressIndicator();
+                rpi.setRingWidth(200);
+                rpi.makeIndeterminate();
+                stackPane.getChildren().add(rpi);
+                new GetAllData(rpi).start();
+                
                 break;
             case "البحث بجهة الصادر":
                 exportObject.clear();
@@ -664,4 +675,63 @@ public class ExternalExportsPageController implements Initializable {
         }
     }
 
+    public class GetAllData extends Thread {
+
+        RingProgressIndicator rpi;
+        int progrss = 0;
+
+        public GetAllData(RingProgressIndicator rpi) {
+            this.rpi = rpi;
+        }
+
+        @Override
+        public void run() {
+            try {
+                for (int i = 0; i <= 90; i++) {
+                    progrss = i;
+                    Thread.sleep(i);
+                    Platform.runLater(() -> {
+                        rpi.setProgress(progrss);
+                    });
+                }
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                           viewdata(getAllData());
+                        } catch (SQLException ex) {
+                            Logger.getLogger(InternalIncomingPageController.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                });
+
+                for (int i = 90; i <= 100; i++) {
+                    progrss = i;
+                    Thread.sleep(50);
+                    Platform.runLater(() -> {
+                        rpi.setProgress(progrss);
+                    });
+
+                }
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (progrss >= 100) {
+                            try {
+                                Thread.sleep(150);
+                                rpi.setVisible(false);
+                            } catch (InterruptedException ex) {
+                                Logger.getLogger(InternalIncomingPageController.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                    }
+                });
+
+            } catch (InterruptedException ex) {
+                FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+            }
+
+        }
+
+    }
 }

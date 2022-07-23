@@ -15,6 +15,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -242,7 +244,7 @@ public class DisplayPageController implements Initializable {
             DatabaseAccess.delete("displaydata", "ID = '" + id + "'");
             refreshData();
             clear(event);
-        } catch (IOException ex) {
+        } catch (IOException | SQLException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
     }
@@ -372,7 +374,7 @@ public class DisplayPageController implements Initializable {
                 DatabaseAccess.updat(tableName, fieldName, data, "ID = '" + id + "'");
                 refreshData();
                 clear(event);
-            } catch (IOException ex) {
+            } catch (IOException | SQLException ex) {
                 FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
             }
         }

@@ -7,6 +7,8 @@ import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -84,7 +86,7 @@ public class AddMissionNamesController implements Initializable {
             DatabaseAccess.delete("missionnames", "MISSIONID = '" + missionID + "'AND MILITARYID = '" + getMilataryId() + "'");
             refreshTableView();
             clear(event);
-        } catch (IOException ex) {
+        } catch (IOException | SQLException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
     }

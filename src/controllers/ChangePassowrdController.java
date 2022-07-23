@@ -3,7 +3,10 @@ package controllers;
 import Validation.FormValidation;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -55,7 +58,7 @@ public class ChangePassowrdController implements Initializable {
                         FormValidation.showAlert(null, "تم تحديث كلمة المرور ويمكنك الان تسجيل الدخول بالبيانات الجديدة", Alert.AlertType.INFORMATION);
                         close(event);
                     }
-                } catch (IOException ex) {
+                } catch (IOException | SQLException ex) {
                     FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
                 }
             } else {

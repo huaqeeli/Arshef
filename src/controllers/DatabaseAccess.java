@@ -274,7 +274,7 @@ public class DatabaseAccess {
         return pdfByte;
     }
 
-    public static int insert(String tapleName, String fildName, String valueNamber, File imagefile) throws IOException {
+    public static int insert(String tapleName, String fildName, String valueNamber, File imagefile) throws IOException, SQLException {
         int lastId = 0;
         Connection con = DatabaseConniction.dbConnector();
         String guiry = "INSERT INTO " + tapleName + "(" + fildName + ")VALUES(" + valueNamber + ")";
@@ -301,10 +301,11 @@ public class DatabaseAccess {
         } catch (SQLException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
+         con.close();
         return lastId;
     }
 
-    public static String getUintName() throws IOException {
+    public static String getUintName() throws IOException, SQLException {
         ResultSet rs = null;
         String unitName = null;
         String guiry = "SELECT * FROM uintname";
@@ -318,6 +319,7 @@ public class DatabaseAccess {
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, ex);
         }
+         con.close();
         return unitName;
     }
 
@@ -346,7 +348,7 @@ public class DatabaseAccess {
         return rs;
     }
 
-    public static String getRegistrationNum() throws IOException {
+    public static String getRegistrationNum() throws IOException, SQLException {
         ResultSet rs = null;
         String recordSquinc = null;
         Connection con = DatabaseConniction.dbConnector();
@@ -360,9 +362,10 @@ public class DatabaseAccess {
         } catch (SQLException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
+         con.close();
         return recordSquinc;
     }
-    public static String getRegistrationYear() throws IOException {
+    public static String getRegistrationYear() throws IOException, SQLException {
         ResultSet rs = null;
         String year = null;
         Connection con = DatabaseConniction.dbConnector();
@@ -376,10 +379,11 @@ public class DatabaseAccess {
         } catch (SQLException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
+         con.close();
         return year;
     }
 
-    public static void updatRegistrationNum() throws IOException {
+    public static void updatRegistrationNum() throws IOException, SQLException {
         Connection con = DatabaseConniction.dbConnector();
         String guiry = "UPDATE recordesquins SET REGISTRATION_NUM = ? WHERE ID = 1";
         try {
@@ -390,9 +394,10 @@ public class DatabaseAccess {
         } catch (SQLException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
+         con.close();
     }
 
-    public static void updatRegistrationNum(int newid, String newYear) throws IOException {
+    public static void updatRegistrationNum(int newid, String newYear) throws IOException, SQLException {
         Connection con = DatabaseConniction.dbConnector();
         String guiry = "UPDATE recordesquins SET `REGISTRATION_NUM` = ?, `SQUINS_YEAR` = ? WHERE ID = 1";
         try {
@@ -403,6 +408,7 @@ public class DatabaseAccess {
         } catch (SQLException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
+         con.close();
     }
 
     public static ResultSet getItems(String tapleName) throws IOException {
@@ -456,7 +462,7 @@ public class DatabaseAccess {
         return rs;
     }
 
-    public static int updat(String tapleName, String fildNameAndValue, String[] data, String condition) throws IOException {
+    public static int updat(String tapleName, String fildNameAndValue, String[] data, String condition) throws IOException, SQLException {
         Connection con = DatabaseConniction.dbConnector();
         String guiry = "UPDATE " + tapleName + " SET " + fildNameAndValue + " " + "WHERE" + " " + condition;
         int t = 0 ;
@@ -473,10 +479,11 @@ public class DatabaseAccess {
         } catch (SQLException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
+        con.close();
         return t;
     }
 
-    public static void updat(String tapleName, String fildNameAndValue, int[] data, String condition) throws IOException {
+    public static void updat(String tapleName, String fildNameAndValue, int[] data, String condition) throws IOException, SQLException {
         Connection con = DatabaseConniction.dbConnector();
         String guiry = "UPDATE " + tapleName + " SET " + fildNameAndValue + " " + "WHERE" + " " + condition;
         try {
@@ -489,21 +496,25 @@ public class DatabaseAccess {
         } catch (SQLException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
+         con.close();
     }
 
-    public static void updat(String tapleName, String fildNameAndValue, String condition) throws IOException {
+    public static int updat(String tapleName, String fildNameAndValue, String condition) throws IOException, SQLException {
         Connection con = DatabaseConniction.dbConnector();
         String guiry = "UPDATE " + tapleName + " SET " + fildNameAndValue + " WHERE" + " " + condition;
+         int t = 0 ;
         try {
             PreparedStatement psm = con.prepareStatement(guiry);
-            psm.executeUpdate();
+            t = psm.executeUpdate();
 
         } catch (SQLException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
+         con.close();
+        return t;
     }
 
-    public static int updat(String tapleName, String fildNameAndValue, String[] data, String condition, File imagefile) throws IOException {
+    public static int updat(String tapleName, String fildNameAndValue, String[] data, String condition, File imagefile) throws IOException, SQLException {
         Connection con = DatabaseConniction.dbConnector();
         String guiry = "UPDATE " + tapleName + " SET " + fildNameAndValue + " WHERE" + " " + condition;
         int t = 0;
@@ -528,10 +539,11 @@ public class DatabaseAccess {
         } catch (SQLException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
+         con.close();
         return t;
     }
 
-    public static void delete(String tapleName, String condition) throws IOException {
+    public static void delete(String tapleName, String condition) throws IOException, SQLException {
         Connection con = DatabaseConniction.dbConnector();
         String guiry = "DELETE FROM " + tapleName + " WHERE " + condition;
         try {
@@ -543,9 +555,10 @@ public class DatabaseAccess {
         } catch (SQLException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
+         con.close();
     }
 
-    public static void secretDelete(String tapleName, String condition) throws IOException {
+    public static void secretDelete(String tapleName, String condition) throws IOException, SQLException {
         Connection con = DatabaseConniction.dbConnector();
         String guiry = "DELETE FROM " + tapleName + " WHERE " + condition;
         try {
@@ -554,9 +567,10 @@ public class DatabaseAccess {
         } catch (SQLException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
+         con.close();
     }
 
-    public static boolean deleteAll(String tapleName, String condition) throws IOException {
+    public static boolean deleteAll(String tapleName, String condition) throws IOException, SQLException {
         Connection con = DatabaseConniction.dbConnector();
         String guiry = "DELETE FROM " + tapleName + " WHERE " + condition;
         boolean state = false;
@@ -572,10 +586,11 @@ public class DatabaseAccess {
         } catch (SQLException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
+         con.close();
         return state;
     }
 
-    public static void delete(String quiry) throws IOException {
+    public static void delete(String quiry) throws IOException, SQLException {
         Connection con = DatabaseConniction.dbConnector();
         try {
             PreparedStatement psm = con.prepareStatement(quiry);
@@ -586,6 +601,7 @@ public class DatabaseAccess {
         } catch (SQLException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
+         con.close();
     }
 
     public static ResultSet getSum(String tableName, String condation) {

@@ -313,7 +313,7 @@ public class CensusPageController implements Initializable {
                 }
                 refreshcensusTableView();
                 clear(event);
-            } catch (IOException ex) {
+            } catch (IOException | SQLException ex) {
                 FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
             }
         }
@@ -328,7 +328,7 @@ public class CensusPageController implements Initializable {
                 DatabaseAccess.delete("manualtable", "uint = '" + tabeluint + "' AND dayDate = '" + AppDate.getDate(DateDay, DateMonth, DateYear) + "'");
                 refreshcensusTableView();
                 clear(event);
-            } catch (IOException ex) {
+            } catch (IOException | SQLException ex) {
                 FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
             }
         }

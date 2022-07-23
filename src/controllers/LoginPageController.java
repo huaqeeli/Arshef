@@ -142,7 +142,7 @@ public class LoginPageController implements Initializable {
         App.showFxml("/view/ConfigSetting");
     }
 
-    private boolean checkNewYear() {
+    private boolean checkNewYear() throws SQLException {
         boolean state = false;
         try {
             String registrationYear = DatabaseAccess.getRegistrationYear();

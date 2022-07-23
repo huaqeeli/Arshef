@@ -9,6 +9,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -146,7 +148,7 @@ public class FollowupPageController implements Initializable {
                 }
                 refreshData();
                 clear(event);
-            } catch (IOException ex) {
+            } catch (IOException | SQLException ex) {
                 FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
             }
         }
@@ -158,7 +160,7 @@ public class FollowupPageController implements Initializable {
             DatabaseAccess.delete("followup", "CIRCULARID = '" + circularID + "' AND CIRCULARDATE = '" + cirularDate + "'");
             refreshData();
             clear(event);
-        } catch (IOException ex) {
+        } catch (IOException | SQLException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
     }
@@ -212,11 +214,8 @@ public class FollowupPageController implements Initializable {
         List<FollowupModel> followupObjects = new ArrayList<>();
         FollowupModel followupModel;
         try {
-            int squnce = 0;
             while (rs.next()) {
-                squnce++;
                 followupModel = new FollowupModel();
-                followupModel.setSqunce(squnce);
                 followupModel.setCirculardate(rs.getString("CIRCULARDATE"));
                 followupModel.setCircularid(rs.getString("CIRCULARID"));
                 followupModel.setTopic(rs.getString("TOPIC"));

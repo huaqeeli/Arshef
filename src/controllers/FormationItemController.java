@@ -4,7 +4,10 @@ import Serveces.FormationPageListener;
 import Validation.FormValidation;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -83,7 +86,7 @@ public class FormationItemController implements Initializable {
             DatabaseAccess.updat("personaldata", " MARK = 1,MARKCOLOR= '" + value + "'", "MILITARYID = '" + militaryID.getText() + "'");
             content.setStyle("-fx-background-color:" + value);
             content.setBackground(new Background(new BackgroundFill(value, CornerRadii.EMPTY, Insets.EMPTY)));
-        } catch (IOException ex) {
+        } catch (IOException | SQLException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
 
@@ -94,7 +97,7 @@ public class FormationItemController implements Initializable {
         try {
             DatabaseAccess.updat("personaldata", " MARK = 0", "MILITARYID = '" + militaryID.getText() + "'");
             content.setStyle("-fx-background-color: #E9E9E9;");
-        } catch (IOException ex) {
+        } catch (IOException | SQLException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
     }

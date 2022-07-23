@@ -7,15 +7,18 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import org.progress.RingProgressIndicator;
 
 public class backupPageController implements Initializable {
 
@@ -25,6 +28,8 @@ public class backupPageController implements Initializable {
     private TextField backupUrl;
     @FXML
     private VBox continar;
+    @FXML
+    private StackPane stackPane;
 
     static Config config = new Config();
     File backupfile = null;
@@ -42,38 +47,34 @@ public class backupPageController implements Initializable {
 
     @FXML
     private void getBackup(ActionEvent event) {
-        try {
-            String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-            FileChooser fileChooser = new FileChooser();
-            Window stage = null;
-            fileChooser.setInitialFileName("Backup_"+ date + ".sql");
-            File file = fileChooser.showSaveDialog(stage);
-            String savefile = null;
-            if (file != null) {
-                savefile = file.toString();
-            }
-            String userName = config.getUserName();
-            String password = config.getPassword();
-            String dbName = config.getDbName();
-            String hostName = config.getHostName();
-            Runtime run = Runtime.getRuntime();
-            /*"C:\\Program Files\\MySQL\\MySQL Server 5.6\\bin\\mysqldump --no-defaults --user="+ userName +" --password=" + password +" --host="+hostName+" --skip-opt --add-locks --create-options --disable-keys --extended-insert --single-transaction --skip-master-data --quick --set-charset --flush-privileges --quote-names --triggers --routines --comments --databases --default-character-set="$DB_CHARSET" --max_allowed_packet=16M "+dbName+" --result-file="+savefile+" */
-//            Process pr = run.exec("C:\\Program Files\\MySQL\\MySQL Server 5.6\\bin\\mysqldump.exe -u" + userName + " -p" + password + " --add-drop-database -B " + dbName + " -r " + savefile);
-            Process pr = run.exec(config.getAppURL() +"\\backupfiles\\mysqldump --no-defaults --user=" + userName + " "
-                    + "--password=" + password + " --host=" + hostName + " --skip-opt --add-locks --create-options --disable-keys "
-                    + "--extended-insert --single-transaction --skip-master-data --quick --set-charset --flush-privileges "
-                    + "--quote-names --triggers --routines --comments --databases --default-character-set=utf8 "
-                    + "--max_allowed_packet=100M " + dbName + " --result-file=" + savefile);
-            int processComplete = pr.waitFor();
-            if (processComplete == 0) {
-                FormValidation.showAlert(null, "تم اخذ نسخةاحتياطية بنجاح", Alert.AlertType.CONFIRMATION);
-            } else {
-                FormValidation.showAlert(null, "حدثت مشكلة لم يتم اخذ النسخة", Alert.AlertType.ERROR);
-            }
-
-        } catch (IOException | InterruptedException ex) {
-            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+        FileChooser fileChooser = new FileChooser();
+        Window stage = null;
+        fileChooser.setInitialFileName("Backup" + "_" + date + ".sql");
+        File file = fileChooser.showSaveDialog(stage);
+        String savefile = null;
+        if (file != null) {
+            savefile = file.toString();
+            RingProgressIndicator rpi = new RingProgressIndicator();
+            rpi.setRingWidth(200);
+            rpi.makeIndeterminate();
+            stackPane.getChildren().addAll(rpi);
+            new GetBackup(rpi, savefile).start();
         }
+//        final Backup serves = new Backup(savefile);
+//        Region vile = new Region();
+//        vile.setStyle("-fx-background-color:rgba(0,0,0,0.4)");
+//        vile.setPrefSize(400, 440);
+//        ProgressIndicator p = new ProgressIndicator();
+//        p.setMaxSize(80, 80);
+//        p.setStyle("-fx-background-color:#696969;"
+//                + "-fx-foreground-color: #FFFFFF;"
+//                + "-fx-fill: #ff0000 ;");
+//
+//        p.progressProperty().bind(serves.progressProperty());
+//        vile.visibleProperty().bind(serves.runningProperty());
+//        p.visibleProperty().bind(serves.runningProperty());
+
     }
 
     @FXML
@@ -83,31 +84,151 @@ public class backupPageController implements Initializable {
         FileChooser.ExtensionFilter ext1 = new FileChooser.ExtensionFilter("Sql files(*.sql)", "*.SQL");
         fileChooser.getExtensionFilters().addAll(ext1);
         backupfile = fileChooser.showOpenDialog(stage);
-        backupUrl.setText(backupfile.getPath());
+        if (backupfile != null) {
+            backupUrl.setText(backupfile.getPath());
+        }
+
     }
 
     @FXML
     private void restorData(ActionEvent event) {
-        try {
-            String userName = config.getUserName();
-            String password = config.getPassword();
-            Runtime run = Runtime.getRuntime();
-            if (backupfile == null) {
-                FormValidation.showAlert(null, "حدد ملف النسخة الاحتياطية", Alert.AlertType.ERROR);
-            } else {
-                String[] restorCmd = new String[]{config.getAppURL() +"\\mysql.exe", " --user=" + userName, " --password=" + password, " -e", " source " + backupfile};
-                Process pr = run.exec(restorCmd);
+        if (backupfile == null) {
+            FormValidation.showAlert(null, "الرجاء تحديد ملف النسخة الاحتياطية", Alert.AlertType.ERROR);
+        } else {
+//            final Restor serves = new Restor(backupfile);
+//            Region vile = new Region();
+//            vile.setStyle("-fx-background-color:rgba(0,0,0,0.4)");
+//            vile.setPrefSize(400, 440);
+//            ProgressIndicator p = new ProgressIndicator();
+//            p.setMaxSize(80, 80);
+//            p.setStyle("-fx-text-fill: #FFFFFF;");
+//
+//            p.progressProperty().bind(serves.progressProperty());
+//            vile.visibleProperty().bind(serves.runningProperty());
+//            p.visibleProperty().bind(serves.runningProperty());
 
-                int processComplete = pr.waitFor();
-                if (processComplete == 0) {
-                    FormValidation.showAlert(null,"تم استرجاع البيانات بنجاح", Alert.AlertType.CONFIRMATION);
-                } else {
-                    FormValidation.showAlert(null,"حدث خطاء لم يتم استرجاع البيانات", Alert.AlertType.ERROR);
-                }
-            }
-        } catch (IOException | InterruptedException ex) {
-            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+            RingProgressIndicator rpi = new RingProgressIndicator();
+            rpi.setRingWidth(200);
+            rpi.makeIndeterminate();
+            stackPane.getChildren().addAll(rpi);
+            new GetRestor(rpi, backupfile).start();
         }
     }
 
+    public class GetBackup extends Thread {
+
+        RingProgressIndicator rpi;
+        private String savefile;
+        int progrss = 0;
+
+        public GetBackup(RingProgressIndicator rpi, String savefile) {
+            this.rpi = rpi;
+            this.savefile = savefile;
+        }
+
+        @Override
+        public void run() {
+
+            try {
+                for (int i = 0; i <= 50; i++) {
+                    progrss = i;
+                    Thread.sleep(150);
+                    Platform.runLater(() -> {
+                        rpi.setProgress(progrss);
+                    });
+                }
+                String userName = config.getUserName();
+                String password = config.getPassword();
+                String dbName = config.getDbName();
+                String hostName = config.getHostName();
+                Runtime run = Runtime.getRuntime();
+                String path = "C:\\Program Files\\MySQL\\MySQL Server 8.0\\bin\\mysqldump --user=" + userName + " --password=" + password + " --host=" + hostName + " --max_allowed_packet=50M " + dbName + " --result-file=" + savefile;
+                Process pr = run.exec(path);
+
+                int processComplete = pr.waitFor();
+                for (int i = 50; i <= 100; i++) {
+                    progrss = i;
+                    Thread.sleep(150);
+                    Platform.runLater(() -> {
+                        rpi.setProgress(progrss);
+                    });
+                }
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (processComplete == 0) {
+                            rpi.setVisible(false);
+                            FormValidation.showAlert(null, "تم اخذ نسخة احتياطية بنجاح", Alert.AlertType.INFORMATION);
+                        } else {
+                            rpi.setVisible(false);
+                            FormValidation.showAlert(null, "لم يتم اخذ نسخة احتياطية بنجاح", Alert.AlertType.ERROR);
+                        }
+                    }
+
+                });
+
+            } catch (IOException | InterruptedException ex) {
+                FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+            }
+
+        }
+
+    }
+
+    public class GetRestor extends Thread {
+
+        RingProgressIndicator rpi;
+        private File backupfile;
+        int progrss = 0;
+
+        public GetRestor(RingProgressIndicator rpi, File backupfile) {
+            this.rpi = rpi;
+            this.backupfile = backupfile;
+        }
+
+        @Override
+        public void run() {
+            try {
+                for (int i = 0; i <= 50; i++) {
+                    progrss = i;
+                    Thread.sleep(150);
+                    Platform.runLater(() -> {
+                        rpi.setProgress(progrss);
+                    });
+                }
+                String userName = config.getUserName();
+                String password = config.getPassword();
+                String dbName = config.getDbName();
+                Runtime run = Runtime.getRuntime();
+                String[] restorCmd = new String[]{"C:\\Program Files\\MySQL\\MySQL Server 8.0\\bin\\mysql ", dbName, " -u" + userName, " -p" + password, " -e", " source " + backupfile};
+                Process pr = run.exec(restorCmd);
+
+                int processComplete = pr.waitFor();
+                for (int i = 50; i <= 100; i++) {
+                    progrss = i;
+                    Thread.sleep(150);
+                    Platform.runLater(() -> {
+                        rpi.setProgress(progrss);
+                    });
+                }
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (processComplete == 0) {
+                            rpi.setVisible(false);
+                            FormValidation.showAlert(null, "تم استعادة البيانات بنجاح", Alert.AlertType.INFORMATION);
+                        } else {
+                            rpi.setVisible(false);
+                            FormValidation.showAlert(null, "لم يتم استعادة البيانات بنجاح", Alert.AlertType.ERROR);
+                        }
+                    }
+                });
+
+            } catch (IOException | InterruptedException ex) {
+                FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+            }
+
+        }
+
+    }
 }

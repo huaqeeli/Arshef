@@ -120,7 +120,7 @@ public class MissionPageController implements Initializable {
     }
 
     @FXML
-    private void edit(ActionEvent event) {
+    private void edit(ActionEvent event) throws SQLException {
         String tableName = "missiondata";
         String[] data = {missionname.getText(), getStartDate(), getEndDate()};
         String fieldName = "`MISSIONNAME`=?,`STARTDATE`=?,`ENDDATAE`=?";
@@ -142,7 +142,7 @@ public class MissionPageController implements Initializable {
     }
 
     @FXML
-    private void delete(ActionEvent event) {
+    private void delete(ActionEvent event) throws SQLException {
         try {
             boolean state = DatabaseAccess.deleteAll("missiondata", "MISSIONID = '" + missionid + "'");
             if (state) {

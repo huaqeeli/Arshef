@@ -121,11 +121,9 @@ public class secretPageController implements Initializable {
         SecretModel secretModel;
         try {
 //            ResultSet rs = DatabaseAccess.getData("SELECT * FROM secretdata ORDER BY ID DESC");
-            int squence = 0;
+           
             while (rs.next()) {
-                squence++;
                 secretModel = new SecretModel();
-                secretModel.setSqunse(squence);
                 secretModel.setId(rs.getString("ID"));
                 secretModel.setCircularid(rs.getString("CIRCULARID"));
                 secretModel.setCirculardate(rs.getString("CIRCULARDATE"));
@@ -286,7 +284,7 @@ public class secretPageController implements Initializable {
     }
 
     @FXML
-    private void save(ActionEvent event) {
+    private void save(ActionEvent event) throws SQLException {
         String tableName = "secretdata";
         String fieldName = null;
         recordYear = setYear(getCircularDate());
@@ -338,7 +336,7 @@ public class secretPageController implements Initializable {
     }
 
     @FXML
-    private void edit(ActionEvent event) {
+    private void edit(ActionEvent event) throws SQLException {
         String tableName = "secretdata";
         String fieldName = null;
         recordYear = setYear(getCircularDate());
@@ -376,7 +374,7 @@ public class secretPageController implements Initializable {
     }
 
     @FXML
-    private void delete(ActionEvent event) {
+    private void delete(ActionEvent event) throws SQLException {
         try {
             DatabaseAccess.delete("secretdata", " `CIRCULARID` ='" + circularid.getText() + "' AND RECORDYEAR ='" + recordYear + "'");
             refreshdata();

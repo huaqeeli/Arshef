@@ -4,7 +4,10 @@ import Serveces.FollowupPageListener;
 import Validation.FormValidation;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -46,7 +49,6 @@ public class FollowupItemController implements Initializable {
     public void setData(FollowupModel followupModel, FollowupPageListener followupPageListener) {
         this.followupModel = followupModel;
         this.followupPageListener = followupPageListener;
-        squnce.setText(Integer.toString(followupModel.getSqunce()));
         circularid.setText(followupModel.getCircularid());
         circularDate.setText(followupModel.getCirculardate());
         topic.setText(followupModel.getTopic());
@@ -76,8 +78,11 @@ public class FollowupItemController implements Initializable {
     @FXML
     private void deleteMark(ActionEvent event) {
         try {
-            DatabaseAccess.updat("followup", " OPENSTAT = 1", "CIRCULARID = '" + circularid.getText() + "' AND CIRCULARDATE = '" + circularDate.getText() + "'");
-        } catch (IOException ex) {
+            int t = DatabaseAccess.updat("followup", " OPENSTAT = 1", "CIRCULARID = '" + circularid.getText() + "' AND CIRCULARDATE = '" + circularDate.getText() + "'");
+            if (t > 0) {
+                FormValidation.showAlert("", "تم حذف المعاملة حدث الصفحة لمشاهدة التغيير" , Alert.AlertType.CONFIRMATION);
+            }
+        } catch (IOException | SQLException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
     }

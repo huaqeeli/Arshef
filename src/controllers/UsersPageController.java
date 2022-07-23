@@ -91,7 +91,7 @@ public class UsersPageController implements Initializable {
     }
 
     @FXML
-    private void editData(ActionEvent event) {
+    private void editData(ActionEvent event) throws SQLException {
         String tabelNme = "userdata";
         String fieldName = "`MILITARYID`=?,`RANK`=?,`NAME`=?,`USERTYPE`=?";
         String[] data = {miliataryid.getText(),rank.getValue(),name.getText(), userType.getValue()};
@@ -112,7 +112,7 @@ public class UsersPageController implements Initializable {
     }
 
     @FXML
-    private void deleteData(ActionEvent event) {
+    private void deleteData(ActionEvent event) throws SQLException {
         String tabelNme = "userdata";
         try {
             DatabaseAccess.delete(tabelNme, "MILITARYID = '" + selectedmilitaryid + "'");

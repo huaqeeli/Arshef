@@ -14,6 +14,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import modeles.SecretModel;
 import Serveces.SecretPageListener;
+import java.sql.SQLException;
 
 public class SecretPageItemController implements Initializable {
 
@@ -57,7 +58,6 @@ public class SecretPageItemController implements Initializable {
         this.secretModel = secretModel;
         this.mylistener = mylistener;
         id = secretModel.getId();
-        squnse.setText(Integer.toString(secretModel.getSqunse()));
         circularid.setText(secretModel.getCircularid());
         circulardete.setText(secretModel.getCirculardate());
         receiptNumber.setText(secretModel.getReceiptNumber());
@@ -89,7 +89,7 @@ public class SecretPageItemController implements Initializable {
         ShowPdf.writePdf(pdfimage);
     }
 
-    private void delete(ActionEvent event) {
+    private void delete(ActionEvent event) throws SQLException {
         try {
             DatabaseAccess.delete("secretdata", " `CIRCULARID` ='" + id + "' AND RECORDYEAR ='" + recordYear + "'");
         } catch (IOException ex) {

@@ -113,7 +113,7 @@
     -fx-font-family:'URW DIN Arabic';
     -fx-font-size: 15px;
     -fx-text-fill: #FFFFFF;
-    /*-fx-effect: dropshadow(three-pass-box,#000000, 10, 0, 5, 5);*/ 
+    /*-fx-effect: dropshadow(three-pass-box,#000000, 10, 0, 5, 5);*/
 }
 .logoutButton{
     -fx-background-color: #F68A1F;
@@ -121,7 +121,7 @@
     -fx-font-family:'URW DIN Arabic';
     -fx-font-size: 18px;
     -fx-text-fill: #FFFFFF;
-    -fx-effect: dropshadow(three-pass-box,#000000, 10, 0, 5, 5); 
+    -fx-effect: dropshadow(three-pass-box,#000000, 10, 0, 5, 5);
 }
 .addname{
     -fx-background-color: #B6CD54;
@@ -186,11 +186,11 @@
 .appTable .table-row-cell:selected .table-cell {
     -fx-background-color: #F68A1F;
 }
-.appTable .table-row-cell:empty{ 
-    -fx-background-color: #F4F4F4;   
+.appTable .table-row-cell:empty{
+    -fx-background-color: #F4F4F4;
 }
-.appTable .table-row-cell:empty .table-cell { 
-    -fx-border-width:     0px;        
+.appTable .table-row-cell:empty .table-cell {
+    -fx-border-width:     0px;
 }
 
 .blocked{
@@ -250,7 +250,7 @@
     -fx-text-fill: #fff;
 }
 
-.titled-pane > .title 
+.titled-pane > .title
 {
     -fx-background-color: #4E4E4E;
     -fx-background-radius: 0;
@@ -270,16 +270,16 @@
     -fx-background-color: #3a3a3a;
 }
 
-.titled-pane:focused > .title 
+.titled-pane:focused > .title
 {
     -fx-background-color: #000;
 }
-.titled-pane:selected > .title 
+.titled-pane:selected > .title
 {
     -fx-background-color: #000;
 }
 
-.titled-pane > .title > .arrow-button 
+.titled-pane > .title > .arrow-button
 {
     /*    -fx-background-color: #7C9D7C;*/
     -fx-background-insets: 0;
@@ -287,7 +287,7 @@
     -fx-padding: 0.0em 0.25em 0.0em 0.0em; /* 0 3 0 0 */
 }
 
-.titled-pane > .title > .arrow-button .arrow 
+.titled-pane > .title > .arrow-button .arrow
 {
     -fx-background-color: -fx-mark-highlight-color, -fx-mark-color;
     -fx-background-insets: 1 0 -1 0, 0;
@@ -295,19 +295,19 @@
     -fx-shape: "M 0 0 h 7 l -3.5 4 z";
 }
 
-.titled-pane:collapsed > .title > .arrow-button .arrow 
+.titled-pane:collapsed > .title > .arrow-button .arrow
 {
     -fx-rotate: -90;
 }
 
-.titled-pane > *.content 
+.titled-pane > *.content
 {
     /*    -fx-background-color:#5EAF95;
         -fx-background-insets: 0, 0 1 1 1;
         -fx-padding: 0.167em;*/
 }
 
-.titled-pane:focused > .title > .arrow-button .arrow 
+.titled-pane:focused > .title > .arrow-button .arrow
 {
     -fx-background-color: #4A4A4A;
 }
@@ -332,7 +332,7 @@
     -fx-background-color: #1E3606;
     -fx-background-radius: 50;
     -fx-text-fill: #FFFFFF;
-    /*-fx-effect: dropshadow(three-pass-box,#3C3B3B, 20, 0, 5, 5);*/ 
+    /*-fx-effect: dropshadow(three-pass-box,#3C3B3B, 20, 0, 5, 5);*/
 }
 .loginButton:hover{
     -fx-background-color: #0CB200;
@@ -379,7 +379,7 @@
     -fx-background-color: #272728;
     -fx-background-radius: 0;
     -fx-text-fill: #FFFFFF;
-    -fx-effect: dropshadow(three-pass-box,#3C3B3B, 20, 0, 5, 5); 
+    -fx-effect: dropshadow(three-pass-box,#3C3B3B, 20, 0, 5, 5);
 }
 .buttonStyle:hover{
     -fx-background-color: #000;
@@ -403,7 +403,7 @@
     -fx-border-width: 5 5 5 0 ;
     -fx-border-radius: 50 0 0 50 ;
     -fx-border-style: solid;
-    -fx-effect: dropshadow(three-pass-box,#3C3B3B, 20, 0, 5, 5); 
+    -fx-effect: dropshadow(three-pass-box,#3C3B3B, 20, 0, 5, 5);
 }
 .logoPagenumberLableStyle {
     -fx-font-family: "URW DIN Arabic";
@@ -416,18 +416,26 @@
     -fx-border-width: 0 5 0 0 ;
     -fx-border-radius: 0 50 50 0 ;
     -fx-border-style: solid;
-    -fx-effect: dropshadow(three-pass-box,#3C3B3B, 20, 0, 5, 5); 
+    -fx-effect: dropshadow(three-pass-box,#3C3B3B, 20, 0, 5, 5);
 }
 .itemLable {
-    -fx-font-family: "URW DIN Arabic"; 
+    -fx-font-family: "URW DIN Arabic";
     -fx-font-size: 13px;
-    -fx-border-color: #D5D8D8;
-    -fx-border-width: 0 2 0 2 ;
-    -fx-border-radius: 100 ;
+    -fx-border-color: #DEE2DB;
+    -fx-border-width: 0 0 2 0 ;
+
 
 }
+.itemLableTitel {
+    -fx-font-family: "URW DIN Arabic";
+    -fx-font-size: 15px;
+    -fx-text-fill: #0A4B0D;
+    -fx-border-color: #BEC2BB;
+    -fx-border-width: 0 0 2 2 ;
+    -fx-border-radius: 0 50 50 0 ;
+}
 .squnseLable {
-    -fx-font-family: "URW DIN Arabic"; 
+    -fx-font-family: "URW DIN Arabic";
     -fx-font-size: 13px;
     -fx-text-fill: #FFFFFF;
     -fx-background-color:  #1E3606;
@@ -435,18 +443,22 @@
     -fx-background-radius: 100;
 }
 .itemBackground{
-    -fx-background-image: url(../images/showimage.png); 
+    -fx-background-image: url(../images/showimage.png);
 }
 .actionButton{
-    -fx-font-family: "URW DIN Arabic"; 
+    -fx-font-family: "URW DIN Arabic";
     -fx-font-size: 13px;
     -fx-text-fill: #FFFFFF;
     -fx-border-radius: 50;
     -fx-background-radius: 50;
     -fx-background-color: #1E3606;
 }
+.actionButtonContener{
+    -fx-effect: dropshadow(three-pass-box,#3C3B3B, 20, 0, 5, 5);
+    -fx-background-color: #DEE2DB;
+}
 .exclButton{
-    -fx-font-family: "URW DIN Arabic"; 
+    -fx-font-family: "URW DIN Arabic";
     -fx-border-radius: 50;
     -fx-background-radius: 50;
     -fx-background-color: #1E3606;
@@ -462,7 +474,7 @@
     -fx-background-radius: 50 0 0 50;
 }
 .shdow{
-    -fx-effect: dropshadow(three-pass-box,#3C3B3B, 20, 0, 5, 5); 
+    -fx-effect: dropshadow(three-pass-box,#3C3B3B, 20, 0, 5, 5);
 }
 .headerPanl{
     /*-fx-background-color: #596367;*/
@@ -476,7 +488,7 @@
     -fx-border-radius: 100 ;
     -fx-background-color: #3B4244;
     -fx-background-radius: 100;
-    -fx-effect: dropshadow(three-pass-box,#3C3B3B, 20, 0, 5, 5); 
+    -fx-effect: dropshadow(three-pass-box,#3C3B3B, 20, 0, 5, 5);
 }
 .missionNameHeder{
     -fx-font-family: "URW DIN Arabic";
@@ -487,7 +499,7 @@
     -fx-border-radius: 100 ;
     -fx-background-color: #1E3606;
     -fx-background-radius: 100;
-    -fx-effect: dropshadow(three-pass-box,#3C3B3B, 20, 0, 5, 5); 
+    -fx-effect: dropshadow(three-pass-box,#3C3B3B, 20, 0, 5, 5);
 }
 .missionHeder{
     -fx-font-family: "URW DIN Arabic";
@@ -498,13 +510,13 @@
     -fx-border-radius: 100 ;
     -fx-background-color: #F68A1F;
     -fx-background-radius: 100;
-    -fx-effect: dropshadow(three-pass-box,#3C3B3B, 20, 0, 5, 5); 
+    -fx-effect: dropshadow(three-pass-box,#3C3B3B, 20, 0, 5, 5);
 }
 .tableHeder:hover{
 
 }
 .itemPanl{
-    -fx-border-color:  #B4BCAC;
+    -fx-border-color:  #686868;
     -fx-border-width: 0 0 5 0 ;
 }
 .itemPanl:hover{

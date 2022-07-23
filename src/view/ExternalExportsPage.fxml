@@ -10,9 +10,10 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" prefHeight="800.0" prefWidth="1200.0" style="-fx-border-color: #9A9A9A; -fx-border-width: 0 5 0 0;" stylesheets="@../css/appStyle.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ExternalExportsPageController">
+<AnchorPane id="AnchorPane" prefHeight="800.0" prefWidth="1200.0" style="-fx-border-color: #9A9A9A; -fx-border-width: 0 5 0 0;" stylesheets="@../css/appStyle.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ExternalExportsPageController">
    <children>
       <HBox alignment="CENTER_RIGHT" prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #1E3606;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -161,30 +162,18 @@
                   <Insets bottom="2.0" left="5.0" right="5.0" />
                </VBox.margin>
             </HBox>
-            <HBox alignment="CENTER" maxHeight="70.0" maxWidth="1.7976931348623157E308" minHeight="70.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="72.0" prefWidth="1200.0" styleClass="headerPanl">
-               <children>
-                  <Label alignment="CENTER" prefHeight="50.0" prefWidth="119.0" styleClass="tableHeder" text="رقم الحفظ" />
-                  <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="50.0" prefWidth="119.0" styleClass="tableHeder" text="التاريخ " />
-                  <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="50.0" prefWidth="227.0" styleClass="tableHeder" text="الموضوع" HBox.hgrow="ALWAYS" />
-                  <Label alignment="CENTER" layoutX="465.0" layoutY="23.0" maxWidth="1.7976931348623157E308" prefHeight="50.0" prefWidth="227.0" styleClass="tableHeder" text="جهة المعاملة" HBox.hgrow="ALWAYS" />
-                  <Label alignment="CENTER" prefHeight="50.0" prefWidth="119.0" styleClass="tableHeder" text="ملف الحفظ" />
-                  <Label alignment="CENTER" layoutX="1095.0" layoutY="23.0" prefHeight="50.0" prefWidth="119.0" styleClass="tableHeder" text="رقم الصادر" />
-                  <Label alignment="CENTER" layoutX="791.0" layoutY="23.0" prefHeight="50.0" prefWidth="119.0" styleClass="tableHeder" text="تاريخ الصادر" />
-                  <Label alignment="CENTER" prefHeight="50.0" prefWidth="227.0" styleClass="tableHeder" text="ملاحظات" HBox.hgrow="ALWAYS" />
-                  <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="50.0" prefWidth="170.0" spacing="2.0" HBox.hgrow="ALWAYS" />
-               </children>
-               <VBox.margin>
-                  <Insets left="5.0" right="5.0" />
-               </VBox.margin>
-            </HBox>
-            <ScrollPane fitToHeight="true" fitToWidth="true" prefWidth="3000.0" VBox.vgrow="ALWAYS">
-               <content>
-                  <VBox fx:id="vbox" />
-               </content>
+            <StackPane fx:id="stackPane" VBox.vgrow="ALWAYS">
                <VBox.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" />
                </VBox.margin>
-            </ScrollPane>
+               <children>
+                  <ScrollPane fitToHeight="true" fitToWidth="true" prefWidth="3000.0">
+                     <content>
+                        <VBox fx:id="vbox" />
+                     </content>
+                  </ScrollPane>
+               </children>
+            </StackPane>
          </children>
       </VBox>
    </children>

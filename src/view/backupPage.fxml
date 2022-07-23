@@ -5,49 +5,63 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="content" alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" prefHeight="232.0" prefWidth="838.0" style="-fx-border-color: #4A4A4A; -fx-border-width: 2;" stylesheets="@../css/appStyle.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.backupPageController">
+
+<AnchorPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.backupPageController">
    <children>
-      <HBox alignment="CENTER_RIGHT" layoutX="15.0" layoutY="60.0" prefHeight="46.0" prefWidth="478.0" style="-fx-background-color: #1E3606;">
+      <StackPane fx:id="stackPane" prefHeight="150.0" prefWidth="200.0">
          <children>
-            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#close" prefHeight="40.0" prefWidth="47.0" style="-fx-background-color: #1E3606;" styleClass="closeButton" textAlignment="CENTER">
-               <graphic>
-                  <ImageView fitHeight="32.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/logout.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-         </children>
-      </HBox>
-      <VBox fx:id="continar" alignment="CENTER" prefHeight="261.0" prefWidth="834.0" VBox.vgrow="ALWAYS">
-         <children>
-            <HBox alignment="CENTER" prefHeight="45.0" prefWidth="200.0">
+            <VBox fx:id="content" alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" prefHeight="232.0" prefWidth="838.0" style="-fx-border-color: #4A4A4A; -fx-border-width: 2;" stylesheets="@../css/appStyle.css">
                <children>
-                  <TextField fx:id="backupUrl" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="300.0" styleClass="appText" HBox.hgrow="ALWAYS" />
-                  <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#getBackupUrl" prefHeight="40.0" styleClass="toolBarButton" text="استعراض" />
+                  <HBox alignment="CENTER_RIGHT" prefHeight="74.0" prefWidth="834.0" style="-fx-background-color: #1E3606;">
+                     <children>
+                        <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#close" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: #1E3606;" styleClass="closeButton" textAlignment="CENTER">
+                           <graphic>
+                              <ImageView fitHeight="22.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/logout.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <VBox fx:id="continar" alignment="CENTER" prefHeight="202.0" prefWidth="834.0">
+                     <children>
+                        <HBox alignment="CENTER" prefHeight="45.0" prefWidth="200.0">
+                           <children>
+                              <TextField fx:id="backupUrl" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="300.0" styleClass="appText" HBox.hgrow="ALWAYS" />
+                              <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#getBackupUrl" prefHeight="40.0" styleClass="toolBarButton" text="استعراض" />
+                           </children>
+                           <VBox.margin>
+                              <Insets left="5.0" right="5.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #898989;">
+                           <children>
+                              <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#restorData" prefHeight="40.0" styleClass="toolBarButton" text="استرجاع البيانات" HBox.hgrow="ALWAYS" />
+                           </children>
+                           <VBox.margin>
+                              <Insets left="5.0" right="5.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <HBox alignment="CENTER" layoutX="15.0" layoutY="77.0" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #898989;">
+                           <children>
+                              <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#getBackup" prefHeight="40.0" styleClass="toolBarButton" text="النسخ الاحتياطي" HBox.hgrow="ALWAYS" />
+                           </children>
+                           <VBox.margin>
+                              <Insets left="5.0" right="5.0" />
+                           </VBox.margin>
+                        </HBox>
+                     </children>
+                  </VBox>
                </children>
-               <VBox.margin>
-                  <Insets left="5.0" right="5.0" />
-               </VBox.margin>
-            </HBox>
-            <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #898989;">
-               <children>
-                  <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#restorData" prefHeight="40.0" styleClass="toolBarButton" text="استرجاع البيانات" HBox.hgrow="ALWAYS" />
-               </children>
-               <VBox.margin>
-                  <Insets left="5.0" right="5.0" />
-               </VBox.margin>
-            </HBox>
-            <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#getBackup" prefHeight="40.0" styleClass="toolBarButton" text="النسخ الاحتياطي">
-               <VBox.margin>
-                  <Insets left="5.0" right="5.0" />
-               </VBox.margin>
-            </Button>
+            </VBox>
          </children>
-      </VBox>
+      </StackPane>
    </children>
-</VBox>
+</AnchorPane>

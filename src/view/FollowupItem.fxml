@@ -7,35 +7,84 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" prefHeight="50.0" prefWidth="1200.0" styleClass="mainFxmlClass" stylesheets="@../css/appStyle.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.FollowupItemController">
+<AnchorPane id="AnchorPane" prefHeight="188.0" prefWidth="1200.0" styleClass="mainFxmlClass" stylesheets="@../css/appStyle.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.FollowupItemController">
    <children>
-      <HBox fx:id="content" alignment="CENTER" maxHeight="70.0" maxWidth="1.7976931348623157E308" minHeight="70.0" nodeOrientation="RIGHT_TO_LEFT" onMouseClicked="#click" prefHeight="72.0" prefWidth="1200.0" styleClass="itemPanl" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <HBox fx:id="content" alignment="CENTER" maxHeight="188.0" maxWidth="1.7976931348623157E308" minHeight="188.0" nodeOrientation="RIGHT_TO_LEFT" onMouseClicked="#click" prefHeight="188.0" prefWidth="1200.0" styleClass="itemPanl" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label fx:id="squnce" alignment="CENTER" layoutX="103.0" layoutY="23.0" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="40.0" styleClass="squnseLable" text="عدد">
+            <HBox maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="300.0">
+               <children>
+                  <VBox alignment="CENTER" prefHeight="136.0" prefWidth="300.0">
+                     <children>
+                        <Label fx:id="circularid1" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="119.0" styleClass="itemLableTitel" text="رقم المعاملة" />
+                        <Label fx:id="circularDate1" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="140.0" styleClass="itemLableTitel" text="تاريخ المعاملة" />
+                        <Label fx:id="Status1" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="227.0" styleClass="itemLableTitel" text="الحالة" />
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="136.0" prefWidth="300.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label fx:id="circularid" alignment="CENTER" prefHeight="40.0" prefWidth="119.0" styleClass="itemLable" text="رقم المعاملة" />
+                        <Label fx:id="circularDate" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="140.0" styleClass="itemLable" text="تاريخ المعاملة" />
+                        <Label fx:id="Status" alignment="CENTER" prefHeight="40.0" prefWidth="227.0" styleClass="itemLable" text="الحالة" />
+                     </children>
+                  </VBox>
+               </children>
                <HBox.margin>
-                  <Insets left="10.0" right="5.0" />
+                  <Insets left="5.0" />
                </HBox.margin>
-            </Label>
-            <Label fx:id="circularid" alignment="CENTER" prefHeight="40.0" prefWidth="119.0" styleClass="itemLable" text="رقم المعاملة" />
-            <Label fx:id="circularDate" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="140.0" styleClass="itemLable" text="تاريخ المعاملة" />
-            <Label fx:id="topic" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="227.0" styleClass="itemLable" text="الموضوع" HBox.hgrow="ALWAYS" />
-            <Label fx:id="Required" alignment="CENTER" layoutX="465.0" layoutY="23.0" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="227.0" styleClass="itemLable" text="الاجراء المطلوب" HBox.hgrow="ALWAYS" />
-            <Label fx:id="Status" alignment="CENTER" prefHeight="40.0" prefWidth="227.0" styleClass="itemLable" text="الحالة" HBox.hgrow="ALWAYS" />
-            <Label fx:id="CompletionDate" alignment="CENTER" prefHeight="40.0" prefWidth="227.0" styleClass="itemLable" text="تاريخ الانجاز" HBox.hgrow="ALWAYS" />
-            <Label fx:id="remingdayes" alignment="CENTER" layoutX="942.0" layoutY="23.0" prefHeight="40.0" prefWidth="150.0" styleClass="itemLable" text="تاريخ الانجاز" />
-            <Button mnemonicParsing="false" onAction="#deleteMark" prefHeight="40.0" prefWidth="40.0" styleClass="actionButton">
-               <graphic>
-                  <ImageView fitHeight="25.0" fitWidth="81.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/deletemark.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
+            </HBox>
+            <HBox layoutX="917.0" layoutY="10.0" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="300.0">
+               <children>
+                  <VBox alignment="CENTER" prefHeight="136.0" prefWidth="300.0">
+                     <children>
+                        <Label fx:id="CompletionDate1" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="227.0" styleClass="itemLableTitel" text="تاريخ الانجاز" />
+                        <Label fx:id="remingdayes1" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="150.0" styleClass="itemLableTitel" text="عدد الايام المتبقية:" />
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="136.0" prefWidth="300.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label fx:id="CompletionDate" alignment="CENTER" prefHeight="40.0" prefWidth="227.0" styleClass="itemLable" text="تاريخ الانجاز" />
+                        <Label fx:id="remingdayes" alignment="CENTER" prefHeight="40.0" prefWidth="150.0" styleClass="itemLable" text="تاريخ الانجاز" />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <HBox layoutX="910.0" layoutY="10.0" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="300.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <VBox alignment="CENTER" prefHeight="136.0" prefWidth="300.0">
+                     <children>
+                        <Label fx:id="topic1" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="227.0" styleClass="itemLableTitel" text="الموضوع" />
+                        <Label fx:id="Required1" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="227.0" styleClass="itemLableTitel" text="الاجراء المطلوب" />
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="136.0" prefWidth="500.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label fx:id="topic" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="227.0" styleClass="itemLable" text="الموضوع" />
+                        <Label fx:id="Required" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="227.0" styleClass="itemLable" text="الاجراء المطلوب" />
+                     </children>
+                  </VBox>
+               </children>
                <HBox.margin>
-                  <Insets left="10.0" right="5.0" />
+                  <Insets right="5.0" />
                </HBox.margin>
-            </Button>
+            </HBox>
+            <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="50.0" prefWidth="50.0">
+               <children>
+                  <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#deleteMark" prefHeight="150.0" prefWidth="50.0" styleClass="actionButton">
+                     <graphic>
+                        <ImageView fitHeight="25.0" fitWidth="81.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/deletemark.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <HBox.margin>
+                        <Insets left="10.0" right="5.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
          </children>
       </HBox>
    </children>

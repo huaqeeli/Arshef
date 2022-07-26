@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Random;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -56,7 +57,7 @@ public class backupPageController implements Initializable {
         if (file != null) {
             savefile = file.toString();
             RingProgressIndicator rpi = new RingProgressIndicator();
-            rpi.setRingWidth(200);
+            rpi.setRingWidth(100);
             rpi.makeIndeterminate();
             stackPane.getChildren().addAll(rpi);
             new GetBackup(rpi, savefile).start();
@@ -108,11 +109,19 @@ public class backupPageController implements Initializable {
 //            p.visibleProperty().bind(serves.runningProperty());
 
             RingProgressIndicator rpi = new RingProgressIndicator();
-            rpi.setRingWidth(200);
+            rpi.setRingWidth(100);
             rpi.makeIndeterminate();
             stackPane.getChildren().addAll(rpi);
             new GetRestor(rpi, backupfile).start();
         }
+    }
+
+    public int getRandom() {
+        Random r = new Random();
+        int low = 10;
+        int high = 50;
+        int result = r.nextInt(high - low) + low;
+        return result;
     }
 
     public class GetBackup extends Thread {
@@ -128,9 +137,11 @@ public class backupPageController implements Initializable {
 
         @Override
         public void run() {
+           
+            int result = getRandom();
 
             try {
-                for (int i = 0; i <= 50; i++) {
+                for (int i = 0; i <= result; i++) {
                     progrss = i;
                     Thread.sleep(150);
                     Platform.runLater(() -> {
@@ -144,9 +155,8 @@ public class backupPageController implements Initializable {
                 Runtime run = Runtime.getRuntime();
                 String path = "C:\\Program Files\\MySQL\\MySQL Server 8.0\\bin\\mysqldump --user=" + userName + " --password=" + password + " --host=" + hostName + " --max_allowed_packet=50M " + dbName + " --result-file=" + savefile;
                 Process pr = run.exec(path);
-
                 int processComplete = pr.waitFor();
-                for (int i = 50; i <= 100; i++) {
+                for (int i = result; i <= 100; i++) {
                     progrss = i;
                     Thread.sleep(150);
                     Platform.runLater(() -> {
@@ -188,8 +198,9 @@ public class backupPageController implements Initializable {
 
         @Override
         public void run() {
+             int result = getRandom();
             try {
-                for (int i = 0; i <= 50; i++) {
+                for (int i = 0; i <= result; i++) {
                     progrss = i;
                     Thread.sleep(150);
                     Platform.runLater(() -> {
@@ -199,12 +210,12 @@ public class backupPageController implements Initializable {
                 String userName = config.getUserName();
                 String password = config.getPassword();
                 String dbName = config.getDbName();
-                Runtime run = Runtime.getRuntime();
-                String[] restorCmd = new String[]{"C:\\Program Files\\MySQL\\MySQL Server 8.0\\bin\\mysql ", dbName, " -u" + userName, " -p" + password, " -e", " source " + backupfile};
+                Runtime run = Runtime.getRuntime();// 
+                String[] restorCmd = new String[]{"C:\\Program Files\\MySQL\\MySQL Server 8.0\\bin\\mysql "," --protocol=tcp"," --host=127.0.0.1", " -u" + userName, " -p" + password," --port=3306"," --default-character-set=utf8",  " --comments"," --database="+dbName, " < " + backupfile};
                 Process pr = run.exec(restorCmd);
 
                 int processComplete = pr.waitFor();
-                for (int i = 50; i <= 100; i++) {
+                for (int i = result; i <= 100; i++) {
                     progrss = i;
                     Thread.sleep(150);
                     Platform.runLater(() -> {

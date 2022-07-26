@@ -6,8 +6,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -19,8 +17,6 @@ import modeles.FollowupModel;
 
 public class FollowupItemController implements Initializable {
 
-    @FXML
-    private Label squnce;
     @FXML
     private Label circularid;
     @FXML
@@ -40,6 +36,8 @@ public class FollowupItemController implements Initializable {
     private HBox content;
     @FXML
     private Label remingdayes;
+    @FXML
+    private HBox state;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -62,16 +60,16 @@ public class FollowupItemController implements Initializable {
             remingdayes.setText(Integer.toString(remingday) + " " + "يوما");
         }
         if (remingday <= 7 && remingday > 5 && followupModel.getOpenStat() == 0) {
-            content.setStyle(" -fx-background-color: #FFD764;");
+            state.setStyle(" -fx-background-color: #F68A1F;");
         } else if (remingday <= 5 && followupModel.getOpenStat() == 0) {
-            content.setStyle(" -fx-background-color: #FE0000;");
-            circularid.setStyle(" -fx-text-fill: #FFFFFF;");
-            circularDate.setStyle(" -fx-text-fill: #FFFFFF;");
-            topic.setStyle(" -fx-text-fill: #FFFFFF;");
-            Required.setStyle(" -fx-text-fill: #FFFFFF;");
-            Status.setStyle(" -fx-text-fill: #FFFFFF;");
-            CompletionDate.setStyle(" -fx-text-fill: #FFFFFF;");
-            remingdayes.setStyle(" -fx-text-fill: #FFFFFF;");
+            state.setStyle(" -fx-background-color: #FE0000;");
+//            circularid.setStyle(" -fx-text-fill: #FFFFFF;");
+//            circularDate.setStyle(" -fx-text-fill: #FFFFFF;");
+//            topic.setStyle(" -fx-text-fill: #FFFFFF;");
+//            Required.setStyle(" -fx-text-fill: #FFFFFF;");
+//            Status.setStyle(" -fx-text-fill: #FFFFFF;");
+//            CompletionDate.setStyle(" -fx-text-fill: #FFFFFF;");
+//            remingdayes.setStyle(" -fx-text-fill: #FFFFFF;");
         }
     }
 
@@ -90,6 +88,12 @@ public class FollowupItemController implements Initializable {
     @FXML
     private void click(MouseEvent event) {
         followupPageListener.onClickListener(followupModel);
+    }
+
+    @FXML
+    private void showImage(ActionEvent event) {
+//        byte[] pdfimage = DatabaseAccess.getInternalIncomingPdfFile(regisNO.getText(), recordYear);
+//        ShowPdf.writePdf(pdfimage);
     }
 
 }

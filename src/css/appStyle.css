@@ -457,6 +457,11 @@
     -fx-effect: dropshadow(three-pass-box,#3C3B3B, 20, 0, 5, 5);
     -fx-background-color: #DEE2DB;
 }
+.followupstat{
+   -fx-background-color: #1E3606;
+   -fx-border-color: #697959;
+    -fx-border-width: 0 7 0 0 ;
+}
 .exclButton{
     -fx-font-family: "URW DIN Arabic";
     -fx-border-radius: 50;

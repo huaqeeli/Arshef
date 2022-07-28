@@ -54,7 +54,8 @@ public class FollowupPageController implements Initializable {
     private VBox vbox;
     List<FollowupModel> followupObject = new ArrayList<>();
     private FollowupPageListener mylistener;
-    String circularID, cirularDate;
+    String circularID, cirularDate, tablename;
+    String tableId;
     ObservableList<String> circularTypelist = FXCollections.observableArrayList("الوارد الخارجي", "الصادرالخارجي", "الوارد الداخلي", "الصادر الداخلي");
     ObservableList<String> searchTypelist = FXCollections.observableArrayList("المعاملات تحت الاجراء", "المعاملات المنتهية");
 
@@ -110,16 +111,17 @@ public class FollowupPageController implements Initializable {
     @FXML
     private void save(ActionEvent event) {
         String tableName = "followup";
-        String fieldName = "`CIRCULARID`,`CIRCULARDATE`,`TOPIC`,`REQUIRED`,`STATUS`,`COMPLETIONDATE`";
-        String[] data = {circularid.getText(), getCircularDate(), topic.getText(), Required.getText(), Status.getText(), getCompletionDate()};
+        String fieldName = "`CIRCULARID`,`CIRCULARDATE`,`TOPIC`,`REQUIRED`,`STATUS`,`COMPLETIONDATE`,`TABLENAME`,`TABLEID`";
+        String[] data = {circularid.getText(), getCircularDate(), topic.getText(), Required.getText(), Status.getText(), getCompletionDate(), tablename, tableId};
         String valuenumbers = "?,?,?,?,?,?";
 
         boolean circularidState = FormValidation.textFieldNotEmpty(circularid, "الرجاء ادخال رقم المعاملة");
+        boolean circularTypeState = FormValidation.comboBoxNotEmpty(circularType, "الرجاء ادخال رقم المعاملة");
         boolean topicState = FormValidation.textFieldNotEmpty(topic, "الرجاء ادخال الموضوع");
         boolean RequiredState = FormValidation.textFieldNotEmpty(Required, "الرجاء ادخال الاجراء المطلوب");
         boolean circularidExisting = FormValidation.ifexisting("followup", "CIRCULARID", "CIRCULARID = '" + circularid.getText() + "' AND CIRCULARDATE = '" + getCircularDate() + "'", "تم اداخال المعاملة مسبقا");
 
-        if (RequiredState && circularidState && topicState && circularidExisting) {
+        if (RequiredState && circularidState && topicState && circularidExisting && circularTypeState) {
             try {
                 DatabaseAccess.insert(tableName, fieldName, valuenumbers, data);
                 refreshData();
@@ -133,8 +135,8 @@ public class FollowupPageController implements Initializable {
     @FXML
     private void edit(ActionEvent event) {
         String tableName = "followup";
-        String fieldName = "`CIRCULARID`=?,`CIRCULARDATE`=?,`TOPIC`=?,`REQUIRED`=?,`STATUS`=?,`COMPLETIONDATE`=?";
-        String[] data = {circularid.getText(), getCircularDate(), topic.getText(), Required.getText(), Status.getText(), getCompletionDate()};
+        String fieldName = "`CIRCULARID`=?,`CIRCULARDATE`=?,`TOPIC`=?,`REQUIRED`=?,`STATUS`=?,`COMPLETIONDATE`=?,`TABLENAME`=?,`TABLEID`=?";
+        String[] data = {circularid.getText(), getCircularDate(), topic.getText(), Required.getText(), Status.getText(), getCompletionDate(), tablename, tableId};
 
         boolean circularidState = FormValidation.textFieldNotEmpty(circularid, "الرجاء ادخال رقم المعاملة");
         boolean topicState = FormValidation.textFieldNotEmpty(topic, "الرجاء ادخال الموضوع");
@@ -223,6 +225,8 @@ public class FollowupPageController implements Initializable {
                 followupModel.setStatus(rs.getString("STATUS"));
                 followupModel.setCompletiondate(rs.getString("COMPLETIONDATE"));
                 followupModel.setOpenStat(rs.getInt("OPENSTAT"));
+                followupModel.setTableName(rs.getString("TABLENAME"));
+                followupModel.setTableId(rs.getString("TABLEID"));
                 followupObjects.add(followupModel);
             }
         } catch (SQLException ex) {
@@ -268,50 +272,89 @@ public class FollowupPageController implements Initializable {
                 case "الوارد الخارجي":
                     try {
 //                        ResultSet rs = DatabaseAccess.select("externalincoming", "RECEIPTNUMBER = '" + circularid.getText() + "' AND ARSHEFYEAR ='" + HijriCalendar.getSimpleYear() + "'");
-                        ResultSet rs = DatabaseAccess.selectQuiry("SELECT CIRCULARDATE,TOPIC FROM externalincoming WHERE RECEIPTNUMBER = '" + circularid.getText() + "' AND ARSHEFYEAR ='" + HijriCalendar.getSimpleYear() + "'");
-                        if (rs.next()) {
-                            setCircularDate(rs.getString("CIRCULARDATE"));
-                            topic.setText(rs.getString("TOPIC"));
-                        }
-                    } catch (IOException | SQLException ex) {
-                        FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+                    ResultSet rs = DatabaseAccess.selectQuiry("SELECT CIRCULARDATE,TOPIC FROM externalincoming WHERE RECEIPTNUMBER = '" + circularid.getText() + "' AND ARSHEFYEAR ='" + HijriCalendar.getSimpleYear() + "'");
+                    if (rs.next()) {
+                        setCircularDate(rs.getString("CIRCULARDATE"));
+                        topic.setText(rs.getString("TOPIC"));
+                        tablename = "externalincoming";
+                        tableId = "CIRCULARID";
                     }
-                    break;
+                } catch (IOException | SQLException ex) {
+                    FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+                }
+                break;
                 case "الصادرالخارجي":
                     try {
 //                        ResultSet rs = DatabaseAccess.select("exportsdata", "EXPORTNUM = '" + circularid.getText() + "' AND RECORDYEAR ='" + HijriCalendar.getSimpleYear() + "'");
-                        ResultSet rs = DatabaseAccess.selectQuiry("SELECT TOPIC,EXPORTDATE FROM exportsdata WHERE EXPORTNUM = '" + circularid.getText() + "'AND RECORDYEAR = '" +HijriCalendar.getSimpleYear() + "'");
-                        if (rs.next()) {
-                            setCircularDate(rs.getString("EXPORTDATE"));
-                            topic.setText(rs.getString("TOPIC"));
-                        }
-                    } catch (IOException | SQLException ex) {
-                        FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+                    ResultSet rs = DatabaseAccess.selectQuiry("SELECT TOPIC,EXPORTDATE FROM exportsdata WHERE EXPORTNUM = '" + circularid.getText() + "'AND RECORDYEAR = '" + HijriCalendar.getSimpleYear() + "'");
+                    if (rs.next()) {
+                        setCircularDate(rs.getString("EXPORTDATE"));
+                        topic.setText(rs.getString("TOPIC"));
+                        tablename = "exportsdata";
+                        tableId = "ID";
                     }
-                    break;
+                } catch (IOException | SQLException ex) {
+                    FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+                }
+                break;
                 case "الوارد الداخلي":
                     try {
 //                        ResultSet rs = DatabaseAccess.select("internalincoming", "REGIS_NO = '" + circularid.getText() + "' AND RECORD_YEAR ='" + HijriCalendar.getSimpleYear() + "'");
-                        ResultSet rs = DatabaseAccess.selectQuiry("SELECT  RECIPIENT_DATE,TOPIC FROM internalincoming WHERE REGIS_NO = '" + circularid.getText() + "' AND RECORD_YEAR ='" + HijriCalendar.getSimpleYear() + "'");
-                        if (rs.next()) {
-                            setCircularDate(rs.getString("RECIPIENT_DATE"));
-                            topic.setText(rs.getString("TOPIC"));
-                        }
-                    } catch (IOException | SQLException ex) {
-                        FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+                    ResultSet rs = DatabaseAccess.selectQuiry("SELECT  RECIPIENT_DATE,TOPIC FROM internalincoming WHERE REGIS_NO = '" + circularid.getText() + "' AND RECORD_YEAR ='" + HijriCalendar.getSimpleYear() + "'");
+                    if (rs.next()) {
+                        setCircularDate(rs.getString("RECIPIENT_DATE"));
+                        topic.setText(rs.getString("TOPIC"));
+                        tablename = "internalincoming";
+                        tableId = "REGIS_NO";
                     }
-                    break;
+                } catch (IOException | SQLException ex) {
+                    FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+                }
+                break;
                 case "الصادر الداخلي":
                     try {
 //                        ResultSet rs = DatabaseAccess.select("internalexports", "REGISNO = '" + circularid.getText() + "' AND RECORDYEAR ='" + HijriCalendar.getSimpleYear() + "'");
-                        ResultSet rs = DatabaseAccess.selectQuiry("SELECT EXPORTDATE,TOPIC FROM internalexports WHERE REGISNO = '" + circularid.getText() + "' AND RECORDYEAR ='" + HijriCalendar.getSimpleYear() + "'");
-                        if (rs.next()) {
-                            setCircularDate(rs.getString("EXPORTDATE"));
-                            topic.setText(rs.getString("TOPIC"));
-                        }
-                    } catch (IOException | SQLException ex) {
-                        FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+                    ResultSet rs = DatabaseAccess.selectQuiry("SELECT EXPORTDATE,TOPIC FROM internalexports WHERE REGISNO = '" + circularid.getText() + "' AND RECORDYEAR ='" + HijriCalendar.getSimpleYear() + "'");
+                    if (rs.next()) {
+                        setCircularDate(rs.getString("EXPORTDATE"));
+                        topic.setText(rs.getString("TOPIC"));
+                        tablename = "internalexports";
+                        tableId = "REGISNO";
                     }
+                } catch (IOException | SQLException ex) {
+                    FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+                }
+                break;
+            }
+        }
+    }
+
+    @FXML
+    private void getTableNameAndTableId(ActionEvent event) {
+        String typeValue = circularType.getValue();
+        if (typeValue == null || "".equals(typeValue)) {
+            FormValidation.showAlert(null, "الرجاء اختيار نوع المعاملة", Alert.AlertType.ERROR);
+        } else {
+            switch (typeValue) {
+                case "الوارد الخارجي":
+                    tablename = "externalincoming";
+                    tableId = "CIRCULARID";
+                    System.out.println(tablename + "" + tableId);
+                    break;
+                case "الصادرالخارجي":
+                    tablename = "exportsdata";
+                    tableId = "ID";
+                    System.out.println(tablename + "" + tableId);
+                    break;
+                case "الوارد الداخلي":
+                    tablename = "internalincoming";
+                    tableId = "REGIS_NO";
+                    System.out.println(tablename + "" + tableId);
+                    break;
+                case "الصادر الداخلي":
+                    tablename = "internalexports";
+                    tableId = "REGISNO";
+                    System.out.println(tablename + "" + tableId);
                     break;
             }
         }

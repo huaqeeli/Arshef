@@ -227,6 +227,28 @@ public class DatabaseAccess {
         }
         return pdfByte;
     }
+    public static byte[] getPdfFile(String regisid,String tableName,String tableid, String year) {
+        InputStream image = null;
+        byte[] pdfByte = null;
+        try {
+            if (regisid == null || year == null) {
+                FormValidation.showAlert(null, "اختر السجل من الجدول", Alert.AlertType.ERROR);
+            } else {
+                ResultSet rs = DatabaseAccess.getData("SELECT IMAGE FROM " + tableName + " WHERE " + tableid + " = '" + regisid + "' AND RECORD_YEAR = '" + year + "'");
+                if (rs.next()) {
+                    image = rs.getBinaryStream("IMAGE");
+                    pdfByte = new byte[image.available()];
+                    image.read(pdfByte);
+                } else {
+                    FormValidation.showAlert(null, "لا توجد صورة ", Alert.AlertType.ERROR);
+                }
+                rs.close();
+            }
+        } catch (IOException | SQLException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
+        return pdfByte;
+    }
 
     public static byte[] getSecretPdfFile(String regisid, String year) {
         InputStream image = null;

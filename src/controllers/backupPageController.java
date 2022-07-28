@@ -210,8 +210,9 @@ public class backupPageController implements Initializable {
                 String userName = config.getUserName();
                 String password = config.getPassword();
                 String dbName = config.getDbName();
+                 String hostName = config.getHostName();
                 Runtime run = Runtime.getRuntime();// 
-                String[] restorCmd = new String[]{"C:\\Program Files\\MySQL\\MySQL Server 8.0\\bin\\mysql "," --protocol=tcp"," --host=127.0.0.1", " -u" + userName, " -p" + password," --port=3306"," --default-character-set=utf8",  " --comments"," --database="+dbName, " < " + backupfile};
+                String[] restorCmd = new String[]{config.getAppURL()+"\\backupfiles\\mysql.exe "," --protocol=tcp"," --host="+hostName, " --user=" + userName, " -password=" + password," --port=3306"," --default-character-set=utf8",  " --comments"," --database="+dbName, " < " + backupfile};
                 Process pr = run.exec(restorCmd);
 
                 int processComplete = pr.waitFor();

@@ -453,6 +453,9 @@
     -fx-background-radius: 50;
     -fx-background-color: #1E3606;
 }
+.actionButton:hover{
+    -fx-background-color: #697959;
+}
 .actionButtonContener{
     -fx-effect: dropshadow(three-pass-box,#3C3B3B, 20, 0, 5, 5);
     -fx-background-color: #DEE2DB;

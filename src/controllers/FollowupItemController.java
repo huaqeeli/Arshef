@@ -38,6 +38,7 @@ public class FollowupItemController implements Initializable {
     private Label remingdayes;
     @FXML
     private HBox state;
+    String tableName, tableId,recordYear;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -53,6 +54,9 @@ public class FollowupItemController implements Initializable {
         Required.setText(followupModel.getRequired());
         Status.setText(followupModel.getStatus());
         CompletionDate.setText(followupModel.getCompletiondate());
+        tableName = followupModel.getTableName();
+        tableId = followupModel.getTableId();
+        recordYear = AppDate.getYear(followupModel.getCirculardate());
         int remingday = AppDate.getRemainingDays(followupModel.getCompletiondate());
         if (remingday < 0) {
             remingdayes.setText("0");
@@ -78,7 +82,7 @@ public class FollowupItemController implements Initializable {
         try {
             int t = DatabaseAccess.updat("followup", " OPENSTAT = 1", "CIRCULARID = '" + circularid.getText() + "' AND CIRCULARDATE = '" + circularDate.getText() + "'");
             if (t > 0) {
-                FormValidation.showAlert("", "تم حذف المعاملة حدث الصفحة لمشاهدة التغيير" , Alert.AlertType.CONFIRMATION);
+                FormValidation.showAlert("", "تم حذف المعاملة الرجاء تحديث الصفحة لعرض البيانات", Alert.AlertType.CONFIRMATION);
             }
         } catch (IOException | SQLException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
@@ -92,8 +96,9 @@ public class FollowupItemController implements Initializable {
 
     @FXML
     private void showImage(ActionEvent event) {
-//        byte[] pdfimage = DatabaseAccess.getInternalIncomingPdfFile(regisNO.getText(), recordYear);
-//        ShowPdf.writePdf(pdfimage);
+        byte[] pdfimage = DatabaseAccess.getPdfFile(circularid.getText(),tableName,tableId,recordYear );
+        ShowPdf.writePdf(pdfimage);
     }
+    
 
 }

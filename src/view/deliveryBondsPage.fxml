@@ -13,11 +13,11 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" prefHeight="800.0" prefWidth="1200.0" styleClass="mainFxmlClass" stylesheets="@../css/appStyle.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.InternalExportsPageController">
+<AnchorPane id="AnchorPane" prefHeight="800.0" prefWidth="1200.0" styleClass="mainFxmlClass" stylesheets="@../css/appStyle.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.InternalExportsPageController">
    <children>
       <HBox alignment="CENTER_RIGHT" prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #1E3606;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label styleClass="headerlabel" text="الصادر الداخلي">
+            <Label styleClass="headerlabel" text="تسليم المعاملات">
                <HBox.margin>
                   <Insets right="5.0" />
                </HBox.margin>
@@ -56,19 +56,6 @@
                   </Button>
                </children>
             </HBox>
-            <HBox alignment="CENTER" layoutX="15.0" layoutY="107.0" maxHeight="45.0" minHeight="45.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="45.0" prefWidth="1065.0">
-               <children>
-                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="190.0" styleClass="toolBarButton" text="نوع الصادر" />
-                  <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="300.0" HBox.hgrow="ALWAYS">
-                     <children>
-                        <ComboBox fx:id="incomingType" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="280.0" styleClass="appComboBox" HBox.hgrow="ALWAYS" />
-                     </children>
-                  </HBox>
-               </children>
-               <VBox.margin>
-                  <Insets left="5.0" right="5.0" />
-               </VBox.margin>
-            </HBox>
             <HBox alignment="CENTER" layoutX="10.0" layoutY="10.0" maxHeight="45.0" minHeight="45.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="45.0" prefWidth="1065.0">
                <children>
                   <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="190.0" styleClass="toolBarButton" text="التاريخ" />
@@ -77,82 +64,21 @@
                         <ComboBox fx:id="exportsDay" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="150.0" styleClass="appComboBox" HBox.hgrow="ALWAYS" />
                         <ComboBox fx:id="exportsMonth" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="150.0" styleClass="appComboBox" HBox.hgrow="ALWAYS" />
                         <ComboBox fx:id="exportsYear" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="150.0" styleClass="appComboBox" HBox.hgrow="ALWAYS" />
+                        <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#insertData" prefHeight="40.0" prefWidth="300.0" styleClass="toolBarButton" text="انشاء سند جديد" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </Button>
+                        <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#updateData" prefHeight="40.0" prefWidth="300.0" styleClass="toolBarButton" text="حذف" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets left="2.0" />
+                           </HBox.margin>
+                        </Button>
                      </children>
                   </HBox>
-                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="190.0" styleClass="toolBarButton" text="رقم الوارد" />
-                  <TextField fx:id="incomingNum" alignment="CENTER" onAction="#getIncomingData" prefHeight="40.0" prefWidth="300.0" styleClass="appText" HBox.hgrow="ALWAYS" />
                </children>
                <VBox.margin>
                   <Insets bottom="2.0" left="5.0" right="5.0" top="5.0" />
-               </VBox.margin>
-            </HBox>
-            <HBox alignment="CENTER" layoutX="10.0" layoutY="10.0" maxHeight="45.0" minHeight="45.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="45.0" prefWidth="1065.0">
-               <children>
-                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="190.0" styleClass="toolBarButton" text="موضوع المعاملة " />
-                  <TextField fx:id="topic" alignment="CENTER" maxWidth="1.7976931348623157E308" nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="300.0" styleClass="appText" HBox.hgrow="ALWAYS" />
-                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="190.0" styleClass="toolBarButton" text="موجه الى" />
-                  <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="300.0" HBox.hgrow="ALWAYS">
-                     <children>
-                        <ComboBox fx:id="destination" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="280.0" styleClass="appComboBox" HBox.hgrow="ALWAYS" />
-                     </children>
-                  </HBox>
-               </children>
-               <VBox.margin>
-                  <Insets bottom="2.0" left="5.0" right="5.0" />
-               </VBox.margin>
-            </HBox>
-            <HBox alignment="CENTER" layoutX="10.0" layoutY="60.0" maxHeight="45.0" minHeight="45.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="45.0" prefWidth="1065.0">
-               <children>
-                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="190.0" styleClass="toolBarButton" text="ملف الحفظ" />
-                  <TextField fx:id="saveFaile" alignment="CENTER" maxWidth="1.7976931348623157E308" nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="300.0" styleClass="appText" HBox.hgrow="ALWAYS" />
-                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="190.0" styleClass="toolBarButton" text="صورة المعاملة" />
-                  <HBox maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="300.0" HBox.hgrow="ALWAYS">
-                     <children>
-                        <TextField fx:id="imageUrl" alignment="CENTER" prefHeight="40.0" prefWidth="300.0" styleClass="appText" HBox.hgrow="ALWAYS" />
-                        <Button focusTraversable="false" mnemonicParsing="false" onAction="#getImageUrle" prefHeight="40.0" prefWidth="17.0" styleClass="toolBarButton" text="......" HBox.hgrow="ALWAYS" />
-                     </children>
-                  </HBox>
-               </children>
-               <VBox.margin>
-                  <Insets bottom="2.0" left="5.0" right="5.0" />
-               </VBox.margin>
-            </HBox>
-            <HBox alignment="CENTER" layoutX="15.0" layoutY="142.0" maxHeight="45.0" minHeight="45.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="45.0" prefWidth="1065.0">
-               <children>
-                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="190.0" styleClass="toolBarButton" text="ملاحظات" />
-                  <TextField fx:id="notes" alignment="CENTER" maxWidth="1.7976931348623157E308" nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="300.0" styleClass="appText" HBox.hgrow="ALWAYS" />
-               </children>
-               <VBox.margin>
-                  <Insets bottom="2.0" left="5.0" right="5.0" />
-               </VBox.margin>
-            </HBox>
-            <HBox alignment="CENTER_RIGHT" maxHeight="45.0" minHeight="45.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="45.0" prefWidth="1065.0">
-               <children>
-                  <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#insertData" prefHeight="40.0" prefWidth="300.0" styleClass="toolBarButton" text="حفظ" HBox.hgrow="ALWAYS">
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin>
-                  </Button>
-                  <Button layoutX="989.0" layoutY="15.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#updateData" prefHeight="40.0" prefWidth="300.0" styleClass="toolBarButton" text="تعديل" HBox.hgrow="ALWAYS">
-                     <HBox.margin>
-                        <Insets left="2.0" />
-                     </HBox.margin>
-                  </Button>
-                  <Button mnemonicParsing="false" onAction="#clear" prefHeight="40.0" prefWidth="80.0" styleClass="toolBarButton">
-                     <graphic>
-                        <ImageView fitHeight="28.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../images/refreach.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                     <HBox.margin>
-                        <Insets left="2.0" />
-                     </HBox.margin>
-                  </Button>
-               </children>
-               <VBox.margin>
-                  <Insets bottom="2.0" left="5.0" right="5.0" />
                </VBox.margin>
             </HBox>
             <StackPane fx:id="stackPane" VBox.vgrow="ALWAYS">

@@ -9,8 +9,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -113,7 +111,7 @@ public class FollowupPageController implements Initializable {
         String tableName = "followup";
         String fieldName = "`CIRCULARID`,`CIRCULARDATE`,`TOPIC`,`REQUIRED`,`STATUS`,`COMPLETIONDATE`,`TABLENAME`,`TABLEID`";
         String[] data = {circularid.getText(), getCircularDate(), topic.getText(), Required.getText(), Status.getText(), getCompletionDate(), tablename, tableId};
-        String valuenumbers = "?,?,?,?,?,?";
+        String valuenumbers = "?,?,?,?,?,?,?,?";
 
         boolean circularidState = FormValidation.textFieldNotEmpty(circularid, "الرجاء ادخال رقم المعاملة");
         boolean circularTypeState = FormValidation.comboBoxNotEmpty(circularType, "الرجاء ادخال رقم المعاملة");
@@ -272,7 +270,7 @@ public class FollowupPageController implements Initializable {
                 case "الوارد الخارجي":
                     try {
 //                        ResultSet rs = DatabaseAccess.select("externalincoming", "RECEIPTNUMBER = '" + circularid.getText() + "' AND ARSHEFYEAR ='" + HijriCalendar.getSimpleYear() + "'");
-                    ResultSet rs = DatabaseAccess.selectQuiry("SELECT CIRCULARDATE,TOPIC FROM externalincoming WHERE RECEIPTNUMBER = '" + circularid.getText() + "' AND ARSHEFYEAR ='" + HijriCalendar.getSimpleYear() + "'");
+                    ResultSet rs = DatabaseAccess.selectQuiry("SELECT CIRCULARDATE,TOPIC FROM externalincoming WHERE RECEIPTNUMBER = '" + circularid.getText() + "' AND ARSHEFYEAR ='" + AppDate.getYear(getCircularDate()) + "'");
                     if (rs.next()) {
                         setCircularDate(rs.getString("CIRCULARDATE"));
                         topic.setText(rs.getString("TOPIC"));
@@ -286,7 +284,7 @@ public class FollowupPageController implements Initializable {
                 case "الصادرالخارجي":
                     try {
 //                        ResultSet rs = DatabaseAccess.select("exportsdata", "EXPORTNUM = '" + circularid.getText() + "' AND RECORDYEAR ='" + HijriCalendar.getSimpleYear() + "'");
-                    ResultSet rs = DatabaseAccess.selectQuiry("SELECT TOPIC,EXPORTDATE FROM exportsdata WHERE EXPORTNUM = '" + circularid.getText() + "'AND RECORDYEAR = '" + HijriCalendar.getSimpleYear() + "'");
+                    ResultSet rs = DatabaseAccess.selectQuiry("SELECT TOPIC,EXPORTDATE FROM exportsdata WHERE EXPORTNUM = '" + circularid.getText() + "'AND RECORDYEAR = '" + AppDate.getYear(getCircularDate()) + "'");
                     if (rs.next()) {
                         setCircularDate(rs.getString("EXPORTDATE"));
                         topic.setText(rs.getString("TOPIC"));
@@ -300,7 +298,7 @@ public class FollowupPageController implements Initializable {
                 case "الوارد الداخلي":
                     try {
 //                        ResultSet rs = DatabaseAccess.select("internalincoming", "REGIS_NO = '" + circularid.getText() + "' AND RECORD_YEAR ='" + HijriCalendar.getSimpleYear() + "'");
-                    ResultSet rs = DatabaseAccess.selectQuiry("SELECT  RECIPIENT_DATE,TOPIC FROM internalincoming WHERE REGIS_NO = '" + circularid.getText() + "' AND RECORD_YEAR ='" + HijriCalendar.getSimpleYear() + "'");
+                    ResultSet rs = DatabaseAccess.selectQuiry("SELECT  RECIPIENT_DATE,TOPIC FROM internalincoming WHERE REGIS_NO = '" + circularid.getText() + "' AND RECORD_YEAR ='" +AppDate.getYear(getCircularDate()) + "'");
                     if (rs.next()) {
                         setCircularDate(rs.getString("RECIPIENT_DATE"));
                         topic.setText(rs.getString("TOPIC"));
@@ -314,7 +312,7 @@ public class FollowupPageController implements Initializable {
                 case "الصادر الداخلي":
                     try {
 //                        ResultSet rs = DatabaseAccess.select("internalexports", "REGISNO = '" + circularid.getText() + "' AND RECORDYEAR ='" + HijriCalendar.getSimpleYear() + "'");
-                    ResultSet rs = DatabaseAccess.selectQuiry("SELECT EXPORTDATE,TOPIC FROM internalexports WHERE REGISNO = '" + circularid.getText() + "' AND RECORDYEAR ='" + HijriCalendar.getSimpleYear() + "'");
+                    ResultSet rs = DatabaseAccess.selectQuiry("SELECT EXPORTDATE,TOPIC FROM internalexports WHERE REGISNO = '" + circularid.getText() + "' AND RECORDYEAR ='" + AppDate.getYear(getCircularDate()) + "'");
                     if (rs.next()) {
                         setCircularDate(rs.getString("EXPORTDATE"));
                         topic.setText(rs.getString("TOPIC"));

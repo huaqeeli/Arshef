@@ -78,6 +78,7 @@ public class InternalExportsPageController implements Initializable {
     ObservableList<String> destinationlist = FXCollections.observableArrayList();
     ObservableList<InternalExportsModel> exportsList = FXCollections.observableArrayList();
     ObservableList<String> searchTypelist = FXCollections.observableArrayList("البحث برقم الصادر", "البحث بتاريخ الصادر", "البحث بالموضوع", "البحث بجهة الصادر", "البحث برقم الملف", "البحث بالرقم العسكري", "عرض الكل");
+    ObservableList<String> incomingTypelist = FXCollections.observableArrayList("صادر جديد", "صادر معاملة واردة خارجية", "صادر معاملة واردة داخلية");
     Config config = new Config();
     @FXML
     private ComboBox<?> searchDateDay;
@@ -92,6 +93,8 @@ public class InternalExportsPageController implements Initializable {
     ActionEvent event;
     @FXML
     private StackPane stackPane;
+    @FXML
+    private ComboBox<String> incomingType;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -102,6 +105,7 @@ public class InternalExportsPageController implements Initializable {
             AppDate.setDateValue(searchDateDay, searchDateMonth, searchDateYear);
             AppDate.setCurrentDate(searchDateDay, searchDateMonth, searchDateYear);
             FillComboBox.fillComboBox(searchTypelist, searchType);
+            FillComboBox.fillComboBox(incomingTypelist, incomingType);
             destination.setItems(filleDestination(destinationlist));
             AppDate.setYearValue(year);
             year.setValue(Integer.toString(HijriCalendar.getSimpleYear()));
@@ -209,13 +213,35 @@ public class InternalExportsPageController implements Initializable {
         setImageUrl(imagefile.getPath());
         return imagefile;
     }
+//("صادر جديد", "صادر معاملة واردة خارجية", "صادر معاملة واردة داخلية")
 
     @FXML
     private void insertData(ActionEvent event) throws IOException, SQLException {
+        String regisNo = null;
+        String exportType = incomingType.getValue();
+        switch (exportType) {
+            case "صادر جديد":
+                regisNo = DatabaseAccess.getRegistrationNum();
+                break;
+            case "صادر معاملة واردة خارجية":
+                if (getIncomingNum() != null || !"".equals(getIncomingNum())) {
+                    regisNo = getIncomingNum();
+                } else {
+                    FormValidation.showAlert(null, "ادخل رقم الوراد الخارجي", Alert.AlertType.ERROR);
+                }
+                break;
+            case "صادر معاملة واردة داخلية":
+                if (getIncomingNum() != null || !"".equals(getIncomingNum())) {
+                    regisNo = getIncomingNum();
+                } else {
+                    FormValidation.showAlert(null, "ادخل رقم الوراد الداخلي", Alert.AlertType.ERROR);
+                }
+                break;
+        }
         String tableName = "internalexports";
         recordYear = Integer.toString(HijriCalendar.getSimpleYear());
         String fieldName = null;
-        String[] data = {DatabaseAccess.getRegistrationNum(), getExportsDate(), getDestination(), getTopic(), getSaveFaile(), getNotes(), recordYear};
+        String[] data = {regisNo, getExportsDate(), getDestination(), getTopic(), getSaveFaile(), getNotes(), recordYear};
         String valuenumbers = null;
         if (imagefile != null) {
             fieldName = "`REGISNO`,`EXPORTDATE`,`DESTINATION`,`TOPIC`,`SAVEFILE`,`NOTES`,`RECORDYEAR`,`IMAGE`";
@@ -227,8 +253,9 @@ public class InternalExportsPageController implements Initializable {
 
         boolean topicState = FormValidation.textFieldNotEmpty(topic, "الرجاء ادخال الموضوع");
         boolean destinationState = FormValidation.comboBoxNotEmpty(destination, "الرجاء ادخال جهة الصادر");
+        boolean incomingTypeState = FormValidation.comboBoxNotEmpty(incomingType, "اختر نوع الصادر");
 
-        if (topicState && destinationState) {
+        if (topicState && destinationState && incomingTypeState) {
             try {
                 DatabaseAccess.insert(tableName, fieldName, valuenumbers, data, imagefile);
                 registrationId = DatabaseAccess.getRegistrationNum();
@@ -535,16 +562,40 @@ public class InternalExportsPageController implements Initializable {
 
     @FXML
     private void getIncomingData(ActionEvent event) {
-        try {
-            ResultSet rs = DatabaseAccess.select("internalincoming", "REGIS_NO = '" + getIncomingNum() + "'");
-            if (rs.next()) {
-                setTopic(rs.getString("TOPIC"));
-                setSaveFaile(rs.getString("SAVE_FILE"));
-                setNotes(rs.getString("NOTES"));
+       String exportType = incomingType.getValue();
+        if (exportType == null || "".equals(exportType)) {
+            FormValidation.showAlert(null, "الرجاء اختيار نوع المعاملة", Alert.AlertType.ERROR);
+        } else {
+            switch (exportType) {
+                case "صادر معاملة واردة خارجية":
+                    try {
+                    ResultSet rs = DatabaseAccess.selectQuiry("SELECT TOPIC,DESTINATION,SAVEFILE FROM externalincoming WHERE RECEIPTNUMBER = '" + getIncomingNum() + "' AND ARSHEFYEAR ='" + getYear() + "'");
+                    if (rs.next()) {
+                        setTopic(rs.getString("TOPIC"));
+                        setDestination(rs.getString("DESTINATION"));
+                        setSaveFaile(rs.getString("SAVEFILE"));
+
+                    }
+//                    rs.close();
+                } catch (IOException | SQLException ex) {
+                    FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+                }
+                break;
+                case "صادر معاملة واردة داخلية":
+                    try {
+                    ResultSet rs = DatabaseAccess.selectQuiry("SELECT TOPIC,CIRCULAR_DIR,SAVE_FILE FROM internalincoming WHERE REGIS_NO = '" + getIncomingNum() + "' AND RECORD_YEAR ='" + getYear() + "'");
+                    if (rs.next()) {
+                        setTopic(rs.getString("TOPIC"));
+                        setDestination(rs.getString("CIRCULAR_DIR"));
+                        setSaveFaile(rs.getString("SAVE_FILE"));
+                    }
+//                    rs.close();
+                    break;
+                } catch (IOException | SQLException ex) {
+                    FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+                }
+
             }
-            rs.close();
-        } catch (IOException | SQLException ex) {
-            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
     }
 
@@ -679,20 +730,7 @@ public class InternalExportsPageController implements Initializable {
         }
     }
 
-    @FXML
-    private void getIncomingData(KeyEvent event) {
-        try {
-            ResultSet rs = DatabaseAccess.select("internalincoming", "REGIS_NO = '" + getIncomingNum() + "' AND RECORD_YEAR = '" + getYear() + "'");
-            if (rs.next()) {
-                setTopic(rs.getString("TOPIC"));
-                setDestination(rs.getString("CIRCULAR_DIR"));
-                setSaveFaile(rs.getString("SAVE_FILE"));
-            }
-        } catch (IOException | SQLException ex) {
-            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
-        }
-    }
- public class GetAllData extends Thread {
+    public class GetAllData extends Thread {
 
         RingProgressIndicator rpi;
         int progrss = 0;
@@ -715,7 +753,7 @@ public class InternalExportsPageController implements Initializable {
                     @Override
                     public void run() {
                         try {
-                          viewdata(getAllData());
+                            viewdata(getAllData());
                         } catch (SQLException ex) {
                             Logger.getLogger(InternalIncomingPageController.class.getName()).log(Level.SEVERE, null, ex);
                         }

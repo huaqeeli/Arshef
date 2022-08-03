@@ -169,4 +169,9 @@ public class HomePageController implements Initializable {
         App.showFxml("/view/backupPage");
     }
 
+    @FXML
+    private void deliveryBondsPage(ActionEvent event) throws IOException {
+        content.setCenter(App.loadFXML("/view/deliveryBondsPage"));
+    }
+
 }

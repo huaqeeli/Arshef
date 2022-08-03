@@ -125,10 +125,14 @@
                         <Insets bottom="5.0" />
                      </VBox.margin>
                   </Button>
-                  <Button alignment="CENTER" layoutX="10.0" layoutY="689.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#backupPage" prefHeight="43.0" prefWidth="100.0" styleClass="toolBarButton" text="النسخ الاحتياطي واسترجاع البيانات" />
+                  <Button alignment="CENTER" layoutX="10.0" layoutY="689.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#backupPage" prefHeight="43.0" prefWidth="100.0" styleClass="toolBarButton" text="النسخ الاحتياطي واسترجاع البيانات">
+                     <VBox.margin>
+                        <Insets bottom="5.0" />
+                     </VBox.margin></Button>
+                  <Button alignment="CENTER" layoutX="10.0" layoutY="733.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#deliveryBondsPage" prefHeight="43.0" prefWidth="100.0" styleClass="toolBarButton" text="تسليم المعاملات" />
                   <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" VBox.vgrow="ALWAYS">
                      <children>
-                        <ImageView fitHeight="238.0" fitWidth="253.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="201.0" fitWidth="214.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../images/royallogo.png" />
                            </image>

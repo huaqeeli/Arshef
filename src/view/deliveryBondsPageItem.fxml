@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane id="AnchorPane" prefHeight="226.0" prefWidth="1200.0" styleClass="mainFxmlClass" stylesheets="@../css/appStyle.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.FollowupItemController">
+   <children>
+      <HBox fx:id="content" alignment="CENTER" maxHeight="188.0" maxWidth="1.7976931348623157E308" minHeight="188.0" nodeOrientation="RIGHT_TO_LEFT" onMouseClicked="#click" prefHeight="188.0" prefWidth="1200.0" styleClass="itemPanl" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <HBox fx:id="state" alignment="CENTER" layoutX="1152.0" layoutY="10.0" maxWidth="1.7976931348623157E308" prefHeight="173.0" prefWidth="64.0" styleClass="actionButton">
+               <HBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </HBox.margin>
+               <children>
+                  <Label styleClass="squnseLable" text="123456" />
+               </children>
+            </HBox>
+            <HBox maxWidth="1.7976931348623157E308" prefHeight="183.0" prefWidth="481.0">
+               <children>
+                  <VBox alignment="CENTER" prefHeight="183.0" prefWidth="161.0">
+                     <children>
+                        <Label alignment="CENTER" layoutX="10.0" layoutY="62.0" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="119.0" styleClass="itemLableTitel" text="التاريخ :" />
+                        <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="119.0" styleClass="itemLableTitel" text="رقم المعاملة:" />
+                        <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="140.0" styleClass="itemLableTitel" text="الوحدة :" />
+                        <Label alignment="CENTER" layoutX="10.0" layoutY="122.0" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="140.0" styleClass="itemLableTitel">
+                           <VBox.margin>
+                              <Insets top="5.0" />
+                           </VBox.margin>
+                        </Label>
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="136.0" prefWidth="300.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label fx:id="topic1" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="227.0" styleClass="itemLable" text="التاريخ" />
+                        <TextField styleClass="appText" />
+                        <ComboBox maxWidth="1.7976931348623157E308" prefWidth="150.0" styleClass="appComboBox" />
+                        <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="103.0" styleClass="actionButton">
+                           <graphic>
+                              <ImageView fitHeight="25.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/add.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <VBox.margin>
+                              <Insets top="5.0" />
+                           </VBox.margin>
+                        </Button>
+                     </children>
+                  </VBox>
+               </children>
+               <HBox.margin>
+                  <Insets left="5.0" />
+               </HBox.margin>
+            </HBox>
+            <ScrollPane fitToHeight="true" fitToWidth="true" prefWidth="500.0" HBox.hgrow="ALWAYS">
+               <content>
+                  <VBox style="-fx-border-color: #1E3606; -fx-border-width: 0 0 0 5;" />
+               </content>
+            </ScrollPane>
+            <VBox alignment="CENTER" prefHeight="50.0" prefWidth="50.0" spacing="5.0" styleClass="actionButton">
+               <children>
+                  <Button layoutX="10.0" layoutY="54.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#deleteMark" prefHeight="40.0" prefWidth="40.0" styleClass="actionButton">
+                     <graphic>
+                        <ImageView fitHeight="25.0" fitWidth="81.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/refreach.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button layoutX="10.0" layoutY="32.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#deleteMark" prefHeight="40.0" prefWidth="40.0" styleClass="actionButton">
+                     <graphic>
+                        <ImageView fitHeight="25.0" fitWidth="81.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/printer.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#deleteMark" prefHeight="40.0" prefWidth="40.0" styleClass="actionButton">
+                     <graphic>
+                        <ImageView fitHeight="25.0" fitWidth="81.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/834204.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button layoutX="10.0" layoutY="10.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#showImage" prefHeight="40.0" prefWidth="40.0" styleClass="actionButton">
+                     <graphic>
+                        <ImageView fitHeight="25.0" fitWidth="81.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/pdf.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </children>
+               <HBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </HBox.margin>
+            </VBox>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

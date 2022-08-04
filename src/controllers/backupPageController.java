@@ -153,7 +153,7 @@ public class backupPageController implements Initializable {
                 String dbName = config.getDbName();
                 String hostName = config.getHostName();
                 Runtime run = Runtime.getRuntime();
-                String path = "C:\\Program Files\\MySQL\\MySQL Server 8.0\\bin\\mysqldump --user=" + userName + " --password=" + password + " --host=" + hostName + " --max_allowed_packet=50M " + dbName + " --result-file=" + savefile;
+                String path =config.getAppURL()+ "\\backupfiles\\mysqldump --user=" + userName + " --password=" + password + " --host=" + hostName + " --max_allowed_packet=50M " + dbName + " --result-file=" + savefile;
                 Process pr = run.exec(path);
                 int processComplete = pr.waitFor();
                 for (int i = result; i <= 100; i++) {

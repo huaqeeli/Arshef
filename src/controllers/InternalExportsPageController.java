@@ -51,15 +51,10 @@ public class InternalExportsPageController implements Initializable {
     private ComboBox<String> year;
     @FXML
     private TextField searchText;
-    @FXML
     private ComboBox<String> destination;
-    @FXML
     private TextField topic;
-    @FXML
     private TextField saveFaile;
-    @FXML
     private TextField notes;
-    @FXML
     private TextField imageUrl;
     @FXML
     private ComboBox<?> exportsDay;
@@ -67,7 +62,6 @@ public class InternalExportsPageController implements Initializable {
     private ComboBox<?> exportsMonth;
     @FXML
     private ComboBox<?> exportsYear;
-    @FXML
     private TextField incomingNum;
 
     File imagefile = null;
@@ -93,7 +87,6 @@ public class InternalExportsPageController implements Initializable {
     ActionEvent event;
     @FXML
     private StackPane stackPane;
-    @FXML
     private ComboBox<String> incomingType;
 
     @Override
@@ -204,7 +197,6 @@ public class InternalExportsPageController implements Initializable {
         }
     }
 
-    @FXML
     private File getImageUrle(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter ext = new FileChooser.ExtensionFilter("PDF  files(*.pdf)", "*.PDF");
@@ -335,7 +327,6 @@ public class InternalExportsPageController implements Initializable {
         }
     }
 
-    @FXML
     private void clear(ActionEvent event) {
         setIncomingNum(null);
         setTopic(null);
@@ -560,7 +551,6 @@ public class InternalExportsPageController implements Initializable {
         AppDate.setSeparateDate(searchDateDay, searchDateMonth, searchDateYear, date);
     }
 
-    @FXML
     private void getIncomingData(ActionEvent event) {
        String exportType = incomingType.getValue();
         if (exportType == null || "".equals(exportType)) {

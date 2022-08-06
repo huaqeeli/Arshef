@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" prefHeight="800.0" prefWidth="1200.0" styleClass="mainFxmlClass" stylesheets="@../css/appStyle.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.InternalExportsPageController">
+<AnchorPane id="AnchorPane" prefHeight="800.0" prefWidth="1200.0" styleClass="mainFxmlClass" stylesheets="@../css/appStyle.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.DeliveryBondsPageController">
    <children>
       <HBox alignment="CENTER_RIGHT" prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #1E3606;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -61,15 +61,15 @@
                   <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="190.0" styleClass="toolBarButton" text="التاريخ" />
                   <HBox alignment="CENTER" prefHeight="40.0" prefWidth="300.0" HBox.hgrow="ALWAYS">
                      <children>
-                        <ComboBox fx:id="exportsDay" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="150.0" styleClass="appComboBox" HBox.hgrow="ALWAYS" />
-                        <ComboBox fx:id="exportsMonth" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="150.0" styleClass="appComboBox" HBox.hgrow="ALWAYS" />
-                        <ComboBox fx:id="exportsYear" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="150.0" styleClass="appComboBox" HBox.hgrow="ALWAYS" />
-                        <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#insertData" prefHeight="40.0" prefWidth="300.0" styleClass="toolBarButton" text="انشاء سند جديد" HBox.hgrow="ALWAYS">
+                        <ComboBox fx:id="dateDay" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="150.0" styleClass="appComboBox" HBox.hgrow="ALWAYS" />
+                        <ComboBox fx:id="dateMonth" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="150.0" styleClass="appComboBox" HBox.hgrow="ALWAYS" />
+                        <ComboBox fx:id="dateYear" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="150.0" styleClass="appComboBox" HBox.hgrow="ALWAYS" />
+                        <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#creatBond" prefHeight="40.0" prefWidth="300.0" styleClass="toolBarButton" text="انشاء سند جديد" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets />
                            </HBox.margin>
                         </Button>
-                        <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#updateData" prefHeight="40.0" prefWidth="300.0" styleClass="toolBarButton" text="حذف" HBox.hgrow="ALWAYS">
+                        <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#delete" prefHeight="40.0" prefWidth="300.0" styleClass="toolBarButton" text="حذف" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets left="2.0" />
                            </HBox.margin>

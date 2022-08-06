@@ -17,16 +17,14 @@
                <children>
                   <VBox alignment="CENTER" prefHeight="136.0" prefWidth="300.0">
                      <children>
-                        <Label fx:id="regisNO1" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="92.0" styleClass="itemLableTitel" text="رقم القيد" />
-                        <Label fx:id="exportsDate1" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="119.0" styleClass="itemLableTitel" text="تاريخ الصادر" />
-                        <Label fx:id="exportsDate11" alignment="CENTER" layoutX="10.0" layoutY="102.0" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="119.0" />
+                        <Label fx:id="regisNO1" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="92.0" styleClass="itemLableTitel" text="رقم القيد:" />
+                        <Label fx:id="exportsDate1" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="119.0" styleClass="itemLableTitel" text="تاريخ الصادر:" />
                      </children>
                   </VBox>
                   <VBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="136.0" prefWidth="300.0" HBox.hgrow="ALWAYS">
                      <children>
                         <Label fx:id="regisNO" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="92.0" styleClass="itemLable" text="رقم القيد" />
                         <Label fx:id="exportsDate" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="119.0" styleClass="itemLable" text="تاريخ الصادر" />
-                        <Label fx:id="exportsDate2" alignment="CENTER" layoutX="10.0" layoutY="102.0" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="119.0" />
                      </children>
                   </VBox>
                </children>
@@ -38,16 +36,14 @@
                <children>
                   <VBox alignment="CENTER" prefHeight="136.0" prefWidth="300.0">
                      <children>
-                        <Label fx:id="saveFile1" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="119.0" styleClass="itemLableTitel" text="رقم الملف" />
-                        <Label fx:id="notes1" alignment="CENTER" prefHeight="40.0" prefWidth="200.0" styleClass="itemLableTitel" text="ملاحظات" />
-                        <Label fx:id="notes11" alignment="CENTER" layoutX="10.0" layoutY="102.0" prefHeight="40.0" prefWidth="200.0" />
+                        <Label fx:id="saveFile1" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="119.0" styleClass="itemLableTitel" text="رقم الملف:" />
+                        <Label fx:id="notes1" alignment="CENTER" prefHeight="40.0" prefWidth="200.0" styleClass="itemLableTitel" text="ملاحظات:" />
                      </children>
                   </VBox>
                   <VBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="136.0" prefWidth="300.0" HBox.hgrow="ALWAYS">
                      <children>
                         <Label fx:id="saveFile" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="119.0" styleClass="itemLable" text="رقم الملف" />
                         <Label fx:id="notes" alignment="CENTER" prefHeight="40.0" prefWidth="200.0" styleClass="itemLable" text="ملاحظات" />
-                        <Label fx:id="notes2" alignment="CENTER" layoutX="10.0" layoutY="102.0" prefHeight="40.0" prefWidth="200.0" />
                      </children>
                   </VBox>
                </children>
@@ -56,55 +52,14 @@
                <children>
                   <VBox alignment="CENTER" prefHeight="136.0" prefWidth="300.0">
                      <children>
-                        <Label fx:id="Destination1" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="227.0" styleClass="itemLableTitel" text="جهة الصادر" />
-                        <Label fx:id="topic1" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="227.0" styleClass="itemLableTitel" text="الموضوع" />
-                        <Label fx:id="topic11" alignment="CENTER" layoutX="10.0" layoutY="102.0" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="227.0" />
+                        <Label fx:id="Destination1" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="227.0" styleClass="itemLableTitel" text="جهة الصادر:" />
+                        <Label fx:id="topic1" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="227.0" styleClass="itemLableTitel" text="الموضوع:" />
                      </children>
                   </VBox>
                   <VBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="136.0" prefWidth="500.0" HBox.hgrow="ALWAYS">
                      <children>
                         <Label fx:id="Destination" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="227.0" styleClass="itemLable" text="جهة الصادر" />
                         <Label fx:id="topic" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="227.0" styleClass="itemLable" text="الموضوع" />
-                        <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="50.0" prefWidth="150.0" spacing="2.0" styleClass="actionButtonContener">
-                           <children>
-                              <Button mnemonicParsing="false" onAction="#printBarcod" prefHeight="40.0" prefWidth="40.0" styleClass="actionButton">
-                                 <graphic>
-                                    <ImageView fitHeight="23.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../images/barcode.png" />
-                                       </image>
-                                    </ImageView>
-                                 </graphic>
-                              </Button>
-                              <Button mnemonicParsing="false" onAction="#scanImage" prefHeight="40.0" prefWidth="40.0" styleClass="actionButton">
-                                 <graphic>
-                                    <ImageView fitHeight="23.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../images/scaner.png" />
-                                       </image>
-                                    </ImageView>
-                                 </graphic>
-                              </Button>
-                              <Button mnemonicParsing="false" onAction="#addNames" prefHeight="40.0" prefWidth="40.0" styleClass="actionButton">
-                                 <graphic>
-                                    <ImageView fitHeight="23.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../images/addusers.png" />
-                                       </image>
-                                    </ImageView>
-                                 </graphic>
-                              </Button>
-                              <Button mnemonicParsing="false" onAction="#showImage" prefHeight="40.0" prefWidth="40.0" styleClass="actionButton">
-                                 <graphic>
-                                    <ImageView fitHeight="23.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../images/pdf.png" />
-                                       </image>
-                                    </ImageView>
-                                 </graphic>
-                              </Button>
-                           </children>
-                        </HBox>
                      </children>
                   </VBox>
                </children>
@@ -112,6 +67,49 @@
                   <Insets right="5.0" />
                </HBox.margin>
             </HBox>
+            <VBox prefHeight="200.0" prefWidth="5.0" styleClass="actionButton">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#printBarcod" prefHeight="40.0" prefWidth="40.0" styleClass="actionButton">
+                     <graphic>
+                        <ImageView fitHeight="23.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/barcode.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#scanImage" prefHeight="40.0" prefWidth="40.0" styleClass="actionButton">
+                     <graphic>
+                        <ImageView fitHeight="23.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/scan2.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#addNames" prefHeight="40.0" prefWidth="40.0" styleClass="actionButton">
+                     <graphic>
+                        <ImageView fitHeight="23.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/addusers.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#showImage" prefHeight="40.0" prefWidth="40.0" styleClass="actionButton">
+                     <graphic>
+                        <ImageView fitHeight="23.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/pdf.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </children>
+               <HBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </HBox.margin>
+            </VBox>
          </children>
       </HBox>
    </children>

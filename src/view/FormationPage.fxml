@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" prefHeight="800.0" prefWidth="1200.0" styleClass="mainFxmlClass" stylesheets="@../css/appStyle.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.FormationPageController">
+<AnchorPane id="AnchorPane" prefHeight="800.0" prefWidth="1200.0" styleClass="mainFxmlClass" stylesheets="@../css/appStyle.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.FormationPageController">
    <children>
       <HBox alignment="CENTER_RIGHT" prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #1E3606;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -195,22 +195,6 @@
                      </graphic>
                   </Button>
                   <Button layoutX="1122.0" layoutY="13.0" mnemonicParsing="false" onAction="#updateAllFromExcle" prefHeight="55.0" prefWidth="250.0" styleClass="exclButton" text="التحديث من ملف اكسل" />
-               </children>
-               <VBox.margin>
-                  <Insets left="5.0" right="5.0" />
-               </VBox.margin>
-            </HBox>
-            <HBox alignment="CENTER" maxHeight="70.0" maxWidth="1.7976931348623157E308" minHeight="70.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="72.0" prefWidth="1200.0" spacing="2.0" style="-fx-border-color: #B4BCAC; -fx-border-width: 2;" styleClass="headerPanl">
-               <children>
-                  <Label alignment="CENTER" prefHeight="50.0" prefWidth="60.0" styleClass="tableHeder" text="عدد" />
-                  <Label alignment="CENTER" prefHeight="50.0" prefWidth="150.0" styleClass="tableHeder" text="الرقم العسكري" />
-                  <Label alignment="CENTER" prefHeight="50.0" prefWidth="150.0" styleClass="tableHeder" text="رقم السجل المدني" />
-                  <Label alignment="CENTER" layoutX="209.0" layoutY="12.0" prefHeight="50.0" prefWidth="140.0" styleClass="tableHeder" text="الرتبة" />
-                  <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="50.0" prefWidth="227.0" styleClass="tableHeder" text="الاسم" HBox.hgrow="ALWAYS" />
-                  <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="50.0" prefWidth="227.0" styleClass="tableHeder" text="الوحدة" HBox.hgrow="ALWAYS" />
-                  <Label alignment="CENTER" layoutX="619.0" layoutY="25.0" maxWidth="1.7976931348623157E308" prefHeight="50.0" prefWidth="227.0" styleClass="tableHeder" text="التخصص" HBox.hgrow="ALWAYS" />
-                  <Label alignment="CENTER" prefHeight="50.0" prefWidth="227.0" styleClass="tableHeder" text="ملاحظات" HBox.hgrow="ALWAYS" />
-                  <Label alignment="CENTER" layoutX="903.0" layoutY="25.0" prefHeight="40.0" prefWidth="120.0" />
                </children>
                <VBox.margin>
                   <Insets left="5.0" right="5.0" />

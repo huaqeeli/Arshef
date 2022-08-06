@@ -12,16 +12,16 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" prefHeight="226.0" prefWidth="1200.0" styleClass="mainFxmlClass" stylesheets="@../css/appStyle.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.FollowupItemController">
+<AnchorPane id="AnchorPane" prefHeight="226.0" prefWidth="1200.0" styleClass="mainFxmlClass" stylesheets="@../css/appStyle.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.DeliveryBondsPageItemController">
    <children>
       <HBox fx:id="content" alignment="CENTER" maxHeight="188.0" maxWidth="1.7976931348623157E308" minHeight="188.0" nodeOrientation="RIGHT_TO_LEFT" onMouseClicked="#click" prefHeight="188.0" prefWidth="1200.0" styleClass="itemPanl" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <HBox fx:id="state" alignment="CENTER" layoutX="1152.0" layoutY="10.0" maxWidth="1.7976931348623157E308" prefHeight="173.0" prefWidth="64.0" styleClass="actionButton">
+            <HBox fx:id="state" alignment="CENTER" layoutX="1152.0" layoutY="10.0" maxWidth="1.7976931348623157E308" prefHeight="173.0" prefWidth="50.0" styleClass="actionButton">
                <HBox.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </HBox.margin>
                <children>
-                  <Label styleClass="squnseLable" text="123456" />
+                  <Label fx:id="bondsNumber" alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="57.0" styleClass="squnseLable" text="123456" HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
             <HBox maxWidth="1.7976931348623157E308" prefHeight="183.0" prefWidth="481.0">
@@ -31,30 +31,40 @@
                         <Label alignment="CENTER" layoutX="10.0" layoutY="62.0" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="119.0" styleClass="itemLableTitel" text="التاريخ :" />
                         <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="119.0" styleClass="itemLableTitel" text="رقم المعاملة:" />
                         <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="140.0" styleClass="itemLableTitel" text="الوحدة :" />
-                        <Label alignment="CENTER" layoutX="10.0" layoutY="122.0" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="140.0" styleClass="itemLableTitel">
+                        <Label alignment="CENTER" layoutX="10.0" layoutY="122.0" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="140.0">
                            <VBox.margin>
                               <Insets top="5.0" />
                            </VBox.margin>
                         </Label>
                      </children>
                   </VBox>
-                  <VBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="136.0" prefWidth="300.0" HBox.hgrow="ALWAYS">
+                  <VBox alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" prefHeight="136.0" prefWidth="300.0" HBox.hgrow="ALWAYS">
                      <children>
-                        <Label fx:id="topic1" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="227.0" styleClass="itemLable" text="التاريخ" />
-                        <TextField styleClass="appText" />
-                        <ComboBox maxWidth="1.7976931348623157E308" prefWidth="150.0" styleClass="appComboBox" />
-                        <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="103.0" styleClass="actionButton">
-                           <graphic>
-                              <ImageView fitHeight="25.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../images/add.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                           <VBox.margin>
-                              <Insets top="5.0" />
-                           </VBox.margin>
-                        </Button>
+                        <Label fx:id="date" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="227.0" styleClass="itemLable" text="التاريخ" />
+                        <TextField fx:id="circularNumber" alignment="CENTER" styleClass="appText" />
+                        <ComboBox fx:id="destination" maxWidth="1.7976931348623157E308" onAction="#addUinte" prefWidth="150.0" styleClass="appComboBox" />
+                        <HBox alignment="CENTER_RIGHT" prefHeight="55.0" prefWidth="320.0">
+                           <children>
+                              <Button mnemonicParsing="false" onAction="#addUinte" prefHeight="40.0" prefWidth="103.0" styleClass="actionButton">
+                                 <graphic>
+                                    <ImageView fitHeight="25.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../images/add.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Button>
+                              <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#showUinte" prefHeight="40.0" prefWidth="103.0" styleClass="actionButton">
+                                 <graphic>
+                                    <ImageView fitHeight="25.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../images/show.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Button>
+                           </children>
+                        </HBox>
                      </children>
                   </VBox>
                </children>
@@ -64,12 +74,21 @@
             </HBox>
             <ScrollPane fitToHeight="true" fitToWidth="true" prefWidth="500.0" HBox.hgrow="ALWAYS">
                <content>
-                  <VBox style="-fx-border-color: #1E3606; -fx-border-width: 0 0 0 5;" />
+                  <VBox style="-fx-border-color: #1E3606; -fx-border-width: 0 0 0 5;">
+                     <children>
+                        <HBox maxHeight="50.0" minHeight="50.0" prefHeight="50.0" prefWidth="200.0">
+                           <children>
+                              <Label fx:id="circularNumber1" alignment="CENTER" prefHeight="40.0" prefWidth="195.0" styleClass="itembondsTitel" text="رقم المعاملة" />
+                              <Label fx:id="uint" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="227.0" styleClass="itembondsTitel" text="الوحدة" HBox.hgrow="ALWAYS" />
+                           </children>
+                        </HBox>
+                        <VBox fx:id="vBox" prefHeight="200.0" prefWidth="100.0" />
+                     </children></VBox>
                </content>
             </ScrollPane>
             <VBox alignment="CENTER" prefHeight="50.0" prefWidth="50.0" spacing="5.0" styleClass="actionButton">
                <children>
-                  <Button layoutX="10.0" layoutY="54.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#deleteMark" prefHeight="40.0" prefWidth="40.0" styleClass="actionButton">
+                  <Button layoutX="10.0" layoutY="54.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#update" prefHeight="40.0" prefWidth="40.0" styleClass="actionButton">
                      <graphic>
                         <ImageView fitHeight="25.0" fitWidth="81.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -78,7 +97,7 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button layoutX="10.0" layoutY="32.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#deleteMark" prefHeight="40.0" prefWidth="40.0" styleClass="actionButton">
+                  <Button layoutX="10.0" layoutY="32.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#printeBond" prefHeight="40.0" prefWidth="40.0" styleClass="actionButton">
                      <graphic>
                         <ImageView fitHeight="25.0" fitWidth="81.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -87,11 +106,11 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#deleteMark" prefHeight="40.0" prefWidth="40.0" styleClass="actionButton">
+                  <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#scanImage" prefHeight="40.0" prefWidth="40.0" styleClass="actionButton">
                      <graphic>
                         <ImageView fitHeight="25.0" fitWidth="81.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../images/834204.png" />
+                              <Image url="@../images/scan2.png" />
                            </image>
                         </ImageView>
                      </graphic>

@@ -58,44 +58,12 @@
                      <children>
                         <Label fx:id="topic1" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="227.0" styleClass="itemLableTitel" text="الموضوع:" />
                         <Label fx:id="Destination1" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="227.0" styleClass="itemLableTitel" text="جهة المعاملة:" />
-                        <Label fx:id="Destination11" alignment="CENTER" layoutX="10.0" layoutY="102.0" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="227.0" styleClass="itemLableTitel" />
                      </children>
                   </VBox>
                   <VBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="136.0" prefWidth="500.0" HBox.hgrow="ALWAYS">
                      <children>
                         <Label fx:id="topic" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="227.0" styleClass="itemLable" text="الموضوع" />
                         <Label fx:id="Destination" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="227.0" styleClass="itemLable" text="جهة المعاملة" />
-                        <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="50.0" prefWidth="150.0" spacing="2.0" styleClass="actionButtonContener">
-                           <children>
-                              <Button mnemonicParsing="false" onAction="#scanImage" prefHeight="40.0" prefWidth="40.0" styleClass="actionButton">
-                                 <graphic>
-                                    <ImageView fitHeight="23.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../images/scaner.png" />
-                                       </image>
-                                    </ImageView>
-                                 </graphic>
-                              </Button>
-                              <Button mnemonicParsing="false" onAction="#addNames" prefHeight="40.0" prefWidth="40.0" styleClass="actionButton">
-                                 <graphic>
-                                    <ImageView fitHeight="23.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../images/addusers.png" />
-                                       </image>
-                                    </ImageView>
-                                 </graphic>
-                              </Button>
-                              <Button mnemonicParsing="false" onAction="#showImage" prefHeight="40.0" prefWidth="40.0" styleClass="actionButton">
-                                 <graphic>
-                                    <ImageView fitHeight="23.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../images/pdf.png" />
-                                       </image>
-                                    </ImageView>
-                                 </graphic>
-                              </Button>
-                           </children>
-                        </HBox>
                      </children>
                   </VBox>
                </children>
@@ -103,6 +71,40 @@
                   <Insets right="5.0" />
                </HBox.margin>
             </HBox>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="50.0" styleClass="actionButton">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#scanImage" prefHeight="40.0" prefWidth="40.0" styleClass="actionButton">
+                     <graphic>
+                        <ImageView fitHeight="23.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/scaner.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#addNames" prefHeight="40.0" prefWidth="40.0" styleClass="actionButton">
+                     <graphic>
+                        <ImageView fitHeight="23.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/addusers.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#showImage" prefHeight="40.0" prefWidth="40.0" styleClass="actionButton">
+                     <graphic>
+                        <ImageView fitHeight="23.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/pdf.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </children>
+               <HBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </HBox.margin>
+            </VBox>
          </children>
       </HBox>
    </children>

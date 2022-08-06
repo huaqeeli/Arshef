@@ -1,43 +1,15 @@
-CREATE TABLE `manualtable` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `uint` varchar(45) COLLATE utf8_bin DEFAULT NULL,
-  `daydate` varchar(45) COLLATE utf8_bin DEFAULT NULL,
-  `originalCensusOF` varchar(45) DEFAULT NULL,
-  `originalCensusSR` varchar(45) DEFAULT NULL,
-  `infieldOF` varchar(45) DEFAULT NULL,
-  `outfiedOF` varchar(45) DEFAULT NULL,
-  `infieldSR` varchar(45) DEFAULT NULL,
-  `outfieldSR` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+CREATE TABLE `deliverybonds` (
+  `BONDID` int(11) NOT NULL AUTO_INCREMENT,
+  `BONDDATE` varchar(45) COLLATE utf8_bin DEFAULT NULL,
+  `YEAR` varchar(45) COLLATE utf8_bin DEFAULT NULL,
+  `BONDIMAG` longblob,
+  PRIMARY KEY (`BONDID`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
-CREATE TABLE `reportimage` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `IMAGE` longblob,
-  `KINGDOMIMAGE` longblob,
-  `BSMALLHIMAG` longblob,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
-CREATE TABLE `signature` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(200) COLLATE utf8_bin DEFAULT NULL,
-  `rank` varchar(45) COLLATE utf8_bin DEFAULT NULL,
-  `jopname` varchar(200) COLLATE utf8_bin DEFAULT NULL,
-  `uintname` varchar(200) COLLATE utf8_bin DEFAULT NULL,
-  `oprationname` varchar(200) COLLATE utf8_bin DEFAULT NULL,
-  `manegarname` varchar(200) COLLATE utf8_bin DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
-CREATE TABLE `followup` (
+CREATE TABLE `bonduint` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `CIRCULARID` varchar(45) COLLATE utf8_bin DEFAULT NULL,
-  `CIRCULARDATE` varchar(45) COLLATE utf8_bin DEFAULT NULL,
-  `TOPIC` varchar(500) COLLATE utf8_bin DEFAULT NULL,
-  `REQUIRED` varchar(200) COLLATE utf8_bin DEFAULT NULL,
-  `STATUS` varchar(200) COLLATE utf8_bin DEFAULT NULL,
-  `COMPLETIONDATE` varchar(45) COLLATE utf8_bin DEFAULT NULL,
-  `OPENSTAT` int(11) DEFAULT '0',
+  `BONDID` varchar(45) COLLATE utf8_bin DEFAULT NULL,
+  `CIRCULARNUMBER` varchar(45) COLLATE utf8_bin DEFAULT NULL,
+  `UINT` varchar(200) COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;

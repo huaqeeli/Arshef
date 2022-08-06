@@ -420,19 +420,33 @@
 }
 .itemLable {
     -fx-font-family: "URW DIN Arabic";
-    -fx-font-size: 13px;
+    -fx-font-size: 16px;
     -fx-border-color: #DEE2DB;
     -fx-border-width: 0 0 2 0 ;
-
-
+}
+.itembondsLable {
+    -fx-font-family: "URW DIN Arabic";
+    -fx-font-size: 16px;
+    -fx-border-color: #505050;
+    -fx-border-width: 0 2 0 0 ;
 }
 .itemLableTitel {
     -fx-font-family: "URW DIN Arabic";
-    -fx-font-size: 15px;
+    -fx-font-size: 18px;
     -fx-text-fill: #0A4B0D;
     -fx-border-color: #BEC2BB;
     -fx-border-width: 0 0 2 2 ;
     -fx-border-radius: 0 50 50 0 ;
+}
+.itembondsTitel {
+    -fx-font-family: "URW DIN Arabic";
+    -fx-font-size: 18px;
+    -fx-text-fill: #FFFFFF;
+    -fx-border-color: #C4C4C4;
+    -fx-border-width: 0 0 2 2 ;
+    /*-fx-border-radius: 0 50 50 0 ;*/
+    -fx-background-color: #505050;
+     /*-fx-background-radius: 0 50 50 0;*/
 }
 .squnseLable {
     -fx-font-family: "URW DIN Arabic";

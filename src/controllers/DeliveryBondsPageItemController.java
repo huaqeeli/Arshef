@@ -22,6 +22,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -49,6 +50,10 @@ public class DeliveryBondsPageItemController implements Initializable {
     ObservableList<String> destinationlist = FXCollections.observableArrayList();
     @FXML
     private VBox vBox;
+    @FXML
+    private Label circularNumber1;
+    @FXML
+    private Label uint;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -177,5 +182,6 @@ public class DeliveryBondsPageItemController implements Initializable {
     private void showUinte(ActionEvent event) {
         refreshdata();
     }
+
     
 }

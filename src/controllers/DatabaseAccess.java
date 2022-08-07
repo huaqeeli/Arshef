@@ -234,7 +234,7 @@ public class DatabaseAccess {
         try {
             ResultSet rs = DatabaseAccess.getData("SELECT BONDIMAG FROM deliverybonds WHERE BONDID = '" + id + "' ");
             if (rs.next()) {
-                image = rs.getBinaryStream("IMAGE");
+                image = rs.getBinaryStream("BONDIMAG");
                 pdfByte = new byte[image.available()];
                 image.read(pdfByte);
             } else {
@@ -695,7 +695,7 @@ public class DatabaseAccess {
             File pdfFile = result.getPdfFile();
             FileInputStream fis = new FileInputStream(pdfFile);
             Connection con = DatabaseConniction.dbConnector();
-            String quiry = "UPDATE " + tapleName + " SET `IMAGE` =? WHERE " + " " + condition;
+            String quiry = "UPDATE " + tapleName + " SET `BONDIMAG` =? WHERE " + " " + condition;
             try {
                 PreparedStatement psm = con.prepareStatement(quiry);
                 psm.setBinaryStream(1, fis, (int) (pdfFile.length()));

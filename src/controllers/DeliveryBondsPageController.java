@@ -92,6 +92,11 @@ public class DeliveryBondsPageController implements Initializable {
 
     @FXML
     private void delete(ActionEvent event) {
+//         try {
+//            DatabaseAccess.delete("deliverybonds,bonduint", "BONDID = '"+deliveryBondsModel.getBondId()+"' AND CIRCULARNUMBER = '"+deliveryBondsModel.getCircularNumber()+"'AND ID ='"+deliveryBondsModel.getId()+"'");
+//        } catch (IOException | SQLException ex) {
+//           FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+//        }
     }
 
     public String getBondDate() {

@@ -96,11 +96,13 @@ public class ExternalIncomingItemController implements Initializable {
     private void printBarcod(ActionEvent event) {
         try {
             Connection con = DatabaseConniction.dbConnector();
-            JasperDesign recipientReport = JRXmlLoader.load(config.getAppURL() + "\\reports\\Externl‏‏RecipientBarcod.jrxml"); ResultSet rs = DatabaseAccess.getData("SELECT RECEIPTNUMBER, RECEIPTDATE, DESTINATION, SAVEFILE FROM externalincoming "
-                    + "WHERE RECEIPTNUMBER = '" + archefModel.getReceiptNumber() + "'AND ARSHEFYEAR = '"+AppDate.getYear(archefModel.getReceiptDate())+"'");
+            JasperDesign recipientReport = JRXmlLoader.load(config.getAppURL() + "\\reports\\Externl‏‏RecipientBarcod.jrxml"); 
+            ResultSet rs = DatabaseAccess.getData("SELECT RECEIPTNUMBER, RECEIPTDATE, DESTINATION, SAVEFILE FROM externalincoming "
+                    + "WHERE RECEIPTNUMBER = '" + archefModel.getReceiptNumber() + "' AND ARSHEFYEAR = '"+AppDate.getYear(archefModel.getReceiptDate())+"'");
             String regisNo = null;
             String recipientDate = null;
             String circularDir = null;
+            String recordYear = null;
             int quRegisNo = 0;
             String unitName = null;
             String saveFile = null;
@@ -110,6 +112,7 @@ public class ExternalIncomingItemController implements Initializable {
                 circularDir = rs.getString("DESTINATION");
                 quRegisNo = rs.getInt("RECEIPTNUMBER");
                 saveFile = ArabicSetting.EnglishToarabic(rs.getString("SAVEFILE"));
+                recordYear = AppDate.getYear(archefModel.getReceiptDate());
                 unitName = DatabaseAccess.getUintName();
             }
             Map barrcod = new HashMap();
@@ -119,6 +122,7 @@ public class ExternalIncomingItemController implements Initializable {
             barrcod.put("qex_id", quRegisNo);
             barrcod.put("savefile", saveFile);
             barrcod.put("unitName", unitName);
+             barrcod.put("recordYear", recordYear);
             JasperReport jr = JasperCompileManager.compileReport(recipientReport);
             JasperPrint jp = JasperFillManager.fillReport(jr, barrcod, con);
             JasperPrintManager.printReport(jp, false);
@@ -127,7 +131,8 @@ public class ExternalIncomingItemController implements Initializable {
         } catch (IOException | SQLException | JRException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
+      
 
     }
-
+  
 }

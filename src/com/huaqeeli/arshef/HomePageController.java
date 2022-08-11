@@ -164,7 +164,6 @@ public class HomePageController implements Initializable {
          content.setCenter(App.loadFXML("/view/vacation"));
     }
 
-    @FXML
     private void backupPage(ActionEvent event) {
         App.showFxml("/view/backupPage");
     }
@@ -172,6 +171,11 @@ public class HomePageController implements Initializable {
     @FXML
     private void deliveryBondsPage(ActionEvent event) throws IOException {
         content.setCenter(App.loadFXML("/view/deliveryBondsPage"));
+    }
+
+    @FXML
+    private void indexingPage(ActionEvent event) {
+         App.showFxml("/view/indexingPage");
     }
 
 }

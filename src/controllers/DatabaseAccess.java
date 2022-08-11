@@ -232,9 +232,9 @@ public class DatabaseAccess {
         InputStream image = null;
         byte[] pdfByte = null;
         try {
-            ResultSet rs = DatabaseAccess.getData("SELECT BONDIMAG FROM deliverybonds WHERE BONDID = '" + id + "' ");
+            ResultSet rs = DatabaseAccess.getData("SELECT IMAGE FROM deliverybonds WHERE BONDID = '" + id + "' ");
             if (rs.next()) {
-                image = rs.getBinaryStream("BONDIMAG");
+                image = rs.getBinaryStream("IMAGE");
                 pdfByte = new byte[image.available()];
                 image.read(pdfByte);
             } else {
@@ -586,19 +586,21 @@ public class DatabaseAccess {
         return t;
     }
 
-    public static void delete(String tapleName, String condition) throws IOException, SQLException {
+    public static int delete(String tapleName, String condition) throws IOException, SQLException {
         Connection con = DatabaseConniction.dbConnector();
         String guiry = "DELETE FROM " + tapleName + " WHERE " + condition;
+         int t = 0;
         try {
             PreparedStatement psm = con.prepareStatement(guiry);
             Alert alert = FormValidation.confirmationDilog("تاكيد الحذف", "سوف يتم حذف السجل هل تريد المتابعة");
             if (alert.getResult() == ButtonType.YES) {
-                psm.executeUpdate();
+               t = psm.executeUpdate();
             }
         } catch (SQLException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
         con.close();
+        return t;
     }
 
     public static void secretDelete(String tapleName, String condition) throws IOException, SQLException {
@@ -695,7 +697,7 @@ public class DatabaseAccess {
             File pdfFile = result.getPdfFile();
             FileInputStream fis = new FileInputStream(pdfFile);
             Connection con = DatabaseConniction.dbConnector();
-            String quiry = "UPDATE " + tapleName + " SET `BONDIMAG` =? WHERE " + " " + condition;
+            String quiry = "UPDATE " + tapleName + " SET `IMAGE` =? WHERE " + " " + condition;
             try {
                 PreparedStatement psm = con.prepareStatement(quiry);
                 psm.setBinaryStream(1, fis, (int) (pdfFile.length()));

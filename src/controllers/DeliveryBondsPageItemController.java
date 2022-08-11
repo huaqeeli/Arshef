@@ -35,6 +35,7 @@ import net.sf.jasperreports.engine.JasperPrintManager;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 public class DeliveryBondsPageItemController implements Initializable {
 
@@ -100,6 +101,7 @@ public class DeliveryBondsPageItemController implements Initializable {
 
     @FXML
     private void click(MouseEvent event) {
+         myListener.onClickListener(deliveryBondsModel);
     }
 
     @FXML
@@ -135,8 +137,8 @@ public class DeliveryBondsPageItemController implements Initializable {
             barrcod.put("bondid", deliveryBondsModel.getBondId());
             JasperReport jr = JasperCompileManager.compileReport(recipientReport);
             JasperPrint jp = JasperFillManager.fillReport(jr, barrcod, con);
-            JasperPrintManager.printReport(jp, false);
-//                JasperViewer.viewReport(jp, false);
+            // JasperPrintManager.printReport(jp, false);
+            JasperViewer.viewReport(jp, false);
 
         } catch (IOException | JRException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);

@@ -2,7 +2,7 @@
 <!-- Created with Jaspersoft Studio version 6.10.0.final using JasperReports Library version 6.10.0-unknown  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="gruopreport" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="81b155ad-5a2a-43b2-b994-238769ab3d92">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter (2)"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Arshef"/>
 	<parameter name="bondid" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[SELECT 
@@ -11,9 +11,9 @@ bonduint.CIRCULARNUMBER,
 bonduint.UINT,
 deliverybonds.BONDDATE,
   reportimage.IMAGE,
-  bondsuintname.UINTNAME,
-    bondsuintname.PARTUINTNAME
-FROM  deliverybonds,bonduint ,reportimage,bondsuintname
+  uintname.mainuint,
+   uintname.partuint
+FROM  deliverybonds,bonduint ,reportimage,uintname
 WHERE deliverybonds.BONDID =    $P{bondid} 
   AND deliverybonds.BONDID = bonduint.BONDID
 ORDER BY bonduint.CIRCULARNUMBER]]>
@@ -38,13 +38,13 @@ ORDER BY bonduint.CIRCULARNUMBER]]>
 		<property name="com.jaspersoft.studio.field.label" value="IMAGE"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="reportimage"/>
 	</field>
-	<field name="UINTNAME" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.label" value="UINTNAME"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="bondsuintname"/>
+	<field name="mainuint" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="mainuint"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="uintname"/>
 	</field>
-	<field name="PARTUINTNAME" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.label" value="PARTUINTNAME"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="bondsuintname"/>
+	<field name="partuint" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="partuint"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="uintname"/>
 	</field>
 	<group name="Group1" isReprintHeaderOnEachPage="true" keepTogether="true">
 		<groupExpression><![CDATA[$F{CIRCULARNUMBER}]]></groupExpression>
@@ -225,7 +225,7 @@ ORDER BY bonduint.CIRCULARNUMBER]]>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" size="16" isBold="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{PARTUINTNAME}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{partuint}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="-1" y="15" width="51" height="26" uuid="4753dd21-23c6-4280-8b1c-74eeb7392eca">
@@ -255,7 +255,7 @@ ORDER BY bonduint.CIRCULARNUMBER]]>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" size="16" isBold="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{UINTNAME}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{mainuint}]]></textFieldExpression>
 			</textField>
 		</band>
 	</columnHeader>

@@ -95,7 +95,6 @@ public class InternalExportsItemController implements Initializable {
         try {
             Connection con = DatabaseConniction.dbConnector();
             JasperDesign recipientReport = JRXmlLoader.load(config.getAppURL() + "\\reports\\ExportingBarcod.jrxml");
-//            ResultSet rs = DatabaseAccess.select("internalexports", "REGISNO = '" + regisno + "'");
             ResultSet rs = DatabaseAccess.getData("SELECT  REGISNO, EXPORTDATE, DESTINATION, SAVEFILE,RECORDYEAR FROM internalexports "
                     + "WHERE `REGISNO` = '" + regisno + "' AND `RECORDYEAR` = '" + recordYear + "'");
             String regisNo = null;

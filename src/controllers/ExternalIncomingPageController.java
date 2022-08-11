@@ -136,7 +136,7 @@ public class ExternalIncomingPageController implements Initializable {
     private void save(ActionEvent event) throws SQLException {
         String tableName = "externalincoming";
         String fieldName = null;
-        arshefyear = AppDate.getYear(getCircularDate());
+        arshefyear = AppDate.getYear(getReceiptNumberDate());
         String[] data = {getCircularid(), getCircularDate(), getReceiptNumber(), getReceiptNumberDate(), getDestination(), getTopic(), getSaveFile(), getAction(), arshefyear};
         String valuenumbers = null;
         if (imagefile != null) {

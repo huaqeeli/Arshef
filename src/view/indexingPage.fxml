@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane id="AnchorPane" prefHeight="226.0" prefWidth="600.0" styleClass="mainFxmlClass" stylesheets="@../css/appStyle.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.IndexingPageController">
+   <children>
+      <HBox fx:id="content" alignment="CENTER" maxHeight="188.0" maxWidth="1.7976931348623157E308" minHeight="188.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="188.0" prefWidth="1200.0" styleClass="itemPanl" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <HBox maxWidth="1.7976931348623157E308" prefHeight="183.0" prefWidth="600.0">
+               <children>
+                  <VBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="183.0" prefWidth="300.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="119.0" styleClass="itemLableTitel" text="رقم الملف:" />
+                        <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="140.0" styleClass="itemLableTitel" text="تاريخ اول معاملة:" />
+                        <Label alignment="CENTER" layoutX="10.0" layoutY="62.0" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="119.0" styleClass="itemLableTitel" text="تاريخ اخر معاملة:" />
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" prefHeight="136.0" prefWidth="500.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <TextField fx:id="fileNumber" alignment="CENTER" styleClass="appText" />
+                        <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="350.0">
+                           <children>
+                              <ComboBox fx:id="startDateDay" accessibleText="coursCombobox" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="60.0" styleClass="appComboBox" HBox.hgrow="ALWAYS" />
+                              <ComboBox fx:id="startDateMonth" accessibleText="coursCombobox" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="60.0" styleClass="appComboBox" HBox.hgrow="ALWAYS" />
+                              <ComboBox fx:id="startDateYear" accessibleText="coursCombobox" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="60.0" styleClass="appComboBox" HBox.hgrow="ALWAYS" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" layoutX="10.0" layoutY="121.0" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="350.0">
+                           <children>
+                              <ComboBox fx:id="endDateDay" accessibleText="coursCombobox" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="60.0" styleClass="appComboBox" HBox.hgrow="ALWAYS" />
+                              <ComboBox fx:id="endDateMonth" accessibleText="coursCombobox" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="60.0" styleClass="appComboBox" HBox.hgrow="ALWAYS" />
+                              <ComboBox fx:id="endDateYear" accessibleText="coursCombobox" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="60.0" styleClass="appComboBox" HBox.hgrow="ALWAYS" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children>
+               <HBox.margin>
+                  <Insets left="5.0" />
+               </HBox.margin>
+            </HBox>
+            <VBox alignment="CENTER" prefHeight="50.0" prefWidth="50.0" spacing="5.0" styleClass="actionButton">
+               <children>
+                  <Button layoutX="10.0" layoutY="54.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#update" prefHeight="40.0" prefWidth="40.0" styleClass="actionButton">
+                     <graphic>
+                        <ImageView fitHeight="25.0" fitWidth="81.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/refreach.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button layoutX="10.0" layoutY="32.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#printIndex" prefHeight="40.0" prefWidth="40.0" styleClass="actionButton">
+                     <graphic>
+                        <ImageView fitHeight="25.0" fitWidth="81.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/printer.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button layoutX="10.0" layoutY="10.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#close" prefHeight="40.0" prefWidth="40.0" styleClass="actionButton">
+                     <graphic>
+                        <ImageView fitHeight="25.0" fitWidth="81.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/close.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </children>
+               <HBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </HBox.margin>
+            </VBox>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

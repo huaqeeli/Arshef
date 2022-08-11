@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" nodeOrientation="RIGHT_TO_LEFT" prefHeight="50.0" prefWidth="1200.0" stylesheets="@../css/appStyle.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.DisplayItemController">
+<AnchorPane id="AnchorPane" nodeOrientation="RIGHT_TO_LEFT" prefHeight="50.0" prefWidth="1200.0" stylesheets="@../css/appStyle.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.DisplayItemController">
    <children>
       <HBox alignment="CENTER" maxHeight="188.0" maxWidth="1.7976931348623157E308" minHeight="188.0" nodeOrientation="RIGHT_TO_LEFT" onMouseClicked="#click" prefHeight="188.0" prefWidth="1200.0" spacing="2.0" styleClass="itemPanl" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -16,7 +16,7 @@
                </HBox.margin></Label>
             <HBox maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="300.0">
                <children>
-                  <VBox alignment="CENTER" prefHeight="136.0" prefWidth="200.0">
+                  <VBox alignment="CENTER" prefHeight="136.0" prefWidth="300.0">
                      <children>
                         <Label fx:id="regisNO11" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="200.0" styleClass="itemLableTitel" text="رقم المعاملة:" />
                         <Label fx:id="recipientDate11" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="200.0" styleClass="itemLableTitel" text="تاريخ المعاملة:" />
@@ -34,7 +34,7 @@
             </HBox>
             <HBox layoutX="956.0" layoutY="10.0" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="500.0" HBox.hgrow="ALWAYS">
                <children>
-                  <VBox alignment="CENTER" prefHeight="136.0" prefWidth="200.0">
+                  <VBox alignment="CENTER" prefHeight="136.0" prefWidth="300.0">
                      <children>
                         <Label fx:id="Destination1" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="200.0" styleClass="itemLableTitel" text="جهة المعاملة" />
                         <Label fx:id="topic1" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="200.0" styleClass="itemLableTitel" text="الموضوع" />
@@ -50,7 +50,7 @@
             </HBox>
             <HBox layoutX="961.0" layoutY="10.0" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="300.0" HBox.hgrow="ALWAYS">
                <children>
-                  <VBox alignment="CENTER" prefHeight="136.0" prefWidth="200.0">
+                  <VBox alignment="CENTER" prefHeight="136.0" prefWidth="300.0">
                      <children>
                         <Label fx:id="action1" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="200.0" styleClass="itemLableTitel" text="الاجراء" />
                         <Label fx:id="saveFaile1111" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="200.0" styleClass="itemLableTitel" text="ملاحظات:" />

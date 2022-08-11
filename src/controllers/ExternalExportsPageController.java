@@ -459,7 +459,7 @@ public class ExternalExportsPageController implements Initializable {
         try {
             exportObject.clear();
             vbox.getChildren().clear();
-            viewdata(DatabaseAccess.getData("SELECT ID,ENTRYDATE,TOPIC,DESTINATION,SAVEFILE,EXPORTNUM,EXPORTDATE,NOTES FROM exportsdata WHERE ENTRYDATE = '" + HijriCalendar.getSimpleDate() + "' ORDER BY ENTRYDATE DESC"));
+            viewdata(DatabaseAccess.getData("SELECT ID,ENTRYDATE,TOPIC,DESTINATION,SAVEFILE,EXPORTNUM,EXPORTDATE,NOTES FROM exportsdata WHERE ENTRYDATE = '" + HijriCalendar.getSimpleDate() + "' ORDER BY ID DESC"));
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }

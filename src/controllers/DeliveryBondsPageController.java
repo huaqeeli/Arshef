@@ -26,7 +26,7 @@ import modeles.DeliveryBondsModel;
 public class DeliveryBondsPageController implements Initializable {
 
     @FXML
-    private ComboBox<?> searchType;
+    private ComboBox<String> searchType;
     @FXML
     private ComboBox<?> searchDateDay;
     @FXML
@@ -52,7 +52,7 @@ public class DeliveryBondsPageController implements Initializable {
 
     public final List<DeliveryBondsModel> bondObject = new ArrayList<>();
     private DeliveryBondsListener myListener;
-    String bondId;
+    String bondId = null;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -68,10 +68,34 @@ public class DeliveryBondsPageController implements Initializable {
 
     @FXML
     private void enableSearchDate(ActionEvent event) {
+        if ("البحث بتاريخ السند".equals(searchType.getValue())) {
+            searchDateDay.setDisable(false);
+            searchDateMonth.setDisable(false);
+            searchDateYear.setDisable(false);
+            year.setDisable(true);
+        } else {
+            searchDateDay.setDisable(true);
+            searchDateMonth.setDisable(true);
+            searchDateYear.setDisable(true);
+            year.setDisable(false);
+        }
     }
 
+   
     @FXML
-    private void searchData(ActionEvent event) {
+    private void searchData(ActionEvent event) throws IOException {
+        String searchValue = searchType.getValue();
+        switch (searchValue) {
+            case "البحث برقم المعاملة":
+                bondObject.clear();
+                vbox.getChildren().clear();
+                viewdata(DatabaseAccess.getData("SELECT DISTINCT bonduint.BONDID,deliverybonds.BONDDATE FROM deliverybonds,bonduint where CIRCULARNUMBER ='" + searchText.getText() + "' AND deliverybonds.BONDID = bonduint.BONDID ORDER BY BONDID DESC"));
+                break;
+            case "البحث بتاريخ السند":
+                bondObject.clear();
+                vbox.getChildren().clear();
+                viewdata(DatabaseAccess.getData("SELECT BONDID,BONDDATE FROM deliverybonds where BONDDATE ='" + getSearchDate() + "' ORDER BY BONDID DESC"));
+        }
     }
 
     @FXML
@@ -92,11 +116,15 @@ public class DeliveryBondsPageController implements Initializable {
 
     @FXML
     private void delete(ActionEvent event) {
-//         try {
-//            DatabaseAccess.delete("deliverybonds,bonduint", "BONDID = '"+deliveryBondsModel.getBondId()+"' AND CIRCULARNUMBER = '"+deliveryBondsModel.getCircularNumber()+"'AND ID ='"+deliveryBondsModel.getId()+"'");
-//        } catch (IOException | SQLException ex) {
-//           FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
-//        }
+         try {
+           int t = DatabaseAccess.delete("deliverybonds", "BONDID = '"+bondId+"'");
+             if (t > 0) {
+                  DatabaseAccess.delete("bonduint", "BONDID = '"+bondId+"'");
+             }
+             refreshdata();
+        } catch (IOException | SQLException ex) {
+           FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
     }
 
     public String getBondDate() {
@@ -116,14 +144,16 @@ public class DeliveryBondsPageController implements Initializable {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
     }
-
+    private void setChosendata(DeliveryBondsModel deliveryBondsModel) {
+        bondId = deliveryBondsModel.getBondId();
+    }
     private void viewdata(ResultSet rs) {
         bondObject.addAll(getData(rs));
         if (bondObject.size() > 0) {
             myListener = new DeliveryBondsListener() {
                 @Override
                 public void onClickListener(DeliveryBondsModel deliveryBondsModel) {
-                    bondId = deliveryBondsModel.getBondId();
+                    setChosendata(deliveryBondsModel);
                 }
             };
         }
@@ -158,6 +188,5 @@ public class DeliveryBondsPageController implements Initializable {
         }
         return deliveryBondslist;
     }
-    
-    
+
 }

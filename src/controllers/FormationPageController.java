@@ -539,8 +539,8 @@ public class FormationPageController implements Initializable {
                     savefile = file.toString();
                 }
                 ResultSet rs = DatabaseAccess.getData("SELECT * FROM personaldata WHERE UNIT ='" + uint.getValue() + "' ORDER BY MILITARYID ASC");
-                String[] feild = {"MILITARYID", "PERSONALID", "NAME", "RANK", "UNIT", "SPECIALTY"};
-                String[] titel = {"الرقم العسكري", "رقم الهوية", "الاسم", "الرتبة", "الوحدة", "التخصص"};
+                String[] feild = {"RANK", "MILITARYID", "NAME", "PERSONALID", "UNIT", "SPECIALTY"};
+                String[] titel = {"الرتبة", "الرقم العسكري", "الاسم","رقم الهوية" , "الوحدة", "التخصص"};
                 String[] sheetTitel = {"تشكيل " + " " + uint.getValue()};
                 ExporteExcelSheet exporter = new ExporteExcelSheet();
                 ArrayList<Object[]> dataList = exporter.getTableData(rs, feild);
@@ -572,8 +572,8 @@ public class FormationPageController implements Initializable {
                 savefile = file.toString();
             }
             ResultSet rs = DatabaseAccess.getData("SELECT * FROM personaldata ORDER BY MILITARYID ASC");
-            String[] feild = {"MILITARYID",  "RANK","NAME", "PERSONALID", "UNIT", "SPECIALTY"};
-            String[] titel = {"الرقم العسكري",  "الرتبة", "الاسم","رقم الهوية", "الوحدة", "التخصص"};
+            String[] feild = {"RANK", "MILITARYID", "NAME", "PERSONALID", "UNIT", "SPECIALTY"};
+            String[] titel = {"الرتبة", "الرقم العسكري", "الاسم","رقم الهوية" , "الوحدة", "التخصص"};
             String[] sheetTitel = {"تشكيل قوة السيف الجرب "};
             ExporteExcelSheet exporter = new ExporteExcelSheet();
             ArrayList<Object[]> dataList = exporter.getTableData(rs, feild);
@@ -612,8 +612,8 @@ public class FormationPageController implements Initializable {
                 savefile = file.toString();
             }
             ResultSet rs = DatabaseAccess.getData("SELECT * FROM livingdata ");
-            String[] feild = {"MILITARYID", "PERSONALID", "NAME", "RANK", "UNIT", "SPECIALTY"};
-            String[] titel = {"الرقم العسكري", "رقم الهوية", "الاسم", "الرتبة", "الوحدة", "التخصص"};
+            String[] feild = {"RANK", "MILITARYID", "NAME", "PERSONALID", "UNIT", "SPECIALTY"};
+            String[] titel = {"الرتبة", "الرقم العسكري", "الاسم","رقم الهوية" , "الوحدة", "التخصص"};
             String[] sheetTitel = {"بيان اسماء المنقولين خارج القوة "};
             ExporteExcelSheet exporter = new ExporteExcelSheet();
             ArrayList<Object[]> dataList = exporter.getTableData(rs, feild);
@@ -643,8 +643,8 @@ public class FormationPageController implements Initializable {
                 savefile = file.toString();
             }
             ResultSet rs = DatabaseAccess.select("personaldata", "MARK = 1 ORDER BY MARKCOLOR");
-            String[] feild = {"MILITARYID", "PERSONALID", "NAME", "RANK", "UNIT", "SPECIALTY", "NOTE"};
-            String[] titel = {"الرقم العسكري", "رقم الهوية", "الاسم", "الرتبة", "الوحدة", "التخصص", "ملاحظات"};
+            String[] feild = {"RANK", "MILITARYID", "NAME", "PERSONALID", "UNIT", "SPECIALTY", "NOTE"};
+            String[] titel = {"الرتبة", "الرقم العسكري", "الاسم","رقم الهوية" , "الوحدة", "التخصص", "ملاحظات"};
             String[] sheetTitel = {"بيان جميع الملاحظات"};
             ExporteExcelSheet exporter = new ExporteExcelSheet();
             ArrayList<Object[]> dataList = exporter.getTableData(rs, feild);

@@ -53,6 +53,30 @@ public class DatabaseAccess {
         return t;
     }
 
+    public static int insert(String quiry) throws IOException {
+        int lastId = 0;
+        int t = 0;
+        Connection con = DatabaseConniction.dbConnector();
+
+        try {
+            PreparedStatement psm = con.prepareStatement(quiry);
+            int e = data.length;
+            for (int i = 1; i <= e; i++) {
+                psm.setString(i, data[i - 1]);
+            }
+            t = psm.executeUpdate();
+            if (t > 0) {
+            } else {
+                FormValidation.showAlert(null, "حدث خطاء في عملية الحفظ الرجاء المحاولة مرة اخرى", Alert.AlertType.ERROR);
+            }
+            con.close();
+            psm.close();
+        } catch (SQLException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
+        return t;
+    }
+
     public static void insert(String tapleName, String fildName, String valueNamber, int data) throws IOException {
         Connection con = DatabaseConniction.dbConnector();
         String guiry = "INSERT INTO " + tapleName + "(" + fildName + ")VALUES(" + valueNamber + " )";
@@ -192,10 +216,12 @@ public class DatabaseAccess {
                 ResultSet rs = DatabaseAccess.getData("SELECT IMAGE FROM exportsdata WHERE ID = '" + id + "'AND ENTRYDATE = '" + entrydate + "'");
                 if (rs.next()) {
                     image = rs.getBinaryStream("IMAGE");
-                    pdfByte = new byte[image.available()];
-                    image.read(pdfByte);
-                } else {
-                    FormValidation.showAlert(null, "لا توجد صورة للشهادة", Alert.AlertType.ERROR);
+                    if (image == null) {
+                        FormValidation.showAlert(null, "لا توجد صورة", Alert.AlertType.ERROR);
+                    } else {
+                        pdfByte = new byte[image.available()];
+                        image.read(pdfByte);
+                    }
                 }
                 rs.close();
             }
@@ -215,10 +241,12 @@ public class DatabaseAccess {
                 ResultSet rs = DatabaseAccess.getData("SELECT IMAGE FROM internalincoming WHERE REGIS_NO = '" + regisid + "'AND RECORD_YEAR = '" + year + "'");
                 if (rs.next()) {
                     image = rs.getBinaryStream("IMAGE");
-                    pdfByte = new byte[image.available()];
-                    image.read(pdfByte);
-                } else {
-                    FormValidation.showAlert(null, "لا توجد صورة ", Alert.AlertType.ERROR);
+                    if (image == null) {
+                        FormValidation.showAlert(null, "لا توجد صورة", Alert.AlertType.ERROR);
+                    } else {
+                        pdfByte = new byte[image.available()];
+                        image.read(pdfByte);
+                    }
                 }
                 rs.close();
             }
@@ -235,11 +263,14 @@ public class DatabaseAccess {
             ResultSet rs = DatabaseAccess.getData("SELECT IMAGE FROM deliverybonds WHERE BONDID = '" + id + "' ");
             if (rs.next()) {
                 image = rs.getBinaryStream("IMAGE");
-                pdfByte = new byte[image.available()];
-                image.read(pdfByte);
-            } else {
-                FormValidation.showAlert(null, "لا توجد صورة ", Alert.AlertType.ERROR);
+                if (image == null) {
+                    FormValidation.showAlert(null, "لم يتم ادراج السند", Alert.AlertType.ERROR);
+                } else {
+                    pdfByte = new byte[image.available()];
+                    image.read(pdfByte);
+                }
             }
+            //FormValidation.showAlert(null, "لا توجد صورة ", Alert.AlertType.ERROR);
             rs.close();
         } catch (IOException | SQLException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
@@ -257,10 +288,12 @@ public class DatabaseAccess {
                 ResultSet rs = DatabaseAccess.getData("SELECT IMAGE FROM " + tableName + " WHERE " + tableid + " = '" + regisid + "' AND RECORD_YEAR = '" + year + "'");
                 if (rs.next()) {
                     image = rs.getBinaryStream("IMAGE");
-                    pdfByte = new byte[image.available()];
-                    image.read(pdfByte);
-                } else {
-                    FormValidation.showAlert(null, "لا توجد صورة ", Alert.AlertType.ERROR);
+                    if (image == null) {
+                        FormValidation.showAlert(null, "لا توجد صورة", Alert.AlertType.ERROR);
+                    } else {
+                        pdfByte = new byte[image.available()];
+                        image.read(pdfByte);
+                    }
                 }
                 rs.close();
             }
@@ -280,10 +313,12 @@ public class DatabaseAccess {
                 ResultSet rs = DatabaseAccess.getData("SELECT IMAGE FROM secretdata WHERE ID = '" + regisid + "'AND RECORDYEAR = '" + year + "'");
                 if (rs.next()) {
                     image = rs.getBinaryStream("IMAGE");
-                    pdfByte = new byte[image.available()];
-                    image.read(pdfByte);
-                } else {
-                    FormValidation.showAlert(null, "لا توجد صورة ", Alert.AlertType.ERROR);
+                    if (image == null) {
+                        FormValidation.showAlert(null, "لا توجد صورة", Alert.AlertType.ERROR);
+                    } else {
+                        pdfByte = new byte[image.available()];
+                        image.read(pdfByte);
+                    }
                 }
                 rs.close();
             }
@@ -303,15 +338,17 @@ public class DatabaseAccess {
                 ResultSet rs = DatabaseAccess.getData("SELECT IMAGE FROM internalexports WHERE REGISNO = '" + regisid + "'AND RECORDYEAR = '" + year + "'");
                 if (rs.next()) {
                     image = rs.getBinaryStream("IMAGE");
-                    pdfByte = new byte[image.available()];
-                    image.read(pdfByte);
-                } else {
-                    FormValidation.showAlert(null, "لا توجد صورة ", Alert.AlertType.ERROR);
+                    if (image == null) {
+                        FormValidation.showAlert(null, "لا توجد صورة", Alert.AlertType.ERROR);
+                    } else {
+                        pdfByte = new byte[image.available()];
+                        image.read(pdfByte);
+                    }
                 }
                 rs.close();
             }
         } catch (IOException | SQLException ex) {
-            FormValidation.showAlert(null, "لا توجد صورة ", Alert.AlertType.ERROR);
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
         return pdfByte;
     }
@@ -589,12 +626,12 @@ public class DatabaseAccess {
     public static int delete(String tapleName, String condition) throws IOException, SQLException {
         Connection con = DatabaseConniction.dbConnector();
         String guiry = "DELETE FROM " + tapleName + " WHERE " + condition;
-         int t = 0;
+        int t = 0;
         try {
             PreparedStatement psm = con.prepareStatement(guiry);
             Alert alert = FormValidation.confirmationDilog("تاكيد الحذف", "سوف يتم حذف السجل هل تريد المتابعة");
             if (alert.getResult() == ButtonType.YES) {
-               t = psm.executeUpdate();
+                t = psm.executeUpdate();
             }
         } catch (SQLException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);

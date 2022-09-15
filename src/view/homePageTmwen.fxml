@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" stylesheets="@../css/appStyle.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.huaqeeli.arshef.HomePageController">
+   <children>
+      <BorderPane fx:id="content" layoutX="10.0" layoutY="16.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <right>
+            <VBox alignment="TOP_CENTER" prefHeight="759.0" prefWidth="320.0" style="-fx-background-color: #686868;" BorderPane.alignment="CENTER">
+               <children>
+                  <HBox prefHeight="100.0" prefWidth="200.0" style="-fx-border-color: #fff; -fx-border-width: 0 0 5 0;">
+                     <children>
+                        <HBox alignment="BOTTOM_LEFT" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Button mnemonicParsing="false" onAction="#logout" prefHeight="40.0" prefWidth="72.0" styleClass="logoutButton">
+                                 <graphic>
+                                    <ImageView fitHeight="32.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../images/logout.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                                 <HBox.margin>
+                                    <Insets bottom="12.0" left="5.0" />
+                                 </HBox.margin>
+                              </Button>
+                           </children>
+                        </HBox>
+                        <ImageView fitHeight="144.0" fitWidth="125.0" onMouseClicked="#logoPageLod" pickOnBounds="true" preserveRatio="true" styleClass="logoutButton">
+                           <image>
+                              <Image url="@../images/8-128.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets right="5.0" />
+                           </HBox.margin>
+                        </ImageView>
+                     </children>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox alignment="CENTER" nodeOrientation="RIGHT_TO_LEFT" prefHeight="86.0" prefWidth="452.0">
+                     <children>
+                        <Label fx:id="rankLable" alignment="CENTER" prefHeight="40.0" prefWidth="81.0" styleClass="username" />
+                        <Label alignment="CENTER" layoutX="89.0" layoutY="38.0" prefHeight="40.0" prefWidth="16.0" styleClass="username" text="/" />
+                        <Label fx:id="usernameLable" layoutX="124.0" layoutY="38.0" prefHeight="40.0" prefWidth="248.0" styleClass="username" HBox.hgrow="ALWAYS">
+                           <padding>
+                              <Insets left="10.0" />
+                           </padding></Label>
+                     </children>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </HBox>
+                  <Button alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="10.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#insertDataPage" prefHeight="43.0" prefWidth="100.0" styleClass="toolBarButton" text="الوارد الخارجي">
+                     <VBox.margin>
+                        <Insets bottom="5.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="226.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#addExportsPage" prefHeight="43.0" prefWidth="100.0" styleClass="toolBarButton" text="الصادر الخارجي">
+                     <VBox.margin>
+                        <Insets bottom="5.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="161.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#InternalIncomingPage" prefHeight="43.0" prefWidth="100.0" styleClass="toolBarButton" text="الوارد الداخلي">
+                     <VBox.margin>
+                        <Insets bottom="5.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="229.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#InternalExportsPage" prefHeight="43.0" prefWidth="100.0" styleClass="toolBarButton" text="الصادر الداخلي">
+                     <VBox.margin>
+                        <Insets bottom="5.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="274.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#addDisplayPage" prefHeight="43.0" prefWidth="100.0" styleClass="toolBarButton" text="معاملات العرض">
+                     <VBox.margin>
+                        <Insets bottom="5.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="313.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#secretPage" prefHeight="43.0" prefWidth="100.0" styleClass="toolBarButton" text="معاملات السري">
+                     <VBox.margin>
+                        <Insets bottom="5.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button alignment="CENTER" layoutX="10.0" layoutY="557.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#followupPage" prefHeight="43.0" prefWidth="100.0" styleClass="toolBarButton" text="المتابعة">
+                     <VBox.margin>
+                        <Insets bottom="5.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button alignment="CENTER" layoutX="10.0" layoutY="513.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#formationPage" prefHeight="43.0" prefWidth="100.0" styleClass="toolBarButton" text="التشكيل">
+                     <VBox.margin>
+                        <Insets bottom="5.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button alignment="CENTER" layoutX="10.0" layoutY="106.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#addNewDaetination" prefHeight="43.0" prefWidth="100.0" styleClass="toolBarButton" text="اضافة جهة الوارد">
+                     <VBox.margin>
+                        <Insets bottom="5.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button alignment="CENTER" layoutX="10.0" layoutY="601.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#missionPage" prefHeight="43.0" prefWidth="100.0" styleClass="toolBarButton" text="المهام">
+                     <VBox.margin>
+                        <Insets bottom="5.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button alignment="CENTER" layoutX="10.0" layoutY="689.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#indexingPage" prefHeight="43.0" prefWidth="100.0" styleClass="toolBarButton" text="فهرسة الملفات">
+                     <VBox.margin>
+                        <Insets bottom="5.0" />
+                     </VBox.margin></Button>
+                  <Button alignment="CENTER" layoutX="10.0" layoutY="733.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#deliveryBondsPage" prefHeight="43.0" prefWidth="100.0" styleClass="toolBarButton" text="تسليم المعاملات" />
+                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <ImageView fitHeight="201.0" fitWidth="214.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/royallogo.png" />
+                           </image>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </ImageView>
+                     </children>
+                  </VBox>
+               </children>
+               <BorderPane.margin>
+                  <Insets />
+               </BorderPane.margin>
+            </VBox>
+         </right>
+      </BorderPane>
+   </children>
+</AnchorPane>

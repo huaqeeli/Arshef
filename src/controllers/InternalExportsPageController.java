@@ -254,8 +254,9 @@ public class InternalExportsPageController implements Initializable {
         boolean topicState = FormValidation.textFieldNotEmpty(topic, "الرجاء ادخال الموضوع");
         boolean destinationState = FormValidation.comboBoxNotEmpty(destination, "الرجاء ادخال جهة الصادر");
         boolean incomingTypeState = FormValidation.comboBoxNotEmpty(incomingType, "اختر نوع الصادر");
+        boolean regisNoState = FormValidation.notNull(regisNo, "ادخل رقم الوراد");
 
-        if (topicState && destinationState && incomingTypeState) {
+        if (topicState && destinationState && incomingTypeState && regisNoState) {
             try {
                 DatabaseAccess.insert(tableName, fieldName, valuenumbers, data, imagefile);
                 registrationId = DatabaseAccess.getRegistrationNum();

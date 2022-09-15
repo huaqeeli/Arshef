@@ -2,7 +2,9 @@ package controllers;
 
 import Serveces.DeliveryBondsListener;
 import Validation.FormValidation;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -12,6 +14,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -27,12 +31,14 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import modeles.DeliveryBondsModel;
+import modeles.IndexingModel;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperPrintManager;
 import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import net.sf.jasperreports.view.JasperViewer;
@@ -96,12 +102,15 @@ public class DeliveryBondsPageItemController implements Initializable {
     @FXML
     private void showImage(ActionEvent event) {
         byte[] pdfimage = DatabaseAccess.getBondPdfFile(deliveryBondsModel.getBondId());
-        ShowPdf.writePdf(pdfimage);
+        if (pdfimage != null) {
+            ShowPdf.writePdf(pdfimage);
+        }
+
     }
 
     @FXML
     private void click(MouseEvent event) {
-         myListener.onClickListener(deliveryBondsModel);
+        myListener.onClickListener(deliveryBondsModel);
     }
 
     @FXML
@@ -132,12 +141,10 @@ public class DeliveryBondsPageItemController implements Initializable {
         try {
             Connection con = DatabaseConniction.dbConnector();
             JasperDesign recipientReport = JRXmlLoader.load(config.getAppURL() + "\\reports\\printBonds.jrxml");
-
-            Map barrcod = new HashMap();
-            barrcod.put("bondid", deliveryBondsModel.getBondId());
+            Map parameters = new HashMap();
+            parameters.put("bondid", deliveryBondsModel.getBondId());
             JasperReport jr = JasperCompileManager.compileReport(recipientReport);
-            JasperPrint jp = JasperFillManager.fillReport(jr, barrcod, con);
-            // JasperPrintManager.printReport(jp, false);
+            JasperPrint jp = JasperFillManager.fillReport(jr, parameters, con);
             JasperViewer.viewReport(jp, false);
 
         } catch (IOException | JRException ex) {

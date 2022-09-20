@@ -11,6 +11,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -75,21 +76,23 @@ public class IndexingPageController implements Initializable {
 
             List<IndexingModel> dataItems = new ArrayList<>();
             dataItems = getData();
-            JRBeanCollectionDataSource itemsJarbean = new JRBeanCollectionDataSource(dataItems);
+            System.out.println(dataItems.toString());
+//            JRBeanCollectionDataSource itemsJarbean = new JRBeanCollectionDataSource(dataItems);
+//
+//            Connection con = DatabaseConniction.dbConnector();
+//            Map parameters = new HashMap();
+//
+//            parameters.put("repotCollation", itemsJarbean);
+//
+//            JasperDesign jasperDesign = JRXmlLoader.load(input);
+//            JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
+//            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, con);
+//            JasperViewer.viewReport(jasperPrint, false);
 
-            Connection con = DatabaseConniction.dbConnector();
-            Map parameters = new HashMap();
-
-            parameters.put("repotCollation", itemsJarbean);
-
-            JasperDesign jasperDesign = JRXmlLoader.load(input);
-            JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
-            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, con);
-            JasperViewer.viewReport(jasperPrint, false);
-
-        } catch (JRException | IOException ex) {
+        } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
+
     }
 
     @FXML
@@ -172,7 +175,8 @@ public class IndexingPageController implements Initializable {
                 indexingMode.setSqunce(ArabicSetting.EnglishToarabic(Integer.toString(squnce)));
                 indexingModellist.add(indexingMode);
             }
-          
+           Collections.sort(indexingModellist, new SortByDate());
+           
             rs1.close();
             rs2.close();
             rs3.close();

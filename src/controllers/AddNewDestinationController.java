@@ -6,8 +6,6 @@ import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -41,7 +39,7 @@ public class AddNewDestinationController implements Initializable {
     String placeid = null;
     @FXML
     private ComboBox<String> uintType;
-    ObservableList<String> uintTypelist = FXCollections.observableArrayList("داخلي", "خارجي");
+    ObservableList<String> uintTypelist = FXCollections.observableArrayList("داخلي", "خارجي","كليشة");
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {

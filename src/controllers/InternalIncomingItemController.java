@@ -51,6 +51,7 @@ public class InternalIncomingItemController implements Initializable {
     private InternalIncomingModel internalIncomingModel;
     private InternalIncomingPageListener mylistener;
     private String recordYear = null;
+   
     Config config = new Config();
 
     @Override
@@ -70,6 +71,7 @@ public class InternalIncomingItemController implements Initializable {
         saveFaile.setText(internalIncomingModel.getSaveFile());
         notes.setText(internalIncomingModel.getNotes());
         recordYear = internalIncomingModel.getRecordYear();
+        
     }
 
     @FXML
@@ -83,13 +85,14 @@ public class InternalIncomingItemController implements Initializable {
 
     @FXML
     private void addNames(ActionEvent event) {
-        App.lodAddNmaesPage(regisNO.getText(), recordYear, "internal");
+        App.lodAddNmaesPage(regisNO.getText(), recordYear, "internalincoming");
     }
 
     @FXML
     private void showImage(ActionEvent event) {
         byte[] pdfimage = DatabaseAccess.getInternalIncomingPdfFile(regisNO.getText(), recordYear);
         ShowPdf.writePdf(pdfimage);
+        ShowPdf.getClashahImage(pdfimage);
     }
 
     @FXML
@@ -137,6 +140,11 @@ public class InternalIncomingItemController implements Initializable {
         } catch (IOException | JRException | SQLException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
+    }
+
+    @FXML
+    private void clashahPage(ActionEvent event) {
+        App.lodClashahPage(regisNO.getText(), recordYear, "InternalIncoming", saveFaile.getText());
     }
 
 }

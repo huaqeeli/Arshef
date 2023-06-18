@@ -6,8 +6,6 @@ import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -40,10 +38,13 @@ public class AddNamesController implements Initializable, InitializClass {
     private TableColumn<?, ?> rank_col;
     @FXML
     private TableColumn<?, ?> name_col;
+    @FXML
+    private TableColumn<?, ?> unit_col;
     String circularID = null;
     String year = null;
     String type = null;
     ObservableList<AddNamesModel> addnamesList = FXCollections.observableArrayList();
+    
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -51,12 +52,14 @@ public class AddNamesController implements Initializable, InitializClass {
     }
 
     @Override
+    @FXML
     public void close(ActionEvent event) {
         Stage stage = (Stage) content.getScene().getWindow();
         stage.close();
     }
 
     @Override
+    @FXML
     public void save(ActionEvent event) {
         String tableName = "circularnames";
         String[] data = {getCircularID(), getMilataryId(), year,type};
@@ -79,6 +82,7 @@ public class AddNamesController implements Initializable, InitializClass {
     }
 
     @Override
+    @FXML
     public void delete(ActionEvent event) {
         try {
             DatabaseAccess.delete("circularnames", "CIRCULARID = '" + circularID + "'AND MILITARYID = '" + getMilataryId() + "'AND YEAR = '" + year + "'");
@@ -101,7 +105,7 @@ public class AddNamesController implements Initializable, InitializClass {
     @Override
     public void tableView() {
         try {
-            ResultSet rs = DatabaseAccess.getData("SELECT circularnames.YEAR,circularnames.MILITARYID,personaldata.NAME,personaldata.MILITARYID,personaldata.RANK FROM circularnames,personaldata "
+            ResultSet rs = DatabaseAccess.getData("SELECT circularnames.YEAR,circularnames.MILITARYID,personaldata.NAME,personaldata.MILITARYID,personaldata.RANK,personaldata.UNIT FROM circularnames,personaldata "
                     + "WHERE circularnames.MILITARYID = personaldata.MILITARYID AND CIRCULARID = '" + circularID + "'AND YEAR = '" + year + "'AND type = '"+type+"' ");
             int squence = 0;
             while (rs.next()) {
@@ -110,6 +114,7 @@ public class AddNamesController implements Initializable, InitializClass {
                         rs.getString("MILITARYID"),
                         rs.getString("RANK"),
                         rs.getString("NAME"),
+                        rs.getString("UNIT"),
                         squence
                 ));
             }
@@ -121,6 +126,7 @@ public class AddNamesController implements Initializable, InitializClass {
         rank_col.setCellValueFactory(new PropertyValueFactory<>("rank"));
         name_col.setCellValueFactory(new PropertyValueFactory<>("name"));
         squinse_col.setCellValueFactory(new PropertyValueFactory<>("squinse"));
+        unit_col.setCellValueFactory(new PropertyValueFactory<>("unit"));
 
         namesTable.setItems(addnamesList);
     }

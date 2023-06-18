@@ -59,7 +59,7 @@ public class UpdateAllFromExcleController implements Initializable {
 
     @FXML
     private void updateFromjExcle(ActionEvent event) throws IOException {
-        Alert alert = FormValidation.confirmationDilog("تنبيه", "يجب ان يكون ترتيب ملف الاكسل كتالي :" + "\n" + "الرقم العسكري - الرتبة - الاسم - رقم الهوية - الوحدة" + "\n" + "هل تريد المتابعة ؟");
+        Alert alert = FormValidation.confirmationDilog("تنبيه", "يجب ان يكون ترتيب ملف الاكسل كتالي :" + "\n" + "الرقم العسكري - الرتبة - الاسم - رقم الهوية - الوحدة- التخصص" + "\n" + "هل تريد المتابعة ؟");
         if (execlfile == null) {
             FormValidation.showAlert(null, "الرجاء تحديد ملف الاكسل", Alert.AlertType.ERROR);
         } else {

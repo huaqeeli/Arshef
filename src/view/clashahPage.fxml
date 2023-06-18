@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane id="AnchorPane" prefHeight="631.0" prefWidth="700.0" styleClass="mainFxmlClass" stylesheets="@../css/appStyle.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ClashahPageController">
+   <children>
+      <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <HBox fx:id="content" alignment="CENTER" maxHeight="200.0" maxWidth="1.7976931348623157E308" minHeight="200.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="200.0" prefWidth="1200.0" styleClass="itemPanl">
+               <children>
+                  <HBox maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="600.0">
+                     <children>
+                        <VBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="350.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="119.0" styleClass="itemLableTitel" text="مسمى الكليشة:" />
+                              <Label alignment="CENTER" layoutX="10.0" layoutY="62.0" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="119.0" styleClass="itemLableTitel" text="نص الكيشة" />
+                              <Label alignment="CENTER" layoutX="10.0" layoutY="108.0" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="119.0" styleClass="itemLableTitel" text="قائمة الكليشات المحفوظة:" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" prefHeight="136.0" prefWidth="500.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <TextField fx:id="clashahName" alignment="CENTER" styleClass="appText" />
+                              <TextField fx:id="clashahText" alignment="CENTER" layoutX="10.0" layoutY="81.0" styleClass="appText" />
+                              <ComboBox fx:id="savedClashah" accessibleText="coursCombobox" maxWidth="1.7976931348623157E308" onAction="#setChosenData" prefHeight="40.0" prefWidth="60.0" styleClass="appComboBox" />
+                           </children>
+                        </VBox>
+                     </children>
+                     <HBox.margin>
+                        <Insets left="5.0" />
+                     </HBox.margin>
+                  </HBox>
+                  <VBox alignment="CENTER" prefHeight="50.0" prefWidth="50.0" spacing="5.0" styleClass="actionButton">
+                     <children>
+                        <Button layoutX="10.0" layoutY="54.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#clearNewClashah" prefHeight="40.0" prefWidth="40.0" styleClass="actionButton">
+                           <graphic>
+                              <ImageView fitHeight="25.0" fitWidth="81.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/refreach.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Button layoutX="10.0" layoutY="32.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#save" prefHeight="40.0" prefWidth="40.0" styleClass="actionButton">
+                           <graphic>
+                              <ImageView fitHeight="25.0" fitWidth="81.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/add.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Button layoutX="10.0" layoutY="60.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#update" prefHeight="40.0" prefWidth="40.0" styleClass="actionButton">
+                           <graphic>
+                              <ImageView fitHeight="25.0" fitWidth="81.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/edit.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Button layoutX="10.0" layoutY="128.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#delete" prefHeight="40.0" prefWidth="40.0" styleClass="actionButton">
+                           <graphic>
+                              <ImageView fitHeight="25.0" fitWidth="81.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/deletemark.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                     </children>
+                     <HBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </HBox.margin>
+                  </VBox>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" layoutX="10.0" layoutY="10.0" maxHeight="200.0" maxWidth="1.7976931348623157E308" minHeight="70.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="70.0" prefWidth="700.0" styleClass="itemPanl">
+               <children>
+                  <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#getInstructions" prefHeight="40.0" prefWidth="40.0" styleClass="actionButton" text="عرض لاخذ التوجيه" HBox.hgrow="ALWAYS">
+                     <graphic>
+                        <ImageView fitHeight="25.0" fitWidth="81.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/show.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <HBox.margin>
+                        <Insets left="5.0" right="5.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" layoutX="10.0" layoutY="10.0" maxHeight="300.0" maxWidth="1.7976931348623157E308" minHeight="300.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="300.0" prefWidth="1200.0" styleClass="itemPanl">
+               <children>
+                  <HBox maxWidth="1.7976931348623157E308" prefHeight="183.0" prefWidth="600.0">
+                     <children>
+                        <VBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="183.0" prefWidth="350.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label alignment="CENTER" layoutX="10.0" layoutY="38.0" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="119.0" styleClass="itemLableTitel" text="سري:" />
+                              <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="119.0" styleClass="itemLableTitel" text="جهة الكليشة:" />
+                              <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="140.0" styleClass="itemLableTitel" text=" الكليشات الثابتة:" />
+                              <Label alignment="CENTER" layoutX="10.0" layoutY="62.0" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="119.0" styleClass="itemLableTitel" text="نص جديد" />
+                              <Label alignment="CENTER" layoutX="10.0" layoutY="128.0" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="119.0" styleClass="itemLableTitel" text="نسخة الى:" />
+                              <Label alignment="CENTER" layoutX="10.0" layoutY="148.0" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="119.0" styleClass="itemLableTitel" text="نسخة الى:" />
+                              <Label alignment="CENTER" layoutX="10.0" layoutY="166.0" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="119.0" styleClass="itemLableTitel" text="نسخة الى:" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" prefHeight="136.0" prefWidth="500.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <TextField fx:id="scretText" alignment="CENTER" disable="true" layoutX="10.0" layoutY="117.0" styleClass="appText" />
+                              <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="350.0">
+                                 <children>
+                                    <ComboBox fx:id="destination" accessibleText="coursCombobox" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="60.0" styleClass="appComboBox" HBox.hgrow="ALWAYS" />
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER" layoutX="10.0" layoutY="121.0" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="350.0">
+                                 <children>
+                                    <ComboBox fx:id="clashahList" accessibleText="coursCombobox" maxWidth="1.7976931348623157E308" onAction="#getNewText" prefHeight="40.0" prefWidth="60.0" styleClass="appComboBox" HBox.hgrow="ALWAYS" />
+                                 </children>
+                              </HBox>
+                              <TextField fx:id="newText" alignment="CENTER" disable="true" styleClass="appText" />
+                              <TextField fx:id="capy1" alignment="CENTER" disable="true" layoutX="10.0" layoutY="128.0" styleClass="appText" />
+                              <TextField fx:id="capy2" alignment="CENTER" disable="true" layoutX="10.0" layoutY="149.0" styleClass="appText" />
+                              <TextField fx:id="capy3" alignment="CENTER" disable="true" layoutX="10.0" layoutY="219.0" styleClass="appText" />
+                           </children>
+                        </VBox>
+                     </children>
+                     <HBox.margin>
+                        <Insets left="5.0" />
+                     </HBox.margin>
+                  </HBox>
+                  <VBox alignment="CENTER" prefHeight="50.0" prefWidth="50.0" spacing="5.0" styleClass="actionButton">
+                     <children>
+                        <Button layoutX="10.0" layoutY="54.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#clear" prefHeight="40.0" prefWidth="40.0" styleClass="actionButton">
+                           <graphic>
+                              <ImageView fitHeight="25.0" fitWidth="81.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/refreach.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Button layoutX="10.0" layoutY="223.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#scertactivation" prefHeight="40.0" prefWidth="40.0" styleClass="actionButton">
+                           <graphic>
+                              <ImageView fitHeight="25.0" fitWidth="81.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/2822616.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Button layoutX="10.0" layoutY="10.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#capy1activation" prefHeight="40.0" prefWidth="40.0" styleClass="actionButton">
+                           <graphic>
+                              <ImageView fitHeight="25.0" fitWidth="81.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/mark.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Button layoutX="10.0" layoutY="178.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#capy2activation" prefHeight="40.0" prefWidth="40.0" styleClass="actionButton">
+                           <graphic>
+                              <ImageView fitHeight="25.0" fitWidth="81.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/mark.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Button layoutX="10.0" layoutY="200.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#capy3activation" prefHeight="40.0" prefWidth="40.0" styleClass="actionButton">
+                           <graphic>
+                              <ImageView fitHeight="25.0" fitWidth="81.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/mark.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Button layoutX="10.0" layoutY="32.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#printClashah" prefHeight="40.0" prefWidth="40.0" styleClass="actionButton">
+                           <graphic>
+                              <ImageView fitHeight="25.0" fitWidth="81.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/printer.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                     </children>
+                     <HBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </HBox.margin>
+                  </VBox>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" layoutX="10.0" layoutY="210.0" maxHeight="200.0" maxWidth="1.7976931348623157E308" minHeight="70.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="70.0" prefWidth="700.0" styleClass="itemPanl">
+               <children>
+                  <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#close" prefHeight="40.0" prefWidth="40.0" styleClass="actionButton" text="خروج" HBox.hgrow="ALWAYS">
+                     <graphic>
+                        <ImageView fitHeight="25.0" fitWidth="81.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/close.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <HBox.margin>
+                        <Insets left="5.0" right="5.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

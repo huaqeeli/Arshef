@@ -2,8 +2,10 @@ package controllers;
 
 import Serveces.ExternalIncomingPageListener;
 import Validation.FormValidation;
+import java.io.BufferedWriter;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -24,6 +26,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
@@ -31,6 +34,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import modeles.ArchefModel;
+import static org.apache.poi.hssf.usermodel.HeaderFooter.file;
 import org.progress.RingProgressIndicator;
 
 public class ExternalIncomingPageController implements Initializable {
@@ -544,7 +548,7 @@ public class ExternalIncomingPageController implements Initializable {
         try {
             rs = DatabaseAccess.selectQuiry("SELECT externalincoming.CIRCULARID,externalincoming.CIRCULARDATE,externalincoming.TOPIC,externalincoming.DESTINATION,externalincoming.SAVEFILE,externalincoming.RECEIPTNUMBER,externalincoming.RECEIPTDATE,externalincoming.ACTION "
                     + "FROM externalincoming,circularnames "
-                    + "WHERE externalincoming.CIRCULARID = circularnames.CIRCULARID AND circularnames.MILITARYID = '" + getSearchText() + "' AND ARSHEFYEAR = '" + getYear() + "' ORDER BY RECEIPTDATE DESC");
+                    + "WHERE externalincoming.CIRCULARID = circularnames.CIRCULARID AND circularnames.MILITARYID = '" + getSearchText() + "' AND circularnames.type = 'externalincoming' AND externalincoming.ARSHEFYEAR  = circularnames.YEAR  AND circularnames.YEAR = '" + getYear() + "' ORDER BY RECEIPTDATE DESC");
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
@@ -599,11 +603,12 @@ public class ExternalIncomingPageController implements Initializable {
         }
     }
 
+    @FXML
     private void addtoManagerSignature(ActionEvent event) {
         String tableName = "displaydata";
-        String[] data = {HijriCalendar.getSimpleDate(), "توقيع الركن", topic.getText(), destination.getValue()};
-        String fieldName = "`DISPLAYDATE`,`DISPLAYTYPE`,`TOPIC`,`DESTINATION`";
-        String valuenumbers = "?,?,?,?";
+        String[] data = {HijriCalendar.getSimpleDate(), "توقيع الركن", topic.getText(), destination.getValue(), action.getText(), circularid.getText(), getCircularDate()};
+        String fieldName = "`DISPLAYDATE`,`DISPLAYTYPE`,`TOPIC`,`DESTINATION`, `NOTES`, `CIRCULARID`, `CIRCULARDATE`";
+        String valuenumbers = "?,?,?,?,?,?,?";
 
         boolean idState = FormValidation.notNull(circularID, "الرجاءاختر السجل من الجدول");
 
@@ -618,11 +623,13 @@ public class ExternalIncomingPageController implements Initializable {
         }
     }
 
+    /*ID, DISPLAYDATE, DISPLAYTYPE, TOPIC, DESTINATION, NOTES, CIRCULARID, CIRCULARDATE, ACTION*/
+    @FXML
     private void addtoManagerDisplay(ActionEvent event) {
         String tableName = "displaydata";
-        String[] data = {HijriCalendar.getSimpleDate(), "عرض الركن", topic.getText(), destination.getValue()};
-        String fieldName = "`DISPLAYDATE`,`DISPLAYTYPE`,`TOPIC`,`DESTINATION`";
-        String valuenumbers = "?,?,?,?";
+        String[] data = {HijriCalendar.getSimpleDate(), "عرض الركن", topic.getText(), destination.getValue(), action.getText(), circularid.getText(), getCircularDate()};
+        String fieldName = "`DISPLAYDATE`,`DISPLAYTYPE`,`TOPIC`,`DESTINATION`, `NOTES`, `CIRCULARID`, `CIRCULARDATE`";
+        String valuenumbers = "?,?,?,?,?,?,?";
 
         boolean idState = FormValidation.notNull(circularID, "الرجاءاختر السجل من الجدول");
 
@@ -637,11 +644,12 @@ public class ExternalIncomingPageController implements Initializable {
         }
     }
 
+    @FXML
     private void addtoManagerSmallSignature(ActionEvent event) {
         String tableName = "displaydata";
-        String[] data = {HijriCalendar.getSimpleDate(), "تاشير الركن", topic.getText(), destination.getValue()};
-        String fieldName = "`DISPLAYDATE`,`DISPLAYTYPE`,`TOPIC`,`DESTINATION`";
-        String valuenumbers = "?,?,?,?";
+        String[] data = {HijriCalendar.getSimpleDate(), "تاشير الركن", topic.getText(), destination.getValue(), action.getText(), circularid.getText(), getCircularDate()};
+        String fieldName = "`DISPLAYDATE`,`DISPLAYTYPE`,`TOPIC`,`DESTINATION`, `NOTES`, `CIRCULARID`, `CIRCULARDATE`";
+        String valuenumbers = "?,?,?,?,?,?,?";
 
         boolean idState = FormValidation.notNull(circularID, "الرجاءاختر السجل من الجدول");
 

@@ -38,7 +38,7 @@ public class FollowupItemController implements Initializable {
     private Label remingdayes;
     @FXML
     private HBox state;
-    String tableName, tableId,recordYear;
+    String tableName, tableId,recordYear,tableYearName;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -57,6 +57,7 @@ public class FollowupItemController implements Initializable {
         tableName = followupModel.getTableName();
         tableId = followupModel.getTableId();
         recordYear = AppDate.getYear(followupModel.getCirculardate());
+        tableYearName= followupModel.getTableYearName();
         int remingday = AppDate.getRemainingDays(followupModel.getCompletiondate());
         if (remingday < 0) {
             remingdayes.setText("0");
@@ -96,7 +97,7 @@ public class FollowupItemController implements Initializable {
 
     @FXML
     private void showImage(ActionEvent event) {
-        byte[] pdfimage = DatabaseAccess.getPdfFile(circularid.getText(),tableName,tableId,recordYear );
+        byte[] pdfimage = DatabaseAccess.getPdfFile(circularid.getText(),tableName,tableId,tableYearName,recordYear );
         ShowPdf.writePdf(pdfimage);
     }
     

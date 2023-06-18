@@ -2,8 +2,16 @@
 package modeles;
 
 public class AddNamesModel {
-   String milataryId,rank, name;
+   String milataryId,rank, name,unit;
    int  squinse;
+
+    public AddNamesModel(String milataryId, String rank, String name, String unit, int squinse) {
+        this.milataryId = milataryId;
+        this.rank = rank;
+        this.name = name;
+        this.unit = unit;
+        this.squinse = squinse;
+    }
 
     public AddNamesModel(String milataryId, String rank, String name, int squinse) {
         this.milataryId = milataryId;
@@ -11,6 +19,16 @@ public class AddNamesModel {
         this.name = name;
         this.squinse = squinse;
     }
+
+    
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
 
     public String getMilataryId() {
         return milataryId;

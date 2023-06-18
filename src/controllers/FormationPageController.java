@@ -50,7 +50,7 @@ public class FormationPageController implements Initializable {
     ObservableList<FormationModel> FormationObject = FXCollections.observableArrayList();
     private FormationPageListener mylistener;
     ObservableList<String> uintlist = FXCollections.observableArrayList();
-    ObservableList<String> rankComboBoxlist = FXCollections.observableArrayList("الفريق اول", "القريق", "الواء", "العميد", "العقيد", "المقدم", "الرائد", "النقيب", "الملازم أول", "الملازم", "رئيس رقباء", "رقيب أول", "رقيب", "وكيل رقيب", "عريف", "جندي أول", "جندي");
+    ObservableList<String> rankComboBoxlist = FXCollections.observableArrayList("الفريق اول", "القريق", "الواء", "العميد","العميد البحري","العميد المهندس", "العقيد","العقيد البحري","العقيد المهندس", "المقدم","المقدم البحري","المقدم المهندس", "الرائد","الرائد البحري","الرائد المهندس", "النقيب", " النقيب البحري","النقيب المهندس", "الملازم أول","الملازم أول المهندس","الملازم أول البحري", "الملازم", "الملازم البحري", "الملازم المهندس", "رئيس رقباء", "رقيب أول", "رقيب", "وكيل رقيب", "عريف", "جندي أول", "جندي");
     ObservableList<String> searchTypelist = FXCollections.observableArrayList("البحث بالرقم العسكري", "البحث برقم السجل المدني", "البحث بالاسم", "عرض الكل", "عرض الملاحظات", "عرض اسماء المنقولين", "البحث بالرقم العسكري للمنقولين");
     ObservableList<String> typelist = FXCollections.observableArrayList("", "ضابط", "فرد");
     @FXML
@@ -67,6 +67,8 @@ public class FormationPageController implements Initializable {
     String tableName = "personaldata";
     @FXML
     private ComboBox<String> type;
+    @FXML
+    private Label pro;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {

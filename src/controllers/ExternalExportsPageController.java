@@ -272,11 +272,12 @@ public class ExternalExportsPageController implements Initializable {
         }
     }
 
+    @FXML
     private void addtoManagerSignature(ActionEvent event) {
         String tableName = "displaydata";
-        String[] data = {HijriCalendar.getSimpleDate(), "توقيع الركن", topic.getText(), destination.getValue()};
-        String fieldName = "`DISPLAYDATE`,`DISPLAYTYPE`,`TOPIC`,`DESTINATION`";
-        String valuenumbers = "?,?,?,?";
+        String[] data = {HijriCalendar.getSimpleDate(), "توقيع الركن", topic.getText(), destination.getValue(), notes.getText(), exportNum.getText(), getExportDate()};
+        String fieldName = "`DISPLAYDATE`,`DISPLAYTYPE`,`TOPIC`,`DESTINATION`, `NOTES`, `CIRCULARID`, `CIRCULARDATE`";
+        String valuenumbers = "?,?,?,?,?,?,?";
 
         boolean idState = FormValidation.notNull(id, "الرجاءاختر السجل من الجدول");
 
@@ -291,11 +292,12 @@ public class ExternalExportsPageController implements Initializable {
         }
     }
 
+    @FXML
     private void addtoManagerDisplay(ActionEvent event) {
         String tableName = "displaydata";
-        String[] data = {HijriCalendar.getSimpleDate(), "عرض الركن", topic.getText(), destination.getValue()};
-        String fieldName = "`DISPLAYDATE`,`DISPLAYTYPE`,`TOPIC`,`DESTINATION`";
-        String valuenumbers = "?,?,?,?";
+        String[] data = {HijriCalendar.getSimpleDate(), "عرض الركن", topic.getText(), destination.getValue(), notes.getText(), exportNum.getText(), getExportDate()};
+        String fieldName = "`DISPLAYDATE`,`DISPLAYTYPE`,`TOPIC`,`DESTINATION`, `NOTES`, `CIRCULARID`, `CIRCULARDATE`";
+        String valuenumbers = "?,?,?,?,?,?,?";
 
         boolean idState = FormValidation.notNull(id, "الرجاءاختر السجل من الجدول");
 
@@ -310,11 +312,12 @@ public class ExternalExportsPageController implements Initializable {
         }
     }
 
+    @FXML
     private void addtoManagerSmallSignature(ActionEvent event) {
         String tableName = "displaydata";
-        String[] data = {HijriCalendar.getSimpleDate(), "تاشير الركن", topic.getText(), destination.getValue()};
-        String fieldName = "`DISPLAYDATE`,`DISPLAYTYPE`,`TOPIC`,`DESTINATION`";
-        String valuenumbers = "?,?,?,?";
+        String[] data = {HijriCalendar.getSimpleDate(), "تاشير الركن", topic.getText(), destination.getValue(), notes.getText(), exportNum.getText(), getExportDate()};
+        String fieldName = "`DISPLAYDATE`,`DISPLAYTYPE`,`TOPIC`,`DESTINATION`, `NOTES`, `CIRCULARID`, `CIRCULARDATE`";
+        String valuenumbers = "?,?,?,?,?,?,?";
 
         boolean idState = FormValidation.notNull(id, "الرجاءاختر السجل من الجدول");
 
@@ -542,7 +545,7 @@ public class ExternalExportsPageController implements Initializable {
                 rpi.makeIndeterminate();
                 stackPane.getChildren().add(rpi);
                 new GetAllData(rpi).start();
-                
+
                 break;
             case "البحث بجهة الصادر":
                 exportObject.clear();
@@ -640,7 +643,9 @@ public class ExternalExportsPageController implements Initializable {
     public ResultSet getDataMitaryID() {
         ResultSet rs = null;
         try {
-            rs = DatabaseAccess.getData("SELECT exportsdata.ID,exportsdata.ENTRYDATE,exportsdata.TOPIC,exportsdata.DESTINATION,exportsdata.SAVEFILE,exportsdata.EXPORTNUM,exportsdata.EXPORTDATE,exportsdata.NOTES FROM exportsdata,circularnames WHERE exportsdata.ID = circularnames.CIRCULARID AND circularnames.MILITARYID = '" + getSearchText() + "' AND RECORDYEAR = '" + getYear() + "'ORDER BY EXPORTDATE DESC");
+            rs = DatabaseAccess.getData("SELECT exportsdata.ID,exportsdata.ENTRYDATE,exportsdata.TOPIC,exportsdata.DESTINATION,exportsdata.SAVEFILE,exportsdata.EXPORTNUM,exportsdata.EXPORTDATE,exportsdata.NOTES "
+                    + "FROM exportsdata,circularnames "
+                    + "WHERE exportsdata.ID = circularnames.CIRCULARID AND circularnames.MILITARYID = '" + getSearchText() + "'  AND circularnames.type = 'exportsdata' AND exportsdata.RECORDYEAR = circularnames.YEAR AND circularnames.YEAR = '" + getYear() + "'ORDER BY EXPORTDATE DESC");
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
@@ -698,7 +703,7 @@ public class ExternalExportsPageController implements Initializable {
                     @Override
                     public void run() {
                         try {
-                           viewdata(getAllData());
+                            viewdata(getAllData());
                         } catch (SQLException ex) {
                             Logger.getLogger(InternalIncomingPageController.class.getName()).log(Level.SEVERE, null, ex);
                         }

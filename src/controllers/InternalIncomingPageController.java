@@ -129,7 +129,7 @@ public class InternalIncomingPageController implements Initializable {
         try {
             internalIncomingObject.clear();
             vbox.getChildren().clear();
-            viewdata(DatabaseAccess.getData("SELECT REGIS_NO,RECIPIENT_DATE,CIRCULAR_NO,CIRCULAR_DATE,CIRCULAR_DIR,TOPIC,SAVE_FILE,NOTES FROM internalincoming where RECIPIENT_DATE ='" + HijriCalendar.getSimpleDate() + "' ORDER BY REGIS_NO DESC"));
+            viewdata(DatabaseAccess.getData("SELECT REGIS_NO,RECIPIENT_DATE,CIRCULAR_NO,CIRCULAR_DATE,CIRCULAR_DIR,TOPIC,SAVE_FILE,NOTES FROM internalincoming where RECIPIENT_DATE ='" + HijriCalendar.getSimpleDate() + "' ORDER BY ID DESC"));
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
@@ -212,27 +212,29 @@ public class InternalIncomingPageController implements Initializable {
         String tableName = "internalincoming";
         recordYear = Integer.toString(HijriCalendar.getSimpleYear());
         String fieldName = null;
-        String[] data = {DatabaseAccess.getRegistrationNum(), getIncomingDate(), getCircularNumber(), getCircularDate(), getDestination(), getTopic(), getSaveFaile(), getNotes(), recordYear};
-        String valuenumbers = null;
-        if (imagefile != null) {
-            fieldName = "`REGIS_NO`,`RECIPIENT_DATE`,`CIRCULAR_NO`,`CIRCULAR_DATE`,`CIRCULAR_DIR`,`TOPIC`,`SAVE_FILE`,`NOTES`,`RECORD_YEAR`,`IMAGE`";
-            valuenumbers = "?,?,?,?,?,?,?,?,?,?";
-        } else {
-            fieldName = "`REGIS_NO`,`RECIPIENT_DATE`,`CIRCULAR_NO`,`CIRCULAR_DATE`,`CIRCULAR_DIR`,`TOPIC`,`SAVE_FILE`,`NOTES`,`RECORD_YEAR`";
-            valuenumbers = "?,?,?,?,?,?,?,?,?";
-        }
-        boolean circularNumberState = FormValidation.textFieldNotEmpty(circularNumber, "الرجاء ادخال رقم المعاملة");
-        boolean topicState = FormValidation.textFieldNotEmpty(topic, "الرجاء ادخال جهة الوارد");
-        boolean circularNumberExisting = FormValidation.ifexisting("internalincoming", "CIRCULAR_NO", "CIRCULAR_NO = '" + getCircularNumber() + "'AND CIRCULAR_DIR = '" + getDestination() + "'AND RECORD_YEAR = '" + recordYear + "'", "تم حفظ المعاملة مسبقا");
-        if (circularNumberState && topicState && circularNumberExisting) {
-            try {
-                DatabaseAccess.insert(tableName, fieldName, valuenumbers, data, imagefile);
-                registrationId = DatabaseAccess.getRegistrationNum();
-                DatabaseAccess.updatRegistrationNum();
-                refreshdata();
-                clear(event);
-            } catch (IOException ex) {
-                FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        if (DatabaseAccess.getRegistrationNum() != null) {
+            String[] data = {DatabaseAccess.getRegistrationNum(), getIncomingDate(), getCircularNumber(), getCircularDate(), getDestination(), getTopic(), getSaveFaile(), getNotes(), recordYear};
+            String valuenumbers = null;
+            if (imagefile != null) {
+                fieldName = "`REGIS_NO`,`RECIPIENT_DATE`,`CIRCULAR_NO`,`CIRCULAR_DATE`,`CIRCULAR_DIR`,`TOPIC`,`SAVE_FILE`,`NOTES`,`RECORD_YEAR`,`IMAGE`";
+                valuenumbers = "?,?,?,?,?,?,?,?,?,?";
+            } else {
+                fieldName = "`REGIS_NO`,`RECIPIENT_DATE`,`CIRCULAR_NO`,`CIRCULAR_DATE`,`CIRCULAR_DIR`,`TOPIC`,`SAVE_FILE`,`NOTES`,`RECORD_YEAR`";
+                valuenumbers = "?,?,?,?,?,?,?,?,?";
+            }
+            boolean circularNumberState = FormValidation.textFieldNotEmpty(circularNumber, "الرجاء ادخال رقم المعاملة");
+            boolean topicState = FormValidation.textFieldNotEmpty(topic, "الرجاء ادخال جهة الوارد");
+            boolean circularNumberExisting = FormValidation.ifexisting("internalincoming", "CIRCULAR_NO", "CIRCULAR_NO = '" + getCircularNumber() + "'AND CIRCULAR_DIR = '" + getDestination() + "'AND RECORD_YEAR = '" + recordYear + "'", "تم حفظ المعاملة مسبقا");
+            if (circularNumberState && topicState && circularNumberExisting) {
+                try {
+                    DatabaseAccess.insert(tableName, fieldName, valuenumbers, data, imagefile);
+                    registrationId = DatabaseAccess.getRegistrationNum();
+                    DatabaseAccess.updatRegistrationNum();
+                    refreshdata();
+                    clear(event);
+                } catch (IOException ex) {
+                    FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+                }
             }
         }
     }
@@ -315,11 +317,12 @@ public class InternalIncomingPageController implements Initializable {
         }
     }
 
+    @FXML
     private void addtoManagerSignature(ActionEvent event) throws SQLException {
         String tableName = "displaydata";
-        String[] data = {HijriCalendar.getSimpleDate(), "توقيع الركن", topic.getText(), destination.getValue()};
-        String fieldName = "`DISPLAYDATE`,`DISPLAYTYPE`,`TOPIC`,`DESTINATION`";
-        String valuenumbers = "?,?,?,?";
+        String[] data = {HijriCalendar.getSimpleDate(), "توقيع الركن", topic.getText(), destination.getValue(), notes.getText(), circularNumber.getText(), getCircularDate()};
+        String fieldName = "`DISPLAYDATE`,`DISPLAYTYPE`,`TOPIC`,`DESTINATION`, `NOTES`, `CIRCULARID`, `CIRCULARDATE`";
+        String valuenumbers = "?,?,?,?,?,?,?";
 
         boolean idState = FormValidation.notNull(registrationId, "الرجاءاختر السجل من الجدول");
 
@@ -334,11 +337,12 @@ public class InternalIncomingPageController implements Initializable {
         }
     }
 
+    @FXML
     private void addtoManagerDisplay(ActionEvent event) throws SQLException {
         String tableName = "displaydata";
-        String[] data = {HijriCalendar.getSimpleDate(), "عرض الركن", topic.getText(), destination.getValue()};
-        String fieldName = "`DISPLAYDATE`,`DISPLAYTYPE`,`TOPIC`,`DESTINATION`";
-        String valuenumbers = "?,?,?,?";
+        String[] data = {HijriCalendar.getSimpleDate(), "عرض الركن", topic.getText(), destination.getValue(), notes.getText(), circularNumber.getText(), getCircularDate()};
+        String fieldName = "`DISPLAYDATE`,`DISPLAYTYPE`,`TOPIC`,`DESTINATION`, `NOTES`, `CIRCULARID`, `CIRCULARDATE`";
+        String valuenumbers = "?,?,?,?,?,?,?";
 
         boolean idState = FormValidation.notNull(registrationId, "الرجاءاختر السجل من الجدول");
 
@@ -353,11 +357,12 @@ public class InternalIncomingPageController implements Initializable {
         }
     }
 
+    @FXML
     private void addtoManagerSmallSignature(ActionEvent event) throws SQLException {
         String tableName = "displaydata";
-        String[] data = {HijriCalendar.getSimpleDate(), "تاشير الركن", topic.getText(), destination.getValue()};
-        String fieldName = "`DISPLAYDATE`,`DISPLAYTYPE`,`TOPIC`,`DESTINATION`";
-        String valuenumbers = "?,?,?,?";
+        String[] data = {HijriCalendar.getSimpleDate(), "تاشير الركن", topic.getText(), destination.getValue(), notes.getText(), circularNumber.getText(), getCircularDate()};
+        String fieldName = "`DISPLAYDATE`,`DISPLAYTYPE`,`TOPIC`,`DESTINATION`, `NOTES`, `CIRCULARID`, `CIRCULARDATE`";
+        String valuenumbers = "?,?,?,?,?,?,?";
 
         boolean idState = FormValidation.notNull(registrationId, "الرجاءاختر السجل من الجدول");
 
@@ -581,7 +586,7 @@ public class InternalIncomingPageController implements Initializable {
         try {
             rs = DatabaseAccess.selectQuiry("SELECT internalincoming.REGIS_NO,internalincoming.RECIPIENT_DATE,internalincoming.CIRCULAR_NO,internalincoming.CIRCULAR_DATE,internalincoming.CIRCULAR_DIR,internalincoming.TOPIC,internalincoming.SAVE_FILE,internalincoming.NOTES "
                     + "FROM internalincoming, circularnames "
-                    + "WHERE internalincoming.REGIS_NO = circularnames.CIRCULARID AND circularnames.MILITARYID =  '" + getSearchText() + "' AND RECORD_YEAR = '" + getYear() + "' ORDER BY RECIPIENT_DATE DESC");
+                    + "WHERE internalincoming.REGIS_NO = circularnames.CIRCULARID AND circularnames.MILITARYID =  '" + getSearchText() + "' AND circularnames.type = 'internalincoming' AND internalincoming.RECORD_YEAR = circularnames.YEAR AND circularnames.YEAR = '" + getYear() + "' ORDER BY RECIPIENT_DATE DESC");
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }

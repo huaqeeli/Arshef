@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" prefHeight="188.0" prefWidth="1200.0" styleClass="mainFxmlClass" stylesheets="@../css/appStyle.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.InternalExportsItemController">
+<AnchorPane id="AnchorPane" prefHeight="188.0" prefWidth="1200.0" styleClass="mainFxmlClass" stylesheets="@../css/appStyle.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.InternalExportsItemController">
    <children>
       <HBox alignment="CENTER" maxHeight="188.0" maxWidth="1.7976931348623157E308" minHeight="188.0" nodeOrientation="RIGHT_TO_LEFT" onMouseClicked="#click" prefHeight="188.0" prefWidth="1200.0" spacing="2.0" styleClass="itemPanl" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -17,7 +17,7 @@
                <children>
                   <VBox alignment="CENTER" prefHeight="136.0" prefWidth="300.0">
                      <children>
-                        <Label fx:id="regisNO1" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="92.0" styleClass="itemLableTitel" text="رقم القيد:" />
+                        <Label fx:id="regisNO1" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="92.0" styleClass="itemLableTitel" text="رقم الصادر:" />
                         <Label fx:id="exportsDate1" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="119.0" styleClass="itemLableTitel" text="تاريخ الصادر:" />
                      </children>
                   </VBox>

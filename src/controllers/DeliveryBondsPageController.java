@@ -9,6 +9,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -187,6 +189,16 @@ public class DeliveryBondsPageController implements Initializable {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
         return deliveryBondslist;
+    }
+
+    public void showCopy(String exportNum) {
+        try {
+            viewdata(DatabaseAccess.getData("SELECT  BONDID, CIRCULARNUMBER, UINT "
+                    + "FROM bonduint "
+                    + "where CIRCULARNUMBER ='" + exportNum + "'"));
+        } catch (IOException ex) {
+            Logger.getLogger(DeliveryBondsPageController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
 }

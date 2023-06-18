@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" maxWidth="1.7976931348623157E308" prefHeight="147.0" prefWidth="1200.0" stylesheets="@../css/appStyle.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ExternalIncomingItemController">
+<AnchorPane id="AnchorPane" maxWidth="1.7976931348623157E308" prefHeight="147.0" prefWidth="1200.0" stylesheets="@../css/appStyle.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ExternalIncomingItemController">
    <children>
       <HBox alignment="CENTER" maxHeight="188.0" maxWidth="1.7976931348623157E308" minHeight="188.0" nodeOrientation="RIGHT_TO_LEFT" onMouseClicked="#click" prefHeight="188.0" prefWidth="1200.0" spacing="2.0" styleClass="itemPanl" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -108,6 +108,15 @@
                         <ImageView fitHeight="23.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../images/pdf.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#clashahPage" styleClass="actionButton">
+                     <graphic>
+                        <ImageView fitHeight="32.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/2427470.png" />
                            </image>
                         </ImageView>
                      </graphic>

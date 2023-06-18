@@ -4,12 +4,12 @@ package modeles;
 
 public class FollowupModel {
     int squnce,openStat;
-    String circularid,circulardate,topic,required,status,completiondate,tableName,tableId;
+    String circularid,circulardate,topic,required,status,completiondate,tableName,tableId,tableYearName;
 
     public FollowupModel() {
     }
 
-    public FollowupModel(int squnce, int openStat, String circularid, String circulardate, String topic, String required, String status, String completiondate, String tableName, String tableId) {
+    public FollowupModel(int squnce, int openStat, String circularid, String circulardate, String topic, String required, String status, String completiondate, String tableName, String tableId, String tableYearName) {
         this.squnce = squnce;
         this.openStat = openStat;
         this.circularid = circularid;
@@ -20,7 +20,18 @@ public class FollowupModel {
         this.completiondate = completiondate;
         this.tableName = tableName;
         this.tableId = tableId;
+        this.tableYearName = tableYearName;
     }
+
+    public String getTableYearName() {
+        return tableYearName;
+    }
+
+    public void setTableYearName(String tableYearName) {
+        this.tableYearName = tableYearName;
+    }
+
+   
 
     public String getTableId() {
         return tableId;

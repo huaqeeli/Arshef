@@ -255,6 +255,30 @@ public class DatabaseAccess {
         }
         return pdfByte;
     }
+    public static byte[] getExternalincomingPdfFile(String circularid, String year) {
+        InputStream image = null;
+        byte[] pdfByte = null;
+        try {
+            if (circularid == null || year == null) {
+                FormValidation.showAlert(null, "اختر السجل من الجدول", Alert.AlertType.ERROR);
+            } else {
+                ResultSet rs = DatabaseAccess.getData("SELECT IMAGE FROM externalincoming WHERE CIRCULARID = '" + circularid + "'AND ARSHEFYEAR = '" + year + "'");
+                if (rs.next()) {
+                    image = rs.getBinaryStream("IMAGE");
+                    if (image == null) {
+                        FormValidation.showAlert(null, "لا توجد صورة", Alert.AlertType.ERROR);
+                    } else {
+                        pdfByte = new byte[image.available()];
+                        image.read(pdfByte);
+                    }
+                }
+                rs.close();
+            }
+        } catch (IOException | SQLException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
+        return pdfByte;
+    }
 
     public static byte[] getBondPdfFile(String id) {
         InputStream image = null;
@@ -278,14 +302,14 @@ public class DatabaseAccess {
         return pdfByte;
     }
 
-    public static byte[] getPdfFile(String regisid, String tableName, String tableid, String year) {
+    public static byte[] getPdfFile(String regisid, String tableName, String tableid,String tableYearName, String year) {
         InputStream image = null;
         byte[] pdfByte = null;
         try {
             if (regisid == null || year == null) {
                 FormValidation.showAlert(null, "اختر السجل من الجدول", Alert.AlertType.ERROR);
             } else {
-                ResultSet rs = DatabaseAccess.getData("SELECT IMAGE FROM " + tableName + " WHERE " + tableid + " = '" + regisid + "' AND RECORD_YEAR = '" + year + "'");
+                ResultSet rs = DatabaseAccess.getData("SELECT IMAGE FROM " + tableName + " WHERE " + tableid + " = '" + regisid + "' AND "+ tableYearName +" = '" + year + "'");
                 if (rs.next()) {
                     image = rs.getBinaryStream("IMAGE");
                     if (image == null) {

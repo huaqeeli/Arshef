@@ -75,7 +75,7 @@ public class secretPageController implements Initializable {
     ObservableList<String> placeComboBoxlist = FXCollections.observableArrayList();
     public final List<SecretModel> secretObject = new ArrayList<>();
     private SecretPageListener myListener;
-    ObservableList<String> searchTypelist = FXCollections.observableArrayList("البحث برقم المعاملة", "البحث برقم الوارد", "البحث بتاريخ الوارد", "البحث بالموضوع", "البحث بجهة المعاملة", "البحث برقم الملف", "البحث بالرقم العسكري", "عرض الكل");
+    ObservableList<String> searchTypelist = FXCollections.observableArrayList("البحث برقم المعاملة", "البحث برقم الوارد", "البحث بتاريخ الوارد", "البحث بالموضوع", "البحث بجهة المعاملة", "البحث برقم الملف", "البحث بالرقم العسكري","ملف المزرعة", "عرض الكل");
     String recordYear = null;
     String circularID = null;
     File imagefile = null;
@@ -121,7 +121,7 @@ public class secretPageController implements Initializable {
         SecretModel secretModel;
         try {
 //            ResultSet rs = DatabaseAccess.getData("SELECT * FROM secretdata ORDER BY ID DESC");
-           
+
             while (rs.next()) {
                 secretModel = new SecretModel();
                 secretModel.setId(rs.getString("ID"));
@@ -277,6 +277,12 @@ public class secretPageController implements Initializable {
                     viewdata(DatabaseAccess.getData("SELECT ID, CIRCULARID, CIRCULARDATE, RECEIPTNUMBER, RECEIPTDATE, DESTINATION, TOPIC, SAVEFILE, NOTE, RECORDYEAR"
                             + " FROM secretdata,circularnames WHERE secretdata.ID = circularnames.CIRCULARID AND circularnames.MILITARYID = '" + searchText.getText() + "' ORDER BY RECEIPTDATE DESC"));
                     break;
+                case "ملف المزرعة":
+                    secretObject.clear();
+                    vbox.getChildren().clear();
+                    viewdata(DatabaseAccess.getData("SELECT ID, CIRCULARID, CIRCULARDATE, RECEIPTNUMBER, RECEIPTDATE, DESTINATION, TOPIC, SAVEFILE, NOTE, RECORDYEAR"
+                            + " FROM secretdata WHERE COPYFARMFILE = 'true' ORDER BY RECEIPTDATE DESC"));
+                    break;
             }
         } catch (IOException ex) {
             Logger.getLogger(secretPageController.class.getName()).log(Level.SEVERE, null, ex);
@@ -396,6 +402,41 @@ public class secretPageController implements Initializable {
             searchDateMonth.setDisable(true);
             searchDateYear.setDisable(true);
             year.setDisable(false);
+        }
+    }
+
+    @FXML
+    private void copyFarmFile(ActionEvent event) throws SQLException {
+        String tableName = "secretdata";
+        String[] data = {"true"};
+        String fieldName = fieldName = "`COPYFARMFILE`=?";
+        try {
+            int t =DatabaseAccess.updat(tableName, fieldName, data, "CIRCULARID = '" + circularid.getText() + "'AND RECORDYEAR = '" + recordYear + "'");
+            if (t > 0) {
+                FormValidation.showAlert("", "تم اضافة النسخة", Alert.AlertType.CONFIRMATION);
+            }
+            refreshdata();
+            clear(event);
+        } catch (IOException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
+
+    }
+
+    @FXML
+    private void deleteCopyFarmFile(ActionEvent event) throws SQLException {
+         String tableName = "secretdata";
+        String[] data = {""};
+        String fieldName = fieldName = "`COPYFARMFILE`=?";
+        try {
+           int t = DatabaseAccess.updat(tableName, fieldName, data, "CIRCULARID = '" + circularid.getText() + "'AND RECORDYEAR = '" + recordYear + "'");
+           if (t > 0) {
+                FormValidation.showAlert("", "تم حذف النسخة", Alert.AlertType.CONFIRMATION);
+            }
+            refreshdata();
+            clear(event);
+        } catch (IOException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
     }
 

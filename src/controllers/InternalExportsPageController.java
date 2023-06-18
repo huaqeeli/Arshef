@@ -26,7 +26,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -44,7 +43,7 @@ import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import org.progress.RingProgressIndicator;
 
 public class InternalExportsPageController implements Initializable {
-
+    
     @FXML
     private ComboBox<String> searchType;
     @FXML
@@ -67,9 +66,7 @@ public class InternalExportsPageController implements Initializable {
     private ComboBox<?> exportsMonth;
     @FXML
     private ComboBox<?> exportsYear;
-    @FXML
-    private TextField incomingNum;
-
+    
     File imagefile = null;
     Stage stage = new Stage();
     byte[] pdfimage = null;
@@ -78,7 +75,6 @@ public class InternalExportsPageController implements Initializable {
     ObservableList<String> destinationlist = FXCollections.observableArrayList();
     ObservableList<InternalExportsModel> exportsList = FXCollections.observableArrayList();
     ObservableList<String> searchTypelist = FXCollections.observableArrayList("البحث برقم الصادر", "البحث بتاريخ الصادر", "البحث بالموضوع", "البحث بجهة الصادر", "البحث برقم الملف", "البحث بالرقم العسكري", "عرض الكل");
-    ObservableList<String> incomingTypelist = FXCollections.observableArrayList("صادر جديد", "صادر معاملة واردة خارجية", "صادر معاملة واردة داخلية");
     Config config = new Config();
     @FXML
     private ComboBox<?> searchDateDay;
@@ -94,8 +90,8 @@ public class InternalExportsPageController implements Initializable {
     @FXML
     private StackPane stackPane;
     @FXML
-    private ComboBox<String> incomingType;
-
+    private TextField exportNum;
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
@@ -105,7 +101,6 @@ public class InternalExportsPageController implements Initializable {
             AppDate.setDateValue(searchDateDay, searchDateMonth, searchDateYear);
             AppDate.setCurrentDate(searchDateDay, searchDateMonth, searchDateYear);
             FillComboBox.fillComboBox(searchTypelist, searchType);
-            FillComboBox.fillComboBox(incomingTypelist, incomingType);
             destination.setItems(filleDestination(destinationlist));
             AppDate.setYearValue(year);
             year.setValue(Integer.toString(HijriCalendar.getSimpleYear()));
@@ -114,7 +109,7 @@ public class InternalExportsPageController implements Initializable {
             Logger.getLogger(InternalExportsPageController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    
     private ObservableList filleDestination(ObservableList list) {
         try {
             ResultSet rs = DatabaseAccess.select("placenames", "UINTTYPE='داخلي'");
@@ -131,23 +126,23 @@ public class InternalExportsPageController implements Initializable {
         }
         return list;
     }
-
+    
     private void refreshData() throws SQLException {
         try {
             internalExportsObject.clear();
             vbox.getChildren().clear();
-            viewdata(DatabaseAccess.getData("SELECT REGISNO,EXPORTDATE,DESTINATION,TOPIC,SAVEFILE,NOTES FROM internalexports WHERE EXPORTDATE ='" + HijriCalendar.getSimpleDate() + "' ORDER BY REGISNO DESC"));
+            viewdata(DatabaseAccess.getData("SELECT REGISNO,EXPORTDATE,DESTINATION,TOPIC,SAVEFILE,NOTES FROM internalexports WHERE EXPORTDATE ='" + HijriCalendar.getSimpleDate() + "' ORDER BY ID DESC"));
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
     }
-
+    
     private List<InternalExportsModel> getData(ResultSet rs) {
         List<InternalExportsModel> internalExportsModels = new ArrayList<>();
         InternalExportsModel internalExportsModel;
         try {
             while (rs.next()) {
-
+                
                 internalExportsModel = new InternalExportsModel();
                 internalExportsModel.setRegisNO(rs.getString("REGISNO"));
                 internalExportsModel.setExportsDate(rs.getString("EXPORTDATE"));
@@ -163,11 +158,12 @@ public class InternalExportsPageController implements Initializable {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
         return internalExportsModels;
-
+        
     }
-
+    
     private void setChosendata(InternalExportsModel internalExportsModel) {
         setRegistrationId(internalExportsModel.getRegisNO());
+        setExportNum(internalExportsModel.getRegisNO());
         setExportsDate(internalExportsModel.getExportsDate());
         setDestination(internalExportsModel.getDestination());
         setTopic(internalExportsModel.getTopic());
@@ -176,11 +172,11 @@ public class InternalExportsPageController implements Initializable {
         registrationId = internalExportsModel.getRegisNO();
         recordYear = AppDate.getYear(internalExportsModel.getExportsDate());
     }
-
+    
     private void viewdata(ResultSet rs) throws SQLException {
         internalExportsObject.addAll(getData(rs));
         if (internalExportsObject.size() > 0) {
-            setChosendata(internalExportsObject.get(0));
+            //setChosendata(internalExportsObject.get(0));
             mylistener = new InternalExportsPageListener() {
                 @Override
                 public void onClickListener(InternalExportsModel internalExportsModel) {
@@ -188,7 +184,7 @@ public class InternalExportsPageController implements Initializable {
                 }
             };
         }
-
+        
         try {
             for (InternalExportsModel InternalExportsModel : internalExportsObject) {
                 FXMLLoader fxmlLoader = new FXMLLoader();
@@ -203,7 +199,7 @@ public class InternalExportsPageController implements Initializable {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
     }
-
+    
     @FXML
     private File getImageUrle(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
@@ -213,35 +209,14 @@ public class InternalExportsPageController implements Initializable {
         setImageUrl(imagefile.getPath());
         return imagefile;
     }
-//("صادر جديد", "صادر معاملة واردة خارجية", "صادر معاملة واردة داخلية")
-
+    
     @FXML
     private void insertData(ActionEvent event) throws IOException, SQLException {
-        String regisNo = null;
-        String exportType = incomingType.getValue();
-        switch (exportType) {
-            case "صادر جديد":
-                regisNo = DatabaseAccess.getRegistrationNum();
-                break;
-            case "صادر معاملة واردة خارجية":
-                if (getIncomingNum() != null || !"".equals(getIncomingNum())) {
-                    regisNo = getIncomingNum();
-                } else {
-                    FormValidation.showAlert(null, "ادخل رقم الوراد الخارجي", Alert.AlertType.ERROR);
-                }
-                break;
-            case "صادر معاملة واردة داخلية":
-                if (getIncomingNum() != null || !"".equals(getIncomingNum())) {
-                    regisNo = getIncomingNum();
-                } else {
-                    FormValidation.showAlert(null, "ادخل رقم الوراد الداخلي", Alert.AlertType.ERROR);
-                }
-                break;
-        }
+        
         String tableName = "internalexports";
         recordYear = Integer.toString(HijriCalendar.getSimpleYear());
         String fieldName = null;
-        String[] data = {regisNo, getExportsDate(), getDestination(), getTopic(), getSaveFaile(), getNotes(), recordYear};
+        String[] data = {getExportNum(), getExportsDate(), getDestination(), getTopic(), getSaveFaile(), getNotes(), recordYear};
         String valuenumbers = null;
         if (imagefile != null) {
             fieldName = "`REGISNO`,`EXPORTDATE`,`DESTINATION`,`TOPIC`,`SAVEFILE`,`NOTES`,`RECORDYEAR`,`IMAGE`";
@@ -250,13 +225,12 @@ public class InternalExportsPageController implements Initializable {
             fieldName = "`REGISNO`,`EXPORTDATE`,`DESTINATION`,`TOPIC`,`SAVEFILE`,`NOTES`,`RECORDYEAR`";
             valuenumbers = "?,?,?,?,?,?,?";
         }
-
+        
         boolean topicState = FormValidation.textFieldNotEmpty(topic, "الرجاء ادخال الموضوع");
         boolean destinationState = FormValidation.comboBoxNotEmpty(destination, "الرجاء ادخال جهة الصادر");
-        boolean incomingTypeState = FormValidation.comboBoxNotEmpty(incomingType, "اختر نوع الصادر");
-        boolean regisNoState = FormValidation.notNull(regisNo, "ادخل رقم الوراد");
-
-        if (topicState && destinationState && incomingTypeState && regisNoState) {
+        boolean exportNumState = FormValidation.textFieldNotEmpty(exportNum, "ادخل رقم الصادر");
+        
+        if (topicState && destinationState && exportNumState) {
             try {
                 DatabaseAccess.insert(tableName, fieldName, valuenumbers, data, imagefile);
                 registrationId = DatabaseAccess.getRegistrationNum();
@@ -268,20 +242,20 @@ public class InternalExportsPageController implements Initializable {
             }
         }
     }
-
+    
     @FXML
     private void updateData(ActionEvent event) throws IOException, SQLException {
         String tableName = "internalexports";
         String fieldName = null;
-        String[] data = {getExportsDate(), getDestination(), getTopic(), getSaveFaile(), getNotes()};
+        String[] data = {getExportNum(), getExportsDate(), getDestination(), getTopic(), getSaveFaile(), getNotes()};
         if (imagefile != null) {
-            fieldName = "`EXPORTDATE`=?,`DESTINATION`=?,`TOPIC`=?,`SAVEFILE`=?,`NOTES`=?,`IMAGE`=?";
+            fieldName = "`REGISNO`=?,`EXPORTDATE`=?,`DESTINATION`=?,`TOPIC`=?,`SAVEFILE`=?,`NOTES`=?,`IMAGE`=?";
         } else {
-            fieldName = "`EXPORTDATE`=?,`DESTINATION`=?,`TOPIC`=?,`SAVEFILE`=?,`NOTES`=?";
+            fieldName = "`REGISNO`=?,`EXPORTDATE`=?,`DESTINATION`=?,`TOPIC`=?,`SAVEFILE`=?,`NOTES`=?";
         }
-
-        boolean topicState = FormValidation.textFieldNotEmpty(topic, "الرجاء ادخال جهة الموضوع");
-
+        
+        boolean topicState = FormValidation.textFieldNotEmpty(topic, "الرجاء ادخال الموضوع");
+        
         if (topicState) {
             try {
                 int t = DatabaseAccess.updat(tableName, fieldName, data, "`REGISNO` = '" + registrationId + "' AND `RECORDYEAR` = '" + recordYear + "'", imagefile);
@@ -295,7 +269,7 @@ public class InternalExportsPageController implements Initializable {
             }
         }
     }
-
+    
     private void printBarcode(ActionEvent event) throws JRException {
         try {
             if (registrationId != null) {
@@ -330,30 +304,30 @@ public class InternalExportsPageController implements Initializable {
             } else {
                 showAlert("", "اختر السجل من الجدول");
             }
-
+            
         } catch (IOException | SQLException | JRException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
     }
-
+    
     @FXML
     private void clear(ActionEvent event) {
-        setIncomingNum(null);
+        setExportNum(null);
         setTopic(null);
         setDestination(null);
         setNotes(null);
         setImageUrl(null);
         setSaveFaile(null);
     }
-
+    
     private void addtoLeaderDisplay(ActionEvent event) {
         String tableName = "displaydata";
         String[] data = {HijriCalendar.getSimpleDate(), "عرض القائد", topic.getText(), destination.getValue()};
         String fieldName = "`DISPLAYDATE`,`DISPLAYTYPE`,`TOPIC`,`DESTINATION`";
         String valuenumbers = "?,?,?,?";
-
+        
         boolean idState = FormValidation.notNull(registrationId, "الرجاءاختر السجل من الجدول");
-
+        
         if (idState) {
             try {
                 DatabaseAccess.insert(tableName, fieldName, valuenumbers, data);
@@ -364,15 +338,15 @@ public class InternalExportsPageController implements Initializable {
             }
         }
     }
-
+    
     private void addtoLeaderSignature(ActionEvent event) {
         String tableName = "displaydata";
         String[] data = {HijriCalendar.getSimpleDate(), "توقيع القائد", topic.getText(), destination.getValue()};
         String fieldName = "`DISPLAYDATE`,`DISPLAYTYPE`,`TOPIC`,`DESTINATION`";
         String valuenumbers = "?,?,?,?";
-
+        
         boolean idState = FormValidation.notNull(registrationId, "الرجاءاختر السجل من الجدول");
-
+        
         if (idState) {
             try {
                 DatabaseAccess.insert(tableName, fieldName, valuenumbers, data);
@@ -383,15 +357,16 @@ public class InternalExportsPageController implements Initializable {
             }
         }
     }
-
+    
+    @FXML
     private void addtoManagerSignature(ActionEvent event) {
         String tableName = "displaydata";
-        String[] data = {HijriCalendar.getSimpleDate(), "توقيع الركن", topic.getText(), destination.getValue()};
-        String fieldName = "`DISPLAYDATE`,`DISPLAYTYPE`,`TOPIC`,`DESTINATION`";
-        String valuenumbers = "?,?,?,?";
-
+        String[] data = {HijriCalendar.getSimpleDate(), "توقيع الركن", topic.getText(), destination.getValue(), notes.getText(), exportNum.getText(), getExportsDate()};
+        String fieldName = "`DISPLAYDATE`,`DISPLAYTYPE`,`TOPIC`,`DESTINATION`, `NOTES`, `CIRCULARID`, `CIRCULARDATE`";
+        String valuenumbers = "?,?,?,?,?,?,?";
+        
         boolean idState = FormValidation.notNull(registrationId, "الرجاءاختر السجل من الجدول");
-
+        
         if (idState) {
             try {
                 DatabaseAccess.insert(tableName, fieldName, valuenumbers, data);
@@ -402,15 +377,16 @@ public class InternalExportsPageController implements Initializable {
             }
         }
     }
-
+    
+    @FXML
     private void addtoManagerDisplay(ActionEvent event) {
         String tableName = "displaydata";
-        String[] data = {HijriCalendar.getSimpleDate(), "عرض الركن", topic.getText(), destination.getValue()};
-        String fieldName = "`DISPLAYDATE`,`DISPLAYTYPE`,`TOPIC`,`DESTINATION`";
-        String valuenumbers = "?,?,?,?";
-
+        String[] data = {HijriCalendar.getSimpleDate(), "عرض الركن", topic.getText(), destination.getValue(), notes.getText(), exportNum.getText(), getExportsDate()};
+        String fieldName = "`DISPLAYDATE`,`DISPLAYTYPE`,`TOPIC`,`DESTINATION`, `NOTES`, `CIRCULARID`, `CIRCULARDATE`";
+        String valuenumbers = "?,?,?,?,?,?,?";
+        
         boolean idState = FormValidation.notNull(registrationId, "الرجاءاختر السجل من الجدول");
-
+        
         if (idState) {
             try {
                 DatabaseAccess.insert(tableName, fieldName, valuenumbers, data);
@@ -421,15 +397,16 @@ public class InternalExportsPageController implements Initializable {
             }
         }
     }
-
+    
+    @FXML
     private void addtoManagerSmallSignature(ActionEvent event) {
         String tableName = "displaydata";
-        String[] data = {HijriCalendar.getSimpleDate(), "تاشير الركن", topic.getText(), destination.getValue()};
-        String fieldName = "`DISPLAYDATE`,`DISPLAYTYPE`,`TOPIC`,`DESTINATION`";
-        String valuenumbers = "?,?,?,?";
-
+        String[] data = {HijriCalendar.getSimpleDate(), "تاشير الركن", topic.getText(), destination.getValue(), notes.getText(), exportNum.getText(), getExportsDate()};
+        String fieldName = "`DISPLAYDATE`,`DISPLAYTYPE`,`TOPIC`,`DESTINATION`, `NOTES`, `CIRCULARID`, `CIRCULARDATE`";
+        String valuenumbers = "?,?,?,?,?,?,?";
+        
         boolean idState = FormValidation.notNull(registrationId, "الرجاءاختر السجل من الجدول");
-
+        
         if (idState) {
             try {
                 DatabaseAccess.insert(tableName, fieldName, valuenumbers, data);
@@ -440,15 +417,15 @@ public class InternalExportsPageController implements Initializable {
             }
         }
     }
-
+    
     private void addtoManagerOrders(ActionEvent event) {
         String tableName = "displaydata";
         String[] data = {HijriCalendar.getSimpleDate(), "توجيه الركن", topic.getText(), destination.getValue()};
         String fieldName = "`DISPLAYDATE`,`DISPLAYTYPE`,`TOPIC`,`DESTINATION`";
         String valuenumbers = "?,?,?,?";
-
+        
         boolean idState = FormValidation.notNull(registrationId, "الرجاءاختر السجل من الجدول");
-
+        
         if (idState) {
             try {
                 DatabaseAccess.insert(tableName, fieldName, valuenumbers, data);
@@ -459,147 +436,108 @@ public class InternalExportsPageController implements Initializable {
             }
         }
     }
-
-    public String getIncomingNum() {
-        return incomingNum.getText();
+    
+    public String getExportNum() {
+        return exportNum.getText();
     }
-
-    public void setIncomingNum(String incomingNum) {
-        this.incomingNum.setText(incomingNum);
+    
+    public void setExportNum(String exportNum) {
+        this.exportNum.setText(exportNum);
     }
-
+    
     public String getTopic() {
         return topic.getText();
     }
-
+    
     public void setTopic(String topic) {
         this.topic.setText(topic);
     }
-
+    
     public String getSaveFaile() {
         return saveFaile.getText();
     }
-
+    
     public void setSaveFaile(String saveFaile) {
         this.saveFaile.setText(saveFaile);
     }
-
+    
     public String getDestination() {
         return destination.getValue();
     }
-
+    
     public void setDestination(String destination) {
         this.destination.setValue(destination);
     }
-
+    
     public String getExportsDate() {
         return AppDate.getDate(exportsDay, exportsMonth, exportsYear);
     }
-
+    
     public void setExportsDate(String date) {
         AppDate.setSeparateDate(exportsDay, exportsMonth, exportsYear, date);
     }
-
+    
     public String getSearchText() {
         return searchText.getText();
     }
-
+    
     public void setSearchText(String searchText) {
         this.searchText.setText(searchText);
     }
-
+    
     public String getNotes() {
         return notes.getText();
     }
-
+    
     public void setNotes(String notes) {
         this.notes.setText(notes);
     }
-
+    
     public String getImageUrl() {
         return imageUrl.getText();
     }
-
+    
     public void setImageUrl(String imageUrl) {
         this.imageUrl.setText(imageUrl);
     }
-
+    
     public String getRegistrationId() throws IOException, SQLException {
-        if (getIncomingNum() == null) {
+        if (getExportNum() == null) {
             registrationId = DatabaseAccess.getRegistrationNum();
         } else {
-            registrationId = getIncomingNum();
+            registrationId = getExportNum();
         }
         return registrationId;
     }
-
+    
     public void setRegistrationId(String registrationId) {
         this.registrationId = registrationId;
     }
-
+    
     public String getSearchType() {
         return searchType.getValue();
     }
-
+    
     public void setSearchType(String searchType) {
         this.searchType.setValue(searchType);
     }
-
+    
     public String getYear() {
         return year.getValue();
     }
-
+    
     public void setYear(String year) {
         this.year.setValue(year);
     }
-
+    
     public String getSearchDate() {
         return AppDate.getDate(searchDateDay, searchDateMonth, searchDateYear);
     }
-
+    
     public void setSearchDate(String date) {
         AppDate.setSeparateDate(searchDateDay, searchDateMonth, searchDateYear, date);
     }
-
-    @FXML
-    private void getIncomingData(ActionEvent event) {
-       String exportType = incomingType.getValue();
-        if (exportType == null || "".equals(exportType)) {
-            FormValidation.showAlert(null, "الرجاء اختيار نوع المعاملة", Alert.AlertType.ERROR);
-        } else {
-            switch (exportType) {
-                case "صادر معاملة واردة خارجية":
-                    try {
-                    ResultSet rs = DatabaseAccess.selectQuiry("SELECT TOPIC,DESTINATION,SAVEFILE FROM externalincoming WHERE RECEIPTNUMBER = '" + getIncomingNum() + "' AND ARSHEFYEAR ='" + getYear() + "'");
-                    if (rs.next()) {
-                        setTopic(rs.getString("TOPIC"));
-                        setDestination(rs.getString("DESTINATION"));
-                        setSaveFaile(rs.getString("SAVEFILE"));
-
-                    }
-//                    rs.close();
-                } catch (IOException | SQLException ex) {
-                    FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
-                }
-                break;
-                case "صادر معاملة واردة داخلية":
-                    try {
-                    ResultSet rs = DatabaseAccess.selectQuiry("SELECT TOPIC,CIRCULAR_DIR,SAVE_FILE FROM internalincoming WHERE REGIS_NO = '" + getIncomingNum() + "' AND RECORD_YEAR ='" + getYear() + "'");
-                    if (rs.next()) {
-                        setTopic(rs.getString("TOPIC"));
-                        setDestination(rs.getString("CIRCULAR_DIR"));
-                        setSaveFaile(rs.getString("SAVE_FILE"));
-                    }
-//                    rs.close();
-                    break;
-                } catch (IOException | SQLException ex) {
-                    FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
-                }
-
-            }
-        }
-    }
-
+    
     @FXML
     private void searchData(ActionEvent event) throws SQLException {
         String searchValue = getSearchType();
@@ -645,7 +583,7 @@ public class InternalExportsPageController implements Initializable {
                 break;
         }
     }
-
+    
     public ResultSet getAllData() {
         ResultSet rs = null;
         try {
@@ -655,7 +593,7 @@ public class InternalExportsPageController implements Initializable {
         }
         return rs;
     }
-
+    
     public ResultSet getDataByDestination() {
         ResultSet rs = null;
         try {
@@ -665,7 +603,7 @@ public class InternalExportsPageController implements Initializable {
         }
         return rs;
     }
-
+    
     public ResultSet getDataByTopic() {
         ResultSet rs = null;
         try {
@@ -675,17 +613,19 @@ public class InternalExportsPageController implements Initializable {
         }
         return rs;
     }
-
+    
     public ResultSet getDataMitaryID() {
         ResultSet rs = null;
         try {
-            rs = DatabaseAccess.selectQuiry("SELECT internalexports.REGISNO,internalexports.EXPORTDATE,internalexports.DESTINATION,internalexports.TOPIC,internalexports.SAVEFILE,internalexports.NOTES FROM internalexports,circularnames WHERE internalexports.REGISNO = circularnames.CIRCULARID AND circularnames.MILITARYID =  '" + getSearchText() + "' AND RECORDYEAR = '" + getYear() + "' ORDER BY EXPORTDATE DESC");
+            rs = DatabaseAccess.selectQuiry("SELECT internalexports.REGISNO,internalexports.EXPORTDATE,internalexports.DESTINATION,internalexports.TOPIC,internalexports.SAVEFILE,internalexports.NOTES "
+                    + "FROM internalexports,circularnames "
+                    + "WHERE internalexports.REGISNO = circularnames.CIRCULARID AND circularnames.MILITARYID =  '" + getSearchText() + "' AND circularnames.type = 'internalexports' AND RECORDYEAR = '" + getYear() + "' ORDER BY EXPORTDATE DESC");
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
         return rs;
     }
-
+    
     public ResultSet getDataByExportDate() {
         ResultSet rs = null;
         try {
@@ -695,7 +635,7 @@ public class InternalExportsPageController implements Initializable {
         }
         return rs;
     }
-
+    
     public ResultSet getDataByExportNumber() {
         ResultSet rs = null;
         try {
@@ -705,7 +645,7 @@ public class InternalExportsPageController implements Initializable {
         }
         return rs;
     }
-
+    
     public ResultSet getDataBySaveFile() {
         ResultSet rs = null;
         try {
@@ -715,7 +655,7 @@ public class InternalExportsPageController implements Initializable {
         }
         return rs;
     }
-
+    
     @FXML
     private void enableSearchDate(ActionEvent event) {
         if ("البحث بتاريخ الصادر".equals(getSearchType())) {
@@ -730,16 +670,16 @@ public class InternalExportsPageController implements Initializable {
             year.setDisable(false);
         }
     }
-
+    
     public class GetAllData extends Thread {
-
+        
         RingProgressIndicator rpi;
         int progrss = 0;
-
+        
         public GetAllData(RingProgressIndicator rpi) {
             this.rpi = rpi;
         }
-
+        
         @Override
         public void run() {
             try {
@@ -760,14 +700,14 @@ public class InternalExportsPageController implements Initializable {
                         }
                     }
                 });
-
+                
                 for (int i = 70; i <= 100; i++) {
                     progrss = i;
                     Thread.sleep(50);
                     Platform.runLater(() -> {
                         rpi.setProgress(progrss);
                     });
-
+                    
                 }
                 Platform.runLater(new Runnable() {
                     @Override
@@ -782,12 +722,12 @@ public class InternalExportsPageController implements Initializable {
                         }
                     }
                 });
-
+                
             } catch (InterruptedException ex) {
                 FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
             }
-
+            
         }
-
+        
     }
 }

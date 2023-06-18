@@ -71,7 +71,7 @@ public class LoginPageController implements Initializable {
         try {
             Stage stage = new Stage();
             Pane myPane = null;
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/homePageTmwen.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/homePage.fxml"));
             myPane = loader.load();
 
             controller = (HomePageController) loader.getController();

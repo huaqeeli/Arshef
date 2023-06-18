@@ -2,12 +2,12 @@ package modeles;
 
 public class InternalExportsModel {
 
-    String regisNO, exportsDate, destination, topic, saveFile, notes, recordYear;
+    String regisNO, exportsDate, destination, topic, saveFile, notes, recordYear,recordType;
 
     public InternalExportsModel() {
     }
 
-    public InternalExportsModel(String regisNO, String exportsDate, String destination, String topic, String saveFile, String notes, String recordYear) {
+    public InternalExportsModel(String regisNO, String exportsDate, String destination, String topic, String saveFile, String notes, String recordYear, String recordType) {
         this.regisNO = regisNO;
         this.exportsDate = exportsDate;
         this.destination = destination;
@@ -15,8 +15,16 @@ public class InternalExportsModel {
         this.saveFile = saveFile;
         this.notes = notes;
         this.recordYear = recordYear;
+        this.recordType = recordType;
     }
 
+    public String getRecordType() {
+        return recordType;
+    }
+
+    public void setRecordType(String recordType) {
+        this.recordType = recordType;
+    }
     public String getRecordYear() {
         return recordYear;
     }

@@ -46,6 +46,18 @@ public class InternalExportsItemController implements Initializable {
     private String recordYear = null;
     private String regisno = null;
     Config config = new Config();
+    @FXML
+    private Label regisNO1;
+    @FXML
+    private Label exportsDate1;
+    @FXML
+    private Label saveFile1;
+    @FXML
+    private Label notes1;
+    @FXML
+    private Label Destination1;
+    @FXML
+    private Label topic1;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -76,12 +88,12 @@ public class InternalExportsItemController implements Initializable {
 
     @FXML
     private void addNames(ActionEvent event) {
-         App.lodAddNmaesPage(regisNO.getText(), recordYear, "internal");
+        App.lodAddNmaesPage(regisNO.getText(), recordYear, "internalexports");
     }
 
     @FXML
     private void showImage(ActionEvent event) {
-        byte[] pdfimage = DatabaseAccess.getInternalExportPdfFile( regisNO.getText(), recordYear);
+        byte[] pdfimage = DatabaseAccess.getInternalExportPdfFile(regisNO.getText(), recordYear);
         ShowPdf.writePdf(pdfimage);
     }
 

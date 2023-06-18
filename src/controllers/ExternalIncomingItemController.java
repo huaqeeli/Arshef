@@ -48,6 +48,7 @@ public class ExternalIncomingItemController implements Initializable {
     private ArchefModel archefModel;
     private ExternalIncomingPageListener mylistener;
     Config config = new Config();
+    private String recordYear = null;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -65,6 +66,7 @@ public class ExternalIncomingItemController implements Initializable {
         Destination.setText(archefModel.getDestination());
         saveFile.setText(archefModel.getSaveFile());
         notes.setText(archefModel.getAction());
+        recordYear = AppDate.getYear(circularDate.getText());
     }
 
     @FXML
@@ -78,7 +80,7 @@ public class ExternalIncomingItemController implements Initializable {
 
     @FXML
     private void addNames(ActionEvent event) {
-        App.lodAddNmaesPage(circularid.getText(), AppDate.getYear(circularDate.getText()), "external");
+        App.lodAddNmaesPage(circularid.getText(), AppDate.getYear(circularDate.getText()), "externalincoming");
     }
 
     @FXML
@@ -96,9 +98,9 @@ public class ExternalIncomingItemController implements Initializable {
     private void printBarcod(ActionEvent event) {
         try {
             Connection con = DatabaseConniction.dbConnector();
-            JasperDesign recipientReport = JRXmlLoader.load(config.getAppURL() + "\\reports\\Externl‏‏RecipientBarcod.jrxml"); 
+            JasperDesign recipientReport = JRXmlLoader.load(config.getAppURL() + "\\reports\\Externl‏‏RecipientBarcod.jrxml");
             ResultSet rs = DatabaseAccess.getData("SELECT RECEIPTNUMBER, RECEIPTDATE, DESTINATION, SAVEFILE FROM externalincoming "
-                    + "WHERE RECEIPTNUMBER = '" + archefModel.getReceiptNumber() + "' AND ARSHEFYEAR = '"+AppDate.getYear(archefModel.getReceiptDate())+"'");
+                    + "WHERE RECEIPTNUMBER = '" + archefModel.getReceiptNumber() + "' AND ARSHEFYEAR = '" + AppDate.getYear(archefModel.getReceiptDate()) + "'");
             String regisNo = null;
             String recipientDate = null;
             String circularDir = null;
@@ -122,7 +124,7 @@ public class ExternalIncomingItemController implements Initializable {
             barrcod.put("qex_id", quRegisNo);
             barrcod.put("savefile", saveFile);
             barrcod.put("unitName", unitName);
-             barrcod.put("recordYear", recordYear);
+            barrcod.put("recordYear", recordYear);
             JasperReport jr = JasperCompileManager.compileReport(recipientReport);
             JasperPrint jp = JasperFillManager.fillReport(jr, barrcod, con);
             JasperPrintManager.printReport(jp, false);
@@ -131,8 +133,11 @@ public class ExternalIncomingItemController implements Initializable {
         } catch (IOException | SQLException | JRException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
-      
-
     }
-  
+
+    @FXML
+    private void clashahPage(ActionEvent event) {
+        App.lodClashahPage(circularid.getText(),recordYear, "ExternalIncoming",saveFile.getText());
+    }
+
 }

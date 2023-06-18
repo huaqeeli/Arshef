@@ -2,9 +2,7 @@ package controllers;
 
 import Serveces.DeliveryBondsListener;
 import Validation.FormValidation;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -14,8 +12,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -30,15 +26,13 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import modeles.DeliveryBondsModel;
-import modeles.IndexingModel;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperPrintManager;
 import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import net.sf.jasperreports.view.JasperViewer;
@@ -97,6 +91,7 @@ public class DeliveryBondsPageItemController implements Initializable {
         this.myListener = myListener;
         bondsNumber.setText(deliveryBondsModel.getBondId());
         date.setText(deliveryBondsModel.getBondDate());
+        refreshdata();
     }
 
     @FXML
@@ -210,8 +205,10 @@ public class DeliveryBondsPageItemController implements Initializable {
     }
 
     @FXML
-    private void showUinte(ActionEvent event) {
-        refreshdata();
+    private void close(ActionEvent event) {
+        Stage stage = (Stage) content.getScene().getWindow();
+        stage.close();
     }
 
+   
 }

@@ -5,6 +5,7 @@ import controllers.AddMissionNamesController;
 import controllers.AddNamesController;
 import controllers.CensusPageController;
 import controllers.ChangePassowrdController;
+import controllers.ClashahPageController;
 import controllers.Config;
 import controllers.DatabaseAccess;
 import controllers.HijriCalendar;
@@ -115,6 +116,33 @@ public class App extends Application {
             AddNamesController controller = new AddNamesController();
             controller = (AddNamesController) fxmlLoader.getController();
             controller.setPassingData(circularID, year,type);
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            scene.setFill(Color.TRANSPARENT);
+            root.setOnMousePressed((MouseEvent event) -> {
+                x = event.getSceneX();
+                y = event.getSceneY();
+            });
+            root.setOnMouseDragged((MouseEvent event) -> {
+                stage.setX(event.getScreenX() - x);
+                stage.setY(event.getScreenY() - y);
+            });
+            stage.setScene(scene);
+            stage.initStyle(StageStyle.TRANSPARENT);
+            stage.showAndWait();
+        } catch (IOException ex) {
+            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+        }
+        return root;
+    }
+    public static Parent lodClashahPage(String circularID, String year,String tablename,String saveFile) {
+        Parent root = null;
+        try {
+            FXMLLoader fxmlLoader = loadFX("/view/clashahPage");
+            root = fxmlLoader.load();
+            ClashahPageController controller = new ClashahPageController();
+            controller = (ClashahPageController) fxmlLoader.getController();
+            controller.setPassingData(circularID, year,tablename,saveFile);
             Scene scene = new Scene(root);
             Stage stage = new Stage();
             scene.setFill(Color.TRANSPARENT);

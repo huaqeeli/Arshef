@@ -56,19 +56,6 @@
                   </Button>
                </children>
             </HBox>
-            <HBox alignment="CENTER" layoutX="15.0" layoutY="107.0" maxHeight="45.0" minHeight="45.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="45.0" prefWidth="1065.0">
-               <children>
-                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="190.0" styleClass="toolBarButton" text="نوع الصادر" />
-                  <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="300.0" HBox.hgrow="ALWAYS">
-                     <children>
-                        <ComboBox fx:id="incomingType" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="280.0" styleClass="appComboBox" HBox.hgrow="ALWAYS" />
-                     </children>
-                  </HBox>
-               </children>
-               <VBox.margin>
-                  <Insets left="5.0" right="5.0" />
-               </VBox.margin>
-            </HBox>
             <HBox alignment="CENTER" layoutX="10.0" layoutY="10.0" maxHeight="45.0" minHeight="45.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="45.0" prefWidth="1065.0">
                <children>
                   <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="190.0" styleClass="toolBarButton" text="التاريخ" />
@@ -79,8 +66,8 @@
                         <ComboBox fx:id="exportsYear" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="150.0" styleClass="appComboBox" HBox.hgrow="ALWAYS" />
                      </children>
                   </HBox>
-                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="190.0" styleClass="toolBarButton" text="رقم الوارد" />
-                  <TextField fx:id="incomingNum" alignment="CENTER" onAction="#getIncomingData" prefHeight="40.0" prefWidth="300.0" styleClass="appText" HBox.hgrow="ALWAYS" />
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="190.0" styleClass="toolBarButton" text="رقم الصادر" />
+                  <TextField fx:id="exportNum" alignment="CENTER" prefHeight="40.0" prefWidth="300.0" styleClass="appText" HBox.hgrow="ALWAYS" />
                </children>
                <VBox.margin>
                   <Insets bottom="2.0" left="5.0" right="5.0" top="5.0" />
@@ -135,7 +122,22 @@
                   </Button>
                   <Button layoutX="989.0" layoutY="15.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#updateData" prefHeight="40.0" prefWidth="300.0" styleClass="toolBarButton" text="تعديل" HBox.hgrow="ALWAYS">
                      <HBox.margin>
-                        <Insets left="2.0" />
+                        <Insets left="2.0" right="2.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button layoutX="565.0" layoutY="13.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#addtoManagerSignature" prefHeight="40.0" prefWidth="300.0" styleClass="toolBarButton" text="اضافة الى التوقيع" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets right="2.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button layoutX="900.0" layoutY="13.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#addtoManagerSmallSignature" prefHeight="40.0" prefWidth="300.0" styleClass="toolBarButton" text="اضافة الى التاشير" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets right="2.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button layoutX="918.0" layoutY="13.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#addtoManagerDisplay" prefHeight="40.0" prefWidth="300.0" styleClass="toolBarButton" text="اضافة للعرض" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets right="2.0" />
                      </HBox.margin>
                   </Button>
                   <Button mnemonicParsing="false" onAction="#clear" prefHeight="40.0" prefWidth="80.0" styleClass="toolBarButton">

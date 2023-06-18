@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" prefHeight="800.0" prefWidth="1200.0" style="-fx-border-color: #9A9A9A; -fx-border-width: 0 5 0 0;" stylesheets="@../css/appStyle.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ExternalExportsPageController">
+<AnchorPane id="AnchorPane" prefHeight="800.0" prefWidth="1200.0" style="-fx-border-color: #9A9A9A; -fx-border-width: 0 5 0 0;" stylesheets="@../css/appStyle.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ExternalExportsPageController">
    <children>
       <HBox alignment="CENTER_RIGHT" prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #1E3606;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -144,6 +144,21 @@
                      </HBox.margin>
                   </Button>
                   <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#delete" prefHeight="40.0" styleClass="toolBarButton" text="حذف" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets right="2.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button layoutX="748.0" layoutY="13.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#addtoManagerSignature" prefHeight="40.0" styleClass="toolBarButton" text="اضافة الى التوقيع" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets right="2.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button layoutX="707.0" layoutY="13.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#addtoManagerSmallSignature" prefHeight="40.0" styleClass="toolBarButton" text="اضافة الى التاشير" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets right="2.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button layoutX="665.0" layoutY="13.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#addtoManagerDisplay" prefHeight="40.0" styleClass="toolBarButton" text="اضافة للعرض" HBox.hgrow="ALWAYS">
                      <HBox.margin>
                         <Insets right="2.0" />
                      </HBox.margin>

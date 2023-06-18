@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" nodeOrientation="RIGHT_TO_LEFT" prefHeight="188.0" prefWidth="1200.0" styleClass="mainFxmlClass" stylesheets="@../css/appStyle.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.InternalIncomingItemController">
+<AnchorPane id="AnchorPane" nodeOrientation="RIGHT_TO_LEFT" prefHeight="188.0" prefWidth="1200.0" styleClass="mainFxmlClass" stylesheets="@../css/appStyle.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.InternalIncomingItemController">
    <children>
       <HBox alignment="CENTER" maxHeight="188.0" maxWidth="1.7976931348623157E308" minHeight="188.0" onMouseClicked="#click" prefHeight="188.0" prefWidth="1200.0" styleClass="itemPanl" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -17,9 +17,9 @@
                <children>
                   <VBox alignment="CENTER" prefHeight="136.0" prefWidth="300.0">
                      <children>
-                        <Label fx:id="regisNO1" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="92.0" styleClass="itemLableTitel" text="رقم الوارد:" />
-                        <Label fx:id="recipientDate1" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="119.0" styleClass="itemLableTitel" text="تاريخ الوارد:" />
-                        <Label fx:id="saveFaile1" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="119.0" styleClass="itemLableTitel" text="ملف الحفظ:" />
+                        <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="92.0" styleClass="itemLableTitel" text="رقم الوارد:" />
+                        <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="119.0" styleClass="itemLableTitel" text="تاريخ الوارد:" />
+                        <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="119.0" styleClass="itemLableTitel" text="ملف الحفظ:" />
                      </children>
                   </VBox>
                   <VBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="136.0" prefWidth="300.0" HBox.hgrow="ALWAYS">
@@ -38,9 +38,9 @@
                <children>
                   <VBox alignment="CENTER" prefHeight="136.0" prefWidth="300.0">
                      <children>
-                        <Label fx:id="circularNo1" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="119.0" styleClass="itemLableTitel" text="رقم المعاملة:" />
-                        <Label fx:id="circularDate1" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="125.0" styleClass="itemLableTitel" text="تاريخ المعاملة:" />
-                        <Label fx:id="notes1" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="200.0" styleClass="itemLableTitel" text="ملاحظات:" />
+                        <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="119.0" styleClass="itemLableTitel" text="رقم المعاملة:" />
+                        <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="125.0" styleClass="itemLableTitel" text="تاريخ المعاملة:" />
+                        <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="200.0" styleClass="itemLableTitel" text="ملاحظات:" />
                      </children>
                   </VBox>
                   <VBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="136.0" prefWidth="300.0" HBox.hgrow="ALWAYS">
@@ -56,8 +56,8 @@
                <children>
                   <VBox alignment="CENTER" prefHeight="136.0" prefWidth="300.0">
                      <children>
-                        <Label fx:id="topic1" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="227.0" styleClass="itemLableTitel" text="الموضوع:" />
-                        <Label fx:id="destination1" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="227.0" styleClass="itemLableTitel" text="جهة المعاملة:" />
+                        <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="227.0" styleClass="itemLableTitel" text="الموضوع:" />
+                        <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="227.0" styleClass="itemLableTitel" text="جهة المعاملة:" />
                      </children>
                   </VBox>
                   <VBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="136.0" prefWidth="500.0" HBox.hgrow="ALWAYS">
@@ -105,6 +105,15 @@
                         <ImageView fitHeight="23.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../images/pdf.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#clashahPage" styleClass="actionButton">
+                     <graphic>
+                        <ImageView fitHeight="32.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/2427470.png" />
                            </image>
                         </ImageView>
                      </graphic>

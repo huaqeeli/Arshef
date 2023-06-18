@@ -194,7 +194,13 @@ public class DisplayPageController implements Initializable {
                 DisplayModele display = new DisplayModele();
                 String squnceText = ArabicSetting.EnglishToarabic(Integer.toString(squnce));
                 display.setSqunces(squnceText);
-                display.setTopic(rs.getString("TOPIC"));
+                if (rs.getString("CIRCULARID") == null || "".equals(rs.getString("CIRCULARID"))) {
+                    display.setCircularid("===");
+                } else {
+                    display.setCircularid(ArabicSetting.EnglishToarabic(rs.getString("CIRCULARID")));
+                }
+                display.setCirculardate(ArabicSetting.EnglishToarabic(rs.getString("CIRCULARDATE") + "هـ"));
+                display.setTopic(ArabicSetting.EnglishToarabic(rs.getString("TOPIC")));
                 display.setAction(rs.getString("ACTION"));
                 display.setNotes(rs.getString("NOTES"));
                 dataItems.add(display);
@@ -210,7 +216,13 @@ public class DisplayPageController implements Initializable {
                 DisplayModele display1 = new DisplayModele();
                 String squnceText = ArabicSetting.EnglishToarabic(Integer.toString(squnce1));
                 display1.setSqunces(squnceText);
-                display1.setTopic(rs1.getString("TOPIC"));
+                if (rs1.getString("CIRCULARID") == null || "".equals(rs1.getString("CIRCULARID"))) {
+                    display1.setCircularid("===");
+                } else {
+                    display1.setCircularid(ArabicSetting.EnglishToarabic(rs1.getString("CIRCULARID")));
+                }
+                display1.setCirculardate(ArabicSetting.EnglishToarabic(rs1.getString("CIRCULARDATE") + "هـ"));
+                display1.setTopic(ArabicSetting.EnglishToarabic(rs1.getString("TOPIC")));
                 display1.setNotes(rs1.getString("NOTES"));
                 dataItems1.add(display1);
                 squnce1++;
@@ -265,7 +277,7 @@ public class DisplayPageController implements Initializable {
         try {
             displayObject.clear();
             vbox.getChildren().clear();
-            viewdata(DatabaseAccess.getData("SELECT * FROM displaydata WHERE DISPLAYDATE = '" + getCurrentDate() + "' "));
+            viewdata(DatabaseAccess.getData("SELECT * FROM displaydata WHERE DISPLAYDATE = '" + getCurrentDate() + "'  ORDER BY ID DESC "));
         } catch (IOException ex) {
             FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
         }
@@ -339,7 +351,7 @@ public class DisplayPageController implements Initializable {
     @FXML
     private void save(ActionEvent event) {
         String tableName = "displaydata";
-        String[] data = {getDisplayDate(), displayType.getValue(), topic.getText(), destination.getValue(), notes.getText(), circularid.getText(), getCircularDate(),action.getText()};
+        String[] data = {getDisplayDate(), displayType.getValue(), topic.getText(), destination.getValue(), notes.getText(), circularid.getText(), getCircularDate(), action.getText()};
         String fieldName = "`DISPLAYDATE`,`DISPLAYTYPE`,`TOPIC`,`DESTINATION`,`NOTES`,`CIRCULARID`,`CIRCULARDATE`,`ACTION`";
         String valuenumbers = "?,?,?,?,?,?,?,?";
 
@@ -362,7 +374,7 @@ public class DisplayPageController implements Initializable {
     @FXML
     private void edit(ActionEvent event) {
         String tableName = "displaydata";
-        String[] data = {getDisplayDate(), displayType.getValue(), topic.getText(), destination.getValue(), notes.getText(), circularid.getText(), getCircularDate(),action.getText()};
+        String[] data = {getDisplayDate(), displayType.getValue(), topic.getText(), destination.getValue(), notes.getText(), circularid.getText(), getCircularDate(), action.getText()};
         String fieldName = "`DISPLAYDATE`=?,`DISPLAYTYPE`=?,`TOPIC`=?,`DESTINATION`=?,`NOTES`=?,`CIRCULARID`=?,`CIRCULARDATE`=?,`ACTION`=?";
 
         boolean destinationState = FormValidation.comboBoxNotEmpty(destination, "الرجاء ادخال جهة المعاملة");
@@ -400,52 +412,52 @@ public class DisplayPageController implements Initializable {
             switch (typeValue) {
                 case "الوارد الخارجي":
                     try {
-                        ResultSet rs = DatabaseAccess.selectQuiry("SELECT CIRCULARDATE,TOPIC,DESTINATION FROM externalincoming WHERE RECEIPTNUMBER = '" + circularid.getText() + "' AND ARSHEFYEAR ='" + HijriCalendar.getSimpleYear() + "'");
-                        if (rs.next()) {
-                            setCircularDate(rs.getString("CIRCULARDATE"));
-                            topic.setText("وارد من" + " " + rs.getString("DESTINATION") + " " + rs.getString("TOPIC") + " " + getName(circularid.getText(), "external"));
-                            destination.setValue(rs.getString("DESTINATION"));
-                        }
-                    } catch (IOException | SQLException ex) {
-                        FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+                    ResultSet rs = DatabaseAccess.selectQuiry("SELECT CIRCULARDATE,TOPIC,DESTINATION FROM externalincoming WHERE RECEIPTNUMBER = '" + circularid.getText() + "' AND ARSHEFYEAR ='" + HijriCalendar.getSimpleYear() + "'");
+                    if (rs.next()) {
+                        setCircularDate(rs.getString("CIRCULARDATE"));
+                        topic.setText("وارد من" + " " + rs.getString("DESTINATION") + " " + rs.getString("TOPIC") + " " + getName(circularid.getText(), "external"));
+                        destination.setValue(rs.getString("DESTINATION"));
                     }
-                    break;
+                } catch (IOException | SQLException ex) {
+                    FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+                }
+                break;
                 case "الصادرالخارجي":
                     try {
-                        ResultSet rs = DatabaseAccess.selectQuiry("SELECT TOPIC,EXPORTDATE,DESTINATION FROM exportsdata WHERE EXPORTNUM = '" + circularid.getText() + "' AND RECORDYEAR ='" + HijriCalendar.getSimpleYear() + "'");
-                        if (rs.next()) {
-                            setCircularDate(rs.getString("EXPORTDATE"));
-                            topic.setText("صادر الى" + " " + rs.getString("DESTINATION") + " " + rs.getString("TOPIC") + " " + getName(circularid.getText(), "external"));
-                            destination.setValue(rs.getString("DESTINATION"));
-                        }
-                    } catch (IOException | SQLException ex) {
-                        FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+                    ResultSet rs = DatabaseAccess.selectQuiry("SELECT TOPIC,EXPORTDATE,DESTINATION FROM exportsdata WHERE EXPORTNUM = '" + circularid.getText() + "' AND RECORDYEAR ='" + HijriCalendar.getSimpleYear() + "'");
+                    if (rs.next()) {
+                        setCircularDate(rs.getString("EXPORTDATE"));
+                        topic.setText("صادر الى" + " " + rs.getString("DESTINATION") + " " + rs.getString("TOPIC") + " " + getName(circularid.getText(), "external"));
+                        destination.setValue(rs.getString("DESTINATION"));
                     }
-                    break;
+                } catch (IOException | SQLException ex) {
+                    FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+                }
+                break;
                 case "الوارد الداخلي":
                     try {
-                        ResultSet rs = DatabaseAccess.selectQuiry("SELECT  RECIPIENT_DATE,TOPIC,CIRCULAR_DIR FROM internalincoming WHERE REGIS_NO = '" + circularid.getText() + "' AND RECORD_YEAR ='" + HijriCalendar.getSimpleYear() + "'");
-                        if (rs.next()) {
-                            setCircularDate(rs.getString("RECIPIENT_DATE"));
-                            topic.setText("وارد من" + " " + rs.getString("CIRCULAR_DIR") + " " + rs.getString("TOPIC") + " " + getName(circularid.getText(), "internal"));
-                            destination.setValue(rs.getString("CIRCULAR_DIR"));
-                        }
-                    } catch (IOException | SQLException ex) {
-                        FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+                    ResultSet rs = DatabaseAccess.selectQuiry("SELECT  RECIPIENT_DATE,TOPIC,CIRCULAR_DIR FROM internalincoming WHERE REGIS_NO = '" + circularid.getText() + "' AND RECORD_YEAR ='" + HijriCalendar.getSimpleYear() + "'");
+                    if (rs.next()) {
+                        setCircularDate(rs.getString("RECIPIENT_DATE"));
+                        topic.setText("وارد من" + " " + rs.getString("CIRCULAR_DIR") + " " + rs.getString("TOPIC") + " " + getName(circularid.getText(), "internal"));
+                        destination.setValue(rs.getString("CIRCULAR_DIR"));
                     }
-                    break;
+                } catch (IOException | SQLException ex) {
+                    FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+                }
+                break;
                 case "الصادر الداخلي":
                     try {
-                        ResultSet rs = DatabaseAccess.selectQuiry("SELECT EXPORTDATE,TOPIC,DESTINATION FROM internalexports WHERE REGISNO = '" + circularid.getText() + "' AND RECORDYEAR ='" + HijriCalendar.getSimpleYear() + "'");
-                        if (rs.next()) {
-                            setCircularDate(rs.getString("EXPORTDATE"));
-                            topic.setText("صادر الى" + " " + rs.getString("DESTINATION") + " " + rs.getString("TOPIC") + " " + getName(circularid.getText(), "internal"));
-                            destination.setValue(rs.getString("DESTINATION"));
-                        }
-                    } catch (IOException | SQLException ex) {
-                        FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+                    ResultSet rs = DatabaseAccess.selectQuiry("SELECT EXPORTDATE,TOPIC,DESTINATION FROM internalexports WHERE REGISNO = '" + circularid.getText() + "' AND RECORDYEAR ='" + HijriCalendar.getSimpleYear() + "'");
+                    if (rs.next()) {
+                        setCircularDate(rs.getString("EXPORTDATE"));
+                        topic.setText("صادر الى" + " " + rs.getString("DESTINATION") + " " + rs.getString("TOPIC") + " " + getName(circularid.getText(), "internal"));
+                        destination.setValue(rs.getString("DESTINATION"));
                     }
-                    break;
+                } catch (IOException | SQLException ex) {
+                    FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+                }
+                break;
             }
         } else {
             FormValidation.showAlert(null, "اختر نوع المعاملة", Alert.AlertType.ERROR);

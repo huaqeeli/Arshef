@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane id="AnchorPane" nodeOrientation="RIGHT_TO_LEFT" prefHeight="188.0" prefWidth="1200.0" styleClass="mainFxmlClass" stylesheets="@../css/appStyle.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.InternalIncomingItemController">
+   <children>
+      <HBox alignment="CENTER" maxHeight="188.0" maxWidth="1.7976931348623157E308" minHeight="188.0" onMouseClicked="#click" prefHeight="188.0" prefWidth="1200.0" styleClass="itemPanl" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <HBox maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="300.0">
+               <children>
+                  <VBox alignment="CENTER" prefHeight="136.0" prefWidth="300.0">
+                     <children>
+                        <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="92.0" styleClass="itemLableTitel" text="رقم الوارد:" />
+                        <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="119.0" styleClass="itemLableTitel" text="تاريخ الوارد:" />
+                        <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="119.0" styleClass="itemLableTitel" text="ملف الحفظ:" />
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="136.0" prefWidth="300.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label fx:id="regisNO" alignment="CENTER" prefHeight="40.0" prefWidth="92.0" styleClass="itemLable" text="رقم القيد" />
+                        <Label fx:id="recipientDate" alignment="CENTER" prefHeight="40.0" prefWidth="119.0" styleClass="itemLable" text="تاريخ الوارد" />
+                        <Label fx:id="saveFaile" alignment="CENTER" prefHeight="40.0" prefWidth="119.0" styleClass="itemLable" text="رقم الملف" />
+                     </children>
+                  </VBox>
+               </children>
+               <HBox.margin>
+                  <Insets left="5.0" />
+               </HBox.margin>
+            </HBox>
+            <HBox layoutX="938.0" layoutY="10.0" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="300.0">
+               <children>
+                  <VBox alignment="CENTER" prefHeight="136.0" prefWidth="300.0">
+                     <children>
+                        <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="119.0" styleClass="itemLableTitel" text="رقم المعاملة:" />
+                        <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="125.0" styleClass="itemLableTitel" text="تاريخ المعاملة:" />
+                        <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="200.0" styleClass="itemLableTitel" text="ملاحظات:" />
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="136.0" prefWidth="300.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label fx:id="circularNo" alignment="CENTER" prefHeight="40.0" prefWidth="119.0" styleClass="itemLable" text="رقم المعاملة" />
+                        <Label fx:id="circularDate" alignment="CENTER" prefHeight="40.0" prefWidth="125.0" styleClass="itemLable" text="تاريخ المعاملة" />
+                        <Label fx:id="notes" alignment="CENTER" prefHeight="40.0" prefWidth="200.0" styleClass="itemLable" text="ملاحظات" />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <HBox layoutX="916.0" layoutY="10.0" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="300.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <VBox alignment="CENTER" prefHeight="136.0" prefWidth="300.0">
+                     <children>
+                        <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="227.0" styleClass="itemLableTitel" text="الموضوع:" />
+                        <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="227.0" styleClass="itemLableTitel" text="جهة المعاملة:" />
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="136.0" prefWidth="500.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label fx:id="topic" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="227.0" styleClass="itemLable" text="الموضوع" />
+                        <Label fx:id="destination" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="227.0" styleClass="itemLable" text="جهة المعاملة" />
+                     </children>
+                  </VBox>
+               </children>
+               <HBox.margin>
+                  <Insets right="5.0" />
+               </HBox.margin>
+            </HBox>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="50.0" styleClass="actionButton">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#printBarcod" prefHeight="25.0" prefWidth="25.0" styleClass="actionButton">
+                     <graphic>
+                        <ImageView fitHeight="23.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/barcode.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#scanImage" prefHeight="25.0" prefWidth="25.0" styleClass="actionButton">
+                     <graphic>
+                        <ImageView fitHeight="23.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/scan2.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#addNames" prefHeight="25.0" prefWidth="25.0" styleClass="actionButton">
+                     <graphic>
+                        <ImageView fitHeight="23.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/addusers.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#showImage" prefHeight="25.0" prefWidth="25.0" styleClass="actionButton">
+                     <graphic>
+                        <ImageView fitHeight="23.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/pdf.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#clashahPage" styleClass="actionButton">
+                     <graphic>
+                        <ImageView fitHeight="32.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/2427470.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </children>
+               <HBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </HBox.margin>
+            </VBox>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

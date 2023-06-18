@@ -18,6 +18,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -56,6 +58,7 @@ public class IndexingPageController implements Initializable {
     private ComboBox<?> endDateMonth;
     @FXML
     private ComboBox<?> endDateYear;
+    String filenumber = null;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -67,32 +70,52 @@ public class IndexingPageController implements Initializable {
 
     @FXML
     private void update(ActionEvent event) {
+        fileNumber.setText("");
+        AppDate.setCurrentDate(startDateDay, startDateMonth, startDateYear);
+        AppDate.setCurrentDate(endDateDay, endDateMonth, endDateYear);
     }
 
     @FXML
     private void printIndex(ActionEvent event) {
-        try {
-            InputStream input = new FileInputStream(new File(config.getAppURL() + "\\reports\\printIndexing.jrxml"));
+        boolean fileNumberState = FormValidation.textFieldNotEmpty(fileNumber, "الرجاء ادخال رقم الملف");
+        if (fileNumberState) {
+            try {
+                InputStream input = new FileInputStream(new File(config.getAppURL() + "\\reports\\printIndexing.jrxml"));
 
-            List<IndexingModel> dataItems = new ArrayList<>();
-            dataItems = getData();
-            System.out.println(dataItems.toString());
-//            JRBeanCollectionDataSource itemsJarbean = new JRBeanCollectionDataSource(dataItems);
-//
-//            Connection con = DatabaseConniction.dbConnector();
-//            Map parameters = new HashMap();
-//
-//            parameters.put("repotCollation", itemsJarbean);
-//
-//            JasperDesign jasperDesign = JRXmlLoader.load(input);
-//            JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
-//            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, con);
-//            JasperViewer.viewReport(jasperPrint, false);
+                List<IndexingModel> dataItems = new ArrayList<>();
+                dataItems = getData();
+                List<IndexingModel> finaldataItems = new ArrayList<>();
+                IndexingModel indexingMode;
+                
+                int squnce = 0;
+                while (!dataItems.isEmpty()) {
+                    squnce++;
+                    indexingMode = new IndexingModel();
+                    indexingMode.setCircularid(dataItems.get(0).getCircularid());
+                    indexingMode.setCirculardate(dataItems.get(0).getCirculardate());
+                    indexingMode.setDestination(dataItems.get(0).getDestination());
+                    indexingMode.setTopic(dataItems.get(0).getTopic());
+                    indexingMode.setSqunce(ArabicSetting.EnglishToarabic(Integer.toString(squnce)));
+                    finaldataItems.add(indexingMode);
+                }
 
-        } catch (IOException ex) {
-            FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+                JRBeanCollectionDataSource itemsJarbean = new JRBeanCollectionDataSource(dataItems);
+
+                Connection con = DatabaseConniction.dbConnector();
+                Map parameters = new HashMap();
+
+                parameters.put("repotCollation", itemsJarbean);
+                parameters.put("saveFile", ArabicSetting.EnglishToarabic(fileNumber.getText()));
+
+                JasperDesign jasperDesign = JRXmlLoader.load(input);
+                JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
+                JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, con);
+                JasperViewer.viewReport(jasperPrint, false);
+
+            } catch (IOException | JRException ex) {
+                FormValidation.showAlert(null, ex.toString(), Alert.AlertType.ERROR);
+            }
         }
-
     }
 
     @FXML
@@ -132,7 +155,7 @@ public class IndexingPageController implements Initializable {
                 indexingMode.setCirculardate(ArabicSetting.EnglishToarabic(rs1.getString("EXPORTDATE")) + "هـ");
                 indexingMode.setDestination(rs1.getString("DESTINATION"));
                 indexingMode.setTopic(rs1.getString("TOPIC"));
-                indexingMode.setSqunce(ArabicSetting.EnglishToarabic(Integer.toString(squnce)));
+//                indexingMode.setSqunce(ArabicSetting.EnglishToarabic(Integer.toString(squnce)));
                 indexingModellist.add(indexingMode);
             }
             while (rs2.next()) {
@@ -142,7 +165,7 @@ public class IndexingPageController implements Initializable {
                 indexingMode.setCirculardate(ArabicSetting.EnglishToarabic(rs2.getString("RECEIPTDATE")) + "هـ");
                 indexingMode.setDestination(rs2.getString("DESTINATION"));
                 indexingMode.setTopic(rs2.getString("TOPIC"));
-                indexingMode.setSqunce(ArabicSetting.EnglishToarabic(Integer.toString(squnce)));
+//                indexingMode.setSqunce(ArabicSetting.EnglishToarabic(Integer.toString(squnce)));
                 indexingModellist.add(indexingMode);
             }
             while (rs3.next()) {
@@ -162,7 +185,7 @@ public class IndexingPageController implements Initializable {
                 indexingMode.setCirculardate(ArabicSetting.EnglishToarabic(rs4.getString("RECIPIENT_DATE")) + "هـ");
                 indexingMode.setDestination(rs4.getString("CIRCULAR_DIR"));
                 indexingMode.setTopic(rs4.getString("TOPIC"));
-                indexingMode.setSqunce(ArabicSetting.EnglishToarabic(Integer.toString(squnce)));
+//                indexingMode.setSqunce(ArabicSetting.EnglishToarabic(Integer.toString(squnce)));
                 indexingModellist.add(indexingMode);
             }
             while (rs5.next()) {
@@ -172,11 +195,11 @@ public class IndexingPageController implements Initializable {
                 indexingMode.setCirculardate(ArabicSetting.EnglishToarabic(rs5.getString("RECEIPTDATE")) + "هـ");
                 indexingMode.setDestination(rs5.getString("DESTINATION"));
                 indexingMode.setTopic(rs5.getString("TOPIC"));
-                indexingMode.setSqunce(ArabicSetting.EnglishToarabic(Integer.toString(squnce)));
+//                indexingMode.setSqunce(ArabicSetting.EnglishToarabic(Integer.toString(squnce)));
                 indexingModellist.add(indexingMode);
             }
-           Collections.sort(indexingModellist, new SortByDate());
-           
+            Collections.sort(indexingModellist, new SortByDate());
+
             rs1.close();
             rs2.close();
             rs3.close();

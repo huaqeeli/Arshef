@@ -115,7 +115,7 @@
                         <Insets bottom="5.0" />
                      </VBox.margin>
                   </Button>
-                  <Button alignment="CENTER" layoutX="10.0" layoutY="601.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#vacationPage" prefHeight="43.0" prefWidth="100.0" styleClass="toolBarButton" text="ادارة الرخص">
+                  <Button alignment="CENTER" layoutX="10.0" layoutY="601.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#vacationPage" prefHeight="43.0" prefWidth="100.0" styleClass="toolBarButton" text="التطوير الذاتي">
                      <VBox.margin>
                         <Insets bottom="5.0" />
                      </VBox.margin>

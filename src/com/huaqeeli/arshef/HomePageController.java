@@ -161,7 +161,7 @@ public class HomePageController implements Initializable {
 
     @FXML
     private void vacationPage(ActionEvent event) throws IOException {
-         content.setCenter(App.loadFXML("/view/vacation"));
+         content.setCenter(App.loadFXML("/view/ScientificDevelopment/scientificDevelopmentPage"));
     }
 
     private void backupPage(ActionEvent event) {

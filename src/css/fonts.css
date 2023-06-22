@@ -1,5 +1,8 @@
 @font-face {
     font-family: 'URW DIN Arabic';
     src: url('/fonts/URW-DIN-Arabic-Black.ttf');
+    font-family: 'STC Regular';
+    src: url('/fonts/STC-Regular.ttf');
 }
+
 

@@ -41,6 +41,7 @@ public class App extends Application {
             App.showFxml("/view/ConfigSetting");
         } else {
             Font.loadFont(new FileInputStream(new File(config.getAppURL() + "\\fonts\\URW-DIN-Arabic.ttf")), 12);
+            Font.loadFont(new FileInputStream(new File(config.getAppURL() + "\\fonts\\STC-Regular.ttf")), 12);
         }
         newYearSetting();
         scene = new Scene(loadFXML("/view/LoginPage"));

@@ -573,3 +573,13 @@
     -fx-font-family: "URW DIN Arabic";
     -fx-font-size: 20px;
 }
+.material{
+   -fx-background-color: #D7D7D7;
+    -fx-background-radius: 0;
+    -fx-effect: dropshadow(three-pass-box,#000000, 10, 0, 5, 5);
+}
+.materialName{
+    -fx-font-family:'STC Regular';
+    -fx-font-size: 25px;
+    -fx-text-fill: #1E3606;
+}

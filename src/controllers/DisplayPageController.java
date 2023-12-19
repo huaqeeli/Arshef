@@ -15,8 +15,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -487,5 +485,9 @@ public class DisplayPageController implements Initializable {
 
     private String getCircularDate() {
         return AppDate.getDate(displayDateDay, displayDateMonth, displayDateYear);
+    }
+
+    @FXML
+    private void addToDisplay(ActionEvent event) {
     }
 }

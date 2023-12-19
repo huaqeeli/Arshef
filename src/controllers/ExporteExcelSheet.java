@@ -14,30 +14,31 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.IndexedColors;
+import org.apache.poi.ss.util.CellRangeAddress;
 
 public class ExporteExcelSheet {
 
-    ResultSet rs;
     String[] feild;
     String[] titel;
     String[] personaltitel;
     String[] personalData;
     HSSFWorkbook workBook = new HSSFWorkbook();
     HSSFSheet sheet = workBook.createSheet();
+    Font font = workBook.createFont();
 
     public ExporteExcelSheet(ResultSet rs, String[] feild, String[] titel) {
-        this.rs = rs;
         this.feild = feild;
         this.titel = titel;
     }
 
     public ExporteExcelSheet() {
+        font.setFontHeightInPoints((short) 14);
     }
 
     public ExporteExcelSheet(ResultSet rs, String[] feild, String[] titel, String[] personaltitel, String[] personalData) {
-        this.rs = rs;
         this.feild = feild;
         this.titel = titel;
         this.personaltitel = personaltitel;
@@ -68,7 +69,7 @@ public class ExporteExcelSheet {
         return tableDataList;
     }
 
-    public CellStyle setTitelStyle() {
+    public CellStyle setTitelStyle(int columnnum) {
         CellStyle headerstyle = workBook.createCellStyle();
         headerstyle.setFillPattern(CellStyle.SOLID_FOREGROUND);
         headerstyle.setFillForegroundColor(IndexedColors.WHITE.getIndex());
@@ -78,6 +79,8 @@ public class ExporteExcelSheet {
         headerstyle.setBorderRight((short) 0);
         headerstyle.setBorderLeft((short) 0);
         headerstyle.setBorderLeft((short) 0);
+        sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, columnnum-1));
+        headerstyle.setFont(font);
         return headerstyle;
     }
 
@@ -91,6 +94,7 @@ public class ExporteExcelSheet {
         headerstyle.setBorderRight((short) 2);
         headerstyle.setBorderLeft((short) 2);
         headerstyle.setBorderLeft((short) 2);
+        headerstyle.setFont(font);
         return headerstyle;
     }
 
@@ -101,6 +105,7 @@ public class ExporteExcelSheet {
         style.setBorderTop((short) 2);
         style.setBorderRight((short) 2);
         style.setBorderLeft((short) 2);
+        style.setFont(font);
         return style;
     }
 
@@ -126,11 +131,13 @@ public class ExporteExcelSheet {
         }
     }
 
-    public void writeFile(String fileName) {
+    public void writeFile(String fileName, int columnnum) {
         String file = fileName + ".xls";
         try {
             sheet.setRightToLeft(true);
-            sheet.setDefaultColumnWidth(30);
+            for (int i = 0; i < columnnum; i++) {
+                sheet.autoSizeColumn(i);
+            }
             FileOutputStream fos = new FileOutputStream(file);
             workBook.write(fos);
             fos.flush();

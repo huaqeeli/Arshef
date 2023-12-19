@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" prefHeight="800.0" prefWidth="1200.0" style="-fx-border-color: #9A9A9A; -fx-border-width: 0 5 0 0;" stylesheets="@../css/appStyle.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.DisplayPageController">
+<AnchorPane id="AnchorPane" prefHeight="800.0" prefWidth="1200.0" style="-fx-border-color: #9A9A9A; -fx-border-width: 0 5 0 0;" stylesheets="@../css/appStyle.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.DisplayPageController">
    <children>
       <HBox alignment="CENTER_RIGHT" prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #1E3606;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -119,6 +119,11 @@
                      </HBox.margin>
                   </Button>
                   <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#printManagerDisplay" prefHeight="40.0" styleClass="toolBarButton" text="طباعة عرض الركن" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets right="2.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button layoutX="658.0" layoutY="15.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#addToDisplay" prefHeight="40.0" styleClass="toolBarButton" text="اضافة للمتابعة">
                      <HBox.margin>
                         <Insets right="2.0" />
                      </HBox.margin>
